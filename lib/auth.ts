@@ -53,17 +53,25 @@ export async function refreshAccessToken(): Promise<{
     })
 
     if (response.ok) {
-      const data = await response.json()
-      return {
-        accessToken: data.access_token,
-        refreshToken: data.refresh_token,
-        success: true,
+      const contentType = response.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        return { success: false }
       }
+
+      try {
+        const data = await response.json()
+        return {
+          accessToken: data.access_token,
+          refreshToken: data.refresh_token,
+          success: true,
+        }
+      } catch (parseError) {
+        return { success: false }
+      }
+    } else {
+      return { success: false }
     }
-    
-    return { success: false }
-  } catch {
-    console.error('Error refreshing token')
+  } catch (error) {
     return { success: false }
   }
 }
@@ -86,7 +94,9 @@ export async function authenticatedFetch(
         credentials: 'include',
       })
     } else {
-      window.location.href = '/login'
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login'
+      }
       throw new Error('Session expired')
     }
   }

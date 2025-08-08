@@ -18,21 +18,13 @@ export function useAuthState() {
 
   const checkAuthStatus = async () => {
     try {
-      console.log('=== useAuthState checkAuthStatus START ===')
       const response = await fetch('/api/auth/check_token', {
         method: 'GET',
         credentials: 'include',
       })
 
-      console.log('checkAuthStatus response:', {
-        ok: response.ok,
-        status: response.status,
-        url: response.url
-      })
-
       if (response.ok) {
         const data = await response.json()
-        console.log('checkAuthStatus SUCCESS, setting authenticated state')
         setAuthState({
           isAuthenticated: true,
           isLoading: false,
@@ -40,27 +32,16 @@ export function useAuthState() {
           email: localStorage.getItem('user_email'),
         })
       } else {
-        console.log('checkAuthStatus FAILED, clearing localStorage:', {
-          status: response.status,
-          current_localStorage: {
-            access_token: localStorage.getItem('access_token') ? 'EXISTS' : 'NULL',
-            user_id: localStorage.getItem('user_id') ? 'EXISTS' : 'NULL',
-            user_email: localStorage.getItem('user_email') ? 'EXISTS' : 'NULL'
-          }
-        })
         setAuthState({
           isAuthenticated: false,
           isLoading: false,
           userId: null,
           email: null,
         })
-        // Limpiar localStorage si el token no es válido
         localStorage.removeItem('access_token')
         localStorage.removeItem('user_id')
         localStorage.removeItem('user_email')
-        console.log('localStorage cleared by useAuthState')
       }
-      console.log('=== useAuthState checkAuthStatus END ===')
     } catch (error) {
       console.error('Error checking auth status:', error)
       setAuthState({
@@ -74,7 +55,6 @@ export function useAuthState() {
 
   const login = async (email: string, password: string) => {
     try {
-      console.log('=== useAuthState LOGIN START ===')
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -85,21 +65,10 @@ export function useAuthState() {
       })
 
       const data = await response.json()
-      console.log('Login response:', {
-        ok: response.ok,
-        status: response.status,
-        has_access_token: !!data.access_token,
-        has_user_id: !!data.user_id
-      })
 
-      if (response.ok && data.access_token) {
-        // Guardar solo información no sensible en localStorage
+      if (response.ok && data.code === 'success') {
         localStorage.setItem('user_id', data.user_id)
         localStorage.setItem('user_email', email)
-        console.log('Login SUCCESS, localStorage set:', {
-          user_id: data.user_id,
-          email: email
-        })
         
         setAuthState({
           isAuthenticated: true,
@@ -108,7 +77,6 @@ export function useAuthState() {
           email: email,
         })
 
-        console.log('=== useAuthState LOGIN SUCCESS END ===')
         return { success: true, data }
       } else {
         return { success: false, error: data.message || 'Login failed' }
@@ -128,7 +96,6 @@ export function useAuthState() {
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
-      // Limpiar estado local
       localStorage.removeItem('access_token')
       localStorage.removeItem('user_id')
       localStorage.removeItem('user_email')
@@ -141,7 +108,6 @@ export function useAuthState() {
     }
   }
 
-  // Función para hacer requests autenticadas
   const authenticatedFetch = async (url: string, options: RequestInit = {}) => {
     const defaultOptions: RequestInit = {
       ...options,
@@ -154,7 +120,6 @@ export function useAuthState() {
 
     const response = await fetch(url, defaultOptions)
 
-    // Si el token expiró, intentar refrescar automáticamente
     if (response.status === 401) {
       const refreshResponse = await fetch('/api/auth/refresh_token', {
         method: 'POST',

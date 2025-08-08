@@ -24,7 +24,6 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
 import Link from 'next/link'
 
-// Dynamic import for react-icons to avoid SSR issues
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
   {
@@ -60,7 +59,6 @@ interface HomePageClientProps {
     goToLoginButton: string
     loadingDashboard: string
 
-    // Depex specific translations
     depexPageTitle: string
     repositoriesTab: string
     packagesTab: string
@@ -107,7 +105,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Depex states
   const [userId, setUserId] = useState('')
   const [repoOwner, setRepoOwner] = useState('')
   const [repoName, setRepoName] = useState('')
@@ -124,7 +121,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   const { toast } = useToast()
   const router = useRouter()
 
-  // Define fetchUserRepositories before useEffect that uses it
   const fetchUserRepositories = useCallback(async () => {
     if (!userId) return
 
@@ -157,21 +153,16 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     }
   }, [userId, t, toast])
 
-  // Check if user is already authenticated on component mount (beta mode)
   useEffect(() => {
     const checkAuth = () => {
-      // No buscamos access_token en localStorage porque está en httpOnly cookie
       const userId = localStorage.getItem('user_id')
       const userEmail = localStorage.getItem('user_email')
 
       if (userId && userEmail) {
-        // Simple beta authentication - just check localStorage for user data
-        // Access token is handled by httpOnly cookies
         setUser({ id: userId, email: userEmail })
-        setUserId(userId) // Set the user ID for Depex operations
+        setUserId(userId)
         setIsAuthenticated(true)
       } else {
-        // No authentication data, redirect to login
         router.push(`/${locale}/login`)
       }
       setLoading(false)
@@ -180,7 +171,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     checkAuth()
   }, [locale, router])
 
-  // Fetch repositories when authenticated
   useEffect(() => {
     if (isAuthenticated && userId) {
       fetchUserRepositories()
@@ -191,9 +181,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     setIsSubmitting(true)
 
     try {
-      console.log('=== HOME LOGOUT START ===')
-      
-      // Llamar al API de logout para eliminar cookies httpOnly
       const response = await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
@@ -202,12 +189,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         },
       })
 
-      console.log('Logout API response:', {
-        ok: response.ok,
-        status: response.status
-      })
-
-      // Limpiar localStorage independientemente del resultado del API
       localStorage.removeItem('user_id')
       localStorage.removeItem('user_email')
 
@@ -219,15 +200,9 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         description: t.loggedOutDescription,
       })
 
-      console.log('=== HOME LOGOUT END ===')
-      
-      // Redirect to login page
       router.push(`/${locale}/login`)
       
     } catch (error) {
-      console.error('Logout error:', error)
-      
-      // Incluso si hay error, limpiar estado local
       localStorage.removeItem('user_id')
       localStorage.removeItem('user_email')
       setUser(null)
@@ -239,7 +214,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     }
   }
 
-  // Depex functions
   const handleRepoInit = async () => {
     setDepexLoading(true)
     setRepoInitResult(null)
@@ -250,7 +224,7 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, owner: repoOwner, repo: repoName }),
+        body: JSON.stringify({ owner: repoOwner, name: repoName, user_id: userId }),
       })
       const data = await response.json()
       setRepoInitResult(data)

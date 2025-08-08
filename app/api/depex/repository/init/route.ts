@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getApiTranslations, getTranslation } from '../../../../../lib/server-i18n'
-import { withTokenRefresh } from '../../../../../lib/api-auth'
+import { withAuth } from '../../../../../lib/api-auth'
 
 const BACKEND_URL = process.env.BACKEND_URL
 
 export async function POST(request: NextRequest) {
   const { t } = getApiTranslations(request)
 
-  return withTokenRefresh(request, async (authToken) => {
+  return withAuth(request, async (authToken) => {
     try {
       const body = await request.json()
 
-      const response = await fetch(`${BACKEND_URL}/depex/repository/init`, {
+      const response = await fetch(`${BACKEND_URL}/depex/graph/repository/init`, {
         method: 'POST',
         headers: {
           Authorization: authToken,
@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
       })
 
       const data = await response.json()
+      console.log(data)
       return NextResponse.json(data, { status: response.status })
     } catch (error) {
       console.error('Repository init API error:', error)

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getApiTranslations, getTranslation } from '../../../../../lib/server-i18n'
-import { withTokenRefresh } from '../../../../../lib/api-auth'
+import { withAuth } from '../../../../../lib/api-auth'
 
 const BACKEND_URL = process.env.BACKEND_URL
 
 export async function POST(request: NextRequest) {
   const { t } = getApiTranslations(request)
 
-  return withTokenRefresh(request, async (authToken) => {
+  return withAuth(request, async (authToken) => {
     try {
       const body = await request.json()
 

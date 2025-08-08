@@ -9,8 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { Package, GitPullRequest, CheckCircle, XCircle, Loader2, Badge } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
+import { AuthProvider } from '@/components/auth-provider'
+import { useAuth } from '@/hooks/use-auth'
 
-export default function DepexPage() {
+function DepexPageContent() {
   const [userId] = useState('user-123') // Mock user ID
   const [repoOwner, setRepoOwner] = useState('')
   const [repoName, setRepoName] = useState('')
@@ -24,12 +26,13 @@ export default function DepexPage() {
   const [userRepositories, setUserRepositories] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
+  const { makeAuthenticatedRequest } = useAuth()
 
   const handleRepoInit = async () => {
     setLoading(true)
     setRepoInitResult(null)
     try {
-      const response = await fetch('/api/depex/repository/init', {
+      const response = await makeAuthenticatedRequest('/api/depex/repository/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, owner: repoOwner, repo: repoName }),
@@ -65,7 +68,7 @@ export default function DepexPage() {
     setLoading(true)
     setPackageStatusResult(null)
     try {
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `/api/depex/package/status?userId=${userId}&packageName=${packageName}`
       )
       const data = await response.json()
@@ -97,7 +100,7 @@ export default function DepexPage() {
     setLoading(true)
     setVersionStatusResult(null)
     try {
-      const response = await fetch(
+      const response = await makeAuthenticatedRequest(
         `/api/depex/version/status?userId=${userId}&packageName=${packageName}&version=${packageVersion}`
       )
       const data = await response.json()
@@ -129,7 +132,7 @@ export default function DepexPage() {
     setLoading(true)
     setPackageInitResult(null)
     try {
-      const response = await fetch('/api/depex/package/init', {
+      const response = await makeAuthenticatedRequest('/api/depex/package/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, packageName }),
@@ -163,7 +166,7 @@ export default function DepexPage() {
     setLoading(true)
     setVersionInitResult(null)
     try {
-      const response = await fetch('/api/depex/version/init', {
+      const response = await makeAuthenticatedRequest('/api/depex/version/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, packageName, version: packageVersion }),
@@ -196,7 +199,7 @@ export default function DepexPage() {
   const fetchUserRepositories = async () => {
     setLoading(true)
     try {
-      const response = await fetch(`/api/depex/repositories/${userId}`)
+      const response = await makeAuthenticatedRequest(`/api/depex/repositories/${userId}`)
       const data = await response.json()
       if (response.ok) {
         setUserRepositories(data.repositories)
@@ -466,5 +469,13 @@ export default function DepexPage() {
         </Tabs>
       </div>
     </div>
+  )
+}
+
+export default function DepexPage() {
+  return (
+    <AuthProvider>
+      <DepexPageContent />
+    </AuthProvider>
   )
 }

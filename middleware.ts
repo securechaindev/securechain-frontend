@@ -58,8 +58,6 @@ async function refreshAccessToken(refreshToken: string): Promise<{
 
 async function isTokenValid(accessToken: string): Promise<boolean> {
   try {
-    console.log('=== MIDDLEWARE TOKEN VALIDATION ===')
-    console.log('Checking token validity:', accessToken ? `${accessToken.substring(0, 10)}...` : 'NULL')
     
     const response = await fetch(`${BACKEND_URL}/auth/check_token`, {
       method: 'POST',
@@ -69,13 +67,6 @@ async function isTokenValid(accessToken: string): Promise<boolean> {
       },
       body: JSON.stringify({ token: accessToken }),
     })
-
-    console.log('Middleware token validation result:', {
-      ok: response.ok,
-      status: response.status
-    })
-    console.log('=== END MIDDLEWARE TOKEN VALIDATION ===')
-
     return response.ok
   } catch (error) {
     console.error('Error checking token:', error)
@@ -87,29 +78,18 @@ async function handleTokenRefresh(request: NextRequest): Promise<NextResponse | 
   const accessToken = request.cookies.get('access_token')?.value
   const refreshToken = request.cookies.get('refresh_token')?.value
 
-  console.log('=== MIDDLEWARE HANDLE TOKEN REFRESH ===')
-  console.log('Path:', request.nextUrl.pathname)
-  console.log('Access token:', accessToken ? 'EXISTS' : 'NULL')
-  console.log('Refresh token:', refreshToken ? 'EXISTS' : 'NULL')
-
   if (!accessToken || !refreshToken) {
-    console.log('Missing tokens, skipping middleware auth check')
-    console.log('=== END MIDDLEWARE HANDLE TOKEN REFRESH ===')
     return null
   }
 
   const tokenIsValid = await isTokenValid(accessToken)
   if (tokenIsValid) {
-    console.log('Token is valid, continuing...')
-    console.log('=== END MIDDLEWARE HANDLE TOKEN REFRESH ===')
     return null
   }
 
-  console.log('Token invalid, attempting refresh...')
   const refreshResult = await refreshAccessToken(refreshToken)
 
   if (refreshResult.success && refreshResult.accessToken) {
-    console.log('Token refresh successful')
     const response = NextResponse.next()
     const isProduction = process.env.NODE_ENV === 'production'
     
@@ -129,17 +109,14 @@ async function handleTokenRefresh(request: NextRequest): Promise<NextResponse | 
       })
     }
 
-    console.log('=== END MIDDLEWARE HANDLE TOKEN REFRESH ===')
     return response
   } else {
-    console.log('Token refresh failed, redirecting to login')
     const locale = getLocale(request)
     const response = NextResponse.redirect(new URL(`/${locale}/login`, request.url))
     
     response.cookies.delete('access_token')
     response.cookies.delete('refresh_token')
-    
-    console.log('=== END MIDDLEWARE HANDLE TOKEN REFRESH ===')
+
     return response
   }
 }
@@ -163,5 +140,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|api|favicon.ico|images|.*\\.).*)'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)',
+  ],
 }

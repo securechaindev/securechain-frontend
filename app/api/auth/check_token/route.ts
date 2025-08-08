@@ -26,7 +26,7 @@ async function handleTokenCheck(request: NextRequest) {
     }
 
     const token = authHeader.replace('Bearer ', '')
-    
+
     const response = await fetch(`${BACKEND_URL}/auth/check_token`, {
       method: 'POST',
       headers: {
@@ -46,7 +46,7 @@ async function handleTokenCheck(request: NextRequest) {
         code: 'network_error',
         message: getTranslation(t, 'authApiErrors.networkError'),
       },
-      { status: 500 }
+      { status: 503 }
     )
   }
 }

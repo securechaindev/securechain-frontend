@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}))
     const authHeader = request.headers.get('authorization')
     
-    // Obtener refresh token del body o de las cookies
     const refreshToken = body.refresh_token || request.cookies.get('refresh_token')?.value
 
     if (!refreshToken) {
@@ -28,35 +27,19 @@ export async function POST(request: NextRequest) {
       headers: {
         Authorization: authHeader || '',
         'Content-Type': 'application/json',
+        'Cookie': `refresh_token=${refreshToken}`,
       },
       body: JSON.stringify({ refresh_token: refreshToken }),
     })
 
     const data = await response.json()
 
-    if (response.ok && data.access_token) {
-      // Crear respuesta con las nuevas cookies
+    if (response.ok) {
       const nextResponse = NextResponse.json(data, { status: response.status })
       
-      // Configurar cookies con la misma configuración que FastAPI pero adaptada al entorno
-      const isProduction = process.env.NODE_ENV === 'production'
-      
-      nextResponse.cookies.set('access_token', data.access_token, {
-        httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? 'none' : 'lax',
-        path: '/',
-        maxAge: 60 * 15, // 15 minutos
-      })
-
-      if (data.refresh_token) {
-        nextResponse.cookies.set('refresh_token', data.refresh_token, {
-          httpOnly: true,
-          secure: isProduction,
-          sameSite: isProduction ? 'none' : 'lax',
-          path: '/',
-          maxAge: 60 * 60 * 24 * 7, // 7 días
-        })
+      const setCookieHeader = response.headers.get('set-cookie')
+      if (setCookieHeader) {
+        nextResponse.headers.set('Set-Cookie', setCookieHeader)
       }
 
       return nextResponse
@@ -70,7 +53,7 @@ export async function POST(request: NextRequest) {
         code: 'network_error',
         message: getTranslation(t, 'authApiErrors.networkError'),
       },
-      { status: 500 }
+      { status: 503 }
     )
   }
 }

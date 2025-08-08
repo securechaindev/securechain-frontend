@@ -189,6 +189,7 @@ export default function LoginPageClient({ locale, translations: t }: LoginPageCl
         })
       }
     } catch (error) {
+      console.error('Login error:', error)
       toast({
         title: t.loginErrorTitle,
         description: t.networkErrorDescription,

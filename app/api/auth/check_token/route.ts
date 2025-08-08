@@ -40,6 +40,7 @@ async function handleTokenCheck(request: NextRequest) {
 
     return NextResponse.json(data, { status: response.status })
   } catch (error) {
+    console.error('Check token API error:', error)
     return NextResponse.json(
       {
         valid: false,

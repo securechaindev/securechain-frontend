@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/toaster'
+import { PackageProvider } from '@/contexts/package-context'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -35,7 +36,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           enableSystem={false}
           disableTransitionOnChange={false}
         >
-          {children}
+          <PackageProvider>{children}</PackageProvider>
           <Toaster />
         </ThemeProvider>
       </body>

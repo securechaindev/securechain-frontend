@@ -7,6 +7,13 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
 import {
   User,
@@ -22,6 +29,8 @@ import {
 import dynamic from 'next/dynamic'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
+import { PackageDetailsView } from '@/components/package-details-view'
+import { usePackage } from '@/contexts/package-context'
 import Link from 'next/link'
 
 const GitHubIcon = dynamic(
@@ -109,20 +118,20 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   const [repoOwner, setRepoOwner] = useState('')
   const [repoName, setRepoName] = useState('')
   const [packageName, setPackageName] = useState('')
-  const [packageVersion, setPackageVersion] = useState('')
+  const [nodeType, setNodeType] = useState('PyPIPackage')
   const [repoInitResult, setRepoInitResult] = useState<any>(null)
-  const [packageStatusResult, setPackageStatusResult] = useState<any>(null)
-  const [versionStatusResult, setVersionStatusResult] = useState<any>(null)
   const [packageInitResult, setPackageInitResult] = useState<any>(null)
-  const [versionInitResult, setVersionInitResult] = useState<any>(null)
   const [userRepositories, setUserRepositories] = useState<any[]>([])
   const [depexLoading, setDepexLoading] = useState(false)
 
   const { toast } = useToast()
   const router = useRouter()
+  const { setPackageDetails, setIsViewingPackage, isViewingPackage } = usePackage()
 
   const fetchUserRepositories = useCallback(async () => {
-    if (!userId) return
+    if (!userId) {
+      return
+    }
 
     setDepexLoading(true)
     try {
@@ -132,7 +141,9 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
           'Content-Type': 'application/json',
         },
       })
+
       const data = await response.json()
+
       if (response.ok) {
         setUserRepositories(data.repositories || [])
       } else {
@@ -143,6 +154,7 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         })
       }
     } catch (error: any) {
+      console.error('Error fetching repositories:', error)
       toast({
         title: t.errorTitle,
         description: error.message || t.networkErrorDescription,
@@ -155,12 +167,12 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
 
   useEffect(() => {
     const checkAuth = () => {
-      const userId = localStorage.getItem('user_id')
+      const storedUserId = localStorage.getItem('userId') || localStorage.getItem('user_id')
       const userEmail = localStorage.getItem('user_email')
 
-      if (userId && userEmail) {
-        setUser({ id: userId, email: userEmail })
-        setUserId(userId)
+      if (storedUserId && userEmail) {
+        setUser({ id: storedUserId, email: userEmail })
+        setUserId(storedUserId)
         setIsAuthenticated(true)
       } else {
         router.push(`/${locale}/login`)
@@ -181,7 +193,7 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     setIsSubmitting(true)
 
     try {
-      const response = await fetch('/api/auth/logout', {
+      await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -201,13 +213,13 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
       })
 
       router.push(`/${locale}/login`)
-      
     } catch (error) {
+      console.error('Logout error:', error)
       localStorage.removeItem('user_id')
       localStorage.removeItem('user_email')
       setUser(null)
       setIsAuthenticated(false)
-      
+
       router.push(`/${locale}/login`)
     } finally {
       setIsSubmitting(false)
@@ -254,10 +266,9 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
 
   const handlePackageStatus = async () => {
     setDepexLoading(true)
-    setPackageStatusResult(null)
     try {
       const response = await fetch(
-        `/api/depex/package/status?userId=${userId}&packageName=${packageName}`,
+        `/api/depex/package/status?packageName=${packageName}&nodeType=${nodeType}`,
         {
           credentials: 'include',
           headers: {
@@ -266,54 +277,14 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         }
       )
       const data = await response.json()
-      setPackageStatusResult(data)
-      if (response.ok) {
-        toast({
-          title: t.packageStatus,
-          description: data.message,
-        })
+      if (response.ok && data.package) {
+        // Set package details in context and show the view
+        setPackageDetails(data.package)
+        setIsViewingPackage(true)
       } else {
         toast({
           title: t.errorTitle,
-          description: data.error || 'Failed to get package status',
-          variant: 'destructive',
-        })
-      }
-    } catch (error: any) {
-      toast({
-        title: t.errorTitle,
-        description: error.message || t.networkErrorDescription,
-        variant: 'destructive',
-      })
-    } finally {
-      setDepexLoading(false)
-    }
-  }
-
-  const handleVersionStatus = async () => {
-    setDepexLoading(true)
-    setVersionStatusResult(null)
-    try {
-      const response = await fetch(
-        `/api/depex/version/status?userId=${userId}&packageName=${packageName}&version=${packageVersion}`,
-        {
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      const data = await response.json()
-      setVersionStatusResult(data)
-      if (response.ok) {
-        toast({
-          title: t.versionStatus,
-          description: data.message,
-        })
-      } else {
-        toast({
-          title: t.errorTitle,
-          description: data.error || 'Failed to get version status',
+          description: data.error || data.message || 'Failed to get package status',
           variant: 'destructive',
         })
       }
@@ -365,43 +336,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     }
   }
 
-  const handleVersionInit = async () => {
-    setDepexLoading(true)
-    setVersionInitResult(null)
-    try {
-      const response = await fetch('/api/depex/version/init', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, packageName, version: packageVersion }),
-      })
-      const data = await response.json()
-      setVersionInitResult(data)
-      if (response.ok) {
-        toast({
-          title: t.versionInitialized,
-          description: data.message,
-        })
-      } else {
-        toast({
-          title: t.errorTitle,
-          description: data.error || 'Failed to initialize version',
-          variant: 'destructive',
-        })
-      }
-    } catch (error: any) {
-      toast({
-        title: t.errorTitle,
-        description: error.message || t.networkErrorDescription,
-        variant: 'destructive',
-      })
-    } finally {
-      setDepexLoading(false)
-    }
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -432,6 +366,11 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         </Card>
       </div>
     )
+  }
+
+  // Show package details view if viewing package
+  if (isViewingPackage) {
+    return <PackageDetailsView />
   }
 
   return (
@@ -505,21 +444,72 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
                     <p className="text-muted-foreground">{t.noRepositoriesFound}</p>
                   )}
                   {userRepositories.length > 0 && (
-                    <div className="grid gap-4">
+                    <div className="space-y-4">
                       {userRepositories.map((repo, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between p-4 border rounded-lg bg-card"
+                          className="border rounded-lg p-4 bg-card hover:bg-accent/50 transition-colors"
                         >
-                          <div className="flex items-center gap-3">
-                            <GitHubIcon className="h-5 w-5 text-muted-foreground" />
-                            <span className="font-medium">
-                              {repo.owner}/{repo.repo}
-                            </span>
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex items-center gap-3">
+                              <GitHubIcon className="h-6 w-6 text-muted-foreground" />
+                              <div>
+                                <h3 className="font-semibold text-lg">
+                                  {repo.owner}/{repo.name}
+                                </h3>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <Badge variant={repo.is_complete ? 'default' : 'secondary'}>
+                                    {repo.is_complete ? (
+                                      <>
+                                        <CheckCircle className="h-3 w-3 mr-1" />
+                                        Complete
+                                      </>
+                                    ) : (
+                                      <>
+                                        <XCircle className="h-3 w-3 mr-1" />
+                                        Incomplete
+                                      </>
+                                    )}
+                                  </Badge>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <Badge variant={repo.status === 'active' ? 'default' : 'secondary'}>
-                            {repo.status}
-                          </Badge>
+
+                          {repo.requirement_files && repo.requirement_files.length > 0 && (
+                            <div className="mt-4">
+                              <h4 className="font-medium text-sm text-muted-foreground mb-2 flex items-center gap-2">
+                                <Package className="h-4 w-4" />
+                                Requirement Files ({repo.requirement_files.length})
+                              </h4>
+                              <div className="grid gap-2">
+                                {repo.requirement_files.map((file: any, fileIndex: number) => (
+                                  <div
+                                    key={fileIndex}
+                                    className="flex items-center justify-between p-3 bg-muted/50 rounded-md border"
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                      <span className="font-mono text-sm">{file.name}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <Badge variant="outline" className="text-xs">
+                                        {file.manager}
+                                      </Badge>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {(!repo.requirement_files || repo.requirement_files.length === 0) && (
+                            <div className="mt-4 p-3 bg-muted/30 rounded-md border border-dashed">
+                              <p className="text-sm text-muted-foreground text-center">
+                                No requirement files found
+                              </p>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -539,60 +529,37 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
                 <CardContent className="space-y-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">{t.checkPackageStatusTitle}</h3>
-                    <div className="grid gap-2">
-                      <Label htmlFor="packageName">{t.packageNameLabel}</Label>
-                      <Input
-                        id="packageName"
-                        value={packageName}
-                        onChange={e => setPackageName(e.target.value)}
-                        placeholder={t.packageNamePlaceholder}
-                      />
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="nodeType">Package Type</Label>
+                        <Select value={nodeType} onValueChange={setNodeType}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select package type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="PyPIPackage">PyPI (Python)</SelectItem>
+                            <SelectItem value="NPMPackage">NPM (Node.js)</SelectItem>
+                            <SelectItem value="MavenPackage">Maven (Java)</SelectItem>
+                            <SelectItem value="RubyGemsPackage">RubyGems (Ruby)</SelectItem>
+                            <SelectItem value="CargoPackage">Cargo (Rust)</SelectItem>
+                            <SelectItem value="NuGetPackage">NuGet (.NET)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="packageName">{t.packageNameLabel}</Label>
+                        <Input
+                          id="packageName"
+                          value={packageName}
+                          onChange={e => setPackageName(e.target.value)}
+                          placeholder={t.packageNamePlaceholder}
+                        />
+                      </div>
                     </div>
                     <Button onClick={handlePackageStatus} disabled={depexLoading}>
                       {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                       {t.checkPackageStatusButton}
                     </Button>
-                    {packageStatusResult && (
-                      <div
-                        className={`p-3 rounded-md flex items-center gap-2 ${packageStatusResult.exists ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
-                      >
-                        {packageStatusResult.exists ? (
-                          <CheckCircle className="h-5 w-5" />
-                        ) : (
-                          <XCircle className="h-5 w-5" />
-                        )}
-                        <span>{packageStatusResult.message}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-4 border-t pt-6 mt-6">
-                    <h3 className="text-lg font-semibold">{t.checkVersionStatusTitle}</h3>
-                    <div className="grid gap-2">
-                      <Label htmlFor="packageVersion">{t.packageVersionLabel}</Label>
-                      <Input
-                        id="packageVersion"
-                        value={packageVersion}
-                        onChange={e => setPackageVersion(e.target.value)}
-                        placeholder={t.packageVersionPlaceholder}
-                      />
-                    </div>
-                    <Button onClick={handleVersionStatus} disabled={depexLoading}>
-                      {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                      {t.checkVersionStatusButton}
-                    </Button>
-                    {versionStatusResult && (
-                      <div
-                        className={`p-3 rounded-md flex items-center gap-2 ${versionStatusResult.exists ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
-                      >
-                        {versionStatusResult.exists ? (
-                          <CheckCircle className="h-5 w-5" />
-                        ) : (
-                          <XCircle className="h-5 w-5" />
-                        )}
-                        <span>{versionStatusResult.message}</span>
-                      </div>
-                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -672,35 +639,6 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
                           <XCircle className="h-5 w-5" />
                         )}
                         <span>{packageInitResult.message}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-4 border-t pt-6 mt-6">
-                    <h3 className="text-lg font-semibold">{t.initializeVersionTitle}</h3>
-                    <div className="grid gap-2">
-                      <Label htmlFor="initPackageVersion">{t.packageVersionLabel}</Label>
-                      <Input
-                        id="initPackageVersion"
-                        value={packageVersion}
-                        onChange={e => setPackageVersion(e.target.value)}
-                        placeholder={t.initPackageVersionPlaceholder}
-                      />
-                    </div>
-                    <Button onClick={handleVersionInit} disabled={depexLoading}>
-                      {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                      {t.initializeVersionButton}
-                    </Button>
-                    {versionInitResult && (
-                      <div
-                        className={`p-3 rounded-md flex items-center gap-2 ${versionInitResult.success ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
-                      >
-                        {versionInitResult.success ? (
-                          <CheckCircle className="h-5 w-5" />
-                        ) : (
-                          <XCircle className="h-5 w-5" />
-                        )}
-                        <span>{versionInitResult.message}</span>
                       </div>
                     )}
                   </div>

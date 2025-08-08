@@ -48,7 +48,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{
         success: true,
       }
     }
-    
+
     return { success: false }
   } catch (error) {
     console.error('Error refreshing token:', error)
@@ -58,11 +58,10 @@ async function refreshAccessToken(refreshToken: string): Promise<{
 
 async function isTokenValid(accessToken: string): Promise<boolean> {
   try {
-    
     const response = await fetch(`${BACKEND_URL}/auth/check_token`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token: accessToken }),
@@ -92,7 +91,7 @@ async function handleTokenRefresh(request: NextRequest): Promise<NextResponse | 
   if (refreshResult.success && refreshResult.accessToken) {
     const response = NextResponse.next()
     const isProduction = process.env.NODE_ENV === 'production'
-    
+
     response.cookies.set('access_token', refreshResult.accessToken, {
       httpOnly: true,
       secure: isProduction,
@@ -113,7 +112,7 @@ async function handleTokenRefresh(request: NextRequest): Promise<NextResponse | 
   } else {
     const locale = getLocale(request)
     const response = NextResponse.redirect(new URL(`/${locale}/login`, request.url))
-    
+
     response.cookies.delete('access_token')
     response.cookies.delete('refresh_token')
 
@@ -140,7 +139,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)'],
 }

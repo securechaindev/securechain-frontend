@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     if (response.ok) {
       const nextResponse = NextResponse.json(data, { status: response.status })
-      
+
       const setCookieHeader = response.headers.get('set-cookie')
       if (setCookieHeader) {
         nextResponse.headers.set('Set-Cookie', setCookieHeader)

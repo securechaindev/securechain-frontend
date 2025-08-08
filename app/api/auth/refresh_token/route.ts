@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
     const authHeader = request.headers.get('authorization')
-    
+
     const refreshToken = body.refresh_token || request.cookies.get('refresh_token')?.value
 
     if (!refreshToken) {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       headers: {
         Authorization: authHeader || '',
         'Content-Type': 'application/json',
-        'Cookie': `refresh_token=${refreshToken}`,
+        Cookie: `refresh_token=${refreshToken}`,
       },
       body: JSON.stringify({ refresh_token: refreshToken }),
     })
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     if (response.ok) {
       const nextResponse = NextResponse.json(data, { status: response.status })
-      
+
       const setCookieHeader = response.headers.get('set-cookie')
       if (setCookieHeader) {
         nextResponse.headers.set('Set-Cookie', setCookieHeader)

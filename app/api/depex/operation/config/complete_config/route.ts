@@ -7,7 +7,7 @@ const BACKEND_URL = process.env.BACKEND_URL
 export async function POST(request: NextRequest) {
   const { t } = getApiTranslations(request)
 
-  return withAuth(request, async (authToken) => {
+  return withAuth(request, async authToken => {
     try {
       const body = await request.json()
 
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const { t } = getApiTranslations(request)
 
-  return withAuth(request, async (authToken) => {
+  return withAuth(request, async authToken => {
     try {
       const { searchParams } = new URL(request.url)
 

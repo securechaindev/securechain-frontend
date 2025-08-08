@@ -66,12 +66,14 @@ export async function refreshAccessToken(): Promise<{
           success: true,
         }
       } catch (parseError) {
+        console.error('Error parsing JSON response:', parseError)
         return { success: false }
       }
     } else {
       return { success: false }
     }
   } catch (error) {
+    console.error('Error refreshing access token:', error)
     return { success: false }
   }
 }
@@ -87,7 +89,7 @@ export async function authenticatedFetch(
 
   if (response.status === 401) {
     const refreshResult = await refreshAccessToken()
-    
+
     if (refreshResult.success) {
       response = await fetch(url, {
         ...options,

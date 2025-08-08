@@ -2,17 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { 
-  ArrowLeft,
-  Shield,
-  Database,
-  FileText,
-  Lock,
-  Globe,
-  Code,
-  BookOpen,
-  ExternalLink
-} from 'lucide-react'
+import { Shield, Database, FileText, Lock, Globe, Code, BookOpen, ExternalLink } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
 import Image from 'next/image'
@@ -51,95 +41,57 @@ export default async function DocsPage({ params }: PageProps) {
       path: '/auth/signup',
       summary: t.docs.userSignup,
       description: t.docs.userSignupDescription,
-      auth: false
+      auth: false,
     },
     {
       method: 'POST',
       path: '/auth/login',
       summary: t.docs.userLogin,
       description: t.docs.userLoginDescription,
-      auth: false
+      auth: false,
     },
     {
       method: 'POST',
       path: '/auth/logout',
       summary: t.docs.userLogout,
       description: t.docs.userLogoutDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/auth/account_exists',
       summary: t.docs.accountExists,
       description: t.docs.accountExistsDescription,
-      auth: false
+      auth: false,
     },
     {
       method: 'POST',
       path: '/auth/change_password',
       summary: t.docs.changePassword,
       description: t.docs.changePasswordDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/auth/check_token',
       summary: t.docs.checkToken,
       description: t.docs.checkTokenDescription,
-      auth: false
+      auth: false,
     },
     {
       method: 'POST',
       path: '/auth/refresh_token',
       summary: t.docs.refreshToken,
       description: t.docs.refreshTokenDescription,
-      auth: false
+      auth: false,
     },
     {
       method: 'GET',
       path: '/auth/health',
       summary: t.docs.healthCheck,
       description: t.docs.healthCheckDescription,
-      auth: false
-    }
-  ]
-
-  const fileEndpoints = [
-    {
-      method: 'POST',
-      path: '/depex/repository',
-      summary: t.docs.initRepository,
-      description: t.docs.initRepositoryDescription,
-      auth: true
+      auth: false,
     },
-    {
-      method: 'GET',
-      path: '/depex/repositories',
-      summary: t.docs.getRepositories,
-      description: t.docs.getRepositoriesDescription,
-      auth: true
-    },
-    {
-      method: 'GET',
-      path: '/depex/repository/{repo_id}',
-      summary: t.docs.getRepositoryDetails,
-      description: t.docs.getRepositoryDetailsDescription,
-      auth: true
-    },
-    {
-      method: 'POST',
-      path: '/depex/operation',
-      summary: t.docs.depexAnalyze,
-      description: t.docs.depexAnalyzeDescription,
-      auth: true
-    },
-    {
-      method: 'DELETE',
-      path: '/depex/repository/{repo_id}',
-      summary: t.docs.deleteRepository,
-      description: t.docs.deleteRepositoryDescription,
-      auth: true
-    }
   ]
 
   const depexGraphEndpoints = [
@@ -148,29 +100,29 @@ export default async function DocsPage({ params }: PageProps) {
       path: '/depex/package/{node_type}/{package_name}/status',
       summary: t.docs.getPackageStatus,
       description: t.docs.getPackageStatusDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'GET',
       path: '/depex/version/{node_type}/{package_name}/{version}/status',
       summary: t.docs.getVersionStatus,
       description: t.docs.getVersionStatusDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/version',
       summary: t.docs.initVersion,
       description: t.docs.initVersionDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/package',
       summary: t.docs.initPackage,
       description: t.docs.initPackageDescription,
-      auth: true
-    }
+      auth: true,
+    },
   ]
 
   const depexFileOperationEndpoints = [
@@ -179,36 +131,36 @@ export default async function DocsPage({ params }: PageProps) {
       path: '/depex/operation/file/file_info',
       summary: t.docs.fileInfo,
       description: t.docs.fileInfoDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/operation/file/valid_graph',
       summary: t.docs.validGraph,
       description: t.docs.validGraphDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/operation/file/minimize_impact',
       summary: t.docs.minimizeImpact,
       description: t.docs.minimizeImpactDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/operation/file/maximize_impact',
       summary: t.docs.maximizeImpact,
       description: t.docs.maximizeImpactDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/operation/file/filter_configs',
       summary: t.docs.filterConfigs,
       description: t.docs.filterConfigsDescription,
-      auth: true
-    }
+      auth: true,
+    },
   ]
 
   const depexConfigOperationEndpoints = [
@@ -217,122 +169,180 @@ export default async function DocsPage({ params }: PageProps) {
       path: '/depex/operation/config/valid_config',
       summary: t.docs.validConfig,
       description: t.docs.validConfigDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/operation/config/complete_config',
       summary: t.docs.completeConfig,
       description: t.docs.completeConfigDescription,
-      auth: true
+      auth: true,
     },
     {
       method: 'POST',
       path: '/depex/operation/config/config_by_impact',
       summary: t.docs.configByImpact,
       description: t.docs.configByImpactDescription,
-      auth: true
-    }
+      auth: true,
+    },
   ]
 
   const nodeTypes = [
     'RubyGemsPackage',
-    'CargoPackage', 
+    'CargoPackage',
     'NuGetPackage',
     'PyPIPackage',
     'NPMPackage',
-    'MavenPackage'
+    'MavenPackage',
   ]
 
   const schemas = [
     {
       name: 'SignUpRequest',
       description: t.docs.signUpRequestDescription,
-      fields: ['email (string, email format)', 'password (string)']
+      fields: ['email (string, email format)', 'password (string)'],
     },
     {
-      name: 'LoginRequest', 
+      name: 'LoginRequest',
       description: t.docs.loginRequestDescription,
-      fields: ['email (string, email format)', 'password (string, 8-20 chars)']
+      fields: ['email (string, email format)', 'password (string, 8-20 chars)'],
     },
     {
       name: 'AccountExistsRequest',
       description: t.docs.accountExistsRequestDescription,
-      fields: ['email (string, email format)']
+      fields: ['email (string, email format)'],
     },
     {
       name: 'ChangePasswordRequest',
       description: t.docs.changePasswordRequestDescription,
-      fields: ['email (string, email format)', 'old_password (string, 8-20 chars)', 'new_password (string, 8-20 chars)']
+      fields: [
+        'email (string, email format)',
+        'old_password (string, 8-20 chars)',
+        'new_password (string, 8-20 chars)',
+      ],
     },
     {
       name: 'VerifyTokenRequest',
       description: t.docs.verifyTokenRequestDescription,
-      fields: ['token (string or null)']
+      fields: ['token (string or null)'],
     },
     {
       name: 'InitRepositoryRequest',
       description: t.docs.initRepositoryRequestDescription,
-      fields: ['owner (string)', 'name (string)', 'user_id (string)', 'moment (datetime, optional)', 'add_extras (boolean, default: false)', 'is_complete (boolean, default: false)']
+      fields: [
+        'owner (string)',
+        'name (string)',
+        'user_id (string)',
+        'moment (datetime, optional)',
+        'add_extras (boolean, default: false)',
+        'is_complete (boolean, default: false)',
+      ],
     },
     {
       name: 'InitPackageRequest',
       description: t.docs.initPackageRequestDescription,
-      fields: ['node_type (NodeType)', 'package_name (string)']
+      fields: ['node_type (NodeType)', 'package_name (string)'],
     },
     {
       name: 'InitVersionRequest',
       description: t.docs.initVersionRequestDescription,
-      fields: ['node_type (NodeType)', 'package_name (string)', 'version_name (string)']
+      fields: ['node_type (NodeType)', 'package_name (string)', 'version_name (string)'],
     },
     {
       name: 'FileInfoRequest',
       description: t.docs.fileInfoRequestDescription,
-      fields: ['node_type (NodeType)', 'requirement_file_id (string, UUID pattern)', 'max_level (integer)']
+      fields: [
+        'node_type (NodeType)',
+        'requirement_file_id (string, UUID pattern)',
+        'max_level (integer)',
+      ],
     },
     {
       name: 'ValidGraphRequest',
       description: t.docs.validGraphRequestDescription,
-      fields: ['requirement_file_id (string, UUID pattern)', 'max_level (integer)', 'node_type (NodeType)']
+      fields: [
+        'requirement_file_id (string, UUID pattern)',
+        'max_level (integer)',
+        'node_type (NodeType)',
+      ],
     },
     {
       name: 'MinMaxImpactRequest',
       description: t.docs.minMaxImpactRequestDescription,
-      fields: ['requirement_file_id (string, UUID pattern)', 'limit (integer, min: 1)', 'max_level (integer)', 'node_type (NodeType)', 'agregator (Agregator)']
+      fields: [
+        'requirement_file_id (string, UUID pattern)',
+        'limit (integer, min: 1)',
+        'max_level (integer)',
+        'node_type (NodeType)',
+        'agregator (Agregator)',
+      ],
     },
     {
       name: 'FilterConfigsRequest',
       description: t.docs.filterConfigsRequestDescription,
-      fields: ['requirement_file_id (string, UUID pattern)', 'max_threshold (number, 0-10)', 'min_threshold (number, 0-10)', 'limit (integer, min: 1)', 'max_level (integer)', 'node_type (NodeType)', 'agregator (Agregator)']
+      fields: [
+        'requirement_file_id (string, UUID pattern)',
+        'max_threshold (number, 0-10)',
+        'min_threshold (number, 0-10)',
+        'limit (integer, min: 1)',
+        'max_level (integer)',
+        'node_type (NodeType)',
+        'agregator (Agregator)',
+      ],
     },
     {
       name: 'ValidConfigRequest',
       description: t.docs.validConfigRequestDescription,
-      fields: ['requirement_file_id (string, UUID pattern)', 'max_level (integer)', 'node_type (NodeType)', 'agregator (Agregator)', 'config (object)']
+      fields: [
+        'requirement_file_id (string, UUID pattern)',
+        'max_level (integer)',
+        'node_type (NodeType)',
+        'agregator (Agregator)',
+        'config (object)',
+      ],
     },
     {
       name: 'CompleteConfigRequest',
       description: t.docs.completeConfigRequestDescription,
-      fields: ['requirement_file_id (string, UUID pattern)', 'max_level (integer)', 'node_type (NodeType)', 'agregator (Agregator)', 'config (object)']
+      fields: [
+        'requirement_file_id (string, UUID pattern)',
+        'max_level (integer)',
+        'node_type (NodeType)',
+        'agregator (Agregator)',
+        'config (object)',
+      ],
     },
     {
       name: 'ConfigByImpactRequest',
       description: t.docs.configByImpactRequestDescription,
-      fields: ['requirement_file_id (string, UUID pattern)', 'max_level (integer)', 'impact (number, 0-10)', 'node_type (NodeType)', 'agregator (Agregator)']
-    }
+      fields: [
+        'requirement_file_id (string, UUID pattern)',
+        'max_level (integer)',
+        'impact (number, 0-10)',
+        'node_type (NodeType)',
+        'agregator (Agregator)',
+      ],
+    },
   ]
 
   const enums = [
     {
       name: 'NodeType',
       description: t.docs.nodeTypeDescription,
-      values: ['RubyGemsPackage', 'CargoPackage', 'NuGetPackage', 'PyPIPackage', 'NPMPackage', 'MavenPackage']
+      values: [
+        'RubyGemsPackage',
+        'CargoPackage',
+        'NuGetPackage',
+        'PyPIPackage',
+        'NPMPackage',
+        'MavenPackage',
+      ],
     },
     {
       name: 'Agregator',
       description: t.docs.agregatorDescription,
-      values: ['mean', 'weighted_mean']
-    }
+      values: ['mean', 'weighted_mean'],
+    },
   ]
 
   return (
@@ -342,7 +352,10 @@ export default async function DocsPage({ params }: PageProps) {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-                            <Link href={`/${locale}`} className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                href={`/${locale}`}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 {t.docs.backToHome}
               </Link>
               <div className="flex items-center gap-2">
@@ -375,9 +388,7 @@ export default async function DocsPage({ params }: PageProps) {
           <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-tight pb-2">
             {t.docs.title}
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            {t.docs.subtitle}
-          </p>
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">{t.docs.subtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="outline" asChild>
               <a href="https://github.com/securechaindev" target="_blank" rel="noopener noreferrer">
@@ -423,7 +434,9 @@ export default async function DocsPage({ params }: PageProps) {
                       </div>
                       <div>
                         <h4 className="font-semibold mb-2">{t.docs.baseUrl}</h4>
-                        <p className="text-muted-foreground font-mono">https://api.securechain.dev</p>
+                        <p className="text-muted-foreground font-mono">
+                          https://api.securechain.dev
+                        </p>
                       </div>
                       <div>
                         <h4 className="font-semibold mb-2">{t.docs.authentication}</h4>
@@ -504,8 +517,11 @@ export default async function DocsPage({ params }: PageProps) {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {nodeTypes.map((nodeType) => (
-                        <div key={nodeType} className="flex items-center gap-2 p-3 border rounded-lg">
+                      {nodeTypes.map(nodeType => (
+                        <div
+                          key={nodeType}
+                          className="flex items-center gap-2 p-3 border rounded-lg"
+                        >
                           <div className="w-2 h-2 bg-primary rounded-full"></div>
                           <span className="font-mono text-sm">{nodeType}</span>
                         </div>
@@ -525,9 +541,7 @@ export default async function DocsPage({ params }: PageProps) {
                       <Shield className="h-5 w-5" />
                       {t.docs.authEndpoints}
                     </CardTitle>
-                    <CardDescription>
-                      {t.docs.authEndpointsDescription}
-                    </CardDescription>
+                    <CardDescription>{t.docs.authEndpointsDescription}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -566,9 +580,7 @@ export default async function DocsPage({ params }: PageProps) {
                       <Database className="h-5 w-5" />
                       {t.docs.graphEndpoints}
                     </CardTitle>
-                    <CardDescription>
-                      {t.docs.graphEndpointsDescription}
-                    </CardDescription>
+                    <CardDescription>{t.docs.graphEndpointsDescription}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -607,9 +619,7 @@ export default async function DocsPage({ params }: PageProps) {
                       <Code className="h-5 w-5" />
                       {t.docs.fileEndpoints}
                     </CardTitle>
-                    <CardDescription>
-                      {t.docs.fileEndpointsDescription}
-                    </CardDescription>
+                    <CardDescription>{t.docs.fileEndpointsDescription}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -648,9 +658,7 @@ export default async function DocsPage({ params }: PageProps) {
                       <FileText className="h-5 w-5" />
                       {t.docs.configEndpoints}
                     </CardTitle>
-                    <CardDescription>
-                      {t.docs.configEndpointsDescription}
-                    </CardDescription>
+                    <CardDescription>{t.docs.configEndpointsDescription}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -689,9 +697,7 @@ export default async function DocsPage({ params }: PageProps) {
                       <FileText className="h-5 w-5" />
                       {t.docs.requestSchemas}
                     </CardTitle>
-                    <CardDescription>
-                      {t.docs.requestSchemasDescription}
-                    </CardDescription>
+                    <CardDescription>{t.docs.requestSchemasDescription}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -703,7 +709,9 @@ export default async function DocsPage({ params }: PageProps) {
                             <h5 className="text-sm font-medium">{t.docs.fields}:</h5>
                             <ul className="text-sm text-muted-foreground space-y-1">
                               {schema.fields.map((field, fieldIndex) => (
-                                <li key={fieldIndex} className="font-mono text-xs">• {field}</li>
+                                <li key={fieldIndex} className="font-mono text-xs">
+                                  • {field}
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -716,18 +724,18 @@ export default async function DocsPage({ params }: PageProps) {
                 <Card>
                   <CardHeader>
                     <CardTitle>{t.docs.enumerations}</CardTitle>
-                    <CardDescription>
-                      {t.docs.enumerationsDescription}
-                    </CardDescription>
+                    <CardDescription>{t.docs.enumerationsDescription}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-6">
                       {enums.map((enumItem, index) => (
                         <div key={index} className="border rounded-lg p-4">
                           <h4 className="font-semibold mb-2">{enumItem.name}</h4>
-                          <p className="text-sm text-muted-foreground mb-3">{enumItem.description}</p>
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {enumItem.description}
+                          </p>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            {enumItem.values.map((value) => (
+                            {enumItem.values.map(value => (
                               <code key={value} className="text-sm p-2 bg-muted rounded">
                                 {value}
                               </code>
@@ -757,9 +765,7 @@ export default async function DocsPage({ params }: PageProps) {
             />
             <span className="font-bold">Secure Chain API</span>
           </div>
-          <p className="text-sm text-muted-foreground">
-            {t.docs.footerText}
-          </p>
+          <p className="text-sm text-muted-foreground">{t.docs.footerText}</p>
         </div>
       </footer>
     </div>

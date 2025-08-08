@@ -5,12 +5,7 @@ import { useAuth } from '../hooks/use-auth'
 import { useAuthContext } from './auth-provider'
 
 export function AuthenticatedComponent() {
-  const { 
-    makeAuthenticatedRequest, 
-    checkAuth, 
-    checkTokenExpiry, 
-    logout
-  } = useAuth()
+  const { makeAuthenticatedRequest, checkTokenExpiry, logout } = useAuth()
   const { isAuthenticated, isLoading } = useAuthContext()
   const [data, setData] = useState(null)
   const [dataLoading, setDataLoading] = useState(false)
@@ -52,15 +47,15 @@ export function AuthenticatedComponent() {
       </div>
 
       <div className="space-x-2">
-        <button 
-          onClick={fetchProtectedData} 
+        <button
+          onClick={fetchProtectedData}
           disabled={dataLoading || !isAuthenticated}
           className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
         >
           {dataLoading ? 'Cargando...' : 'Cargar datos protegidos'}
         </button>
-        
-        <button 
+
+        <button
           onClick={checkTokenStatus}
           disabled={!isAuthenticated}
           className="bg-green-500 text-white px-4 py-2 rounded disabled:opacity-50"
@@ -68,10 +63,7 @@ export function AuthenticatedComponent() {
           Verificar token
         </button>
 
-        <button 
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
+        <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">
           Cerrar sesión
         </button>
       </div>

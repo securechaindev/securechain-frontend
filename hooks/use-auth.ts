@@ -4,12 +4,9 @@ import { useCallback } from 'react'
 import { authenticatedFetch, checkAuthStatus, isTokenExpired } from '../lib/auth'
 
 export function useAuth() {
-  const makeAuthenticatedRequest = useCallback(
-    async (url: string, options: RequestInit = {}) => {
-      return authenticatedFetch(url, options)
-    },
-    []
-  )
+  const makeAuthenticatedRequest = useCallback(async (url: string, options: RequestInit = {}) => {
+    return authenticatedFetch(url, options)
+  }, [])
 
   const checkAuth = useCallback(async () => {
     return checkAuthStatus()

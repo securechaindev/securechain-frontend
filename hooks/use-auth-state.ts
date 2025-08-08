@@ -69,7 +69,7 @@ export function useAuthState() {
       if (response.ok && data.code === 'success') {
         localStorage.setItem('user_id', data.user_id)
         localStorage.setItem('user_email', email)
-        
+
         setAuthState({
           isAuthenticated: true,
           isLoading: false,

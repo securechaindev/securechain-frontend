@@ -10,7 +10,7 @@ export async function GET(
 ) {
   const { t } = getApiTranslations(request)
 
-  return withAuth(request, async (authToken) => {
+  return withAuth(request, async authToken => {
     try {
       const { userId } = await params
 

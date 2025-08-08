@@ -83,7 +83,7 @@ export async function getApiTranslationsFromBody(
         language = body.language
       }
     } catch {
-        language = 'en'
+      language = 'en'
     }
   } catch {
     language = 'en'

@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const authHeader = request.headers.get('authorization')
-    const accessToken = request.cookies.get('access_token')?.value
     const refreshToken = request.cookies.get('refresh_token')?.value
 
     const response = await fetch(`${BACKEND_URL}/auth/logout`, {
@@ -42,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Eliminar cookies incluso si hay error
     response.cookies.delete('access_token')
     response.cookies.delete('refresh_token')
-    
+
     return response
   }
 }

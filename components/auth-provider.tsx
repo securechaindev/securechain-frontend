@@ -6,7 +6,7 @@ import { checkAuthStatus } from '@/lib/auth'
 interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
-  setIsAuthenticated: (value: boolean) => void
+  setIsAuthenticated: (_value: boolean) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -42,11 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsAuthenticated,
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuthContext() {

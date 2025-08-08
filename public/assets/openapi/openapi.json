@@ -1,0 +1,941 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Secure Chain API Gateway", "version": "1.0.0" },
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Signup",
+        "description": "Create a new user account.",
+        "operationId": "signup_signup_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/SignUpRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully.",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Login",
+        "description": "Authenticate a user with email and password.",
+        "operationId": "login_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Access token and user data.",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Logout",
+        "description": "Log out a user and revoke their refresh token.",
+        "operationId": "logout_logout_post",
+        "responses": {
+          "200": {
+            "description": "Logout successful.",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/auth/account_exists": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Account Existence Check",
+        "description": "Check if a user account exists with the given email.",
+        "operationId": "account_exists_account_exists_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AccountExistsRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User existence status.",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/change_password": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Change Password",
+        "description": "Change the password for a user.",
+        "operationId": "change_password_change_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChangePasswordRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password change status.",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/auth/check_token": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Token Verification",
+        "description": "Verify the validity of a user token.",
+        "operationId": "check_token_check_token_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/VerifyTokenRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Token verification status.",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh_token": {
+      "post": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "User Refresh Token",
+        "description": "Refresh a user's access token using a refresh token.",
+        "operationId": "refresh_token_endpoint_refresh_token_post",
+        "responses": {
+          "200": {
+            "description": "New access token.",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/auth/health": {
+      "get": {
+        "tags": ["Secure Chain Auth"],
+        "summary": "Health Check",
+        "description": "Check the status of the API.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "API status.",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/depex/health": {
+      "get": {
+        "tags": ["Secure Chain Depex"],
+        "summary": "Health Check",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/depex/graph/repositories/{user_id}": {
+      "get": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Get Repositories",
+        "operationId": "get_repositories_graph_repositories__user_id__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "pattern": "^[a-fA-F0-9]{24}$", "title": "User Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depex/graph/package/status": {
+      "get": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Get Package Status",
+        "operationId": "get_package_status_graph_package_status_get",
+        "parameters": [
+          {
+            "name": "node_type",
+            "in": "query",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/NodeType" }
+          },
+          {
+            "name": "package_name",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Package Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depex/graph/version/status": {
+      "get": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Get Version Status",
+        "operationId": "get_version_status_graph_version_status_get",
+        "parameters": [
+          {
+            "name": "node_type",
+            "in": "query",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/NodeType" }
+          },
+          {
+            "name": "package_name",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Package Name" }
+          },
+          {
+            "name": "version_name",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Version Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depex/graph/version/init": {
+      "post": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Init Version",
+        "operationId": "init_version_graph_version_init_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/InitVersionRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/graph/package/init": {
+      "post": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Init Package",
+        "operationId": "init_package_graph_package_init_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/InitPackageRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/graph/repository/init": {
+      "post": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Init Repository",
+        "operationId": "init_repository_graph_repository_init_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InitRepositoryRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/file/file_info": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/File"],
+        "summary": "File Info",
+        "operationId": "file_info_operation_file_file_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/FileInfoRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/file/valid_graph": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/File"],
+        "summary": "Valid Graph",
+        "operationId": "valid_graph_operation_file_valid_graph_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ValidGraphRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/file/minimize_impact": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/File"],
+        "summary": "Minimize Impact",
+        "operationId": "minimize_impact_operation_file_minimize_impact_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/MinMaxImpactRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/file/maximize_impact": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/File"],
+        "summary": "Maximize Impact",
+        "operationId": "maximize_impact_operation_file_maximize_impact_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/MinMaxImpactRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/file/filter_configs": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/File"],
+        "summary": "Filter Configs",
+        "operationId": "filter_configs_operation_file_filter_configs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FilterConfigsRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/config/valid_config": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/Config"],
+        "summary": "Valid Config",
+        "operationId": "valid_config_operation_config_valid_config_post",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ValidConfigRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/config/complete_config": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/Config"],
+        "summary": "Complete Config",
+        "operationId": "complete_config_operation_config_complete_config_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CompleteConfigRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/depex/operation/config/config_by_impact": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/Config"],
+        "summary": "Config By Impact",
+        "operationId": "config_by_impact_operation_config_config_by_impact_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ConfigByImpactRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountExistsRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "User's email address."
+          }
+        },
+        "type": "object",
+        "required": ["email"],
+        "title": "AccountExistsRequest"
+      },
+      "ChangePasswordRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "User's email address."
+          },
+          "old_password": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 8,
+            "title": "Old Password",
+            "description": "User's old password."
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 8,
+            "title": "New Password",
+            "description": "User's new password."
+          }
+        },
+        "type": "object",
+        "required": ["email", "old_password", "new_password"],
+        "title": "ChangePasswordRequest"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "User's email address."
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 8,
+            "title": "Password",
+            "description": "User's password."
+          }
+        },
+        "type": "object",
+        "required": ["email", "password"],
+        "title": "LoginRequest"
+      },
+      "SignUpRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "User's email address."
+          },
+          "password": { "type": "string", "title": "Password", "description": "User's password." }
+        },
+        "type": "object",
+        "required": ["email", "password"],
+        "title": "SignUpRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      },
+      "VerifyTokenRequest": {
+        "properties": {
+          "token": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Token",
+            "description": "The token to verify."
+          }
+        },
+        "type": "object",
+        "required": ["token"],
+        "title": "VerifyTokenRequest"
+      },
+      "Agregator": { "type": "string", "enum": ["mean", "weighted_mean"], "title": "Agregator" },
+      "CompleteConfigRequest": {
+        "properties": {
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "max_level": { "type": "integer", "title": "Max Level" },
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "agregator": { "$ref": "#/components/schemas/Agregator" },
+          "config": {
+            "additionalProperties": { "type": "string" },
+            "type": "object",
+            "title": "Config"
+          }
+        },
+        "type": "object",
+        "required": ["requirement_file_id", "max_level", "node_type", "agregator", "config"],
+        "title": "CompleteConfigRequest"
+      },
+      "ConfigByImpactRequest": {
+        "properties": {
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "max_level": { "type": "integer", "title": "Max Level" },
+          "impact": { "type": "number", "maximum": 10.0, "minimum": 0.0, "title": "Impact" },
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "agregator": { "$ref": "#/components/schemas/Agregator" }
+        },
+        "type": "object",
+        "required": ["requirement_file_id", "max_level", "impact", "node_type", "agregator"],
+        "title": "ConfigByImpactRequest"
+      },
+      "FileInfoRequest": {
+        "properties": {
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "max_level": { "type": "integer", "title": "Max Level" }
+        },
+        "type": "object",
+        "required": ["node_type", "requirement_file_id", "max_level"],
+        "title": "FileInfoRequest"
+      },
+      "FilterConfigsRequest": {
+        "properties": {
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "max_threshold": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Max Threshold"
+          },
+          "min_threshold": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Min Threshold"
+          },
+          "limit": { "type": "integer", "minimum": 1.0, "title": "Limit" },
+          "max_level": { "type": "integer", "title": "Max Level" },
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "agregator": { "$ref": "#/components/schemas/Agregator" }
+        },
+        "type": "object",
+        "required": [
+          "requirement_file_id",
+          "max_threshold",
+          "min_threshold",
+          "limit",
+          "max_level",
+          "node_type",
+          "agregator"
+        ],
+        "title": "FilterConfigsRequest"
+      },
+      "InitPackageRequest": {
+        "properties": {
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "package_name": { "type": "string", "title": "Package Name" }
+        },
+        "type": "object",
+        "required": ["node_type", "package_name"],
+        "title": "InitPackageRequest"
+      },
+      "InitRepositoryRequest": {
+        "properties": {
+          "owner": { "type": "string", "title": "Owner" },
+          "name": { "type": "string", "title": "Name" },
+          "moment": { "type": "string", "format": "date-time", "title": "Moment" },
+          "add_extras": { "type": "boolean", "title": "Add Extras", "default": false },
+          "is_complete": { "type": "boolean", "title": "Is Complete", "default": false },
+          "user_id": { "type": "string", "title": "User Id" }
+        },
+        "type": "object",
+        "required": ["owner", "name", "user_id"],
+        "title": "InitRepositoryRequest"
+      },
+      "InitVersionRequest": {
+        "properties": {
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "package_name": { "type": "string", "title": "Package Name" },
+          "version_name": { "type": "string", "title": "Version Name" }
+        },
+        "type": "object",
+        "required": ["node_type", "package_name", "version_name"],
+        "title": "InitVersionRequest"
+      },
+      "MinMaxImpactRequest": {
+        "properties": {
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "limit": { "type": "integer", "minimum": 1.0, "title": "Limit" },
+          "max_level": { "type": "integer", "title": "Max Level" },
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "agregator": { "$ref": "#/components/schemas/Agregator" }
+        },
+        "type": "object",
+        "required": ["requirement_file_id", "limit", "max_level", "node_type", "agregator"],
+        "title": "MinMaxImpactRequest"
+      },
+      "NodeType": {
+        "type": "string",
+        "enum": [
+          "RubyGemsPackage",
+          "CargoPackage",
+          "NuGetPackage",
+          "PyPIPackage",
+          "NPMPackage",
+          "MavenPackage"
+        ],
+        "title": "NodeType"
+      },
+      "ValidConfigRequest": {
+        "properties": {
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "max_level": { "type": "integer", "title": "Max Level" },
+          "node_type": { "$ref": "#/components/schemas/NodeType" },
+          "agregator": { "$ref": "#/components/schemas/Agregator" },
+          "config": {
+            "additionalProperties": { "type": "string" },
+            "type": "object",
+            "title": "Config"
+          }
+        },
+        "type": "object",
+        "required": ["requirement_file_id", "max_level", "node_type", "agregator", "config"],
+        "title": "ValidConfigRequest"
+      },
+      "ValidGraphRequest": {
+        "properties": {
+          "requirement_file_id": {
+            "type": "string",
+            "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
+            "title": "Requirement File Id"
+          },
+          "max_level": { "type": "integer", "title": "Max Level" },
+          "node_type": { "$ref": "#/components/schemas/NodeType" }
+        },
+        "type": "object",
+        "required": ["requirement_file_id", "max_level", "node_type"],
+        "title": "ValidGraphRequest"
+      }
+    }
+  },
+  "tags": [
+    { "name": "Secure Chain Auth", "description": "Endpoints for Secure Chain Auth" },
+    { "name": "Secure Chain Depex", "description": "Endpoints for Secure Chain Depex" },
+    {
+      "name": "Secure Chain Depex - Graph",
+      "description": "Endpoints for Secure Chain Depex - Graph"
+    },
+    {
+      "name": "Secure Chain Depex - Operation/Config",
+      "description": "Endpoints for Secure Chain Depex - Operation/Config"
+    },
+    {
+      "name": "Secure Chain Depex - Operation/File",
+      "description": "Endpoints for Secure Chain Depex - Operation/File"
+    }
+  ]
+}

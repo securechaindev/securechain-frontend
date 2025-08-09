@@ -75,7 +75,7 @@ export default async function LandingPage({ params }: PageProps) {
             <TryButton locale={locale} buttonText={t.loginButton} />
             <Button size="lg" variant="outline" asChild>
               <a href={`/${locale}/docs`}>
-                {t.openApiDocsButton} <ExternalLink className="h-4 w-4 ml-2" />
+                {t.apiDocsButton} <ExternalLink className="h-4 w-4 ml-2" />
               </a>
             </Button>
           </div>

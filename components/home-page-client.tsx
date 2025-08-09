@@ -14,6 +14,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { useToast } from '@/hooks/use-toast'
 import {
   User,
@@ -29,7 +37,7 @@ import {
 import dynamic from 'next/dynamic'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
-import { PackageDetailsView } from '@/components/package-details-view'
+import PackageDetailsView from '@/components/package-details-view'
 import { usePackage } from '@/contexts/package-context'
 import Link from 'next/link'
 
@@ -48,67 +56,12 @@ interface User {
 
 interface HomePageClientProps {
   locale: 'en' | 'es'
-  translations: {
-    homeDashboardTitle: string
-    homeDashboardDescription: string
-    logoutButton: string
-    authenticatedStatus: string
-    sessionActiveStatus: string
-    userIdLabel: string
-    tokenActiveLabel: string
-    jwtSecuredLabel: string
-    backToLanding: string
-    loggedOutTitle: string
-    loggedOutDescription: string
-    logoutErrorTitle: string
-    logoutErrorDescription: string
-    networkErrorDescription: string
-    goToLoginTitle: string
-    goToLoginDescription: string
-    goToLoginButton: string
-    loadingDashboard: string
-
-    depexPageTitle: string
-    repositoriesTab: string
-    packagesTab: string
-    initializationTab: string
-    yourRepositoriesTitle: string
-    yourRepositoriesDescription: string
-    refreshRepositoriesButton: string
-    noRepositoriesFound: string
-    packageVersionStatusTitle: string
-    checkPackageStatusTitle: string
-    packageNameLabel: string
-    packageNamePlaceholder: string
-    checkPackageStatusButton: string
-    checkVersionStatusTitle: string
-    packageVersionLabel: string
-    packageVersionPlaceholder: string
-    checkVersionStatusButton: string
-    initializeDataTitle: string
-    initializeRepositoryTitle: string
-    repositoryOwnerLabel: string
-    repositoryOwnerPlaceholder: string
-    repositoryNameLabel: string
-    repositoryNamePlaceholder: string
-    initializeRepositoryButton: string
-    initializePackageTitle: string
-    initPackageNamePlaceholder: string
-    initializePackageButton: string
-    initializeVersionTitle: string
-    initPackageVersionPlaceholder: string
-    initializeVersionButton: string
-    repositoryInitialized: string
-    packageInitialized: string
-    versionInitialized: string
-    packageStatus: string
-    versionStatus: string
-    loadingText: string
-    errorTitle: string
-  }
+  translations: Record<string, any>
 }
 
 export default function HomePageClient({ locale, translations: t }: HomePageClientProps) {
+  const [currentLocale, setCurrentLocale] = useState<'en' | 'es'>(locale)
+  const [currentTranslations, setCurrentTranslations] = useState(t)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -120,13 +73,26 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   const [packageName, setPackageName] = useState('')
   const [nodeType, setNodeType] = useState('PyPIPackage')
   const [repoInitResult, setRepoInitResult] = useState<any>(null)
-  const [packageInitResult, setPackageInitResult] = useState<any>(null)
   const [userRepositories, setUserRepositories] = useState<any[]>([])
   const [depexLoading, setDepexLoading] = useState(false)
+  const [showPackageInitModal, setShowPackageInitModal] = useState(false)
+  const [pendingPackageInit, setPendingPackageInit] = useState<{packageName: string, nodeType: string} | null>(null)
 
   const { toast } = useToast()
   const router = useRouter()
   const { setPackageDetails, setIsViewingPackage, isViewingPackage } = usePackage()
+
+  const handleLocaleChange = async (newLocale: 'en' | 'es') => {
+    try {
+      // Import getDictionary dynamically to avoid circular dependencies
+      const { getDictionary } = await import('@/lib/i18n')
+      const newTranslations = await getDictionary(newLocale)
+      setCurrentLocale(newLocale)
+      setCurrentTranslations(newTranslations)
+    } catch (error) {
+      console.error('Error changing language:', error)
+    }
+  }
 
   const fetchUserRepositories = useCallback(async () => {
     if (!userId) {
@@ -281,6 +247,10 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         // Set package details in context and show the view
         setPackageDetails(data.package)
         setIsViewingPackage(true)
+      } else if (response.status === 404 || data.error?.includes('not found') || data.message?.includes('not found')) {
+        // Package doesn't exist, show initialization modal
+        setPendingPackageInit({ packageName, nodeType })
+        setShowPackageInitModal(true)
       } else {
         toast({
           title: t.errorTitle,
@@ -300,8 +270,10 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   }
 
   const handlePackageInit = async () => {
+    if (!pendingPackageInit) return
+    
+    const packageToInit = pendingPackageInit
     setDepexLoading(true)
-    setPackageInitResult(null)
     try {
       const response = await fetch('/api/depex/package/init', {
         method: 'POST',
@@ -309,15 +281,19 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, packageName }),
+        body: JSON.stringify({
+          package_name: packageToInit.packageName,
+          node_type: packageToInit.nodeType 
+        }),
       })
       const data = await response.json()
-      setPackageInitResult(data)
       if (response.ok) {
         toast({
           title: t.packageInitialized,
           description: data.message,
         })
+        setShowPackageInitModal(false)
+        setPendingPackageInit(null)
       } else {
         toast({
           title: t.errorTitle,
@@ -334,6 +310,11 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     } finally {
       setDepexLoading(false)
     }
+  }
+
+  const handleCancelPackageInit = () => {
+    setShowPackageInitModal(false)
+    setPendingPackageInit(null)
   }
 
   if (loading) {
@@ -370,7 +351,15 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
 
   // Show package details view if viewing package
   if (isViewingPackage) {
-    return <PackageDetailsView />
+    return (
+      <PackageDetailsView 
+        translations={currentTranslations} 
+        locale={currentLocale} 
+        onLocaleChange={handleLocaleChange}
+        userEmail={user?.email}
+        onLogout={handleLogout}
+      />
+    )
   }
 
   return (
@@ -613,41 +602,32 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
                       </div>
                     )}
                   </div>
-
-                  <div className="space-y-4 border-t pt-6 mt-6">
-                    <h3 className="text-lg font-semibold">{t.initializePackageTitle}</h3>
-                    <div className="grid gap-2">
-                      <Label htmlFor="initPackageName">{t.packageNameLabel}</Label>
-                      <Input
-                        id="initPackageName"
-                        value={packageName}
-                        onChange={e => setPackageName(e.target.value)}
-                        placeholder={t.initPackageNamePlaceholder}
-                      />
-                    </div>
-                    <Button onClick={handlePackageInit} disabled={depexLoading}>
-                      {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                      {t.initializePackageButton}
-                    </Button>
-                    {packageInitResult && (
-                      <div
-                        className={`p-3 rounded-md flex items-center gap-2 ${packageInitResult.success ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
-                      >
-                        {packageInitResult.success ? (
-                          <CheckCircle className="h-5 w-5" />
-                        ) : (
-                          <XCircle className="h-5 w-5" />
-                        )}
-                        <span>{packageInitResult.message}</span>
-                      </div>
-                    )}
-                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
         </div>
       </div>
+
+      {/* Package Initialization Modal */}
+      <Dialog open={showPackageInitModal} onOpenChange={setShowPackageInitModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{currentTranslations.initializePackageModalTitle}</DialogTitle>
+            <DialogDescription>
+              {currentTranslations.initializePackageModalDescription.replace('{packageName}', pendingPackageInit?.packageName || '')}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center space-x-2">
+            <Button onClick={handlePackageInit} disabled={depexLoading}>
+              {depexLoading ? currentTranslations.initializingPackage : currentTranslations.initializePackageButton}
+            </Button>
+            <Button variant="outline" onClick={handleCancelPackageInit}>
+              {currentTranslations.cancelButton}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

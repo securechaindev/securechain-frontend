@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks'
+import { useToast } from '../ui/use-toast'
 import { STORAGE_KEYS, API_ENDPOINTS } from '@/constants'
 import type { User } from '@/types/auth'
 

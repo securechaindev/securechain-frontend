@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
-import { authenticatedFetch, checkAuthStatus, isTokenExpired } from '../lib/auth'
+import { authenticatedFetch, checkAuthStatus, isTokenExpired } from '../../lib/auth/auth'
 import { API_ENDPOINTS } from '@/constants'
 
 export function useAuth() {

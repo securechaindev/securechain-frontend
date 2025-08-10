@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
-import { useToast } from '@/hooks'
-import { usePackage } from '@/context/package-context'
+import { useToast } from '../ui/use-toast'
+import { usePackage } from '@/context'
 import { API_ENDPOINTS } from '@/constants'
 import type { NodeType, PackageInitData } from '@/types/package'
 

@@ -1,6 +1,6 @@
 'use client'
-import { useState, useCallback } from 'react'
-import { useToast } from '@/hooks'
+import { useState, useEffect, useCallback } from 'react'
+import { useToast } from '../ui/use-toast'
 import { API_ENDPOINTS } from '@/constants'
 import type { Repository } from '@/types/repository'
 

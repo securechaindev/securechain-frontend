@@ -1,6 +1,11 @@
-// Original hooks
-export * from './use-auth'
-export * from './use-auth-state'
-export * from './use-mobile'
-export * from './use-toast'
-export * from './useHomeAuth'
+// Authentication hooks
+export * from './auth'
+
+// UI hooks
+export * from './ui'
+
+// API hooks
+export * from './api'
+
+// Utility hooks
+export * from './utils'

@@ -5,6 +5,8 @@
 export * from './client'
 
 // Server-only utilities
-export * from './config'
+export * from './auth/server-auth'
 export * from './server-i18n'
-export * from './api-auth'
+
+// Server-only config (explicit import required)
+// Use: import { serverConfig } from '@/lib/config/config'

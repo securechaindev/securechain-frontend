@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getApiTranslations, getTranslation } from './server-i18n'
-import { POST as refreshTokenRoute } from '../app/api/auth/refresh_token/route'
+import { getApiTranslations, getTranslation } from '../server-i18n'
+import { POST as refreshTokenRoute } from '../../app/api/auth/refresh_token/route'
 
 const BACKEND_URL = process.env.BACKEND_URL
 

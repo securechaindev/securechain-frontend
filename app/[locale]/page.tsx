@@ -12,14 +12,14 @@ import {
   BookOpen,
 } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { LanguageToggle } from '@/components/language-toggle'
-import { TryButton } from '@/components/try-button'
+import { ThemeToggle } from '@/components/layout'
+import { LanguageToggle } from '@/components/layout'
+import { TryButton } from '@/components/common'
 import Image from 'next/image'
-import { ContactModal } from '@/components/contact-modal'
+import { ContactModal } from '@/components/common'
 import { getDictionary, type Locale } from '@/lib/i18n'
-import { ArchitectureDiagram } from '@/components/architecture-diagram'
-import { OverviewDiagram } from '@/components/overview-diagram'
+import { ArchitectureDiagram } from '@/components/feature/diagrams'
+import { OverviewDiagram } from '@/components/feature/diagrams'
 
 interface PageProps {
   params: Promise<{ locale: Locale }>

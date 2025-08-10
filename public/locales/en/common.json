@@ -226,6 +226,7 @@
   "checkPackageStatusTitle": "Check Package Status",
   "packageNameLabel": "Package Name",
   "packageNamePlaceholder": "e.g., react",
+  "packageNameRequired": "Package name is required",
   "checkPackageStatusButton": "Check Package Status",
   "checkVersionStatusTitle": "Check Version Status",
   "packageVersionLabel": "Package Version",

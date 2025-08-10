@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
-import HomePageClient from '@/components/home-page-client'
+import { HomePageClient } from '@/components/feature/dashboard'
 
 interface HomePageProps {
   params: Promise<{

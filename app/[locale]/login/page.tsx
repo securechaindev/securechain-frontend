@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
-import LoginPageClient from '@/components/login-page-client'
+import { LoginPageClient } from '@/components/feature/auth'
 
 interface LoginPageProps {
   params: Promise<{

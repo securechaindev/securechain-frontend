@@ -226,6 +226,7 @@
   "checkPackageStatusTitle": "Verificar Estado del Paquete",
   "packageNameLabel": "Nombre del Paquete",
   "packageNamePlaceholder": "ej., react",
+  "packageNameRequired": "El nombre del paquete es obligatorio",
   "checkPackageStatusButton": "Verificar Estado del Paquete",
   "checkVersionStatusTitle": "Verificar Estado de la Versión",
   "packageVersionLabel": "Versión del Paquete",

@@ -1,6 +1,8 @@
+import { API_ENDPOINTS } from '@/constants'
+
 export async function isTokenExpired(): Promise<boolean> {
   try {
-    const response = await fetch('/api/auth/check_token', {
+    const response = await fetch(API_ENDPOINTS.AUTH.CHECK_TOKEN, {
       method: 'GET',
       credentials: 'include',
     })
@@ -16,7 +18,7 @@ export async function checkAuthStatus(): Promise<{
   tokenValid: boolean
 }> {
   try {
-    const response = await fetch('/api/auth/check_token', {
+    const response = await fetch(API_ENDPOINTS.AUTH.CHECK_TOKEN, {
       method: 'GET',
       credentials: 'include',
     })
@@ -47,7 +49,7 @@ export async function refreshAccessToken(): Promise<{
   success: boolean
 }> {
   try {
-    const response = await fetch('/api/auth/refresh_token', {
+    const response = await fetch(API_ENDPOINTS.AUTH.REFRESH_TOKEN, {
       method: 'POST',
       credentials: 'include',
     })

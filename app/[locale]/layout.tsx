@@ -1,9 +1,9 @@
 import type React from 'react'
 import { Inter } from 'next/font/google'
 import { notFound } from 'next/navigation'
-import { ThemeProvider } from '@/components/theme-provider'
-import { Toaster } from '@/components/toaster'
-import { PackageProvider } from '@/contexts/package-context'
+import { ThemeProvider } from '@/components/providers'
+import { Toaster } from '@/components/ui/toaster'
+import { PackageProvider } from '@/context/package-context'
 
 const inter = Inter({ subsets: ['latin'] })
 

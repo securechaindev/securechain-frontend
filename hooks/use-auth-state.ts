@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { STORAGE_KEYS, API_ENDPOINTS } from '@/constants'
 
 interface AuthState {
   isAuthenticated: boolean
@@ -18,7 +19,7 @@ export function useAuthState() {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch('/api/auth/check_token', {
+      const response = await fetch(API_ENDPOINTS.AUTH.CHECK_TOKEN, {
         method: 'GET',
         credentials: 'include',
       })
@@ -28,7 +29,7 @@ export function useAuthState() {
         setAuthState({
           isAuthenticated: true,
           isLoading: false,
-          userId: data.user_id || localStorage.getItem('user_id'),
+          userId: data.user_id || localStorage.getItem(STORAGE_KEYS.USER_ID),
           email: localStorage.getItem('user_email'),
         })
       } else {
@@ -39,7 +40,7 @@ export function useAuthState() {
           email: null,
         })
         localStorage.removeItem('access_token')
-        localStorage.removeItem('user_id')
+        localStorage.removeItem(STORAGE_KEYS.USER_ID)
         localStorage.removeItem('user_email')
       }
     } catch (error) {
@@ -55,7 +56,7 @@ export function useAuthState() {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,8 +68,8 @@ export function useAuthState() {
       const data = await response.json()
 
       if (response.ok && data.code === 'success') {
-        localStorage.setItem('user_id', data.user_id)
-        localStorage.setItem('user_email', email)
+        localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
+        localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email)
 
         setAuthState({
           isAuthenticated: true,
@@ -89,7 +90,7 @@ export function useAuthState() {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', {
+      await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
         method: 'POST',
         credentials: 'include',
       })
@@ -97,8 +98,8 @@ export function useAuthState() {
       console.error('Logout error:', error)
     } finally {
       localStorage.removeItem('access_token')
-      localStorage.removeItem('user_id')
-      localStorage.removeItem('user_email')
+      localStorage.removeItem(STORAGE_KEYS.USER_ID)
+      localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
       setAuthState({
         isAuthenticated: false,
         isLoading: false,
@@ -121,7 +122,7 @@ export function useAuthState() {
     const response = await fetch(url, defaultOptions)
 
     if (response.status === 401) {
-      const refreshResponse = await fetch('/api/auth/refresh_token', {
+      const refreshResponse = await fetch(API_ENDPOINTS.AUTH.REFRESH_TOKEN, {
         method: 'POST',
         credentials: 'include',
       })

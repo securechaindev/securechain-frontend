@@ -77,6 +77,6 @@ export function useHomeAuth(locale: 'en' | 'es') {
     isSubmitting,
     userId,
     handleLogout,
-    setIsSubmitting
+    setIsSubmitting,
   }
 }

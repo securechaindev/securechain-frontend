@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/ui'
 import { useAuthState } from '@/hooks/auth'
 
-
 interface UseLoginFormProps {
   locale: 'en' | 'es'
   translations: {
@@ -40,7 +39,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
-    
+
     if (!loginEmail || !loginPassword) {
       toast({
         title: t.errorTitle,

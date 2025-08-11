@@ -40,12 +40,12 @@ interface PackageDetailsViewProps {
   onLogout?: () => void
 }
 
-export default function PackageDetailsView({ 
-  translations, 
-  locale, 
+export default function PackageDetailsView({
+  translations,
+  locale,
   onLocaleChange,
   userEmail,
-  onLogout 
+  onLogout,
 }: PackageDetailsViewProps) {
   const { packageDetails, setIsViewingPackage } = usePackage()
   const [sortBy, setSortBy] = useState<'date' | 'vulnerabilities' | 'score'>('date')
@@ -121,7 +121,7 @@ export default function PackageDetailsView({
                 <span className="font-bold">{translations.docs.packageDetailsTitle}</span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-2">
               {userEmail && (
                 <Badge variant="secondary" className="gap-1">
@@ -129,7 +129,7 @@ export default function PackageDetailsView({
                   {userEmail}
                 </Badge>
               )}
-              
+
               <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -157,7 +157,7 @@ export default function PackageDetailsView({
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
-              
+
               {onLogout && (
                 <Button
                   variant="outline"
@@ -213,7 +213,8 @@ export default function PackageDetailsView({
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>
-                  {translations.docs.versions} ({sortedVersions.length} {translations.docs.versionsOf} {packageDetails.versions.length})
+                  {translations.docs.versions} ({sortedVersions.length}{' '}
+                  {translations.docs.versionsOf} {packageDetails.versions.length})
                 </span>
                 <div className="flex items-center gap-2">
                   <select
@@ -222,7 +223,9 @@ export default function PackageDetailsView({
                     className="px-3 py-1 text-sm border rounded-md bg-background"
                   >
                     <option value="date">{translations.docs.sortByDate}</option>
-                    <option value="vulnerabilities">{translations.docs.sortByVulnerabilities}</option>
+                    <option value="vulnerabilities">
+                      {translations.docs.sortByVulnerabilities}
+                    </option>
                     <option value="score">{translations.docs.sortByScore}</option>
                   </select>
                   <Button
@@ -292,7 +295,9 @@ export default function PackageDetailsView({
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div>
-                      <p className="text-sm text-muted-foreground">{translations.docs.weightedMean}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {translations.docs.weightedMean}
+                      </p>
                       <p className="text-lg font-semibold">{version.weighted_mean.toFixed(2)}</p>
                     </div>
                     <div>
@@ -300,7 +305,9 @@ export default function PackageDetailsView({
                       <p className="text-lg font-semibold">{version.mean.toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">{translations.docs.vulnerabilities}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {translations.docs.vulnerabilities}
+                      </p>
                       <p className="text-lg font-semibold flex items-center gap-1">
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
                         {version.vulnerabilities.length}
@@ -310,14 +317,18 @@ export default function PackageDetailsView({
 
                   {version.vulnerabilities.length > 0 && (
                     <div>
-                      <p className="text-sm text-muted-foreground mb-2">{translations.docs.vulnerabilities}:</p>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {translations.docs.vulnerabilities}:
+                      </p>
                       <div className="flex flex-wrap gap-2">
                         {version.vulnerabilities.map((vuln, vulnIndex) => (
-                          <Badge 
-                            key={vulnIndex} 
-                            variant="destructive" 
+                          <Badge
+                            key={vulnIndex}
+                            variant="destructive"
                             className="text-xs cursor-pointer hover:bg-destructive/80 transition-colors"
-                            onClick={() => window.open(`https://osv.dev/vulnerability/${vuln}`, '_blank')}
+                            onClick={() =>
+                              window.open(`https://osv.dev/vulnerability/${vuln}`, '_blank')
+                            }
                           >
                             {vuln}
                           </Badge>

@@ -62,7 +62,7 @@ export function useAuthState() {
     if (!isClient || typeof window === 'undefined') {
       return { success: false, error: 'Login must be called after client hydration' }
     }
-    
+
     try {
       const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
@@ -75,11 +75,8 @@ export function useAuthState() {
 
       const data = await response.json()
 
-      const isSuccess = response.ok && (
-        data.code === 'login_success' && 
-        response.status === 200 &&
-        data.user_id
-      )
+      const isSuccess =
+        response.ok && data.code === 'login_success' && response.status === 200 && data.user_id
 
       if (isSuccess) {
         localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
@@ -94,9 +91,9 @@ export function useAuthState() {
 
         return { success: true, data }
       } else {
-        return { 
-          success: false, 
-          error: data.message || data.detail || data.error || 'Credenciales inválidas' 
+        return {
+          success: false,
+          error: data.message || data.detail || data.error || 'Credenciales inválidas',
         }
       }
     } catch (error) {

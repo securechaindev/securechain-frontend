@@ -17,7 +17,7 @@ export default function InitializationTab({ userId, translations }: Initializati
   const [repoName, setRepoName] = useState('')
   const [repoInitResult, setRepoInitResult] = useState<RepositoryInitResult | null>(null)
   const [depexLoading, setDepexLoading] = useState(false)
-  
+
   const { toast } = useToast()
 
   const handleRepoInit = async () => {

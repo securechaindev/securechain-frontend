@@ -10,7 +10,7 @@ import type { PackageInitData } from '@/types'
 
 interface PackageInitModalProps {
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange: (_open: boolean) => void
   pendingPackageInit: PackageInitData | null
   depexLoading: boolean
   translations: Record<string, any>
@@ -25,16 +25,18 @@ export default function PackageInitModal({
   depexLoading,
   translations,
   onInitialize,
-  onCancel
+  onCancel,
 }: PackageInitModalProps) {
-  
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{translations.initializePackageModalTitle}</DialogTitle>
           <DialogDescription>
-            {translations.initializePackageModalDescription.replace('{packageName}', pendingPackageInit?.packageName || '')}
+            {translations.initializePackageModalDescription.replace(
+              '{packageName}',
+              pendingPackageInit?.packageName || ''
+            )}
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">

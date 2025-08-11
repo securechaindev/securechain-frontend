@@ -14,7 +14,7 @@ interface Environment {
 // Parse and validate environment variables
 function parseEnv(): Environment {
   const env = process.env as any
-  
+
   return {
     NODE_ENV: env.NODE_ENV || 'development',
     NEXT_PUBLIC_API_URL: env.NEXT_PUBLIC_API_URL,

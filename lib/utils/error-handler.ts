@@ -1,12 +1,6 @@
 import { toast } from '@/hooks/ui'
 import { HTTP_STATUS } from '@/constants'
-import { 
-  BaseError,
-  APIError,
-  ValidationError,
-  NetworkError,
-  AuthenticationError
-} from './errors'
+import { BaseError, APIError, ValidationError, NetworkError, AuthenticationError } from './errors'
 
 export interface ErrorContext {
   component?: string
@@ -22,7 +16,7 @@ export interface ErrorHandlerOptions {
   logError?: boolean
   rethrow?: boolean
   fallbackMessage?: string
-  onError?: (error: BaseError, context?: ErrorContext) => void
+  onError?: (_error: BaseError, _context?: ErrorContext) => void
 }
 
 class ErrorHandler {
@@ -30,14 +24,10 @@ class ErrorHandler {
     showToast: true,
     logError: true,
     rethrow: false,
-    fallbackMessage: 'An unexpected error occurred'
+    fallbackMessage: 'An unexpected error occurred',
   }
 
-  public handle(
-    error: unknown,
-    context?: ErrorContext,
-    options?: ErrorHandlerOptions
-  ): void {
+  public handle(error: unknown, context?: ErrorContext, options?: ErrorHandlerOptions): void {
     const opts = { ...this.defaultOptions, ...options }
     const processedError = this.processError(error)
 
@@ -86,21 +76,12 @@ class ErrorHandler {
     // Handle object errors (e.g., from API responses)
     if (typeof error === 'object' && error !== null) {
       const errorObj = error as any
-      
+
       if (errorObj.status && errorObj.message) {
-        return new APIError(
-          errorObj.status,
-          errorObj.message,
-          errorObj.code,
-          errorObj.details
-        )
+        return new APIError(errorObj.status, errorObj.message, errorObj.code, errorObj.details)
       }
 
-      return new BaseError(
-        'ObjectError',
-        errorObj.message || 'Unknown error occurred',
-        true
-      )
+      return new BaseError('ObjectError', errorObj.message || 'Unknown error occurred', true)
     }
 
     return new BaseError('UnknownError', 'An unknown error occurred', true)
@@ -113,7 +94,7 @@ class ErrorHandler {
       stack: error.stack,
       isOperational: error.isOperational,
       context,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
 
     // Add specific error type data
@@ -121,36 +102,30 @@ class ErrorHandler {
       Object.assign(logData, {
         status: error.status,
         code: error.code,
-        details: error.details
+        details: error.details,
       })
     }
 
     if (error instanceof ValidationError) {
       Object.assign(logData, {
         field: error.field,
-        value: error.value
+        value: error.value,
       })
     }
 
     if (error instanceof NetworkError) {
       Object.assign(logData, {
-        originalError: error.originalError?.message
+        originalError: error.originalError?.message,
       })
     }
 
-    // In development, log to console
     if (process.env.NODE_ENV === 'development') {
-      console.group(`🚨 ${error.name}`)
       console.error('Message:', error.message)
       console.error('Stack:', error.stack)
       if (context) {
         console.error('Context:', context)
       }
-      console.groupEnd()
     }
-
-    // In production, you would send to your logging service
-    // Example: sendToLoggingService(logData)
   }
 
   private showErrorToast(error: BaseError, fallbackMessage: string): void {
@@ -205,7 +180,7 @@ class ErrorHandler {
     toast({
       variant: 'destructive',
       title,
-      description
+      description,
     })
   }
 
@@ -215,14 +190,14 @@ class ErrorHandler {
       try {
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}))
-          
+
           const apiError = new APIError(
             response.status,
             errorData.message || response.statusText,
             errorData.code,
             errorData.details
           )
-          
+
           reject(apiError)
           return
         }

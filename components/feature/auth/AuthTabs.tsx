@@ -16,30 +16,30 @@ import type { FormEvent } from 'react'
 
 interface AuthTabsProps {
   activeTab: string
-  setActiveTab: (tab: string) => void
+  setActiveTab: (_tab: string) => void
   loginProps: {
     email: string
-    setEmail: (email: string) => void
+    setEmail: (_email: string) => void
     password: string
-    setPassword: (password: string) => void
+    setPassword: (_password: string) => void
     showPassword: boolean
-    setShowPassword: (show: boolean) => void
+    setShowPassword: (_show: boolean) => void
     isSubmitting: boolean
-    onSubmit: (e: FormEvent) => void
+    onSubmit: (_e: FormEvent) => void
   }
   signupProps: {
     email: string
-    setEmail: (email: string) => void
+    setEmail: (_email: string) => void
     password: string
-    setPassword: (password: string) => void
+    setPassword: (_password: string) => void
     confirmPassword: string
-    setConfirmPassword: (password: string) => void
+    setConfirmPassword: (_password: string) => void
     showPassword: boolean
-    setShowPassword: (show: boolean) => void
+    setShowPassword: (_show: boolean) => void
     showConfirmPassword: boolean
-    setShowConfirmPassword: (show: boolean) => void
+    setShowConfirmPassword: (_show: boolean) => void
     isSubmitting: boolean
-    onSubmit: (e: FormEvent) => void
+    onSubmit: (_e: FormEvent) => void
   }
   translations: {
     authDemoTitle: string

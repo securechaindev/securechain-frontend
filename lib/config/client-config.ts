@@ -43,11 +43,11 @@ class ClientConfig {
     if (this.env.NEXT_PUBLIC_API_URL) {
       return this.env.NEXT_PUBLIC_API_URL
     }
-    
+
     if (this.isDevelopment) {
       return 'http://localhost:3001'
     }
-    
+
     return 'https://api.securechain.dev'
   }
 
@@ -55,7 +55,7 @@ class ClientConfig {
     if (this.env.NEXT_PUBLIC_APP_URL) {
       return this.env.NEXT_PUBLIC_APP_URL
     }
-    
+
     if (this.isDevelopment) {
       return 'http://localhost:3000'
     }
@@ -111,7 +111,7 @@ class ClientConfig {
       if (!this.env.NEXT_PUBLIC_API_URL) {
         errors.push('NEXT_PUBLIC_API_URL is required in production')
       }
-      
+
       if (!this.env.NEXT_PUBLIC_APP_URL) {
         errors.push('NEXT_PUBLIC_APP_URL is required in production')
       }

@@ -20,6 +20,6 @@ export function useLocalization(locale: 'en' | 'es', translations: Record<string
   return {
     currentLocale,
     currentTranslations,
-    handleLocaleChange
+    handleLocaleChange,
   }
 }

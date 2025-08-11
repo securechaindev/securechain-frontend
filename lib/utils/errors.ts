@@ -6,7 +6,7 @@ export class BaseError extends Error {
     super(message)
     this.name = name
     this.isOperational = isOperational
-    
+
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, BaseError)
@@ -19,12 +19,7 @@ export class APIError extends BaseError {
   public readonly code?: string
   public readonly details?: any
 
-  constructor(
-    status: number,
-    message: string,
-    code?: string,
-    details?: any
-  ) {
+  constructor(status: number, message: string, code?: string, details?: any) {
     super('APIError', message)
     this.status = status
     this.code = code

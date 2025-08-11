@@ -37,27 +37,24 @@ class APIClient {
       baseURL: clientConfig.apiUrl,
       timeout: clientConfig.app.api.timeout,
       retries: clientConfig.app.api.retries,
-      ...baseConfig
+      ...baseConfig,
     }
 
     this.defaultHeaders = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     }
   }
 
   // Main request method
-  async request<T = any>(
-    endpoint: string,
-    options: RequestOptions = {}
-  ): Promise<APIResponse<T>> {
+  async request<T = any>(endpoint: string, options: RequestOptions = {}): Promise<APIResponse<T>> {
     const {
       method = 'GET',
       headers = {},
       body,
       timeout = this.config.timeout,
       retries = this.config.retries,
-      signal
+      signal,
     } = options
 
     const url = this.buildURL(endpoint)
@@ -84,23 +81,41 @@ class APIClient {
   }
 
   // Convenience methods
-  async get<T = any>(endpoint: string, options?: Omit<RequestOptions, 'method' | 'body'>): Promise<APIResponse<T>> {
+  async get<T = any>(
+    endpoint: string,
+    options?: Omit<RequestOptions, 'method' | 'body'>
+  ): Promise<APIResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'GET' })
   }
 
-  async post<T = any>(endpoint: string, body?: any, options?: Omit<RequestOptions, 'method'>): Promise<APIResponse<T>> {
+  async post<T = any>(
+    endpoint: string,
+    body?: any,
+    options?: Omit<RequestOptions, 'method'>
+  ): Promise<APIResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'POST', body })
   }
 
-  async put<T = any>(endpoint: string, body?: any, options?: Omit<RequestOptions, 'method'>): Promise<APIResponse<T>> {
+  async put<T = any>(
+    endpoint: string,
+    body?: any,
+    options?: Omit<RequestOptions, 'method'>
+  ): Promise<APIResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'PUT', body })
   }
 
-  async delete<T = any>(endpoint: string, options?: Omit<RequestOptions, 'method' | 'body'>): Promise<APIResponse<T>> {
+  async delete<T = any>(
+    endpoint: string,
+    options?: Omit<RequestOptions, 'method' | 'body'>
+  ): Promise<APIResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' })
   }
 
-  async patch<T = any>(endpoint: string, body?: any, options?: Omit<RequestOptions, 'method'>): Promise<APIResponse<T>> {
+  async patch<T = any>(
+    endpoint: string,
+    body?: any,
+    options?: Omit<RequestOptions, 'method'>
+  ): Promise<APIResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'PATCH', body })
   }
 
@@ -127,7 +142,7 @@ class APIClient {
       ...options,
       method: 'POST',
       body: formData,
-      headers: uploadHeaders
+      headers: uploadHeaders,
     })
   }
 
@@ -139,13 +154,11 @@ class APIClient {
     }
 
     // Handle relative URLs
-    const baseURL = this.config.baseURL.endsWith('/') 
-      ? this.config.baseURL.slice(0, -1) 
+    const baseURL = this.config.baseURL.endsWith('/')
+      ? this.config.baseURL.slice(0, -1)
       : this.config.baseURL
-    
-    const cleanEndpoint = endpoint.startsWith('/') 
-      ? endpoint 
-      : `/${endpoint}`
+
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`
 
     return `${baseURL}${cleanEndpoint}`
   }
@@ -176,12 +189,12 @@ class APIClient {
         const userSignal = requestInit.signal
         const combinedSignal = this.combineAbortSignals([
           timeoutController.signal,
-          ...(userSignal ? [userSignal] : [])
+          ...(userSignal ? [userSignal] : []),
         ])
 
         const response = await fetch(url, {
           ...requestInit,
-          signal: combinedSignal
+          signal: combinedSignal,
         })
 
         clearTimeout(timeoutId)
@@ -204,9 +217,8 @@ class APIClient {
           data,
           status: response.status,
           headers: response.headers,
-          ok: response.ok
+          ok: response.ok,
         }
-
       } catch (error) {
         lastError = error as Error
 
@@ -263,77 +275,70 @@ export const apiClient = new APIClient()
 export const authAPI = {
   login: (credentials: { email: string; password: string }) =>
     apiClient.post(API_ENDPOINTS.AUTH.LOGIN, credentials),
-  
+
   signup: (userData: { email: string; password: string; name?: string }) =>
     apiClient.post(API_ENDPOINTS.AUTH.SIGNUP, userData),
-  
-  logout: () =>
-    apiClient.post(API_ENDPOINTS.AUTH.LOGOUT),
-  
-  refreshToken: () =>
-    apiClient.post(API_ENDPOINTS.AUTH.REFRESH_TOKEN),
-  
-  checkToken: () =>
-    apiClient.get(API_ENDPOINTS.AUTH.CHECK_TOKEN),
-  
+
+  logout: () => apiClient.post(API_ENDPOINTS.AUTH.LOGOUT),
+
+  refreshToken: () => apiClient.post(API_ENDPOINTS.AUTH.REFRESH_TOKEN),
+
+  checkToken: () => apiClient.get(API_ENDPOINTS.AUTH.CHECK_TOKEN),
+
   accountExists: (email: string) =>
     apiClient.get(`${API_ENDPOINTS.AUTH.ACCOUNT_EXISTS}?email=${encodeURIComponent(email)}`),
-  
+
   changePassword: (data: { oldPassword: string; newPassword: string }) =>
-    apiClient.post(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, data)
+    apiClient.post(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, data),
 }
 
 export const depexAPI = {
-  getRepositories: (userId: string) =>
-    apiClient.get(API_ENDPOINTS.DEPEX.REPOSITORIES(userId)),
-  
-  initializeRepository: (data: any) =>
-    apiClient.post(API_ENDPOINTS.DEPEX.REPOSITORY_INIT, data),
-  
+  getRepositories: (userId: string) => apiClient.get(API_ENDPOINTS.DEPEX.REPOSITORIES(userId)),
+
+  initializeRepository: (data: any) => apiClient.post(API_ENDPOINTS.DEPEX.REPOSITORY_INIT, data),
+
   getPackageStatus: (params: string) =>
     apiClient.get(`${API_ENDPOINTS.DEPEX.PACKAGE_STATUS}?${params}`),
-  
-  initializePackage: (data: any) =>
-    apiClient.post(API_ENDPOINTS.DEPEX.PACKAGE_INIT, data),
-  
+
+  initializePackage: (data: any) => apiClient.post(API_ENDPOINTS.DEPEX.PACKAGE_INIT, data),
+
   getVersionStatus: (params: string) =>
     apiClient.get(`${API_ENDPOINTS.DEPEX.VERSION_STATUS}?${params}`),
-  
-  initializeVersion: (data: any) =>
-    apiClient.post(API_ENDPOINTS.DEPEX.VERSION_INIT, data),
-  
+
+  initializeVersion: (data: any) => apiClient.post(API_ENDPOINTS.DEPEX.VERSION_INIT, data),
+
   // Operation endpoints
   operations: {
     config: {
       getCompleteConfig: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.CONFIG.COMPLETE_CONFIG}?${params}`),
-      
+
       getConfigByImpact: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.CONFIG.CONFIG_BY_IMPACT}?${params}`),
-      
+
       getValidConfig: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.CONFIG.VALID_CONFIG}?${params}`),
     },
     file: {
       getFileInfo: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.FILE_INFO}?${params}`),
-      
+
       filterConfigs: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.FILTER_CONFIGS}?${params}`),
-      
+
       maximizeImpact: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.MAXIMIZE_IMPACT}?${params}`),
-      
+
       minimizeImpact: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.MINIMIZE_IMPACT}?${params}`),
-      
+
       getValidGraph: (params: string) =>
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.VALID_GRAPH}?${params}`),
-    }
-  }
+    },
+  },
 }
 
 export const contactAPI = {
   sendMessage: (data: { name: string; email: string; message: string }) =>
-    apiClient.post(API_ENDPOINTS.CONTACT, data)
+    apiClient.post(API_ENDPOINTS.CONTACT, data),
 }

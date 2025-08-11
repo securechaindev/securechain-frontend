@@ -1,7 +1,7 @@
 'use client'
 
 import PackageDetailsView from './PackageDetailsView'
-import { LoadingSpinner}  from '@/components/ui'
+import { LoadingSpinner } from '@/components/ui'
 import AuthRedirect from './AuthRedirect'
 import HomeHeader from './HomeHeader'
 import HomeTabs from './HomeTabs'
@@ -30,9 +30,9 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   // Show package details view if viewing package
   if (isViewingPackage) {
     return (
-      <PackageDetailsView 
-        translations={currentTranslations} 
-        locale={currentLocale} 
+      <PackageDetailsView
+        translations={currentTranslations}
+        locale={currentLocale}
         onLocaleChange={handleLocaleChange}
         userEmail={user?.email}
         onLogout={() => handleLogout(currentTranslations)}
@@ -41,7 +41,7 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
   }
 
   return (
-        <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <HomeHeader
         user={user}
         locale={locale}
@@ -50,11 +50,7 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         onLocaleChange={handleLocaleChange}
         onLogout={() => handleLogout(currentTranslations)}
       />
-      <HomeTabs 
-        user={user}
-        userId={userId}
-        translations={currentTranslations}
-      />
+      <HomeTabs user={user} userId={userId} translations={currentTranslations} />
     </div>
   )
 }

@@ -11,16 +11,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui'
-import {
-  Shield,
-  Database,
-  FileText,
-  Lock,
-  Globe,
-  Code,
-  BookOpen,
-  ExternalLink,
-} from 'lucide-react'
+import { Shield, Database, FileText, Lock, Globe, Code, BookOpen, ExternalLink } from 'lucide-react'
 import { ThemeToggle, LanguageToggle } from '@/components/layout'
 import Image from 'next/image'
 import Link from 'next/link'

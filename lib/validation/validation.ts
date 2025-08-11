@@ -50,22 +50,17 @@ export const isValidPackageName = (name: string, ecosystem: string): boolean => 
 // Version validation
 export const isValidVersion = (version: string): boolean => {
   // Semantic versioning pattern
-  const semverRegex = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+  const semverRegex =
+    /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
   return semverRegex.test(version)
 }
 
 // Repository URL validation
 export const isValidRepositoryUrl = (url: string): boolean => {
   if (!isValidUrl(url)) return false
-  
-  const validHosts = [
-    'github.com',
-    'gitlab.com',
-    'bitbucket.org',
-    'codeberg.org',
-    'git.sr.ht'
-  ]
-  
+
+  const validHosts = ['github.com', 'gitlab.com', 'bitbucket.org', 'codeberg.org', 'git.sr.ht']
+
   try {
     const urlObj = new URL(url)
     return validHosts.some(host => urlObj.hostname.includes(host))
@@ -78,7 +73,7 @@ export const isValidRepositoryUrl = (url: string): boolean => {
 export interface ValidationRule<T = any> {
   required?: boolean
   message: string
-  validator: (value: T) => boolean
+  validator: (_value: T) => boolean
 }
 
 export interface ValidationSchema {
@@ -125,7 +120,7 @@ export const validateForm = (
 
   return {
     isValid: Object.keys(errors).length === 0,
-    errors
+    errors,
   }
 }
 
@@ -135,26 +130,26 @@ export const authValidationSchema: ValidationSchema = {
     {
       required: true,
       message: 'Email is required',
-      validator: (value) => isNonEmptyString(value)
+      validator: value => isNonEmptyString(value),
     },
     {
       required: false,
       message: 'Please enter a valid email address',
-      validator: (value) => isValidEmail(value)
-    }
+      validator: value => isValidEmail(value),
+    },
   ],
   password: [
     {
       required: true,
       message: 'Password is required',
-      validator: (value) => isNonEmptyString(value)
+      validator: value => isNonEmptyString(value),
     },
     {
       required: false,
       message: 'Password must be at least 8 characters long',
-      validator: (value) => typeof value === 'string' && value.length >= 8
-    }
-  ]
+      validator: value => typeof value === 'string' && value.length >= 8,
+    },
+  ],
 }
 
 export const packageValidationSchema: ValidationSchema = {
@@ -162,16 +157,16 @@ export const packageValidationSchema: ValidationSchema = {
     {
       required: true,
       message: 'Package name is required',
-      validator: (value) => isNonEmptyString(value)
-    }
+      validator: value => isNonEmptyString(value),
+    },
   ],
   version: [
     {
       required: false,
       message: 'Please enter a valid version number',
-      validator: (value) => !value || isValidVersion(value)
-    }
-  ]
+      validator: value => !value || isValidVersion(value),
+    },
+  ],
 }
 
 export const repositoryValidationSchema: ValidationSchema = {
@@ -179,24 +174,24 @@ export const repositoryValidationSchema: ValidationSchema = {
     {
       required: true,
       message: 'Repository URL is required',
-      validator: (value) => isNonEmptyString(value)
+      validator: value => isNonEmptyString(value),
     },
     {
       required: false,
       message: 'Please enter a valid repository URL',
-      validator: (value) => isValidRepositoryUrl(value)
-    }
+      validator: value => isValidRepositoryUrl(value),
+    },
   ],
   name: [
     {
       required: true,
       message: 'Repository name is required',
-      validator: (value) => isNonEmptyString(value)
+      validator: value => isNonEmptyString(value),
     },
     {
       required: false,
       message: 'Repository name must be at least 2 characters long',
-      validator: (value) => typeof value === 'string' && value.length >= 2
-    }
-  ]
+      validator: value => typeof value === 'string' && value.length >= 2,
+    },
+  ],
 }

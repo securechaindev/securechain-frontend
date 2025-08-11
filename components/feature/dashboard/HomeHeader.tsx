@@ -1,12 +1,7 @@
 import Link from 'next/link'
 import { Button, Badge } from '@/components/ui'
 import { ThemeToggle, LanguageToggle } from '@/components/layout'
-import {
-  User,
-  Shield,
-  LogOut,
-  ArrowLeft,
-} from 'lucide-react'
+import { User, Shield, LogOut, ArrowLeft } from 'lucide-react'
 import type { User as UserType } from '@/types'
 
 interface HomeHeaderProps {
@@ -14,7 +9,7 @@ interface HomeHeaderProps {
   locale: 'en' | 'es'
   translations: Record<string, any>
   isSubmitting: boolean
-  onLocaleChange: (locale: 'en' | 'es') => void
+  onLocaleChange: (_locale: 'en' | 'es') => void
   onLogout: () => void
 }
 
@@ -23,8 +18,7 @@ export default function HomeHeader({
   locale,
   translations,
   isSubmitting,
-  onLocaleChange,
-  onLogout
+  onLogout,
 }: HomeHeaderProps) {
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

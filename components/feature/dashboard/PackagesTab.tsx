@@ -21,15 +21,8 @@ interface PackagesTabProps {
 }
 
 export default function PackagesTab({ translations, packageOperations }: PackagesTabProps) {
-  
-  const {
-    packageName,
-    setPackageName,
-    nodeType,
-    setNodeType,
-    depexLoading,
-    handlePackageStatus
-  } = packageOperations
+  const { packageName, setPackageName, nodeType, setNodeType, depexLoading, handlePackageStatus } =
+    packageOperations
   return (
     <Card>
       <CardHeader>
@@ -67,9 +60,12 @@ export default function PackagesTab({ translations, packageOperations }: Package
               />
             </div>
           </div>
-          <Button onClick={() => {
-            handlePackageStatus()
-          }} disabled={depexLoading}>
+          <Button
+            onClick={() => {
+              handlePackageStatus()
+            }}
+            disabled={depexLoading}
+          >
             {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             {translations.checkPackageStatusButton}
           </Button>

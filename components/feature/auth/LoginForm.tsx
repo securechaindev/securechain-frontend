@@ -4,13 +4,13 @@ import type { FormEvent } from 'react'
 
 interface LoginFormProps {
   email: string
-  setEmail: (email: string) => void
+  setEmail: (_email: string) => void
   password: string
-  setPassword: (password: string) => void
+  setPassword: (_password: string) => void
   showPassword: boolean
-  setShowPassword: (show: boolean) => void
+  setShowPassword: (_show: boolean) => void
   isSubmitting: boolean
-  onSubmit: (e: FormEvent) => void
+  onSubmit: (_e: FormEvent) => void
   translations: {
     emailLabel: string
     emailPlaceholder: string
@@ -69,11 +69,7 @@ export function LoginForm({
             className="absolute right-0 top-0 h-full px-3"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4" />
-            ) : (
-              <Eye className="h-4 w-4" />
-            )}
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </Button>
         </div>
       </div>

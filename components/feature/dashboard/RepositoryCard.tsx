@@ -75,9 +75,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
 
       {(!repository.requirement_files || repository.requirement_files.length === 0) && (
         <div className="mt-4 p-3 bg-muted/30 rounded-md border border-dashed">
-          <p className="text-sm text-muted-foreground text-center">
-            No requirement files found
-          </p>
+          <p className="text-sm text-muted-foreground text-center">No requirement files found</p>
         </div>
       )}
     </div>

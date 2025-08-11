@@ -1,4 +1,10 @@
-export type NodeType = 'PyPIPackage' | 'NPMPackage' | 'MavenPackage' | 'RubyGemsPackage' | 'CargoPackage' | 'NuGetPackage'
+export type NodeType =
+  | 'PyPIPackage'
+  | 'NPMPackage'
+  | 'MavenPackage'
+  | 'RubyGemsPackage'
+  | 'CargoPackage'
+  | 'NuGetPackage'
 
 export interface PackageInitData {
   packageName: string

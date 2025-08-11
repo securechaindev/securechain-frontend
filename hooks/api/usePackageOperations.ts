@@ -24,7 +24,7 @@ export function usePackageOperations(translations: Record<string, any>) {
       })
       return
     }
-    
+
     setDepexLoading(true)
     try {
       const response = await fetch(
@@ -65,7 +65,7 @@ export function usePackageOperations(translations: Record<string, any>) {
 
   const handlePackageInit = async () => {
     if (!pendingPackageInit) return
-    
+
     const packageToInit = pendingPackageInit
     setDepexLoading(true)
     try {
@@ -77,7 +77,7 @@ export function usePackageOperations(translations: Record<string, any>) {
         },
         body: JSON.stringify({
           package_name: packageToInit.packageName,
-          node_type: packageToInit.nodeType 
+          node_type: packageToInit.nodeType,
         }),
       })
       const data = await response.json()
@@ -123,6 +123,6 @@ export function usePackageOperations(translations: Record<string, any>) {
     pendingPackageInit,
     handlePackageStatus,
     handlePackageInit,
-    handleCancelPackageInit
+    handleCancelPackageInit,
   }
 }

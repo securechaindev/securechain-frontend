@@ -50,6 +50,6 @@ export function useRepositories(userId: string, translations: Record<string, any
     userRepositories,
     depexLoading,
     fetchUserRepositories,
-    setDepexLoading
+    setDepexLoading,
   }
 }

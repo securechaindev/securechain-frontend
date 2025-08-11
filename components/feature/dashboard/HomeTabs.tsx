@@ -32,7 +32,7 @@ export default function HomeTabs({ user, userId, translations }: HomeTabsProps) 
     setShowPackageInitModal,
     pendingPackageInit,
     handlePackageInit,
-    handleCancelPackageInit
+    handleCancelPackageInit,
   } = packageOperations
 
   return (
@@ -56,7 +56,11 @@ export default function HomeTabs({ user, userId, translations }: HomeTabsProps) 
           </TabsContent>
 
           <TabsContent value="packages" className="mt-6">
-            <PackagesTab userId={userId} translations={translations} packageOperations={packageOperations} />
+            <PackagesTab
+              userId={userId}
+              translations={translations}
+              packageOperations={packageOperations}
+            />
           </TabsContent>
 
           <TabsContent value="initialization" className="mt-6">

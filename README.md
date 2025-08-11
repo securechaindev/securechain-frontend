@@ -1,6 +1,6 @@
-# Secure Chain Landing Page
+# Secure Chain Frontend
 
-Landing page for Secure Chain's open-source cybersecurity tools: Depex and VEXGen.
+User Interface for Secure Chain's open-source cybersecurity tools.
 
 ## Features
 
@@ -24,17 +24,3 @@ To get your own access key:
 2. Sign up for a free account
 3. Create a new form and get your access key
 4. Add it to your environment variables
-
-## Tools Featured
-
-- **Depex**: Dependency Explorer & Vulnerability Detector
-- **VEXGen**: Automated VEX Document Generator
-
-## Development
-
-Built with:
-
-- Next.js 14 (App Router)
-- Tailwind CSS
-- shadcn/ui components
-- TypeScript

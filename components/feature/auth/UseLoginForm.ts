@@ -1,8 +1,9 @@
 'use client'
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks'
-import { useAuthState } from '@/hooks/use-auth-state'
+import { useToast } from '@/hooks/ui'
+import { useAuthState } from '@/hooks/auth'
+
 
 interface UseLoginFormProps {
   locale: 'en' | 'es'
@@ -22,19 +23,15 @@ interface UseLoginFormProps {
   }
 }
 
-export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
+export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
   const { toast } = useToast()
   const router = useRouter()
   const { login } = useAuthState()
-
-  // Form states
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [signupEmail, setSignupEmail] = useState('')
   const [signupPassword, setSignupPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-
-  // UI states
   const [showLoginPassword, setShowLoginPassword] = useState(false)
   const [showSignupPassword, setShowSignupPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -43,6 +40,7 @@ export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
+    
     if (!loginEmail || !loginPassword) {
       toast({
         title: t.errorTitle,
@@ -66,7 +64,6 @@ export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
         setLoginEmail('')
         setLoginPassword('')
 
-        // Redirect to home page
         router.push(`/${locale}/home`)
       } else {
         toast({
@@ -109,7 +106,6 @@ export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
     setIsSubmitting(true)
 
-    // Simulate signup delay
     setTimeout(() => {
       toast({
         title: t.accountCreatedTitle,
@@ -124,7 +120,6 @@ export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
   }
 
   return {
-    // Form states
     loginEmail,
     setLoginEmail,
     loginPassword,
@@ -135,8 +130,6 @@ export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
     setSignupPassword,
     confirmPassword,
     setConfirmPassword,
-
-    // UI states
     showLoginPassword,
     setShowLoginPassword,
     showSignupPassword,
@@ -146,8 +139,6 @@ export function useLoginForm({ locale, translations: t }: UseLoginFormProps) {
     isSubmitting,
     activeTab,
     setActiveTab,
-
-    // Handlers
     handleLogin,
     handleSignup,
   }

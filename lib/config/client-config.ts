@@ -3,7 +3,7 @@
 
 // Environment variables type (client-safe only)
 interface ClientEnvironment {
-  NODE_ENV: 'development' | 'production' | 'test'
+  NODE_ENV: 'development' | 'production'
   NEXT_PUBLIC_API_URL?: string
   NEXT_PUBLIC_APP_URL?: string
   NEXT_PUBLIC_SENTRY_DSN?: string
@@ -13,7 +13,7 @@ interface ClientEnvironment {
 
 // Get environment variables at build time (Next.js will replace these at build time)
 const clientEnv: ClientEnvironment = {
-  NODE_ENV: (process.env.NODE_ENV as 'development' | 'production' | 'test') || 'development',
+  NODE_ENV: (process.env.NODE_ENV as 'development' | 'production') || 'development',
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -38,10 +38,6 @@ class ClientConfig {
     return this.env.NODE_ENV === 'production'
   }
 
-  get isTest(): boolean {
-    return this.env.NODE_ENV === 'test'
-  }
-
   // API configuration
   get apiUrl(): string {
     if (this.env.NEXT_PUBLIC_API_URL) {
@@ -63,10 +59,7 @@ class ClientConfig {
     if (this.isDevelopment) {
       return 'http://localhost:3000'
     }
-    
-    if (this.isTest) {
-      return 'http://localhost:3001'
-    }
+
     return 'https://securechain.dev'
   }
 
@@ -90,7 +83,7 @@ class ClientConfig {
       ui: {
         defaultTheme: 'system' as const,
         defaultLocale: 'en' as const,
-        animations: !this.isTest,
+        animations: true,
         devtools: this.isDevelopment,
       },
     }

@@ -1,6 +1,6 @@
 // Dashboard feature components barrel exports
-export { default as HomePageClient } from './home-page-client'
-export { default as PackageDetailsView } from './package-details-view'
+export { default as HomePageClient } from './HomePageClient'
+export { default as PackageDetailsView } from './PackageDetailsView'
 
 // Home tabs and components
 export { default as HomeHeader } from './HomeHeader'

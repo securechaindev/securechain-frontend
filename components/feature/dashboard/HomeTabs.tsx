@@ -1,13 +1,14 @@
 'use client'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
 import { Package, GitPullRequest } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import RepositoriesTab from './RepositoriesTab'
 import PackagesTab from './PackagesTab'
 import InitializationTab from './InitializationTab'
 import PackageInitModal from './PackageInitModal'
-import { usePackageOperations } from '@/hooks/usePackageOperations'
-import type { User } from '@/types/auth'
+import { usePackageOperations } from '@/hooks/api'
+import type { User } from '@/types'
 
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, Shield } from 'lucide-react'
-import { ThemeToggle } from '@/components/layout'
-import { LanguageToggle } from '@/components/layout'
+import { ThemeToggle, LanguageToggle } from '@/components/layout'
 
 interface AuthHeaderProps {
   locale: 'en' | 'es'

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getApiTranslations, getTranslation } from '../../../../lib/server-i18n'
-import { withAuth } from '../../../../lib/api-auth'
+import { getApiTranslations, getTranslation } from '@/lib/server-i18n'
+import { withAuth } from '@/lib/server'
 
 const BACKEND_URL = process.env.BACKEND_URL
 

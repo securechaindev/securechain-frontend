@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { checkAuthStatus } from '@/lib/auth'
+import { checkAuthStatus } from '@/lib/auth/auth'
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -19,7 +19,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Solo verificar autenticación al montar, sin intervalos
   useEffect(() => {
     const checkAuth = async () => {
       try {

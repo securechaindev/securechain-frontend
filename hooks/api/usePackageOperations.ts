@@ -1,9 +1,9 @@
 'use client'
 import { useState } from 'react'
-import { useToast } from '../ui/use-toast'
+import { useToast } from '@/hooks/ui'
 import { usePackage } from '@/context'
 import { API_ENDPOINTS } from '@/constants'
-import type { NodeType, PackageInitData } from '@/types/package'
+import type { NodeType, PackageInitData } from '@/types'
 
 export function usePackageOperations(translations: Record<string, any>) {
   const [packageName, setPackageName] = useState('')

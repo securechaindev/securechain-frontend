@@ -1,15 +1,15 @@
 'use client'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuthState } from '@/hooks/use-auth-state'
-import { AuthHeader, AuthLoading, AuthTabs, useLoginForm } from '@/components/feature/auth'
+import { useAuthState } from '@/hooks/auth'
+import { AuthHeader, AuthLoading, AuthTabs, UseLoginForm } from '@/components/feature/auth'
 
 interface LoginPageClientProps {
   locale: 'en' | 'es'
   translations: {
-    // Auth form translations
     authDemoTitle: string
     authDemoDescription: string
+    authLoading: string
     loginTab: string
     signupTab: string
     emailLabel: string
@@ -23,8 +23,6 @@ interface LoginPageClientProps {
     loggingInButton: string
     createAccountButton: string
     creatingAccountButton: string
-
-    // Toast messages
     errorTitle: string
     fillAllFieldsError: string
     passwordMismatchTitle: string
@@ -60,8 +58,6 @@ interface LoginPageClientProps {
     tokenRefreshedDescription: string
     refreshFailedTitle: string
     refreshErrorTitle: string
-
-    // Back to landing
     backToLanding: string
   }
 }
@@ -70,20 +66,16 @@ export default function LoginPageClient({ locale, translations: t }: LoginPageCl
   const router = useRouter()
   const { isAuthenticated, isLoading } = useAuthState()
 
-  // Use custom hook for form logic
-  const formHook = useLoginForm({ locale, translations: t })
+  const formHook = UseLoginForm({ locale, translations: t })
 
-  // Check if user is already authenticated
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      // User is already logged in, redirect to home
       router.push(`/${locale}/home`)
     }
   }, [isAuthenticated, isLoading, locale, router])
 
-  // Show loading screen while checking authentication
   if (isLoading) {
-    return <AuthLoading />
+    return <AuthLoading message={t.authLoading} />
   }
 
   return (

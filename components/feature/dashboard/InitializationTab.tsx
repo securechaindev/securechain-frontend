@@ -1,14 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button, Input, Label, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
 import { GitPullRequest, Loader2, CheckCircle, XCircle } from 'lucide-react'
-import { useToast } from '@/hooks'
+import { useToast } from '@/hooks/ui'
 import { API_ENDPOINTS } from '@/constants'
-import type { RepositoryInitResult } from '@/types/repository'
+import type { RepositoryInitResult } from '@/types'
 
 interface InitializationTabProps {
   userId: string

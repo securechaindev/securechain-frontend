@@ -1,12 +1,13 @@
 'use client'
-import PackageDetailsView from './package-details-view'
-import LoadingSpinner from '@/components/ui/LoadingSpinner'
+
+import PackageDetailsView from './PackageDetailsView'
+import { LoadingSpinner}  from '@/components/ui'
 import AuthRedirect from './AuthRedirect'
 import HomeHeader from './HomeHeader'
 import HomeTabs from './HomeTabs'
-import { usePackage } from '@/context/package-context'
-import { useHomeAuth } from '@/hooks/useHomeAuth'
-import { useLocalization } from '@/hooks/useLocalization'
+import { usePackage } from '@/context'
+import { useHomeAuth } from '@/hooks/auth'
+import { useLocalization } from '@/hooks/utils'
 
 interface HomePageClientProps {
   locale: 'en' | 'es'

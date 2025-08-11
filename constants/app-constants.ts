@@ -1,5 +1,3 @@
-// Storage keys - These are the constant key names used in localStorage
-// The actual values stored (userId, email, etc.) are dynamic per user
 export const STORAGE_KEYS = {
   USER_ID: 'user_id',
   USER_EMAIL: 'user_email',

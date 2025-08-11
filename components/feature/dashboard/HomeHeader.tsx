@@ -1,15 +1,13 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ThemeToggle } from '@/components/layout'
-import { LanguageToggle } from '@/components/layout'
+import { Button, Badge } from '@/components/ui'
+import { ThemeToggle, LanguageToggle } from '@/components/layout'
 import {
   User,
   Shield,
   LogOut,
   ArrowLeft,
 } from 'lucide-react'
-import type { User as UserType } from '@/types/auth'
+import type { User as UserType } from '@/types'
 
 interface HomeHeaderProps {
   user: UserType | null

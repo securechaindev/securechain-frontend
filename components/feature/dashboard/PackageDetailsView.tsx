@@ -1,10 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
+import {
+  Button,
+  Badge,
+  Input,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui'
 import {
   ArrowLeft,
   Package,
@@ -19,15 +29,8 @@ import {
   LogOut,
   User,
 } from 'lucide-react'
-import { usePackage } from '@/context/package-context'
+import { usePackage } from '@/context'
 import { ThemeToggle } from '@/components/layout'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 
 interface PackageDetailsViewProps {
   translations: Record<string, any>

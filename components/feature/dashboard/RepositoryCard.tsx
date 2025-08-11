@@ -1,9 +1,9 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/ui'
 import { Package, CheckCircle, XCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import type { Repository } from '@/types/repository'
+import type { Repository } from '@/types'
 
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),

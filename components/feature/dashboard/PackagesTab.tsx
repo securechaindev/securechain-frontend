@@ -1,20 +1,23 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
+  Button,
+  Input,
+  Label,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui'
 import { Package, Loader2 } from 'lucide-react'
 
 interface PackagesTabProps {
   userId: string
   translations: Record<string, any>
-  packageOperations: any // We'll type this properly later
+  packageOperations: any
 }
 
 export default function PackagesTab({ translations, packageOperations }: PackagesTabProps) {
@@ -45,12 +48,12 @@ export default function PackagesTab({ translations, packageOperations }: Package
                   <SelectValue placeholder="Select package type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="PyPIPackage">PyPI (Python)</SelectItem>
-                  <SelectItem value="NPMPackage">NPM (Node.js)</SelectItem>
-                  <SelectItem value="MavenPackage">Maven (Java)</SelectItem>
-                  <SelectItem value="RubyGemsPackage">RubyGems (Ruby)</SelectItem>
-                  <SelectItem value="CargoPackage">Cargo (Rust)</SelectItem>
-                  <SelectItem value="NuGetPackage">NuGet (.NET)</SelectItem>
+                  <SelectItem value="PyPIPackage">PyPI</SelectItem>
+                  <SelectItem value="NPMPackage">NPM</SelectItem>
+                  <SelectItem value="MavenPackage">Maven</SelectItem>
+                  <SelectItem value="RubyGemsPackage">RubyGems</SelectItem>
+                  <SelectItem value="CargoPackage">Cargo</SelectItem>
+                  <SelectItem value="NuGetPackage">NuGet</SelectItem>
                 </SelectContent>
               </Select>
             </div>

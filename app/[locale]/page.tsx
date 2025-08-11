@@ -1,6 +1,12 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Button,
+  Badge,
+} from '@/components/ui'
 import {
   ExternalLink,
   CheckCircle,
@@ -12,14 +18,11 @@ import {
   BookOpen,
 } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
-import { ThemeToggle } from '@/components/layout'
-import { LanguageToggle } from '@/components/layout'
-import { TryButton } from '@/components/common'
+import { ThemeToggle, LanguageToggle } from '@/components/layout'
+import { TryButton, ContactModal } from '@/components/common'
 import Image from 'next/image'
-import { ContactModal } from '@/components/common'
 import { getDictionary, type Locale } from '@/lib/i18n'
-import { ArchitectureDiagram } from '@/components/feature/diagrams'
-import { OverviewDiagram } from '@/components/feature/diagrams'
+import { ArchitectureDiagram, OverviewDiagram } from '@/components/feature/diagrams'
 
 interface PageProps {
   params: Promise<{ locale: Locale }>

@@ -1,5 +1,5 @@
-import { clientConfig } from '../config/client-config'
-import { APIError, NetworkError } from '../utils/errors'
+import { clientConfig } from '@/lib/config/client-config'
+import { APIError, NetworkError } from '@/lib/utils'
 import { API_ENDPOINTS } from '@/constants'
 
 // API client configuration

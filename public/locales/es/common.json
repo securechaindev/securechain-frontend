@@ -442,6 +442,7 @@
     "noVersionsFound": "No se encontraron versiones que coincidan con",
     "versionsOf": "de",
     "errorLoadingPackage": "Error",
-    "failedToLoadPackageDetails": "Error al cargar los detalles del paquete"
+    "failedToLoadPackageDetails": "Error al cargar los detalles del paquete",
+    "authLoading": "Verificando autenticación..."
   }
 }

@@ -1,2 +1,0 @@
-// Test import
-import './utils'

@@ -15,7 +15,6 @@ async function getTranslations(locale: 'en' | 'es') {
     return JSON.parse(content)
   } catch (error) {
     console.error('Error loading translations:', error)
-    // Fallback to English if there's an error
     const fallbackPath = path.join(process.cwd(), 'public', 'locales', 'en', 'common.json')
     const fallbackContent = await readFile(fallbackPath, 'utf-8')
     return JSON.parse(fallbackContent)

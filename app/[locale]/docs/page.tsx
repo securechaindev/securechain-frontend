@@ -1,10 +1,27 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Shield, Database, FileText, Lock, Globe, Code, BookOpen, ExternalLink } from 'lucide-react'
-import { ThemeToggle } from '@/components/layout'
-import { LanguageToggle } from '@/components/layout'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Button,
+  Badge,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui'
+import {
+  Shield,
+  Database,
+  FileText,
+  Lock,
+  Globe,
+  Code,
+  BookOpen,
+  ExternalLink,
+} from 'lucide-react'
+import { ThemeToggle, LanguageToggle } from '@/components/layout'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getDictionary, type Locale } from '@/lib/i18n'
@@ -17,7 +34,6 @@ export default async function DocsPage({ params }: PageProps) {
   const { locale } = await params
   const t = await getDictionary(locale)
 
-  // Function to get method color variant
   const getMethodColor = (method: string) => {
     switch (method) {
       case 'GET':

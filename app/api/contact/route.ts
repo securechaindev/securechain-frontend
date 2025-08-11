@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getServerTranslations, getTranslation } from '../../../lib/server-i18n'
+import { getServerTranslations, getTranslation } from '@/lib/server-i18n'
 
 export async function POST(request: NextRequest) {
   try {

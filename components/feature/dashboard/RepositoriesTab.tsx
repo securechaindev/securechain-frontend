@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import RepositoryCard from './RepositoryCard'
-import { useRepositories } from '@/hooks/useRepositories'
+import { useRepositories } from '@/hooks/api/useRepositories'
 import type { User } from '@/types/auth'
 
 const GitHubIcon = dynamic(

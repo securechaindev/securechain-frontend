@@ -2,8 +2,8 @@ import type React from 'react'
 import { Inter } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { ThemeProvider } from '@/components/providers'
-import { Toaster } from '@/components/ui/toaster'
-import { PackageProvider } from '@/context/package-context'
+import { Toaster } from '@/components/ui'
+import { PackageProvider } from '@/context'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +22,6 @@ interface LocaleLayoutProps {
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = await params
 
-  // Verificar que el locale es válido
   if (!locales.includes(locale as Locale)) {
     notFound()
   }

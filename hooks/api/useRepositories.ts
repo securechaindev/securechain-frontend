@@ -1,8 +1,8 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
-import { useToast } from '../ui/use-toast'
+import { useState, useCallback } from 'react'
+import { useToast } from '@/hooks/ui'
 import { API_ENDPOINTS } from '@/constants'
-import type { Repository } from '@/types/repository'
+import type { Repository } from '@/types'
 
 export function useRepositories(userId: string, translations: Record<string, any>) {
   const [userRepositories, setUserRepositories] = useState<Repository[]>([])

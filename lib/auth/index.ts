@@ -1,3 +1,2 @@
-// Authentication utilities
+// Client-side authentication utilities
 export * from './auth'
-export * from './api-auth'

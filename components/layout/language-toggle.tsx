@@ -1,14 +1,14 @@
 'use client'
-import { Button } from '@/components/ui/button'
 import { Globe, Check } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui'
 
 interface LanguageToggleProps {
   currentLang: 'en' | 'es'

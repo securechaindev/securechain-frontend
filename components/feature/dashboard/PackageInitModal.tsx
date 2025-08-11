@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import type { PackageInitData } from '@/types/package'
+} from '@/components/ui'
+import type { PackageInitData } from '@/types'
 
 interface PackageInitModalProps {
   open: boolean

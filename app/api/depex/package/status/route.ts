@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getApiTranslations, getTranslation } from '../../../../../lib/server-i18n'
-import { withAuth } from '../../../../../lib/api-auth'
+import { getApiTranslations, getTranslation } from '@/lib/server-i18n'
+import { withAuth } from '@/lib/server'
 
 const BACKEND_URL = process.env.BACKEND_URL
 
@@ -11,9 +11,8 @@ export async function GET(request: NextRequest) {
     try {
       const { searchParams } = new URL(request.url)
       const packageName = searchParams.get('packageName')
-      const nodeType = searchParams.get('nodeType') || 'PyPIPackage' // Default to PyPI
+      const nodeType = searchParams.get('nodeType') || 'PyPIPackage'
 
-      // Validate nodeType against allowed values
       const allowedNodeTypes = [
         'RubyGemsPackage',
         'CargoPackage',

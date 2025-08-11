@@ -1,9 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useToast } from '../ui/use-toast'
+import { useToast } from '@/hooks/ui'
 import { STORAGE_KEYS, API_ENDPOINTS } from '@/constants'
-import type { User } from '@/types/auth'
+import type { User } from '@/types'
 
 export function useHomeAuth(locale: 'en' | 'es') {
   const [isAuthenticated, setIsAuthenticated] = useState(false)

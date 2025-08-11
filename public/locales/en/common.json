@@ -442,6 +442,7 @@
     "noVersionsFound": "No versions found matching",
     "versionsOf": "of",
     "errorLoadingPackage": "Error",
-    "failedToLoadPackageDetails": "Failed to load package details"
+    "failedToLoadPackageDetails": "Failed to load package details",
+    "authLoading": "Verifying authentication..."
   }
 }

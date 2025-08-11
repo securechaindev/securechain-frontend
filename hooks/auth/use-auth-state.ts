@@ -10,12 +10,17 @@ interface AuthState {
 }
 
 export function useAuthState() {
+  const [isClient, setIsClient] = useState(false)
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
     isLoading: true,
     userId: null,
     email: null,
   })
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   const checkAuthStatus = async () => {
     try {
@@ -30,7 +35,7 @@ export function useAuthState() {
           isAuthenticated: true,
           isLoading: false,
           userId: data.user_id || localStorage.getItem(STORAGE_KEYS.USER_ID),
-          email: localStorage.getItem('user_email'),
+          email: localStorage.getItem(STORAGE_KEYS.USER_EMAIL),
         })
       } else {
         setAuthState({
@@ -39,9 +44,8 @@ export function useAuthState() {
           userId: null,
           email: null,
         })
-        localStorage.removeItem('access_token')
         localStorage.removeItem(STORAGE_KEYS.USER_ID)
-        localStorage.removeItem('user_email')
+        localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
       }
     } catch (error) {
       console.error('Error checking auth status:', error)
@@ -55,6 +59,10 @@ export function useAuthState() {
   }
 
   const login = async (email: string, password: string) => {
+    if (!isClient || typeof window === 'undefined') {
+      return { success: false, error: 'Login must be called after client hydration' }
+    }
+    
     try {
       const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
@@ -67,7 +75,13 @@ export function useAuthState() {
 
       const data = await response.json()
 
-      if (response.ok && data.code === 'success') {
+      const isSuccess = response.ok && (
+        data.code === 'login_success' && 
+        response.status === 200 &&
+        data.user_id
+      )
+
+      if (isSuccess) {
         localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
         localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email)
 
@@ -80,11 +94,14 @@ export function useAuthState() {
 
         return { success: true, data }
       } else {
-        return { success: false, error: data.message || 'Login failed' }
+        return { 
+          success: false, 
+          error: data.message || data.detail || data.error || 'Credenciales inválidas' 
+        }
       }
     } catch (error) {
-      console.error('Login error:', error)
-      return { success: false, error: 'Network error' }
+      console.error('Error de red en login:', error)
+      return { success: false, error: 'Error de conexión' }
     }
   }
 
@@ -97,7 +114,6 @@ export function useAuthState() {
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
-      localStorage.removeItem('access_token')
       localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
       setAuthState({
@@ -141,8 +157,10 @@ export function useAuthState() {
   }
 
   useEffect(() => {
-    checkAuthStatus()
-  }, [])
+    if (isClient && typeof window !== 'undefined') {
+      checkAuthStatus()
+    }
+  }, [isClient])
 
   return {
     ...authState,

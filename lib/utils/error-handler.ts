@@ -1,4 +1,4 @@
-import { toast } from '@/hooks'
+import { toast } from '@/hooks/ui'
 import { HTTP_STATUS } from '@/constants'
 import { 
   BaseError,

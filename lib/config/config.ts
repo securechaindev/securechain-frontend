@@ -1,6 +1,6 @@
 // Environment variables type
 interface Environment {
-  NODE_ENV: 'development' | 'production' | 'test'
+  NODE_ENV: 'development' | 'production'
   NEXT_PUBLIC_API_URL?: string
   NEXT_PUBLIC_APP_URL?: string
   NEXT_PUBLIC_SENTRY_DSN?: string
@@ -55,10 +55,6 @@ export class Config {
 
   public get isProduction(): boolean {
     return this.env.NODE_ENV === 'production'
-  }
-
-  public get isTest(): boolean {
-    return this.env.NODE_ENV === 'test'
   }
 
   // API Configuration
@@ -121,7 +117,7 @@ export class Config {
       ui: {
         defaultTheme: 'system' as const,
         defaultLocale: 'en' as const,
-        animations: !this.isTest,
+        animations: true,
         devtools: this.isDevelopment,
       },
       security: {
@@ -137,18 +133,12 @@ export class Config {
     if (this.isDevelopment) {
       return 'http://localhost:8000'
     }
-    if (this.isTest) {
-      return 'http://localhost:8001'
-    }
     return 'https://api.securechain.dev'
   }
 
   private getDefaultAppUrl(): string {
     if (this.isDevelopment) {
       return 'http://localhost:3000'
-    }
-    if (this.isTest) {
-      return 'http://localhost:3001'
     }
     return 'https://securechain.dev'
   }
@@ -201,4 +191,3 @@ export const config = Config.getInstance()
 export const { app, features } = config
 export const isDevelopment = config.isDevelopment
 export const isProduction = config.isProduction
-export const isTest = config.isTest

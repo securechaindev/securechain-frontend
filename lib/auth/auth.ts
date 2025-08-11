@@ -1,13 +1,9 @@
-import { API_ENDPOINTS } from '@/constants'
+import { authAPI, apiClient } from '@/lib/api'
 
 export async function isTokenExpired(): Promise<boolean> {
   try {
-    const response = await fetch(API_ENDPOINTS.AUTH.CHECK_TOKEN, {
-      method: 'GET',
-      credentials: 'include',
-    })
-
-    return !response.ok
+    await authAPI.checkToken()
+    return false
   } catch {
     return true
   }
@@ -18,22 +14,11 @@ export async function checkAuthStatus(): Promise<{
   tokenValid: boolean
 }> {
   try {
-    const response = await fetch(API_ENDPOINTS.AUTH.CHECK_TOKEN, {
-      method: 'GET',
-      credentials: 'include',
-    })
-
-    if (response.ok) {
-      const data = await response.json()
-      return {
-        isAuthenticated: true,
-        tokenValid: data.valid || true,
-      }
-    }
-
+    const response = await authAPI.checkToken()
+    
     return {
-      isAuthenticated: false,
-      tokenValid: false,
+      isAuthenticated: true,
+      tokenValid: response.data.valid || true,
     }
   } catch {
     return {
@@ -49,30 +34,12 @@ export async function refreshAccessToken(): Promise<{
   success: boolean
 }> {
   try {
-    const response = await fetch(API_ENDPOINTS.AUTH.REFRESH_TOKEN, {
-      method: 'POST',
-      credentials: 'include',
-    })
-
-    if (response.ok) {
-      const contentType = response.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        return { success: false }
-      }
-
-      try {
-        const data = await response.json()
-        return {
-          accessToken: data.access_token,
-          refreshToken: data.refresh_token,
-          success: true,
-        }
-      } catch (parseError) {
-        console.error('Error parsing JSON response:', parseError)
-        return { success: false }
-      }
-    } else {
-      return { success: false }
+    const response = await authAPI.refreshToken()
+    
+    return {
+      accessToken: response.data.access_token,
+      refreshToken: response.data.refresh_token,
+      success: true,
     }
   } catch (error) {
     console.error('Error refreshing access token:', error)
@@ -84,28 +51,29 @@ export async function authenticatedFetch(
   url: string,
   options: RequestInit = {}
 ): Promise<Response> {
-  let response = await fetch(url, {
-    ...options,
-    credentials: 'include',
-  })
+  try {
+    const endpoint = url.replace(apiClient['config'].baseURL, '')
+    const response = await apiClient.request(endpoint, {
+      method: (options.method as any) || 'GET',
+      headers: options.headers as Record<string, string>,
+      body: options.body,
+      signal: options.signal || undefined,
+    })
 
-  if (response.status === 401) {
-    const refreshResult = await refreshAccessToken()
-
-    if (refreshResult.success) {
-      response = await fetch(url, {
-        ...options,
-        credentials: 'include',
-      })
-    } else {
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login'
-      }
-      throw new Error('Session expired')
+    const responseInit: ResponseInit = {
+      status: response.status,
+      statusText: response.ok ? 'OK' : 'Error',
+      headers: response.headers,
     }
+    
+    return new Response(JSON.stringify(response.data), responseInit)
+  } catch (error) {
+    console.warn('Using fallback fetch due to error:', error)
+    return fetch(url, {
+      ...options,
+      credentials: 'include',
+    })
   }
-
-  return response
 }
 
 export function useAuthenticatedFetch() {

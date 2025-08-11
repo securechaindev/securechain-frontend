@@ -1,12 +1,11 @@
 'use client'
 import { useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
 import { Loader2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import RepositoryCard from './RepositoryCard'
-import { useRepositories } from '@/hooks/api/useRepositories'
-import type { User } from '@/types/auth'
+import { useRepositories } from '@/hooks/api'
+import type { User } from '@/types'
 
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),

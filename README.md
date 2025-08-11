@@ -14,9 +14,9 @@ User Interface for Secure Chain's open-source cybersecurity tools.
 
 This project uses Web3Forms for email submissions. The Web3Forms access key is stored as an environment variable:
 
-\`\`\`env
+```bash
 WEB3FORMS_ACCESS_KEY=your_access_key_here
-\`\`\`
+```
 
 To get your own access key:
 

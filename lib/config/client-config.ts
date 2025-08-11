@@ -48,7 +48,8 @@ class ClientConfig {
       return 'http://localhost:3001'
     }
 
-    return 'https://api.securechain.dev'
+    // In production with static export, use relative paths since nginx will proxy /api/* to backend
+    return ''
   }
 
   get appUrl(): string {

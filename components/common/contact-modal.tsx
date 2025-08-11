@@ -1,6 +1,6 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { API_ENDPOINTS } from '@/constants'
+import { contactAPI } from '@/lib/api'
 import {
   Dialog,
   DialogContent,
@@ -76,45 +76,24 @@ export function ContactModal({ currentLang, translations: t }: ContactModalProps
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(API_ENDPOINTS.CONTACT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          subject: subject.trim(),
-          message: message.trim(),
-          language: currentLang,
-        }),
+      const response = await contactAPI.sendMessage({
+        name: '', // You might want to add a name field
+        email: email.trim(),
+        message: `${subject.trim()}\n\n${message.trim()}`, // Combine subject and message
       })
 
-      let data
-      try {
-        const responseText = await response.text()
-        data = JSON.parse(responseText)
-        // eslint-disable-next-line no-unused-vars
-      } catch (_) {
-        throw new Error('Invalid response from server')
-      }
-
-      if (response.ok && data.success) {
-        toast({
-          title: t.contactToastSuccessTitle,
-          description: t.contactToastSuccessDescription,
-        })
-        setEmail('')
-        setSubject('')
-        setMessage('')
-        setOpen(false)
-      } else {
-        throw new Error(data.error || data.details || 'Failed to send message')
-      }
-      // eslint-disable-next-line no-unused-vars
-    } catch (_) {
+      toast({
+        title: t.contactToastSuccessTitle,
+        description: t.contactToastSuccessDescription,
+      })
+      setEmail('')
+      setSubject('')
+      setMessage('')
+      setOpen(false)
+    } catch (error: any) {
       toast({
         title: t.toastSubmissionFailedTitle,
-        description: t.contactToastSubmissionFailedDescription,
+        description: error.message || t.contactToastSubmissionFailedDescription,
         variant: 'destructive',
       })
     } finally {

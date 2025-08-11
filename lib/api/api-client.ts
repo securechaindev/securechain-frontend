@@ -2,7 +2,6 @@ import { clientConfig } from '@/lib/config/client-config'
 import { APIError, NetworkError } from '@/lib/utils'
 import { API_ENDPOINTS } from '@/constants'
 
-// API client configuration
 interface APIClientConfig {
   baseURL: string
   timeout: number
@@ -10,7 +9,6 @@ interface APIClientConfig {
   headers?: Record<string, string>
 }
 
-// Request options
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   headers?: Record<string, string>
@@ -20,7 +18,8 @@ interface RequestOptions {
   signal?: AbortSignal
 }
 
-// Response wrapper
+export type { RequestOptions }
+
 interface APIResponse<T = any> {
   data: T
   status: number
@@ -31,6 +30,8 @@ interface APIResponse<T = any> {
 class APIClient {
   private config: APIClientConfig
   private defaultHeaders: Record<string, string>
+  private isRefreshing: boolean = false
+  private refreshPromise: Promise<boolean> | null = null
 
   constructor(baseConfig?: Partial<APIClientConfig>) {
     this.config = {
@@ -46,7 +47,6 @@ class APIClient {
     }
   }
 
-  // Main request method
   async request<T = any>(endpoint: string, options: RequestOptions = {}): Promise<APIResponse<T>> {
     const {
       method = 'GET',
@@ -60,19 +60,13 @@ class APIClient {
     const url = this.buildURL(endpoint)
     const requestHeaders = { ...this.defaultHeaders, ...headers }
 
-    // Add auth token if available
-    const token = this.getAuthToken()
-    if (token) {
-      requestHeaders.Authorization = `Bearer ${token}`
-    }
-
     const requestInit: RequestInit = {
       method,
       headers: requestHeaders,
       signal,
+      credentials: 'include',
     }
 
-    // Add body for non-GET requests
     if (body && method !== 'GET') {
       requestInit.body = typeof body === 'string' ? body : JSON.stringify(body)
     }
@@ -80,7 +74,6 @@ class APIClient {
     return this.executeWithRetry(url, requestInit, retries, timeout)
   }
 
-  // Convenience methods
   async get<T = any>(
     endpoint: string,
     options?: Omit<RequestOptions, 'method' | 'body'>
@@ -119,23 +112,12 @@ class APIClient {
     return this.request<T>(endpoint, { ...options, method: 'PATCH', body })
   }
 
-  // Auth-specific methods
-  setAuthToken(token: string): void {
-    this.defaultHeaders.Authorization = `Bearer ${token}`
-  }
-
-  removeAuthToken(): void {
-    delete this.defaultHeaders.Authorization
-  }
-
-  // Upload method for form data
   async upload<T = any>(
     endpoint: string,
     formData: FormData,
     options?: Omit<RequestOptions, 'method' | 'body'>
   ): Promise<APIResponse<T>> {
     const uploadHeaders = { ...options?.headers }
-    // Remove Content-Type to let browser set it with boundary for FormData
     delete uploadHeaders['Content-Type']
 
     return this.request<T>(endpoint, {
@@ -146,14 +128,11 @@ class APIClient {
     })
   }
 
-  // Private helper methods
   private buildURL(endpoint: string): string {
-    // Handle absolute URLs
     if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
       return endpoint
     }
 
-    // Handle relative URLs
     const baseURL = this.config.baseURL.endsWith('/')
       ? this.config.baseURL.slice(0, -1)
       : this.config.baseURL
@@ -161,14 +140,6 @@ class APIClient {
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`
 
     return `${baseURL}${cleanEndpoint}`
-  }
-
-  private getAuthToken(): string | null {
-    // Try to get token from localStorage
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('authToken')
-    }
-    return null
   }
 
   private async executeWithRetry(
@@ -181,11 +152,9 @@ class APIClient {
 
     for (let attempt = 0; attempt <= retries; attempt++) {
       try {
-        // Create timeout controller
         const timeoutController = new AbortController()
         const timeoutId = setTimeout(() => timeoutController.abort(), timeout)
 
-        // Combine timeout signal with user signal
         const userSignal = requestInit.signal
         const combinedSignal = this.combineAbortSignals([
           timeoutController.signal,
@@ -199,9 +168,43 @@ class APIClient {
 
         clearTimeout(timeoutId)
 
-        // Handle HTTP errors
+        if (response.status === 401 && !url.includes('/auth/refresh_token') && !url.includes('/auth/login')) {
+          const refreshSuccess = await this.handleTokenRefresh()
+          
+          if (refreshSuccess) {
+            const retryResponse = await fetch(url, {
+              ...requestInit,
+              signal: combinedSignal,
+            })
+            
+            if (retryResponse.ok) {
+              const data = await retryResponse.json().catch(() => null)
+              return {
+                data,
+                status: retryResponse.status,
+                headers: retryResponse.headers,
+                ok: retryResponse.ok,
+              }
+            }
+
+            const errorData = await retryResponse.json().catch(() => ({}))
+            throw new APIError(
+              retryResponse.status,
+              errorData.message || retryResponse.statusText,
+              errorData.code,
+              errorData.details
+            )
+          } else {
+            if (typeof window !== 'undefined') {
+              window.location.href = '/login'
+            }
+            throw new APIError(401, 'Session expired', 'TOKEN_EXPIRED')
+          }
+        }
+
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}))
+
           throw new APIError(
             response.status,
             errorData.message || response.statusText,
@@ -210,7 +213,6 @@ class APIClient {
           )
         }
 
-        // Parse response
         const data = await response.json().catch(() => null)
 
         return {
@@ -222,12 +224,10 @@ class APIClient {
       } catch (error) {
         lastError = error as Error
 
-        // Don't retry on user abort
         if (error instanceof Error && error.name === 'AbortError') {
           throw new NetworkError('Request was aborted', error)
         }
 
-        // Don't retry on client errors (4xx)
         if (error instanceof Error && 'status' in error) {
           const status = (error as any).status
           if (status >= 400 && status < 500) {
@@ -235,7 +235,6 @@ class APIClient {
           }
         }
 
-        // If this is the last attempt, throw the error
         if (attempt === retries) {
           throw new NetworkError(
             `Request failed after ${retries + 1} attempts: ${lastError.message}`,
@@ -243,13 +242,49 @@ class APIClient {
           )
         }
 
-        // Wait before retrying (exponential backoff)
         const delay = Math.min(1000 * Math.pow(2, attempt), 10000)
         await new Promise(resolve => setTimeout(resolve, delay))
       }
     }
 
     throw lastError!
+  }
+
+  private async handleTokenRefresh(): Promise<boolean> {
+    if (this.isRefreshing) {
+      if (this.refreshPromise) {
+        return await this.refreshPromise
+      }
+      return false
+    }
+
+    this.isRefreshing = true
+    
+    this.refreshPromise = (async () => {
+      try {
+        
+        const refreshResponse = await fetch(this.buildURL(API_ENDPOINTS.AUTH.REFRESH_TOKEN), {
+          method: 'POST',
+          headers: this.defaultHeaders,
+          credentials: 'include',
+        })
+
+        if (refreshResponse.ok) {
+          return true
+        } else {
+          console.log('❌ Token refresh failed:', refreshResponse.status, refreshResponse.statusText)
+          return false
+        }
+      } catch (error) {
+        console.error('❌ Token refresh error:', error)
+        return false
+      } finally {
+        this.isRefreshing = false
+        this.refreshPromise = null
+      }
+    })()
+
+    return await this.refreshPromise
   }
 
   private combineAbortSignals(signals: AbortSignal[]): AbortSignal {
@@ -268,10 +303,8 @@ class APIClient {
   }
 }
 
-// Create singleton instance
 export const apiClient = new APIClient()
 
-// Specific API service functions using centralized endpoints
 export const authAPI = {
   login: (credentials: { email: string; password: string }) =>
     apiClient.post(API_ENDPOINTS.AUTH.LOGIN, credentials),
@@ -283,7 +316,7 @@ export const authAPI = {
 
   refreshToken: () => apiClient.post(API_ENDPOINTS.AUTH.REFRESH_TOKEN),
 
-  checkToken: () => apiClient.get(API_ENDPOINTS.AUTH.CHECK_TOKEN),
+  checkToken: () => apiClient.post(API_ENDPOINTS.AUTH.CHECK_TOKEN),
 
   accountExists: (email: string) =>
     apiClient.get(`${API_ENDPOINTS.AUTH.ACCOUNT_EXISTS}?email=${encodeURIComponent(email)}`),
@@ -307,7 +340,6 @@ export const depexAPI = {
 
   initializeVersion: (data: any) => apiClient.post(API_ENDPOINTS.DEPEX.VERSION_INIT, data),
 
-  // Operation endpoints
   operations: {
     config: {
       getCompleteConfig: (params: string) =>

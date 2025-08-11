@@ -1,11 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, Input, Label, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
 import { GitPullRequest, Loader2, CheckCircle, XCircle } from 'lucide-react'
 import { useToast } from '@/hooks/ui'
-import { API_ENDPOINTS } from '@/constants'
-import type { RepositoryInitResult } from '@/types'
+import { depexAPI } from '@/lib/api'
 
 interface InitializationTabProps {
   userId: string
@@ -15,41 +14,62 @@ interface InitializationTabProps {
 export default function InitializationTab({ userId, translations }: InitializationTabProps) {
   const [repoOwner, setRepoOwner] = useState('')
   const [repoName, setRepoName] = useState('')
-  const [repoInitResult, setRepoInitResult] = useState<RepositoryInitResult | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [depexLoading, setDepexLoading] = useState(false)
 
   const { toast } = useToast()
 
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage(null)
+      }, 10000)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [errorMessage])
+
   const handleRepoInit = async () => {
-    setDepexLoading(true)
-    setRepoInitResult(null)
-    try {
-      const response = await fetch(API_ENDPOINTS.DEPEX.REPOSITORY_INIT, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ owner: repoOwner, name: repoName, user_id: userId }),
-      })
-      const data = await response.json()
-      setRepoInitResult(data)
-      if (response.ok) {
-        toast({
-          title: translations.repositoryInitialized,
-          description: data.message,
-        })
-      } else {
-        toast({
-          title: translations.errorTitle,
-          description: data.error || 'Failed to initialize repository',
-          variant: 'destructive',
-        })
-      }
-    } catch (error: any) {
+    if (!repoOwner.trim() || !repoName.trim()) {
       toast({
         title: translations.errorTitle,
-        description: error.message || translations.networkErrorDescription,
+        description: 'Repository owner and name are required',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    setDepexLoading(true)
+    setErrorMessage(null)
+    
+    try {
+      const response = await depexAPI.initializeRepository({
+        owner: repoOwner,
+        name: repoName,
+        user_id: userId,
+      })
+
+      if (response.ok && response.data) {
+        const successMessage = response.data.message || translations.repositoryInitializedSuccessfully || 'Repository initialized successfully'
+        
+        setRepoOwner('')
+        setRepoName('')
+        
+        toast({
+          title: translations.repositoryInitialized || 'Repository Initialized',
+          description: successMessage,
+        })
+      } else {
+        throw new Error(response.data?.error || 'Unexpected response format')
+      }
+    } catch (error: any) {
+      const errorMessage = error.message || error.details || translations.networkErrorDescription || 'Failed to initialize repository'
+      
+      setErrorMessage(errorMessage)
+      
+      toast({
+        title: translations.errorTitle || 'Error',
+        description: errorMessage,
         variant: 'destructive',
       })
     } finally {
@@ -87,20 +107,14 @@ export default function InitializationTab({ userId, translations }: Initializati
               />
             </div>
           </div>
-          <Button onClick={handleRepoInit} disabled={depexLoading}>
+          <Button onClick={handleRepoInit} disabled={depexLoading || !repoOwner.trim() || !repoName.trim()}>
             {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             {translations.initializeRepositoryButton}
           </Button>
-          {repoInitResult && (
-            <div
-              className={`p-3 rounded-md flex items-center gap-2 ${repoInitResult.success ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
-            >
-              {repoInitResult.success ? (
-                <CheckCircle className="h-5 w-5" />
-              ) : (
-                <XCircle className="h-5 w-5" />
-              )}
-              <span>{repoInitResult.message}</span>
+          {errorMessage && (
+            <div className="p-3 rounded-md flex items-center gap-2 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+              <XCircle className="h-5 w-5" />
+              <span>{errorMessage}</span>
             </div>
           )}
         </div>

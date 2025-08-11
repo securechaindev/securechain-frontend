@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useToast } from '@/hooks/ui'
 import { usePackage } from '@/context'
-import { API_ENDPOINTS } from '@/constants'
+import { depexAPI } from '@/lib/api'
 import type { NodeType, PackageInitData } from '@/types'
 
 export function usePackageOperations(translations: Record<string, any>) {
@@ -27,37 +27,27 @@ export function usePackageOperations(translations: Record<string, any>) {
 
     setDepexLoading(true)
     try {
-      const response = await fetch(
-        `${API_ENDPOINTS.DEPEX.PACKAGE_STATUS}?packageName=${packageName}&nodeType=${nodeType}`,
-        {
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      const data = await response.json()
-      if (response.ok && data.package) {
+      const params = `package_name=${packageName}&node_type=${nodeType}`
+      const response = await depexAPI.getPackageStatus(params)
+      
+      if (response.data.package) {
         // Set package details in context and show the view
-        setPackageDetails(data.package)
+        setPackageDetails(response.data.package)
         setIsViewingPackage(true)
-      } else if (response.status === 404 || data.code?.includes('package_not_found')) {
+      }
+    } catch (error: any) {
+      // Handle 404 (package not found) vs other errors
+      if (error.status === 404 || error.code?.includes('package_not_found')) {
         // Package doesn't exist, show initialization modal
         setPendingPackageInit({ packageName, nodeType })
         setShowPackageInitModal(true)
       } else {
         toast({
           title: translations.errorTitle,
-          description: data.error || data.message || 'Failed to get package status',
+          description: error.message || 'Failed to get package status',
           variant: 'destructive',
         })
       }
-    } catch (error: any) {
-      toast({
-        title: translations.errorTitle,
-        description: error.message || translations.networkErrorDescription,
-        variant: 'destructive',
-      })
     } finally {
       setDepexLoading(false)
     }
@@ -69,36 +59,21 @@ export function usePackageOperations(translations: Record<string, any>) {
     const packageToInit = pendingPackageInit
     setDepexLoading(true)
     try {
-      const response = await fetch(API_ENDPOINTS.DEPEX.PACKAGE_INIT, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          package_name: packageToInit.packageName,
-          node_type: packageToInit.nodeType,
-        }),
+      const response = await depexAPI.initializePackage({
+        package_name: packageToInit.packageName,
+        node_type: packageToInit.nodeType,
       })
-      const data = await response.json()
-      if (response.ok) {
-        toast({
-          title: translations.packageInitialized,
-          description: data.message,
-        })
-        setShowPackageInitModal(false)
-        setPendingPackageInit(null)
-      } else {
-        toast({
-          title: translations.errorTitle,
-          description: data.error || 'Failed to initialize package',
-          variant: 'destructive',
-        })
-      }
+      
+      toast({
+        title: translations.packageInitialized,
+        description: response.data.message,
+      })
+      setShowPackageInitModal(false)
+      setPendingPackageInit(null)
     } catch (error: any) {
       toast({
         title: translations.errorTitle,
-        description: error.message || translations.networkErrorDescription,
+        description: error.message || 'Failed to initialize package',
         variant: 'destructive',
       })
     } finally {

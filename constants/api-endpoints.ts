@@ -9,12 +9,12 @@ export const API_ENDPOINTS = {
     ACCOUNT_EXISTS: '/api/auth/account_exists',
   },
   DEPEX: {
-    REPOSITORIES: (userId: string) => `/api/depex/repositories/${userId}`,
-    REPOSITORY_INIT: '/api/depex/repository/init',
-    PACKAGE_STATUS: '/api/depex/package/status',
-    PACKAGE_INIT: '/api/depex/package/init',
-    VERSION_STATUS: '/api/depex/version/status',
-    VERSION_INIT: '/api/depex/version/init',
+    REPOSITORIES: (userId: string) => `/api/depex/graph/repositories/${userId}`,
+    REPOSITORY_INIT: '/api/depex/graph/repository/init',
+    PACKAGE_STATUS: '/api/depex/graph/package/status',
+    PACKAGE_INIT: '/api/depex/graph/package/init',
+    VERSION_STATUS: '/api/depex/graph/version/status',
+    VERSION_INIT: '/api/depex/graph/version/init',
     OPERATION: {
       CONFIG: {
         COMPLETE_CONFIG: '/api/depex/operation/config/complete_config',

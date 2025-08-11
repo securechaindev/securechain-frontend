@@ -12,16 +12,12 @@ export function TryButton({ locale, buttonText }: TryButtonProps) {
   const router = useRouter()
 
   const handleClick = () => {
-    // Simple check for existing session
-    const token = localStorage.getItem('access_token')
     const userId = localStorage.getItem(STORAGE_KEYS.USER_ID)
-    const userEmail = localStorage.getItem('user_email')
+    const userEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL)
 
-    if (token && userId && userEmail) {
-      // If has session data, go directly to home
+    if (userId && userEmail) {
       router.push(`/${locale}/home`)
     } else {
-      // If no session, go to login
       router.push(`/${locale}/login`)
     }
   }

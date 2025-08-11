@@ -5,7 +5,6 @@
 export * from './client'
 
 // Server-only utilities
-export * from './auth/server-auth'
 export * from './server-i18n'
 
 // Server-only config (explicit import required)

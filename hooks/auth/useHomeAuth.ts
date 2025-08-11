@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/ui'
-import { STORAGE_KEYS, API_ENDPOINTS } from '@/constants'
+import { STORAGE_KEYS } from '@/constants'
+import { authAPI } from '@/lib/api'
 import type { User } from '@/types'
 
 export function useHomeAuth(locale: 'en' | 'es') {
@@ -37,13 +38,7 @@ export function useHomeAuth(locale: 'en' | 'es') {
     setIsSubmitting(true)
 
     try {
-      await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      await authAPI.logout()
 
       localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)

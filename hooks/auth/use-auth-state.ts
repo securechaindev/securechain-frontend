@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { STORAGE_KEYS, API_ENDPOINTS } from '@/constants'
+import { STORAGE_KEYS } from '@/constants'
+import { authAPI } from '@/lib/api'
 
 interface AuthState {
   isAuthenticated: boolean
@@ -24,29 +25,14 @@ export function useAuthState() {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.CHECK_TOKEN, {
-        method: 'GET',
-        credentials: 'include',
+      const response = await authAPI.checkToken()
+      
+      setAuthState({
+        isAuthenticated: true,
+        isLoading: false,
+        userId: response.data.user_id || localStorage.getItem(STORAGE_KEYS.USER_ID),
+        email: localStorage.getItem(STORAGE_KEYS.USER_EMAIL),
       })
-
-      if (response.ok) {
-        const data = await response.json()
-        setAuthState({
-          isAuthenticated: true,
-          isLoading: false,
-          userId: data.user_id || localStorage.getItem(STORAGE_KEYS.USER_ID),
-          email: localStorage.getItem(STORAGE_KEYS.USER_EMAIL),
-        })
-      } else {
-        setAuthState({
-          isAuthenticated: false,
-          isLoading: false,
-          userId: null,
-          email: null,
-        })
-        localStorage.removeItem(STORAGE_KEYS.USER_ID)
-        localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
-      }
     } catch (error) {
       console.error('Error checking auth status:', error)
       setAuthState({
@@ -55,6 +41,8 @@ export function useAuthState() {
         userId: null,
         email: null,
       })
+      localStorage.removeItem(STORAGE_KEYS.USER_ID)
+      localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
     }
   }
 
@@ -64,16 +52,8 @@ export function useAuthState() {
     }
 
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include',
-      })
-
-      const data = await response.json()
+      const response = await authAPI.login({ email, password })
+      const data = response.data
 
       const isSuccess =
         response.ok && data.code === 'login_success' && response.status === 200 && data.user_id
@@ -96,18 +76,18 @@ export function useAuthState() {
           error: data.message || data.detail || data.error || 'Credenciales inválidas',
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error de red en login:', error)
-      return { success: false, error: 'Error de conexión' }
+      return { 
+        success: false, 
+        error: error.message || 'Error de conexión'
+      }
     }
   }
 
   const logout = async () => {
     try {
-      await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
-        method: 'POST',
-        credentials: 'include',
-      })
+      await authAPI.logout()
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
@@ -123,34 +103,29 @@ export function useAuthState() {
   }
 
   const authenticatedFetch = async (url: string, options: RequestInit = {}) => {
-    const defaultOptions: RequestInit = {
-      ...options,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    }
-
-    const response = await fetch(url, defaultOptions)
-
-    if (response.status === 401) {
-      const refreshResponse = await fetch(API_ENDPOINTS.AUTH.REFRESH_TOKEN, {
-        method: 'POST',
+    try {
+      const response = await fetch(url, {
+        ...options,
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
       })
 
-      if (refreshResponse.ok) {
-        // Reintentar la request original
-        return fetch(url, defaultOptions)
-      } else {
-        // Si no se puede refrescar, hacer logout
+      if (response.status === 401) {
         await logout()
         throw new Error('Authentication expired')
       }
-    }
 
-    return response
+      return response
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Authentication expired') {
+        throw error
+      }
+
+      throw error
+    }
   }
 
   useEffect(() => {

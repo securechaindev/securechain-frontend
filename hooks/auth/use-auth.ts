@@ -2,11 +2,20 @@
 
 import { useCallback } from 'react'
 import { authenticatedFetch, checkAuthStatus, isTokenExpired } from '@/lib/auth/auth'
-import { API_ENDPOINTS } from '@/constants'
+import { authAPI, apiClient } from '@/lib/api'
 
 export function useAuth() {
   const makeAuthenticatedRequest = useCallback(async (url: string, options: RequestInit = {}) => {
     return authenticatedFetch(url, options)
+  }, [])
+
+  const makeApiRequest = useCallback(async (endpoint: string, options: any = {}) => {
+    try {
+      return await apiClient.request(endpoint, options)
+    } catch (error) {
+      console.error('API request failed:', error)
+      throw error
+    }
   }, [])
 
   const checkAuth = useCallback(async () => {
@@ -19,10 +28,7 @@ export function useAuth() {
 
   const logout = useCallback(async () => {
     try {
-      await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
-        method: 'POST',
-        credentials: 'include',
-      })
+      await authAPI.logout()
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
@@ -32,6 +38,7 @@ export function useAuth() {
 
   return {
     makeAuthenticatedRequest,
+    makeApiRequest,
     checkAuth,
     checkTokenExpiry,
     logout,

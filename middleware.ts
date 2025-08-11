@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const locales = ['en', 'es']
-const defaultLocale = 'es'
+const defaultLocale = 'en'
 const BACKEND_URL = process.env.BACKEND_URL
 
 function getLocale(request: NextRequest): string {

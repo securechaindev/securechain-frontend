@@ -1,7 +1,3 @@
-// Client-safe configuration
-// This file only contains configuration that can be safely used in the browser
-
-// Environment variables type (client-safe only)
 interface ClientEnvironment {
   NODE_ENV: 'development' | 'production'
   NEXT_PUBLIC_API_URL?: string
@@ -11,7 +7,6 @@ interface ClientEnvironment {
   NEXT_PUBLIC_POSTHOG_HOST?: string
 }
 
-// Get environment variables at build time (Next.js will replace these at build time)
 const clientEnv: ClientEnvironment = {
   NODE_ENV: (process.env.NODE_ENV as 'development' | 'production') || 'development',
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
@@ -21,7 +16,6 @@ const clientEnv: ClientEnvironment = {
   NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 }
 
-// Client configuration class
 class ClientConfig {
   private env: ClientEnvironment
 
@@ -29,7 +23,6 @@ class ClientConfig {
     this.env = clientEnv
   }
 
-  // Environment checks
   get isDevelopment(): boolean {
     return this.env.NODE_ENV === 'development'
   }
@@ -38,7 +31,6 @@ class ClientConfig {
     return this.env.NODE_ENV === 'production'
   }
 
-  // API configuration
   get apiUrl(): string {
     if (this.env.NEXT_PUBLIC_API_URL) {
       return this.env.NEXT_PUBLIC_API_URL
@@ -48,7 +40,6 @@ class ClientConfig {
       return 'http://localhost:3001'
     }
 
-    // In production with static export, use relative paths since nginx will proxy /api/* to backend
     return ''
   }
 
@@ -64,12 +55,10 @@ class ClientConfig {
     return 'https://securechain.dev'
   }
 
-  // App version (client-safe default)
   get appVersion(): string {
-    return '1.0.0' // Static version for client
+    return '1.0.0'
   }
 
-  // API configuration
   get app() {
     return {
       name: 'SecureChain',
@@ -78,7 +67,7 @@ class ClientConfig {
       url: this.appUrl,
       api: {
         url: this.apiUrl,
-        timeout: 30000, // 30 seconds
+        timeout: 30000,
         retries: 3,
       },
       ui: {
@@ -90,7 +79,6 @@ class ClientConfig {
     }
   }
 
-  // Feature flags
   get enableDevtools(): boolean {
     return this.isDevelopment
   }
@@ -103,11 +91,9 @@ class ClientConfig {
     return this.isProduction && !!this.env.NEXT_PUBLIC_SENTRY_DSN
   }
 
-  // Validation methods
   validateClientConfig(): { isValid: boolean; errors: string[] } {
     const errors: string[] = []
 
-    // Only validate client-accessible variables
     if (this.isProduction) {
       if (!this.env.NEXT_PUBLIC_API_URL) {
         errors.push('NEXT_PUBLIC_API_URL is required in production')
@@ -125,8 +111,6 @@ class ClientConfig {
   }
 }
 
-// Create and export singleton instance
 export const clientConfig = new ClientConfig()
 
-// Export type for use in other files
 export type { ClientEnvironment }

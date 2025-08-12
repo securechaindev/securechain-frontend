@@ -1,4 +1,3 @@
-// Environment variables type
 interface Environment {
   NODE_ENV: 'development' | 'production'
   NEXT_PUBLIC_API_URL?: string
@@ -11,7 +10,6 @@ interface Environment {
   NEXTAUTH_URL?: string
 }
 
-// Parse and validate environment variables
 function parseEnv(): Environment {
   const env = process.env as any
 
@@ -28,7 +26,6 @@ function parseEnv(): Environment {
   }
 }
 
-// Configuration object
 export class Config {
   private static instance: Config
   private env: Environment
@@ -44,7 +41,6 @@ export class Config {
     return Config.instance
   }
 
-  // Environment getters
   public get nodeEnv(): string {
     return this.env.NODE_ENV
   }
@@ -57,7 +53,6 @@ export class Config {
     return this.env.NODE_ENV === 'production'
   }
 
-  // API Configuration
   public get apiUrl(): string {
     return this.env.NEXT_PUBLIC_API_URL || this.getDefaultApiUrl()
   }
@@ -66,7 +61,6 @@ export class Config {
     return this.env.NEXT_PUBLIC_APP_URL || this.getDefaultAppUrl()
   }
 
-  // Third-party services
   public get sentryDsn(): string | undefined {
     return this.env.NEXT_PUBLIC_SENTRY_DSN
   }
@@ -79,12 +73,10 @@ export class Config {
     return this.env.NEXT_PUBLIC_POSTHOG_HOST
   }
 
-  // Database
   public get databaseUrl(): string | undefined {
     return this.env.DATABASE_URL
   }
 
-  // Authentication
   public get nextAuthSecret(): string | undefined {
     return this.env.NEXTAUTH_SECRET
   }
@@ -93,7 +85,6 @@ export class Config {
     return this.env.NEXTAUTH_URL
   }
 
-  // Feature flags
   public get features() {
     return {
       analytics: this.isProduction && !!this.posthogKey,
@@ -102,7 +93,6 @@ export class Config {
     }
   }
 
-  // App configuration
   public get app() {
     return {
       name: 'SecureChain',
@@ -128,7 +118,6 @@ export class Config {
     }
   }
 
-  // Private helper methods
   private getDefaultApiUrl(): string {
     if (this.isDevelopment) {
       return 'http://localhost:8000'
@@ -145,17 +134,14 @@ export class Config {
 
   private getAppVersion(): string {
     try {
-      // Try to get version from package.json
       return require('../../package.json').version || '1.0.0'
     } catch {
       return '1.0.0'
     }
   }
 
-  // Validation methods
   public validateConfig(): boolean {
     try {
-      // Check required production environment variables
       if (this.isProduction) {
         if (!this.env.NEXT_PUBLIC_API_URL) {
           throw new Error('NEXT_PUBLIC_API_URL is required in production')
@@ -172,7 +158,6 @@ export class Config {
     }
   }
 
-  // Debug method
   public getDebugInfo() {
     return {
       nodeEnv: this.nodeEnv,
@@ -184,10 +169,8 @@ export class Config {
   }
 }
 
-// Export singleton instance
 export const config = Config.getInstance()
 
-// Export configuration sections for easier imports
 export const { app, features } = config
 export const isDevelopment = config.isDevelopment
 export const isProduction = config.isProduction

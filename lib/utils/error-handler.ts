@@ -54,26 +54,21 @@ class ErrorHandler {
     }
 
     if (error instanceof Error) {
-      // Check if it's a fetch-related error
       if (error.name === 'TypeError' && error.message.includes('fetch')) {
         return new NetworkError('Network connection failed', error)
       }
 
-      // Check if it's a timeout error
       if (error.message.includes('timeout')) {
         return new NetworkError('Request timeout', error)
       }
 
-      // Convert generic Error to BaseError
       return new BaseError('UnknownError', error.message, true)
     }
 
-    // Handle string errors
     if (typeof error === 'string') {
       return new BaseError('StringError', error, true)
     }
 
-    // Handle object errors (e.g., from API responses)
     if (typeof error === 'object' && error !== null) {
       const errorObj = error as any
 
@@ -97,7 +92,6 @@ class ErrorHandler {
       timestamp: new Date().toISOString(),
     }
 
-    // Add specific error type data
     if (error instanceof APIError) {
       Object.assign(logData, {
         status: error.status,
@@ -132,7 +126,6 @@ class ErrorHandler {
     let title = 'Error'
     let description = fallbackMessage
 
-    // Handle different error types
     if (error instanceof APIError) {
       const apiError = error as APIError
       switch (apiError.status) {
@@ -172,7 +165,6 @@ class ErrorHandler {
       title = 'Authentication Error'
       description = authError.message
     } else {
-      // For BaseError and other unknown errors
       title = 'Unknown Error'
       description = (error as BaseError).message || fallbackMessage
     }
@@ -184,7 +176,6 @@ class ErrorHandler {
     })
   }
 
-  // Helper methods for common error scenarios
   public handleAPIResponse<T>(response: Response): Promise<T> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -224,10 +215,8 @@ class ErrorHandler {
   }
 }
 
-// Create singleton instance
 export const errorHandler = new ErrorHandler()
 
-// Convenience functions
 export const handleError = (
   error: unknown,
   context?: ErrorContext,

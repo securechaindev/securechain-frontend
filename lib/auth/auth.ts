@@ -15,7 +15,7 @@ export async function checkAuthStatus(): Promise<{
 }> {
   try {
     const response = await authAPI.checkToken()
-    
+
     return {
       isAuthenticated: true,
       tokenValid: response.data.valid || true,
@@ -35,7 +35,7 @@ export async function refreshAccessToken(): Promise<{
 }> {
   try {
     const response = await authAPI.refreshToken()
-    
+
     return {
       accessToken: response.data.access_token,
       refreshToken: response.data.refresh_token,
@@ -65,7 +65,7 @@ export async function authenticatedFetch(
       statusText: response.ok ? 'OK' : 'Error',
       headers: response.headers,
     }
-    
+
     return new Response(JSON.stringify(response.data), responseInit)
   } catch (error) {
     console.warn('Using fallback fetch due to error:', error)

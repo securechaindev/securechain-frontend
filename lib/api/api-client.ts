@@ -168,15 +168,19 @@ class APIClient {
 
         clearTimeout(timeoutId)
 
-        if (response.status === 401 && !url.includes('/auth/refresh_token') && !url.includes('/auth/login')) {
+        if (
+          response.status === 401 &&
+          !url.includes('/auth/refresh_token') &&
+          !url.includes('/auth/login')
+        ) {
           const refreshSuccess = await this.handleTokenRefresh()
-          
+
           if (refreshSuccess) {
             const retryResponse = await fetch(url, {
               ...requestInit,
               signal: combinedSignal,
             })
-            
+
             if (retryResponse.ok) {
               const data = await retryResponse.json().catch(() => null)
               return {
@@ -259,10 +263,9 @@ class APIClient {
     }
 
     this.isRefreshing = true
-    
+
     this.refreshPromise = (async () => {
       try {
-        
         const refreshResponse = await fetch(this.buildURL(API_ENDPOINTS.AUTH.REFRESH_TOKEN), {
           method: 'POST',
           headers: this.defaultHeaders,
@@ -272,7 +275,6 @@ class APIClient {
         if (refreshResponse.ok) {
           return true
         } else {
-          console.log('❌ Token refresh failed:', refreshResponse.status, refreshResponse.statusText)
           return false
         }
       } catch (error) {
@@ -368,9 +370,4 @@ export const depexAPI = {
         apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.VALID_GRAPH}?${params}`),
     },
   },
-}
-
-export const contactAPI = {
-  sendMessage: (data: { name: string; email: string; message: string }) =>
-    apiClient.post(API_ENDPOINTS.CONTACT, data),
 }

@@ -26,7 +26,7 @@ export function useAuthState() {
   const checkAuthStatus = async () => {
     try {
       const response = await authAPI.checkToken()
-      
+
       setAuthState({
         isAuthenticated: true,
         isLoading: false,
@@ -78,9 +78,9 @@ export function useAuthState() {
       }
     } catch (error: any) {
       console.error('Error de red en login:', error)
-      return { 
-        success: false, 
-        error: error.message || 'Error de conexión'
+      return {
+        success: false,
+        error: error.message || 'Error de conexión',
       }
     }
   }

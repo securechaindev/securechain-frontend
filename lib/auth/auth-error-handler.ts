@@ -5,7 +5,6 @@ export function handleAuthError(error: any): {
   shouldRedirect: boolean
   message: string
 } {
-
   if (error instanceof APIError) {
     if (error.status === 401) {
       return {
@@ -24,8 +23,10 @@ export function handleAuthError(error: any): {
     }
   }
 
-  if (error?.message?.includes('Session expired') || 
-      error?.message?.includes('Authentication expired')) {
+  if (
+    error?.message?.includes('Session expired') ||
+    error?.message?.includes('Authentication expired')
+  ) {
     return {
       isAuthError: true,
       shouldRedirect: true,
@@ -42,24 +43,23 @@ export function handleAuthError(error: any): {
 
 export async function withAuthErrorHandling<T>(
   apiCall: () => Promise<T>,
-  onAuthError?: (error: any) => void
+  onAuthError?: (_error: any) => void
 ): Promise<T> {
   try {
     return await apiCall()
   } catch (error) {
     const authErrorInfo = handleAuthError(error)
-    
+
     if (authErrorInfo.isAuthError) {
-      
       if (authErrorInfo.shouldRedirect && typeof window !== 'undefined') {
         window.location.href = '/login'
       }
-      
+
       if (onAuthError) {
         onAuthError(error)
       }
     }
-    
+
     throw error
   }
 }

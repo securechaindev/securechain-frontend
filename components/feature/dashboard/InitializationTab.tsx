@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Button, Input, Label, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
-import { GitPullRequest, Loader2, CheckCircle, XCircle } from 'lucide-react'
+import { GitPullRequest, Loader2, XCircle } from 'lucide-react'
 import { useToast } from '@/hooks/ui'
 import { depexAPI } from '@/lib/api'
 
@@ -24,7 +24,7 @@ export default function InitializationTab({ userId, translations }: Initializati
       const timer = setTimeout(() => {
         setErrorMessage(null)
       }, 10000)
-      
+
       return () => clearTimeout(timer)
     }
   }, [errorMessage])
@@ -41,7 +41,7 @@ export default function InitializationTab({ userId, translations }: Initializati
 
     setDepexLoading(true)
     setErrorMessage(null)
-    
+
     try {
       const response = await depexAPI.initializeRepository({
         owner: repoOwner,
@@ -50,11 +50,14 @@ export default function InitializationTab({ userId, translations }: Initializati
       })
 
       if (response.ok && response.data) {
-        const successMessage = response.data.message || translations.repositoryInitializedSuccessfully || 'Repository initialized successfully'
-        
+        const successMessage =
+          response.data.message ||
+          translations.repositoryInitializedSuccessfully ||
+          'Repository initialized successfully'
+
         setRepoOwner('')
         setRepoName('')
-        
+
         toast({
           title: translations.repositoryInitialized || 'Repository Initialized',
           description: successMessage,
@@ -63,10 +66,14 @@ export default function InitializationTab({ userId, translations }: Initializati
         throw new Error(response.data?.error || 'Unexpected response format')
       }
     } catch (error: any) {
-      const errorMessage = error.message || error.details || translations.networkErrorDescription || 'Failed to initialize repository'
-      
+      const errorMessage =
+        error.message ||
+        error.details ||
+        translations.networkErrorDescription ||
+        'Failed to initialize repository'
+
       setErrorMessage(errorMessage)
-      
+
       toast({
         title: translations.errorTitle || 'Error',
         description: errorMessage,
@@ -107,7 +114,10 @@ export default function InitializationTab({ userId, translations }: Initializati
               />
             </div>
           </div>
-          <Button onClick={handleRepoInit} disabled={depexLoading || !repoOwner.trim() || !repoName.trim()}>
+          <Button
+            onClick={handleRepoInit}
+            disabled={depexLoading || !repoOwner.trim() || !repoName.trim()}
+          >
             {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             {translations.initializeRepositoryButton}
           </Button>

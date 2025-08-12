@@ -29,7 +29,7 @@ export function usePackageOperations(translations: Record<string, any>) {
     try {
       const params = `package_name=${packageName}&node_type=${nodeType}`
       const response = await depexAPI.getPackageStatus(params)
-      
+
       if (response.data.package) {
         // Set package details in context and show the view
         setPackageDetails(response.data.package)
@@ -63,7 +63,7 @@ export function usePackageOperations(translations: Record<string, any>) {
         package_name: packageToInit.packageName,
         node_type: packageToInit.nodeType,
       })
-      
+
       toast({
         title: translations.packageInitialized,
         description: response.data.message,

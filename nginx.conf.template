@@ -1,4 +1,8 @@
-# Nginx configuration for SecureChain Frontend (Docker)
+# IP limit: 10 requests/second with a 10 MB shared memory zone
+limit_req_zone $binary_remote_addr zone=api_ratelimit:10m rate=10r/s;
+
+# Limit simultaneous connections per IP (not essential)
+limit_conn_zone $binary_remote_addr zone=perip:10m;
 
 server {
     listen 80;
@@ -44,6 +48,9 @@ server {
         add_header Cache-Control "public, immutable";
     }
 
+    # Return 429 instead of 503 when the limit is exceeded
+    limit_req_status 429;
+
     # API routes - proxy to backend
     location /api/ {
         proxy_pass $BACKEND_URL/;
@@ -60,8 +67,10 @@ server {
         proxy_cookie_domain off;
         proxy_cookie_path   off;
 
-        # (Opcional, explícito)
         proxy_pass_header Set-Cookie;
+
+        # Allows small bursts (burst 20) without rejection (no nodelay = delayed)
+        limit_req zone=api_ratelimit burst=20;
     }
 
     # SPA fallback

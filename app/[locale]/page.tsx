@@ -329,12 +329,12 @@ export default async function LandingPage({ params }: PageProps) {
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">{t.contactTitle}</h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{t.contactDescription}</p>
-          
+
           {/* Email Contact */}
           <div className="mb-8">
             <p className="text-lg text-muted-foreground mb-2">Get in touch with us:</p>
-            <a 
-              href="mailto:hi@securechain.dev" 
+            <a
+              href="mailto:hi@securechain.dev"
               className="text-2xl font-semibold text-primary hover:text-primary/80 transition-colors"
             >
               hi@securechain.dev
@@ -460,11 +460,11 @@ export default async function LandingPage({ params }: PageProps) {
               <span className="font-bold">Secure Chain</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">{t.footerDescription}</p>
-            
+
             {/* Email in Footer */}
             <div className="mb-6">
-              <a 
-                href="mailto:hi@securechain.dev" 
+              <a
+                href="mailto:hi@securechain.dev"
                 className="text-lg font-medium text-primary hover:text-primary/80 transition-colors"
               >
                 hi@securechain.dev

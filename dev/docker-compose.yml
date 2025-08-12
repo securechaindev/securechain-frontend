@@ -4,18 +4,15 @@ services:
     build:
       context: ..
       dockerfile: dev/Dockerfile
+      args:
+        BACKEND_URL: http://securechain-gateway:8000
+        NODE_ENV: development
     env_file:
       - ../.env.local
     ports:
-      - "3000:3000"
-    volumes:
-      - ../:/app
-      - /app/node_modules
-      - /app/.next
+      - "80:80"
     networks:
       - securechain
-    environment:
-      - CHOKIDAR_USEPOLLING=true
     depends_on:
       securechain-gateway:
         condition: service_healthy

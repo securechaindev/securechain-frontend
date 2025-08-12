@@ -1,0 +1,8 @@
+packages:
+  - .
+
+onlyBuiltDependencies:
+  - sharp
+  - unrs-resolver
+  - '@next/swc-linux-arm64-musl'
+  - '@next/swc-linux-x64-musl'

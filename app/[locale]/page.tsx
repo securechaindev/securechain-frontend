@@ -130,9 +130,9 @@ export default async function LandingPage({ params }: PageProps) {
 
                 <div className="flex gap-2 pt-4">
                   <Button className="flex-1 gap-2" asChild>
-                    <a href="https://github.com/securechaindev/securechain-depex">
+                    <a href="https://github.com/securechaindev/securechain-depex" target="_blank" rel="noopener noreferrer">
                       <SiGithub className="h-5 w-5" />
-                      {t.viewDepexButton}
+                      {t.viewDepexButton} <ExternalLink className="h-4 w-4 ml-2" />
                     </a>
                   </Button>
                 </div>
@@ -175,9 +175,9 @@ export default async function LandingPage({ params }: PageProps) {
 
                 <div className="flex gap-2 pt-4">
                   <Button className="flex-1 gap-2" asChild>
-                    <a href="https://github.com/securechaindev/securechain-vexgen">
+                    <a href="https://github.com/securechaindev/securechain-vexgen" target="_blank" rel="noopener noreferrer">
                       <SiGithub className="h-5 w-5" />
-                      {t.viewVEXGenButton}
+                      {t.viewVEXGenButton} <ExternalLink className="h-4 w-4 ml-2" />
                     </a>
                   </Button>
                 </div>

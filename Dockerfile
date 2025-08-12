@@ -16,10 +16,6 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-ARG BACKEND_URL
-
-ENV BACKEND_URL=${BACKEND_URL}
-
 ENV NEXT_TELEMETRY_DISABLED=1
 
 ENV NODE_ENV=production
@@ -28,12 +24,13 @@ RUN corepack enable pnpm && pnpm run build
 
 FROM nginx:stable-alpine AS runner
 
-ENV BACKEND_URL=${BACKEND_URL}
-
 COPY --from=builder /app/out /usr/share/nginx/html
 
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 
 EXPOSE 80
 
-CMD ["sh", "-c", "envsubst '$BACKEND_URL' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "\
+  : \"${BACKEND_URL:?Set BACKEND_URL}\" && \
+  envsubst '$BACKEND_URL' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && \
+  exec nginx -g 'daemon off;'"]

@@ -6,7 +6,6 @@ services:
       dockerfile: dev/Dockerfile
       args:
         BACKEND_URL: http://securechain-gateway:8000
-        NODE_ENV: development
     env_file:
       - ../.env.local
     ports:

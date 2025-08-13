@@ -1,7 +1,13 @@
-# IP limit: 10 requests/second with a 10 MB shared memory zone
+# =========================
+# Global rate-limit zones
+# =========================
+# API rate limit: 10 req/s per client IP
 limit_req_zone $binary_remote_addr zone=api_ratelimit:10m rate=10r/s;
 
-# Limit simultaneous connections per IP (not essential)
+# Static rate limit: 20 req/s per client IP
+limit_req_zone $binary_remote_addr zone=static_ratelimit:10m rate=20r/s;
+
+# Optional: concurrent connections per IP (used later)
 limit_conn_zone $binary_remote_addr zone=perip:10m;
 
 # --- HTTP: redirect to HTTPS ---

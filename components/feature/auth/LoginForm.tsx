@@ -33,9 +33,11 @@ export function LoginForm({
   translations: t,
 }: LoginFormProps) {
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="login-email">{t.emailLabel}</Label>
+        <Label htmlFor="login-email" className="text-sm font-medium">
+          {t.emailLabel}
+        </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
@@ -44,13 +46,15 @@ export function LoginForm({
             placeholder={t.emailPlaceholder}
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="pl-10"
+            className="pl-10 h-11 sm:h-12 text-base"
             disabled={isSubmitting}
           />
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="login-password">{t.passwordLabel}</Label>
+        <Label htmlFor="login-password" className="text-sm font-medium">
+          {t.passwordLabel}
+        </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
@@ -59,21 +63,26 @@ export function LoginForm({
             placeholder={t.passwordPlaceholder}
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="pl-10 pr-10"
+            className="pl-10 pr-12 h-11 sm:h-12 text-base"
             disabled={isSubmitting}
           />
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-0 h-full px-3"
+            className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
+            tabIndex={-1}
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </Button>
         </div>
       </div>
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        className="w-full h-11 sm:h-12 text-base font-medium"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? (
           <>
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />

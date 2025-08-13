@@ -38,11 +38,7 @@ export default async function LandingPage({ params }: PageProps) {
       <nav className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Espacio vacío a la izquierda para mantener el balance */}
-            <div className="w-10"></div>
-
-            {/* Logo y nombre centrados */}
-            <div className="flex items-center justify-center space-x-2">
+            <div className="flex items-center space-x-2">
               <Image
                 src="/images/securechain-logo.ico"
                 alt="Secure Chain Logo"
@@ -50,10 +46,8 @@ export default async function LandingPage({ params }: PageProps) {
                 height={32}
                 className="h-8 w-8"
               />
-              <span className="text-xl font-bold">Secure Chain</span>
+              <span className="text-lg sm:text-xl font-bold">Secure Chain</span>
             </div>
-
-            {/* Theme toggle y Language toggle a la derecha */}
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <LanguageToggle currentLang={locale} />
@@ -63,20 +57,20 @@ export default async function LandingPage({ params }: PageProps) {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+      <section className="relative py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         <div className="container mx-auto text-center">
-          <Badge variant="outline" className="mb-4">
+          <Badge variant="outline" className="mb-4 text-xs sm:text-sm">
             {t.heroBadge}
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-tight pb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-tight pb-2">
             {t.heroTitle}
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
             {t.heroDescription}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
             <TryButton locale={locale} buttonText={t.loginButton} />
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
               <a href={`/${locale}/docs`}>
                 {t.apiDocsButton} <ExternalLink className="h-4 w-4 ml-2" />
               </a>
@@ -86,17 +80,17 @@ export default async function LandingPage({ params }: PageProps) {
       </section>
 
       {/* Tools Overview */}
-      <section id="tools" className="py-20 px-4 bg-background">
+      <section id="tools" className="py-12 sm:py-16 lg:py-20 px-4 bg-background">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">{t.toolsTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.toolsDescription}</p>
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.toolsTitle}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">{t.toolsDescription}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
             {/* Depex Card */}
             <Card className="relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full" />
+              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full" />
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-blue-500/10 rounded-lg flex items-center justify-center">
@@ -193,35 +187,35 @@ export default async function LandingPage({ params }: PageProps) {
             </Card>
           </div>
 
-          {/* Tools Features - Pegado a las herramientas */}
-          <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground pt-4 border-t border-border/50">
+          {/* Tools Features */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-muted-foreground pt-4 border-t border-border/50">
             <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              {t.openSourceBadge}
+              <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+              <span className="text-center sm:text-left">{t.openSourceBadge}</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              {t.gnuLicensedBadge}
+              <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+              <span className="text-center sm:text-left">{t.gnuLicensedBadge}</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              {t.communityDrivenBadge}
+              <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+              <span className="text-center sm:text-left">{t.communityDrivenBadge}</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* New Zenodo Data Dump Section */}
-      <section id="data-dumps" className="py-20 px-4 bg-muted/50">
+      <section id="data-dumps" className="py-12 sm:py-16 lg:py-20 px-4 bg-muted/50">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-2">
-            <ExternalLink className="h-8 w-8 text-blue-500" />
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
+            <ExternalLink className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" />
             {t.zenodoDataDumpTitle}
           </h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
             {t.zenodoDataDumpDescription}
           </p>
-          <Button variant="outline" className="gap-2" asChild>
+          <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
             <a href="https://zenodo.org/records/16739081" target="_blank" rel="noopener noreferrer">
               {t.viewDataDumpButton} <ExternalLink className="h-4 w-4 ml-1" />
             </a>
@@ -229,94 +223,106 @@ export default async function LandingPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Comparison Section - Updated with images and explanation */}
-      <section id="comparison" className="py-20 px-4 bg-background">
+      {/* Comparison Section */}
+      <section id="comparison" className="py-12 sm:py-16 lg:py-20 px-4 bg-background">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">{t.howTheyWorkTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.howTheyWorkDescription}</p>
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.howTheyWorkTitle}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">
+              {t.howTheyWorkDescription}
+            </p>
           </div>
 
           <Card className="max-w-4xl mx-auto">
-            <CardContent className="p-8">
-              <h3 className="text-xl font-bold mb-4 text-center">{t.diagramExplanationTitle}</h3>
-              <div className="flex justify-center mb-6">
+            <CardContent className="p-4 sm:p-6 lg:p-8">
+              <h3 className="text-lg sm:text-xl font-bold mb-4 text-center">
+                {t.diagramExplanationTitle}
+              </h3>
+              <div className="flex justify-center mb-4 sm:mb-6">
                 <OverviewDiagram />
               </div>
-              <p className="text-muted-foreground text-center">{t.diagramExplanationText}</p>
+              <p className="text-muted-foreground text-center px-4">{t.diagramExplanationText}</p>
             </CardContent>
           </Card>
         </div>
       </section>
 
       {/* Use Cases */}
-      <section id="use-cases" className="py-20 px-4 bg-muted/50">
+      <section id="use-cases" className="py-12 sm:py-16 lg:py-20 px-4 bg-muted/50">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">{t.useCasesTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.useCasesDescription}</p>
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.useCasesTitle}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">{t.useCasesDescription}</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <Card className="h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-2">
                   <Database className="h-6 w-6 text-purple-500" />
                 </div>
-                <CardTitle>{t.enterpriseSecurityTitle}</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">{t.enterpriseSecurityTitle}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">{t.enterpriseSecurityText}</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  {t.enterpriseSecurityText}
+                </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-2">
                   <Zap className="h-6 w-6 text-orange-500" />
                 </div>
-                <CardTitle>{t.cicdIntegrationTitle}</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">{t.cicdIntegrationTitle}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">{t.cicdIntegrationText}</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  {t.cicdIntegrationText}
+                </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="h-full md:col-span-2 lg:col-span-1">
               <CardHeader>
                 <div className="w-12 h-12 bg-teal-500/10 rounded-lg flex items-center justify-center mb-2">
                   <Users className="h-6 w-6 text-teal-500" />
                 </div>
-                <CardTitle>{t.openSourceProjectsTitle}</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">{t.openSourceProjectsTitle}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">{t.openSourceProjectsText}</p>
+                <p className="text-muted-foreground text-sm sm:text-base">
+                  {t.openSourceProjectsText}
+                </p>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* New Architecture Section */}
-      <section id="architecture" className="py-20 px-4 bg-background">
+      {/* Architecture Section */}
+      <section id="architecture" className="py-12 sm:py-16 lg:py-20 px-4 bg-background">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-2">
-              <Server className="h-8 w-8 text-primary" />
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
+              <Server className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
               {t.architectureTitle}
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.architectureDescription}</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">
+              {t.architectureDescription}
+            </p>
           </div>
 
           <Card className="max-w-5xl mx-auto">
-            <CardContent className="p-8">
-              <h3 className="text-xl font-bold mb-4 text-center">
+            <CardContent className="p-4 sm:p-6 lg:p-8">
+              <h3 className="text-lg sm:text-xl font-bold mb-4 text-center">
                 {t.architectureDiagramExplanationTitle}
               </h3>
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-4 sm:mb-6 overflow-x-auto">
                 <ArchitectureDiagram />
               </div>
-              <p className="text-muted-foreground text-center">
+              <p className="text-muted-foreground text-center px-4">
                 {t.architectureDiagramExplanationText}
               </p>
             </CardContent>
@@ -325,30 +331,32 @@ export default async function LandingPage({ params }: PageProps) {
       </section>
 
       {/* Contact Section (formerly CTA) */}
-      <section id="contact" className="py-20 px-4 bg-muted/50">
+      <section id="contact" className="py-12 sm:py-16 lg:py-20 px-4 bg-muted/50">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">{t.contactTitle}</h2>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{t.contactDescription}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.contactTitle}</h2>
+          <p className="text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto px-4">
+            {t.contactDescription}
+          </p>
 
           {/* Email Contact */}
-          <div className="mb-8">
-            <p className="text-lg text-muted-foreground mb-2">Get in touch with us:</p>
+          <div className="mb-6 sm:mb-8">
+            <p className="text-base sm:text-lg text-muted-foreground mb-2">Get in touch with us:</p>
             <a
               href="mailto:hi@securechain.dev"
-              className="text-2xl font-semibold text-primary hover:text-primary/80 transition-colors"
+              className="text-xl sm:text-2xl font-semibold text-primary hover:text-primary/80 transition-colors break-all"
             >
               hi@securechain.dev
             </a>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
-            <Button variant="outline" className="gap-2" asChild>
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center max-w-2xl mx-auto">
+            <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
               <a href="https://github.com/securechaindev" target="_blank" rel="noopener noreferrer">
                 <SiGithub className="h-5 w-5" />
                 {t.githubOrgLink}
               </a>
             </Button>
-            <Button variant="outline" className="gap-2" asChild>
+            <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
               <a
                 href="https://zenodo.org/communities/securechaindev/records"
                 target="_blank"
@@ -358,7 +366,7 @@ export default async function LandingPage({ params }: PageProps) {
                 {t.zenodoOrgLink}
               </a>
             </Button>
-            <Button variant="outline" className="gap-2" asChild>
+            <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
               <a href="https://securechaindev.github.io/" target="_blank" rel="noopener noreferrer">
                 <BookOpen className="h-5 w-5" />
                 {t.documentationLink}
@@ -369,18 +377,20 @@ export default async function LandingPage({ params }: PageProps) {
       </section>
 
       {/* Supporters Section */}
-      <section id="supporters" className="py-20 px-4 bg-background">
+      <section id="supporters" className="py-12 sm:py-16 lg:py-20 px-4 bg-background">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-2">
-              <Heart className="h-8 w-8 text-red-500" />
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
+              <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-red-500" />
               {t.supportersTitle}
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.supportersDescription}</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">
+              {t.supportersDescription}
+            </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
               {/* IDEA Research Group */}
               <Card className="p-8">
                 <CardContent className="flex flex-col items-center text-center space-y-4">
@@ -446,7 +456,7 @@ export default async function LandingPage({ params }: PageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-12 px-4 bg-background">
+      <footer className="border-t py-8 sm:py-12 px-4 bg-background">
         <div className="container mx-auto">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
@@ -455,24 +465,16 @@ export default async function LandingPage({ params }: PageProps) {
                 alt="Secure Chain Logo"
                 width={64}
                 height={64}
-                className="h-16 w-16"
+                className="h-12 w-12 sm:h-16 sm:w-16"
               />
-              <span className="font-bold">Secure Chain</span>
+              <span className="text-lg sm:text-xl font-bold">Secure Chain</span>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">{t.footerDescription}</p>
-
-            {/* Email in Footer */}
-            <div className="mb-6">
-              <a
-                href="mailto:hi@securechain.dev"
-                className="text-lg font-medium text-primary hover:text-primary/80 transition-colors"
-              >
-                hi@securechain.dev
-              </a>
-            </div>
+            <p className="text-sm text-muted-foreground mb-4 max-w-2xl mx-auto px-4">
+              {t.footerDescription}
+            </p>
           </div>
 
-          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+          <div className="border-t mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-sm text-muted-foreground">
             <p>{t.footerCopyright}</p>
           </div>
         </div>

@@ -25,19 +25,24 @@ export default function PackagesTab({ translations, packageOperations }: Package
     packageOperations
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Package className="h-5 w-5" /> {translations.packageVersionStatusTitle}
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <Package className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="truncate">{translations.packageVersionStatusTitle}</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">{translations.checkPackageStatusTitle}</h3>
+          <h3 className="text-base sm:text-lg font-semibold">
+            {translations.checkPackageStatusTitle}
+          </h3>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="nodeType">Package Type</Label>
+              <Label htmlFor="nodeType" className="text-sm font-medium">
+                Package Type
+              </Label>
               <Select value={nodeType} onValueChange={(value: any) => setNodeType(value)}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select package type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -51,12 +56,15 @@ export default function PackagesTab({ translations, packageOperations }: Package
               </Select>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="packageName">{translations.packageNameLabel}</Label>
+              <Label htmlFor="packageName" className="text-sm font-medium">
+                {translations.packageNameLabel}
+              </Label>
               <Input
                 id="packageName"
                 value={packageName}
                 onChange={e => setPackageName(e.target.value)}
                 placeholder={translations.packageNamePlaceholder}
+                className="w-full"
               />
             </div>
           </div>
@@ -65,9 +73,11 @@ export default function PackagesTab({ translations, packageOperations }: Package
               handlePackageStatus()
             }}
             disabled={depexLoading}
+            className="w-full sm:w-auto"
+            size="sm"
           >
             {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            {translations.checkPackageStatusButton}
+            <span className="text-xs sm:text-sm">{translations.checkPackageStatusButton}</span>
           </Button>
         </div>
       </CardContent>

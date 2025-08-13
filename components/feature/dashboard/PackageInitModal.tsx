@@ -29,22 +29,38 @@ export default function PackageInitModal({
 }: PackageInitModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{translations.initializePackageModalTitle}</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="sm:max-w-md mx-4 rounded-lg">
+        <DialogHeader className="space-y-3">
+          <DialogTitle className="text-lg sm:text-xl leading-tight">
+            {translations.initializePackageModalTitle}
+          </DialogTitle>
+          <DialogDescription className="text-sm sm:text-base leading-relaxed">
             {translations.initializePackageModalDescription.replace(
               '{packageName}',
               pendingPackageInit?.packageName || ''
             )}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <Button onClick={onInitialize} disabled={depexLoading}>
-            {depexLoading ? translations.initializingPackage : translations.initializePackageButton}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 pt-4">
+          <Button
+            onClick={onInitialize}
+            disabled={depexLoading}
+            className="w-full sm:w-auto order-2 sm:order-1"
+            size="sm"
+          >
+            <span className="text-xs sm:text-sm">
+              {depexLoading
+                ? translations.initializingPackage
+                : translations.initializePackageButton}
+            </span>
           </Button>
-          <Button variant="outline" onClick={onCancel}>
-            {translations.cancelButton}
+          <Button
+            variant="outline"
+            onClick={onCancel}
+            className="w-full sm:w-auto order-1 sm:order-2"
+            size="sm"
+          >
+            <span className="text-xs sm:text-sm">{translations.cancelButton}</span>
           </Button>
         </div>
       </DialogContent>

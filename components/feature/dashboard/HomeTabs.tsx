@@ -36,26 +36,38 @@ export default function HomeTabs({ user, userId, translations }: HomeTabsProps) 
   } = packageOperations
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-4 sm:py-8">
       <div className="max-w-6xl mx-auto">
         <Tabs defaultValue="repositories" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="repositories">
-              <GitHubIcon className="h-4 w-4 mr-2" /> {translations.repositoriesTab}
+          <TabsList className="grid w-full grid-cols-3 h-auto">
+            <TabsTrigger
+              value="repositories"
+              className="flex-col sm:flex-row gap-1 sm:gap-2 py-2 sm:py-3"
+            >
+              <GitHubIcon className="h-4 w-4" />
+              <span className="text-xs sm:text-sm truncate">{translations.repositoriesTab}</span>
             </TabsTrigger>
-            <TabsTrigger value="packages">
-              <Package className="h-4 w-4 mr-2" /> {translations.packagesTab}
+            <TabsTrigger
+              value="packages"
+              className="flex-col sm:flex-row gap-1 sm:gap-2 py-2 sm:py-3"
+            >
+              <Package className="h-4 w-4" />
+              <span className="text-xs sm:text-sm truncate">{translations.packagesTab}</span>
             </TabsTrigger>
-            <TabsTrigger value="initialization">
-              <GitPullRequest className="h-4 w-4 mr-2" /> {translations.initializationTab}
+            <TabsTrigger
+              value="initialization"
+              className="flex-col sm:flex-row gap-1 sm:gap-2 py-2 sm:py-3"
+            >
+              <GitPullRequest className="h-4 w-4" />
+              <span className="text-xs sm:text-sm truncate">{translations.initializationTab}</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="repositories" className="mt-6">
+          <TabsContent value="repositories" className="mt-4 sm:mt-6">
             <RepositoriesTab user={user} userId={userId} translations={translations} />
           </TabsContent>
 
-          <TabsContent value="packages" className="mt-6">
+          <TabsContent value="packages" className="mt-4 sm:mt-6">
             <PackagesTab
               userId={userId}
               translations={translations}
@@ -63,7 +75,7 @@ export default function HomeTabs({ user, userId, translations }: HomeTabsProps) 
             />
           </TabsContent>
 
-          <TabsContent value="initialization" className="mt-6">
+          <TabsContent value="initialization" className="mt-4 sm:mt-6">
             <InitializationTab userId={userId} translations={translations} />
           </TabsContent>
         </Tabs>

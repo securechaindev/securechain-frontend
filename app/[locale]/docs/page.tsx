@@ -356,28 +356,32 @@ export default async function DocsPage({ params }: PageProps) {
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
               <Link
                 href={`/${locale}`}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors text-sm sm:text-base"
               >
-                {t.docs.backToHome}
+                <span className="hidden sm:inline">{t.docs.backToHome}</span>
+                <span className="sm:hidden">← Back</span>
               </Link>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 min-w-0">
                 <Image
                   src="/images/securechain-logo.ico"
                   alt="Secure Chain Logo"
                   width={32}
                   height={32}
-                  className="h-8 w-8"
+                  className="h-6 w-6 sm:h-8 sm:w-8 flex-shrink-0"
                 />
-                <span className="font-bold">Secure Chain API</span>
+                <span className="font-bold text-sm sm:text-base truncate">
+                  <span className="hidden md:inline">Secure Chain API</span>
+                  <span className="md:hidden">SC API</span>
+                </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <ThemeToggle />
               <LanguageToggle currentLang={locale} />
             </div>
@@ -386,20 +390,23 @@ export default async function DocsPage({ params }: PageProps) {
       </nav>
 
       {/* Hero Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         <div className="container mx-auto text-center">
-          <Badge variant="outline" className="mb-4">
-            <BookOpen className="h-4 w-4 mr-2" />
+          <Badge variant="outline" className="mb-4 text-xs sm:text-sm">
+            <BookOpen className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
             {t.docs.apiDocumentationBadge}
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-tight pb-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-tight pb-2">
             {t.docs.title}
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">{t.docs.subtitle}</p>
+          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4">
+            {t.docs.subtitle}
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
               <a href="https://github.com/securechaindev" target="_blank" rel="noopener noreferrer">
-                {t.docs.viewOnGitHub} <ExternalLink className="h-4 w-4 ml-2" />
+                <span className="text-sm sm:text-base">{t.docs.viewOnGitHub}</span>
+                <ExternalLink className="h-4 w-4 ml-2" />
               </a>
             </Button>
           </div>
@@ -407,130 +414,181 @@ export default async function DocsPage({ params }: PageProps) {
       </section>
 
       {/* Main Content */}
-      <section className="py-16 px-4">
+      <section className="py-8 sm:py-12 lg:py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-6">
-              <TabsTrigger value="overview">{t.docs.overview}</TabsTrigger>
-              <TabsTrigger value="auth">{t.docs.auth}</TabsTrigger>
-              <TabsTrigger value="graph">{t.docs.graph}</TabsTrigger>
-              <TabsTrigger value="file-ops">{t.docs.fileOps}</TabsTrigger>
-              <TabsTrigger value="config-ops">{t.docs.configOps}</TabsTrigger>
-              <TabsTrigger value="schemas">{t.docs.schemas}</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 h-auto">
+              <TabsTrigger value="overview" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+                <span className="hidden sm:inline">{t.docs.overview}</span>
+                <span className="sm:hidden">Info</span>
+              </TabsTrigger>
+              <TabsTrigger value="auth" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+                <span className="hidden sm:inline">{t.docs.auth}</span>
+                <span className="sm:hidden">Auth</span>
+              </TabsTrigger>
+              <TabsTrigger value="graph" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+                <span className="hidden sm:inline">{t.docs.graph}</span>
+                <span className="sm:hidden">Graph</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="file-ops"
+                className="text-xs sm:text-sm py-2 px-1 sm:px-3 col-span-3 lg:col-span-1"
+              >
+                <span className="hidden lg:inline">{t.docs.fileOps}</span>
+                <span className="lg:hidden">File Ops</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="config-ops"
+                className="text-xs sm:text-sm py-2 px-1 sm:px-3 col-span-3 lg:col-span-1"
+              >
+                <span className="hidden lg:inline">{t.docs.configOps}</span>
+                <span className="lg:hidden">Config Ops</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="schemas"
+                className="text-xs sm:text-sm py-2 px-1 sm:px-3 col-span-3 lg:col-span-1"
+              >
+                <span className="hidden sm:inline">{t.docs.schemas}</span>
+                <span className="sm:hidden">Schema</span>
+              </TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}
-            <TabsContent value="overview" className="mt-6">
-              <div className="space-y-6">
+            <TabsContent value="overview" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Globe className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.apiInformation}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="font-semibold mb-2">{t.docs.version}</h4>
-                        <p className="text-muted-foreground">1.0.0</p>
+                        <h4 className="font-semibold mb-2 text-sm sm:text-base">
+                          {t.docs.version}
+                        </h4>
+                        <p className="text-muted-foreground text-sm">1.0.0</p>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-2">{t.docs.openapi}</h4>
-                        <p className="text-muted-foreground">3.1.0</p>
+                        <h4 className="font-semibold mb-2 text-sm sm:text-base">
+                          {t.docs.openapi}
+                        </h4>
+                        <p className="text-muted-foreground text-sm">3.1.0</p>
                       </div>
-                      <div>
-                        <h4 className="font-semibold mb-2">{t.docs.baseUrl}</h4>
-                        <p className="text-muted-foreground font-mono">
+                      <div className="sm:col-span-2 lg:col-span-1">
+                        <h4 className="font-semibold mb-2 text-sm sm:text-base">
+                          {t.docs.baseUrl}
+                        </h4>
+                        <p className="text-muted-foreground font-mono text-xs sm:text-sm break-all">
                           https://api.securechain.dev
                         </p>
                       </div>
-                      <div>
-                        <h4 className="font-semibold mb-2">{t.docs.authentication}</h4>
-                        <p className="text-muted-foreground">{t.docs.jwtBearerToken}</p>
+                      <div className="sm:col-span-2 lg:col-span-1">
+                        <h4 className="font-semibold mb-2 text-sm sm:text-base">
+                          {t.docs.authentication}
+                        </h4>
+                        <p className="text-muted-foreground text-sm">{t.docs.jwtBearerToken}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <div className="grid md:grid-cols-3 gap-6">
-                  <Card>
-                    <CardHeader>
-                      <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-2">
-                        <Shield className="h-6 w-6 text-blue-500" />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+                  <Card className="md:col-span-2 xl:col-span-1">
+                    <CardHeader className="pb-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-2">
+                        <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
                       </div>
-                      <CardTitle>{t.docs.authenticationTitle}</CardTitle>
+                      <CardTitle className="text-base sm:text-lg">
+                        {t.docs.authenticationTitle}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-4">
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                         {t.docs.authenticationDescription}
                       </p>
-                      <Badge variant="secondary">8 {t.docs.endpoints}</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        8 {t.docs.endpoints}
+                      </Badge>
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-2">
-                        <Database className="h-6 w-6 text-green-500" />
+                  <Card className="md:col-span-2 xl:col-span-1">
+                    <CardHeader className="pb-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-2">
+                        <Database className="h-5 w-5 sm:h-6 sm:w-6 text-green-500" />
                       </div>
-                      <CardTitle>{t.docs.dependencyGraphTitle}</CardTitle>
+                      <CardTitle className="text-base sm:text-lg">
+                        {t.docs.dependencyGraphTitle}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-4">
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                         {t.docs.dependencyGraphDescription}
                       </p>
-                      <Badge variant="secondary">6 {t.docs.endpoints}</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        6 {t.docs.endpoints}
+                      </Badge>
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-2">
-                        <Code className="h-6 w-6 text-purple-500" />
+                  <Card className="md:col-span-2 xl:col-span-1">
+                    <CardHeader className="pb-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-2">
+                        <Code className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" />
                       </div>
-                      <CardTitle>{t.docs.fileOperationsTitle}</CardTitle>
+                      <CardTitle className="text-base sm:text-lg">
+                        {t.docs.fileOperationsTitle}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-4">
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                         {t.docs.fileOperationsDescription}
                       </p>
-                      <Badge variant="secondary">5 {t.docs.endpoints}</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        5 {t.docs.endpoints}
+                      </Badge>
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <div className="w-12 h-12 bg-indigo-500/10 rounded-lg flex items-center justify-center mb-2">
-                        <FileText className="h-6 w-6 text-indigo-500" />
+                  <Card className="md:col-span-2 xl:col-span-1">
+                    <CardHeader className="pb-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-500/10 rounded-lg flex items-center justify-center mb-2">
+                        <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-indigo-500" />
                       </div>
-                      <CardTitle>{t.docs.configOperationsTitle}</CardTitle>
+                      <CardTitle className="text-base sm:text-lg">
+                        {t.docs.configOperationsTitle}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-4">
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                         {t.docs.configOperationsDescription}
                       </p>
-                      <Badge variant="secondary">3 {t.docs.endpoints}</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        3 {t.docs.endpoints}
+                      </Badge>
                     </CardContent>
                   </Card>
                 </div>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.supportedEcosystems}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                       {nodeTypes.map(nodeType => (
                         <div
                           key={nodeType}
                           className="flex items-center gap-2 p-3 border rounded-lg"
                         >
-                          <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          <span className="font-mono text-sm">{nodeType}</span>
+                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                          <span className="font-mono text-xs sm:text-sm truncate">{nodeType}</span>
                         </div>
                       ))}
                     </div>
@@ -540,36 +598,47 @@ export default async function DocsPage({ params }: PageProps) {
             </TabsContent>
 
             {/* Auth Tab */}
-            <TabsContent value="auth" className="mt-6">
-              <div className="space-y-6">
+            <TabsContent value="auth" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Shield className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.authEndpoints}
                     </CardTitle>
-                    <CardDescription>{t.docs.authEndpointsDescription}</CardDescription>
+                    <CardDescription className="text-sm">
+                      {t.docs.authEndpointsDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {authEndpoints.map((endpoint, index) => (
-                        <div key={index} className="border rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3">
-                              <Badge className={`${getMethodColor(endpoint.method)} border`}>
+                        <div key={index} className="border rounded-lg p-3 sm:p-4">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                              <Badge
+                                className={`${getMethodColor(endpoint.method)} border text-xs flex-shrink-0`}
+                              >
                                 {endpoint.method}
                               </Badge>
-                              <code className="text-sm font-mono">{endpoint.path}</code>
+                              <code className="text-xs sm:text-sm font-mono break-all">
+                                {endpoint.path}
+                              </code>
                             </div>
                             {endpoint.auth && (
-                              <Badge variant="outline" className="gap-1">
+                              <Badge variant="outline" className="gap-1 text-xs w-fit">
                                 <Lock className="h-3 w-3" />
-                                Auth Required
+                                <span className="hidden sm:inline">Auth Required</span>
+                                <span className="sm:hidden">Auth</span>
                               </Badge>
                             )}
                           </div>
-                          <h4 className="font-semibold mb-1">{endpoint.summary}</h4>
-                          <p className="text-sm text-muted-foreground">{endpoint.description}</p>
+                          <h4 className="font-semibold mb-1 text-sm sm:text-base">
+                            {endpoint.summary}
+                          </h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {endpoint.description}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -579,36 +648,47 @@ export default async function DocsPage({ params }: PageProps) {
             </TabsContent>
 
             {/* Graph Tab */}
-            <TabsContent value="graph" className="mt-6">
-              <div className="space-y-6">
+            <TabsContent value="graph" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Database className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <Database className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.graphEndpoints}
                     </CardTitle>
-                    <CardDescription>{t.docs.graphEndpointsDescription}</CardDescription>
+                    <CardDescription className="text-sm">
+                      {t.docs.graphEndpointsDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {depexGraphEndpoints.map((endpoint, index) => (
-                        <div key={index} className="border rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3">
-                              <Badge className={`${getMethodColor(endpoint.method)} border`}>
+                        <div key={index} className="border rounded-lg p-3 sm:p-4">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                              <Badge
+                                className={`${getMethodColor(endpoint.method)} border text-xs flex-shrink-0`}
+                              >
                                 {endpoint.method}
                               </Badge>
-                              <code className="text-sm font-mono">{endpoint.path}</code>
+                              <code className="text-xs sm:text-sm font-mono break-all">
+                                {endpoint.path}
+                              </code>
                             </div>
                             {endpoint.auth && (
-                              <Badge variant="outline" className="gap-1">
+                              <Badge variant="outline" className="gap-1 text-xs w-fit">
                                 <Lock className="h-3 w-3" />
-                                Auth Required
+                                <span className="hidden sm:inline">Auth Required</span>
+                                <span className="sm:hidden">Auth</span>
                               </Badge>
                             )}
                           </div>
-                          <h4 className="font-semibold mb-1">{endpoint.summary}</h4>
-                          <p className="text-sm text-muted-foreground">{endpoint.description}</p>
+                          <h4 className="font-semibold mb-1 text-sm sm:text-base">
+                            {endpoint.summary}
+                          </h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {endpoint.description}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -618,36 +698,47 @@ export default async function DocsPage({ params }: PageProps) {
             </TabsContent>
 
             {/* File Operations Tab */}
-            <TabsContent value="file-ops" className="mt-6">
-              <div className="space-y-6">
+            <TabsContent value="file-ops" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Code className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <Code className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.fileEndpoints}
                     </CardTitle>
-                    <CardDescription>{t.docs.fileEndpointsDescription}</CardDescription>
+                    <CardDescription className="text-sm">
+                      {t.docs.fileEndpointsDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {depexFileOperationEndpoints.map((endpoint, index) => (
-                        <div key={index} className="border rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3">
-                              <Badge className={`${getMethodColor(endpoint.method)} border`}>
+                        <div key={index} className="border rounded-lg p-3 sm:p-4">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                              <Badge
+                                className={`${getMethodColor(endpoint.method)} border text-xs flex-shrink-0`}
+                              >
                                 {endpoint.method}
                               </Badge>
-                              <code className="text-sm font-mono">{endpoint.path}</code>
+                              <code className="text-xs sm:text-sm font-mono break-all">
+                                {endpoint.path}
+                              </code>
                             </div>
                             {endpoint.auth && (
-                              <Badge variant="outline" className="gap-1">
+                              <Badge variant="outline" className="gap-1 text-xs w-fit">
                                 <Lock className="h-3 w-3" />
-                                Auth Required
+                                <span className="hidden sm:inline">Auth Required</span>
+                                <span className="sm:hidden">Auth</span>
                               </Badge>
                             )}
                           </div>
-                          <h4 className="font-semibold mb-1">{endpoint.summary}</h4>
-                          <p className="text-sm text-muted-foreground">{endpoint.description}</p>
+                          <h4 className="font-semibold mb-1 text-sm sm:text-base">
+                            {endpoint.summary}
+                          </h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {endpoint.description}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -657,36 +748,47 @@ export default async function DocsPage({ params }: PageProps) {
             </TabsContent>
 
             {/* Config Operations Tab */}
-            <TabsContent value="config-ops" className="mt-6">
-              <div className="space-y-6">
+            <TabsContent value="config-ops" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.configEndpoints}
                     </CardTitle>
-                    <CardDescription>{t.docs.configEndpointsDescription}</CardDescription>
+                    <CardDescription className="text-sm">
+                      {t.docs.configEndpointsDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {depexConfigOperationEndpoints.map((endpoint, index) => (
-                        <div key={index} className="border rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3">
-                              <Badge className={`${getMethodColor(endpoint.method)} border`}>
+                        <div key={index} className="border rounded-lg p-3 sm:p-4">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                              <Badge
+                                className={`${getMethodColor(endpoint.method)} border text-xs flex-shrink-0`}
+                              >
                                 {endpoint.method}
                               </Badge>
-                              <code className="text-sm font-mono">{endpoint.path}</code>
+                              <code className="text-xs sm:text-sm font-mono break-all">
+                                {endpoint.path}
+                              </code>
                             </div>
                             {endpoint.auth && (
-                              <Badge variant="outline" className="gap-1">
+                              <Badge variant="outline" className="gap-1 text-xs w-fit">
                                 <Lock className="h-3 w-3" />
-                                Auth Required
+                                <span className="hidden sm:inline">Auth Required</span>
+                                <span className="sm:hidden">Auth</span>
                               </Badge>
                             )}
                           </div>
-                          <h4 className="font-semibold mb-1">{endpoint.summary}</h4>
-                          <p className="text-sm text-muted-foreground">{endpoint.description}</p>
+                          <h4 className="font-semibold mb-1 text-sm sm:text-base">
+                            {endpoint.summary}
+                          </h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {endpoint.description}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -696,27 +798,31 @@ export default async function DocsPage({ params }: PageProps) {
             </TabsContent>
 
             {/* Schemas Tab */}
-            <TabsContent value="schemas" className="mt-6">
-              <div className="space-y-6">
+            <TabsContent value="schemas" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                       {t.docs.requestSchemas}
                     </CardTitle>
-                    <CardDescription>{t.docs.requestSchemasDescription}</CardDescription>
+                    <CardDescription className="text-sm">
+                      {t.docs.requestSchemasDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {schemas.map((schema, index) => (
-                        <div key={index} className="border rounded-lg p-4">
-                          <h4 className="font-semibold mb-2">{schema.name}</h4>
-                          <p className="text-sm text-muted-foreground mb-3">{schema.description}</p>
+                        <div key={index} className="border rounded-lg p-3 sm:p-4">
+                          <h4 className="font-semibold mb-2 text-sm sm:text-base">{schema.name}</h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-3 leading-relaxed">
+                            {schema.description}
+                          </p>
                           <div className="space-y-1">
-                            <h5 className="text-sm font-medium">{t.docs.fields}:</h5>
-                            <ul className="text-sm text-muted-foreground space-y-1">
+                            <h5 className="text-xs sm:text-sm font-medium">{t.docs.fields}:</h5>
+                            <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
                               {schema.fields.map((field, fieldIndex) => (
-                                <li key={fieldIndex} className="font-mono text-xs">
+                                <li key={fieldIndex} className="font-mono text-xs break-all">
                                   • {field}
                                 </li>
                               ))}
@@ -729,21 +835,28 @@ export default async function DocsPage({ params }: PageProps) {
                 </Card>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle>{t.docs.enumerations}</CardTitle>
-                    <CardDescription>{t.docs.enumerationsDescription}</CardDescription>
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg sm:text-xl">{t.docs.enumerations}</CardTitle>
+                    <CardDescription className="text-sm">
+                      {t.docs.enumerationsDescription}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       {enums.map((enumItem, index) => (
-                        <div key={index} className="border rounded-lg p-4">
-                          <h4 className="font-semibold mb-2">{enumItem.name}</h4>
-                          <p className="text-sm text-muted-foreground mb-3">
+                        <div key={index} className="border rounded-lg p-3 sm:p-4">
+                          <h4 className="font-semibold mb-2 text-sm sm:text-base">
+                            {enumItem.name}
+                          </h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-3 leading-relaxed">
                             {enumItem.description}
                           </p>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                             {enumItem.values.map(value => (
-                              <code key={value} className="text-sm p-2 bg-muted rounded">
+                              <code
+                                key={value}
+                                className="text-xs sm:text-sm p-2 bg-muted rounded break-all"
+                              >
                                 {value}
                               </code>
                             ))}
@@ -760,7 +873,7 @@ export default async function DocsPage({ params }: PageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-12 px-4 bg-background">
+      <footer className="border-t py-8 sm:py-12 px-4 bg-background">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Image
@@ -768,11 +881,14 @@ export default async function DocsPage({ params }: PageProps) {
               alt="Secure Chain Logo"
               width={64}
               height={64}
-              className="h-16 w-16"
+              className="h-12 w-12 sm:h-16 sm:w-16"
             />
-            <span className="font-bold">Secure Chain API</span>
+            <span className="font-bold text-sm sm:text-base">
+              <span className="hidden sm:inline">Secure Chain API</span>
+              <span className="sm:hidden">SC API</span>
+            </span>
           </div>
-          <p className="text-sm text-muted-foreground">{t.docs.footerText}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground px-4">{t.docs.footerText}</p>
         </div>
       </footer>
     </div>

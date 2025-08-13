@@ -86,45 +86,56 @@ export default function InitializationTab({ userId, translations }: Initializati
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <GitPullRequest className="h-5 w-5" /> {translations.initializeDataTitle}
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <GitPullRequest className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="truncate">{translations.initializeDataTitle}</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">{translations.initializeRepositoryTitle}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h3 className="text-base sm:text-lg font-semibold">
+            {translations.initializeRepositoryTitle}
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="repoOwner">{translations.repositoryOwnerLabel}</Label>
+              <Label htmlFor="repoOwner" className="text-sm font-medium">
+                {translations.repositoryOwnerLabel}
+              </Label>
               <Input
                 id="repoOwner"
                 value={repoOwner}
                 onChange={e => setRepoOwner(e.target.value)}
                 placeholder={translations.repositoryOwnerPlaceholder}
+                className="w-full"
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="repoName">{translations.repositoryNameLabel}</Label>
+              <Label htmlFor="repoName" className="text-sm font-medium">
+                {translations.repositoryNameLabel}
+              </Label>
               <Input
                 id="repoName"
                 value={repoName}
                 onChange={e => setRepoName(e.target.value)}
                 placeholder={translations.repositoryNamePlaceholder}
+                className="w-full"
               />
             </div>
           </div>
           <Button
             onClick={handleRepoInit}
             disabled={depexLoading || !repoOwner.trim() || !repoName.trim()}
+            className="w-full sm:w-auto"
+            size="sm"
           >
             {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            {translations.initializeRepositoryButton}
+            <span className="text-xs sm:text-sm">{translations.initializeRepositoryButton}</span>
           </Button>
           {errorMessage && (
-            <div className="p-3 rounded-md flex items-center gap-2 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-              <XCircle className="h-5 w-5" />
-              <span>{errorMessage}</span>
+            <div className="p-3 rounded-md flex items-start gap-2 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+              <XCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5" />
+              <span className="text-xs sm:text-sm leading-relaxed break-words">{errorMessage}</span>
             </div>
           )}
         </div>

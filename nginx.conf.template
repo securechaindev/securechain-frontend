@@ -48,7 +48,7 @@ server {
     listen [::]:443 ssl http2;
     server_name securechain.dev www.securechain.dev;
 
-    # Cloudflare Origin Certificate (mounted by volumes)
+    # Cloudflare Origin Certificate (mounted via volumes)
     ssl_certificate     /etc/ssl/cf_origin.pem;
     ssl_certificate_key /etc/ssl/private/cf_origin.key;
 
@@ -59,7 +59,7 @@ server {
     ssl_session_timeout 1d;
     ssl_session_tickets off;
 
-    # (Optional) HSTS: enable only when you confirm that everything works well over HTTPS
+    # Optional HSTS (enable only when HTTPS is confirmed everywhere)
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     # Security headers
@@ -72,12 +72,49 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
-    # Cache long-lived assets
+    # Long cache for immutable assets
     location /_next/static/ { expires 1y; add_header Cache-Control "public, immutable"; }
     location /images/       { expires 1y; add_header Cache-Control "public, immutable"; }
     location /assets/       { expires 1y; add_header Cache-Control "public, immutable"; }
 
-    # API reverse proxy (usa BACKEND_URL sustituyendo en build/run)
+    # -----------------------------------------
+    # (2) Block PHP files and WordPress probes
+    # -----------------------------------------
+    # Never serve/execute any .php
+    location ~* \.php($|\?) { return 444; }
+
+    # Common WordPress paths + xmlrpc
+    location ~* ^/(wp-admin|wp-includes|wp-content|wp-login\.php|wp-config\.php|wp-cron\.php|xmlrpc\.php|readme\.html|license\.txt) {
+        return 444;
+    }
+
+    # .php inside any subfolder (e.g., /wp-includes/ID3/priv.php)
+    location ~* /[^?]*/[^?]*\.php($|\?) { return 444; }
+
+    # -----------------------------------------
+    # (3) Block hidden/sensitive files
+    # -----------------------------------------
+    # Dotfiles (.git, .env, etc.)
+    location ~ /\. { return 404; }
+
+    # Config/backup/package artifacts that should never be exposed
+    location ~* \.(ini|env|bak|old|swp|sql|tar|tgz|gz|zip|7z|rar|lock)$ { return 404; }
+
+    # vendor/composer and any PHP under .well-known
+    location ~* ^/(vendor|composer\.(json|lock)|\.well-known/.*\.php)$ { return 404; }
+
+    # -----------------------------------------
+    # (5) Rate-limit static/SPAs (non-API)
+    # -----------------------------------------
+    location / {
+        # Gentle rate limiting for static assets and SPA routes
+        limit_req zone=static_ratelimit burst=40 nodelay;
+        # If you want to restrict methods here, you can uncomment:
+        # if ($request_method !~ ^(GET|HEAD|OPTIONS)$) { return 405; }
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    # API reverse proxy (BACKEND_URL is injected via envsubst)
     location /api/ {
         proxy_pass $BACKEND_URL/;
 
@@ -99,24 +136,22 @@ server {
 
         proxy_pass_header Set-Cookie;
 
-        # Allows small bursts (burst 20) without rejection (no nodelay = delayed)
+        # API rate limit (small burst allowed)
         limit_req zone=api_ratelimit burst=20;
     }
 
-    # SPA fallback
-    location / { try_files $uri $uri/ $uri.html /index.html; }
-
-    # Health
+    # Health endpoint
     location /health {
         access_log off;
         return 200 "healthy\n";
         add_header Content-Type text/plain;
     }
 
-    # Deny dotfiles
-    location ~ /\. { deny all; }
-
-    # Errors
+    # Error pages
     error_page 404 /404.html;
     error_page 500 502 503 504 /500.html;
+
+    # Optional: concurrent connection limit per IP (pairs with zone above)
+    limit_conn perip 20;
+    limit_conn_status 429;
 }

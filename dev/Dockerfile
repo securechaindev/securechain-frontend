@@ -28,7 +28,7 @@ RUN apk add --no-cache gettext curl
 
 COPY --from=dev-builder /app/out /usr/share/nginx/html
 
-COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY dev/nginx.conf.template /etc/nginx/templates/default.conf.template
 
 EXPOSE 80
 

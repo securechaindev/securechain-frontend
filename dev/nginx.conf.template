@@ -1,0 +1,96 @@
+# IP limit: 10 requests/second with a 10 MB shared memory zone
+limit_req_zone $binary_remote_addr zone=api_ratelimit:10m rate=10r/s;
+
+# Limit simultaneous connections per IP (not essential)
+limit_conn_zone $binary_remote_addr zone=perip:10m;
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name securechain.dev www.securechain.dev;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # Gzip compression
+    gzip on;
+    gzip_types
+        text/plain
+        text/css
+        text/js
+        text/xml
+        text/javascript
+        application/javascript
+        application/json
+        application/xml+rss;
+    gzip_min_length 1000;
+
+    # Cache static assets
+    location /_next/static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /images/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Return 429 instead of 503 when the limit is exceeded
+    limit_req_status 429;
+
+    # API routes - proxy to backend
+    location /api/ {
+        proxy_pass $BACKEND_URL/;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_cookie_domain off;
+        proxy_cookie_path   off;
+
+        proxy_pass_header Set-Cookie;
+
+        # Allows small bursts (burst 20) without rejection (no nodelay = delayed)
+        limit_req zone=api_ratelimit burst=20;
+    }
+
+    # SPA fallback
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    # Health check
+    location /health {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
+
+    # Deny access to hidden files
+    location ~ /\. {
+        deny all;
+    }
+
+    # Error pages
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /500.html;
+}

@@ -195,8 +195,8 @@ class APIClient {
             throw new APIError(
               retryResponse.status,
               errorData.message || retryResponse.statusText,
-              errorData.code,
-              errorData.details
+              errorData.code || 'unknown_error',
+              errorData
             )
           } else {
             if (typeof window !== 'undefined') {
@@ -212,8 +212,8 @@ class APIClient {
           throw new APIError(
             response.status,
             errorData.message || response.statusText,
-            errorData.code,
-            errorData.details
+            errorData.code || 'unknown_error',
+            errorData
           )
         }
 

@@ -171,7 +171,9 @@
   "invalidCredentialsError": "Credenciales inválidas",
   "loginErrorTitle": "Error de Inicio de Sesión",
   "networkErrorDescription": "Ocurrió un error de red",
+  "successTitle": "Éxito",
   "signupErrorTitle": "Error de Registro",
+  "signupNetworkError": "Error de red durante el registro",
   "accountCreatedTitle": "¡Cuenta Creada! ✅",
   "accountCreatedDescription": "Ahora puedes iniciar sesión con tus credenciales",
   "signupFailedTitle": "Fallo en el Registro",
@@ -292,6 +294,55 @@
     "logoutSuccess": "Sesión cerrada exitosamente",
     "passwordChanged": "Contraseña cambiada exitosamente",
     "tokenRefreshed": "Sesión renovada exitosamente"
+  },
+
+  "authErrorCodes": {
+    "userAlreadyExists": "Ya existe una cuenta con este correo electrónico",
+    "userNotFound": "Usuario no encontrado",
+    "incorrectPassword": "Contraseña incorrecta",
+    "invalidOldPassword": "La contraseña actual es incorrecta",
+    "missingRefreshToken": "Falta el token de renovación",
+    "tokenRevoked": "La sesión ha sido revocada",
+    "tokenMissing": "Falta el token de autenticación",
+    "tokenExpired": "Tu sesión ha expirado. Por favor, inicia sesión de nuevo",
+    "tokenInvalid": "Token de autenticación inválido",
+    "tokenError": "Ocurrió un error de autenticación",
+    "networkError": "Error de conexión de red",
+    "serverError": "Servidor temporalmente no disponible",
+    "unknownError": "Ocurrió un error inesperado"
+  },
+
+  "authSuccessCodes": {
+    "signupSuccess": "Cuenta creada exitosamente",
+    "loginSuccess": "¡Bienvenido! Inicio de sesión exitoso",
+    "logoutSuccess": "Has cerrado sesión exitosamente",
+    "changePasswordSuccess": "Tu contraseña ha sido actualizada exitosamente",
+    "accountExistsSuccess": "Verificación de cuenta completada",
+    "tokenVerificationSuccess": "El token es válido",
+    "refreshTokenSuccess": "Sesión renovada exitosamente",
+    "unknownSuccess": "Operación completada exitosamente"
+  },
+
+  "backendErrorCodes": {
+    "validationError": "Datos de solicitud inválidos proporcionados",
+    "httpError": "Error de solicitud HTTP ocurrido",
+    "internalError": "Error interno del servidor ocurrido"
+  },
+
+  "depexErrorCodes": {
+    "packageNotFound": "Paquete no encontrado en la base de datos",
+    "versionNotFound": "Versión no encontrada para este paquete",
+    "versionAlreadyExists": "La versión ya existe en la base de datos",
+    "noRepo": "Repositorio no encontrado o no accesible"
+  },
+
+  "depexSuccessCodes": {
+    "getRepositoriesSuccess": "Repositorios de usuario obtenidos exitosamente",
+    "getPackageStatusSuccess": "Estado del paquete obtenido exitosamente",
+    "getVersionStatusSuccess": "Estado de la versión obtenido exitosamente",
+    "versionInitializing": "Proceso de inicialización de versión iniciado",
+    "packageInitializing": "Proceso de inicialización de paquete iniciado",
+    "initRepo": "Análisis de repositorio iniciado en segundo plano"
   },
 
   "depexApiErrors": {
@@ -449,6 +500,56 @@
     "versionsOf": "de",
     "errorLoadingPackage": "Error",
     "failedToLoadPackageDetails": "Error al cargar los detalles del paquete",
-    "authLoading": "Verificando autenticación..."
+    "authLoading": "Verificando autenticación...",
+
+    "authErrorCodes": {
+      "userAlreadyExists": "Ya existe una cuenta con este correo electrónico",
+      "userNotFound": "Usuario no encontrado",
+      "incorrectPassword": "Contraseña incorrecta",
+      "invalidOldPassword": "La contraseña actual es inválida",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "missingRefreshToken": "Token de actualización faltante",
+      "tokenRevoked": "La sesión ha sido revocada",
+      "tokenMissing": "Token de autenticación faltante",
+      "tokenExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente",
+      "tokenInvalid": "Token de autenticación inválido",
+      "tokenError": "Error de autenticación ocurrido",
+      "networkError": "Error de conexión de red",
+      "serverError": "Servidor temporalmente no disponible",
+      "unknownError": "Ocurrió un error inesperado"
+    },
+
+    "authSuccessCodes": {
+      "signupSuccess": "Cuenta creada exitosamente",
+      "loginSuccess": "¡Bienvenido! Inicio de sesión exitoso",
+      "logoutSuccess": "Has cerrado sesión exitosamente",
+      "changePasswordSuccess": "Tu contraseña ha sido actualizada exitosamente",
+      "accountExistsSuccess": "Verificación de cuenta completada",
+      "tokenVerificationSuccess": "El token es válido",
+      "refreshTokenSuccess": "Sesión renovada exitosamente",
+      "unknownSuccess": "Operación completada exitosamente"
+    },
+
+    "backendErrorCodes": {
+      "validationError": "Datos de solicitud inválidos proporcionados",
+      "httpError": "Error de solicitud HTTP ocurrido",
+      "internalError": "Error interno del servidor ocurrido"
+    },
+
+    "depexErrorCodes": {
+      "packageNotFound": "Paquete no encontrado en la base de datos",
+      "versionNotFound": "Versión no encontrada para este paquete",
+      "versionAlreadyExists": "La versión ya existe en la base de datos",
+      "noRepo": "Repositorio no encontrado o no accesible"
+    },
+
+    "depexSuccessCodes": {
+      "getRepositoriesSuccess": "Repositorios de usuario obtenidos exitosamente",
+      "getPackageStatusSuccess": "Estado del paquete obtenido exitosamente",
+      "getVersionStatusSuccess": "Estado de la versión obtenido exitosamente",
+      "versionInitializing": "Proceso de inicialización de versión iniciado",
+      "packageInitializing": "Proceso de inicialización de paquete iniciado",
+      "initRepo": "Análisis de repositorio iniciado en segundo plano"
+    }
   }
 }

@@ -3,6 +3,7 @@ import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/ui'
 import { useAuthState } from '@/hooks/auth'
+import { getErrorMessage, getSuccessMessage, isErrorCode } from '@/lib/utils'
 
 interface UseLoginFormProps {
   locale: 'en' | 'es'
@@ -10,22 +11,23 @@ interface UseLoginFormProps {
     errorTitle: string
     fillAllFieldsError: string
     loginSuccessTitle: string
-    loginSuccessDescription: string
     loginFailedTitle: string
-    invalidCredentialsError: string
     loginErrorTitle: string
-    networkErrorDescription: string
-    passwordMismatchTitle: string
-    passwordMismatchError: string
     accountCreatedTitle: string
-    accountCreatedDescription: string
+    signupErrorTitle: string
+    signupNetworkError: string
+    authErrorCodes?: Record<string, string>
+    authSuccessCodes?: Record<string, string>
+    backendErrorCodes?: Record<string, string>
+    depexErrorCodes?: Record<string, string>
+    depexSuccessCodes?: Record<string, string>
   }
 }
 
 export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
   const { toast } = useToast()
   const router = useRouter()
-  const { login } = useAuthState()
+  const { login, signup } = useAuthState()
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [signupEmail, setSignupEmail] = useState('')
@@ -54,20 +56,30 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await login(loginEmail, loginPassword)
 
-      if (result.success) {
+      if (result.success && result.code) {
+        const successMessage = getSuccessMessage(result.code, t)
+        
         toast({
           title: t.loginSuccessTitle,
-          description: t.loginSuccessDescription,
+          description: successMessage,
         })
 
         setLoginEmail('')
         setLoginPassword('')
 
         router.push(`/${locale}/home`)
+      } else if (result.code) {
+        const errorMessage = getErrorMessage(result.code, t)
+        
+        toast({
+          title: t.loginFailedTitle,
+          description: errorMessage,
+          variant: 'destructive',
+        })
       } else {
         toast({
           title: t.loginFailedTitle,
-          description: result.error || t.invalidCredentialsError,
+          description: result.error || getErrorMessage('unknown_error', t),
           variant: 'destructive',
         })
       }
@@ -75,7 +87,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
       console.error('Login error:', error)
       toast({
         title: t.loginErrorTitle,
-        description: t.networkErrorDescription,
+        description: getErrorMessage('network_error', t),
         variant: 'destructive',
       })
     } finally {
@@ -85,6 +97,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault()
+    
     if (!signupEmail || !signupPassword || !confirmPassword) {
       toast({
         title: t.errorTitle,
@@ -95,9 +108,10 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     }
 
     if (signupPassword !== confirmPassword) {
+      const errorMessage = getErrorMessage('password_mismatch', t)
       toast({
-        title: t.passwordMismatchTitle,
-        description: t.passwordMismatchError,
+        title: t.errorTitle,
+        description: errorMessage,
         variant: 'destructive',
       })
       return
@@ -105,17 +119,47 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
     setIsSubmitting(true)
 
-    setTimeout(() => {
+    try {
+      const result = await signup(signupEmail, signupPassword, confirmPassword)
+
+      if (result.success && result.code) {
+        const successMessage = getSuccessMessage(result.code, t)
+        
+        toast({
+          title: t.accountCreatedTitle,
+          description: successMessage,
+        })
+
+        setSignupEmail('')
+        setSignupPassword('')
+        setConfirmPassword('')
+
+        router.push(`/${locale}/home`)
+      } else if (result.code) {
+        const errorMessage = getErrorMessage(result.code, t)
+        
+        toast({
+          title: t.signupErrorTitle,
+          description: errorMessage,
+          variant: 'destructive',
+        })
+      } else {
+        toast({
+          title: t.signupErrorTitle,
+          description: result.error || t.signupNetworkError,
+          variant: 'destructive',
+        })
+      }
+    } catch (error) {
+      console.error('Signup error:', error)
       toast({
-        title: t.accountCreatedTitle,
-        description: t.accountCreatedDescription,
+        title: t.signupErrorTitle,
+        description: t.signupNetworkError,
+        variant: 'destructive',
       })
-      setSignupEmail('')
-      setSignupPassword('')
-      setConfirmPassword('')
-      setActiveTab('login')
+    } finally {
       setIsSubmitting(false)
-    }, 1000)
+    }
   }
 
   return {

@@ -2,12 +2,27 @@
 import { useState, useEffect } from 'react'
 import { STORAGE_KEYS } from '@/constants'
 import { authAPI } from '@/lib/api'
+import { APIError } from '@/lib/utils'
 
 interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
   userId: string | null
   email: string | null
+}
+
+interface LoginResult {
+  success: boolean
+  error?: string
+  code?: string
+  data?: any
+}
+
+interface SignupResult {
+  success: boolean
+  error?: string
+  code?: string
+  data?: any
 }
 
 export function useAuthState() {
@@ -46,9 +61,13 @@ export function useAuthState() {
     }
   }
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<LoginResult> => {
     if (!isClient || typeof window === 'undefined') {
-      return { success: false, error: 'Login must be called after client hydration' }
+      return { 
+        success: false, 
+        error: 'Login must be called after client hydration',
+        code: 'client_error'
+      }
     }
 
     try {
@@ -69,18 +88,91 @@ export function useAuthState() {
           email: email,
         })
 
-        return { success: true, data }
+        return { success: true, data, code: data.code }
       } else {
         return {
           success: false,
-          error: data.message || data.detail || data.error || 'Credenciales inválidas',
+          error: data.message || data.detail || data.error,
+          code: data.code || 'unknown_error'
         }
       }
     } catch (error: any) {
       console.error('Error de red en login:', error)
+      
+      if (error instanceof APIError) {
+        return {
+          success: false,
+          error: error.message,
+          code: error.code || 'network_error'
+        }
+      }
+      
       return {
         success: false,
         error: error.message || 'Error de conexión',
+        code: 'network_error'
+      }
+    }
+  }
+
+  const signup = async (email: string, password: string, confirmPassword: string): Promise<SignupResult> => {
+    if (!isClient || typeof window === 'undefined') {
+      return { 
+        success: false, 
+        error: 'Signup must be called after client hydration',
+        code: 'client_error'
+      }
+    }
+
+    if (password !== confirmPassword) {
+      return {
+        success: false,
+        error: 'Passwords do not match',
+        code: 'password_mismatch'
+      }
+    }
+
+    try {
+      const response = await authAPI.signup({ email, password })
+      const data = response.data
+
+      const isSuccess =
+        response.ok && data.code === 'signup_success' && response.status === 201
+
+      if (isSuccess) {
+        localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
+        localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email)
+
+        setAuthState({
+          isAuthenticated: true,
+          isLoading: false,
+          userId: data.user_id,
+          email: email,
+        })
+
+        return { success: true, data, code: data.code }
+      } else {
+        return {
+          success: false,
+          error: data.message || data.detail || data.error,
+          code: data.code || 'unknown_error'
+        }
+      }
+    } catch (error: any) {
+      console.error('Error de red en signup:', error)
+      
+      if (error instanceof APIError) {
+        return {
+          success: false,
+          error: error.message,
+          code: error.code || 'network_error'
+        }
+      }
+      
+      return {
+        success: false,
+        error: error.message || 'Error de conexión',
+        code: 'network_error'
       }
     }
   }
@@ -137,6 +229,7 @@ export function useAuthState() {
   return {
     ...authState,
     login,
+    signup,
     logout,
     checkAuthStatus,
     authenticatedFetch,

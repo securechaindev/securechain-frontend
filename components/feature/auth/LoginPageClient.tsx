@@ -34,6 +34,7 @@ interface LoginPageClientProps {
     loginErrorTitle: string
     networkErrorDescription: string
     signupErrorTitle: string
+    signupNetworkError: string
     accountCreatedTitle: string
     accountCreatedDescription: string
     signupFailedTitle: string

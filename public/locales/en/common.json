@@ -449,6 +449,56 @@
     "versionsOf": "of",
     "errorLoadingPackage": "Error",
     "failedToLoadPackageDetails": "Failed to load package details",
-    "authLoading": "Verifying authentication..."
+    "authLoading": "Verifying authentication...",
+
+    "authErrorCodes": {
+      "userAlreadyExists": "An account with this email already exists",
+      "userNotFound": "User not found",
+      "incorrectPassword": "Incorrect password",
+      "invalidOldPassword": "Current password is invalid",
+      "passwordMismatch": "Passwords do not match",
+      "missingRefreshToken": "Refresh token is missing",
+      "tokenRevoked": "Session has been revoked",
+      "tokenMissing": "Authentication token is missing",
+      "tokenExpired": "Your session has expired. Please log in again",
+      "tokenInvalid": "Invalid authentication token",
+      "tokenError": "Authentication error occurred",
+      "networkError": "Network connection error",
+      "serverError": "Server temporarily unavailable",
+      "unknownError": "An unexpected error occurred"
+    },
+
+    "authSuccessCodes": {
+      "signupSuccess": "Account created successfully",
+      "loginSuccess": "Welcome! Login successful",
+      "logoutSuccess": "You have been logged out successfully",
+      "changePasswordSuccess": "Your password has been updated successfully",
+      "accountExistsSuccess": "Account verification completed",
+      "tokenVerificationSuccess": "Token is valid",
+      "refreshTokenSuccess": "Session refreshed successfully",
+      "unknownSuccess": "Operation completed successfully"
+    },
+
+    "backendErrorCodes": {
+      "validationError": "Invalid request data provided",
+      "httpError": "HTTP request error occurred",
+      "internalError": "Internal server error occurred"
+    },
+
+    "depexErrorCodes": {
+      "packageNotFound": "Package not found in the database",
+      "versionNotFound": "Version not found for this package",
+      "versionAlreadyExists": "Version already exists in the database",
+      "noRepo": "Repository not found or not accessible"
+    },
+
+    "depexSuccessCodes": {
+      "getRepositoriesSuccess": "User repositories retrieved successfully",
+      "getPackageStatusSuccess": "Package status retrieved successfully", 
+      "getVersionStatusSuccess": "Version status retrieved successfully",
+      "versionInitializing": "Version initialization process started",
+      "packageInitializing": "Package initialization process started",
+      "initRepo": "Repository analysis started in background"
+    }
   }
 }

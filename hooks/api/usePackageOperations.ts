@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useToast } from '@/hooks/ui'
 import { usePackage } from '@/context'
 import { depexAPI } from '@/lib/api'
+import { getDepexErrorMessage, getDepexSuccessMessage, APIError } from '@/lib/utils'
 import type { NodeType, PackageInitData } from '@/types'
 
 export function usePackageOperations(translations: Record<string, any>) {
@@ -30,24 +31,44 @@ export function usePackageOperations(translations: Record<string, any>) {
       const params = `package_name=${packageName}&node_type=${nodeType}`
       const response = await depexAPI.getPackageStatus(params)
 
-      if (response.data.package) {
-        // Set package details in context and show the view
+      if (response.ok && response.data.code === 'get_package_status_success' && response.data.package) {
         setPackageDetails(response.data.package)
         setIsViewingPackage(true)
-      }
-    } catch (error: any) {
-      // Handle 404 (package not found) vs other errors
-      if (error.status === 404 || error.code?.includes('package_not_found')) {
-        // Package doesn't exist, show initialization modal
+        
+        const successMessage = getDepexSuccessMessage('get_package_status_success', translations)
+        toast({
+          title: translations.successTitle || 'Success',
+          description: successMessage,
+        })
+      } else if (response.data.code === 'package_not_found') {
         setPendingPackageInit({ packageName, nodeType })
         setShowPackageInitModal(true)
       } else {
+        const errorMessage = getDepexErrorMessage(response.data.code || 'unknown_error', translations)
         toast({
           title: translations.errorTitle,
-          description: error.message || 'Failed to get package status',
+          description: errorMessage,
           variant: 'destructive',
         })
       }
+    } catch (error: any) {
+      console.error('Error getting package status:', error)
+      
+      let errorMessage = 'Failed to get package status'
+
+      if (error.status === 404 || (error instanceof APIError && error.code === 'package_not_found')) {
+        setPendingPackageInit({ packageName, nodeType })
+        setShowPackageInitModal(true)
+        return
+      } else if (error instanceof APIError && error.code) {
+        errorMessage = getDepexErrorMessage(error.code, translations)
+      }
+      
+      toast({
+        title: translations.errorTitle,
+        description: errorMessage,
+        variant: 'destructive',
+      })
     } finally {
       setDepexLoading(false)
     }
@@ -64,16 +85,33 @@ export function usePackageOperations(translations: Record<string, any>) {
         node_type: packageToInit.nodeType,
       })
 
-      toast({
-        title: translations.packageInitialized,
-        description: response.data.message,
-      })
-      setShowPackageInitModal(false)
-      setPendingPackageInit(null)
+      if (response.ok && response.data.code === 'package_initializing') {
+        const successMessage = getDepexSuccessMessage('package_initializing', translations)
+        toast({
+          title: translations.packageInitialized || 'Package Initialized',
+          description: successMessage,
+        })
+        setShowPackageInitModal(false)
+        setPendingPackageInit(null)
+      } else {
+        const errorMessage = getDepexErrorMessage(response.data.code || 'unknown_error', translations)
+        toast({
+          title: translations.errorTitle,
+          description: errorMessage,
+          variant: 'destructive',
+        })
+      }
     } catch (error: any) {
+      console.error('Error initializing package:', error)
+      
+      let errorMessage = 'Failed to initialize package'
+      if (error instanceof APIError && error.code) {
+        errorMessage = getDepexErrorMessage(error.code, translations)
+      }
+      
       toast({
         title: translations.errorTitle,
-        description: error.message || 'Failed to initialize package',
+        description: errorMessage,
         variant: 'destructive',
       })
     } finally {

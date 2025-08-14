@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import { apiClient } from '@/lib/api'
-import { RequestOptions } from '@/lib/api/api-client'
+import { RequestOptions } from '@/lib/api/apiClient'
 
 export function useAuthenticatedApi() {
   const get = useCallback(

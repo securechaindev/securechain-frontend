@@ -1,3 +1,3 @@
 // UI-related hooks
-export * from './use-mobile'
-export * from './use-toast'
+export * from './useMobile'
+export * from './useToast'

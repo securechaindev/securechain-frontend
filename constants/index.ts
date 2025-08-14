@@ -1,2 +1,2 @@
-export * from './api-endpoints'
-export * from './app-constants'
+export * from './apiEndpoints'
+export * from './appConstants'

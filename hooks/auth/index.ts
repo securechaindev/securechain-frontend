@@ -1,4 +1,4 @@
 // Authentication hooks
-export * from './use-auth'
-export * from './use-auth-state'
+export * from './useAuth'
+export * from './useAuthState'
 export * from './useHomeAuth'

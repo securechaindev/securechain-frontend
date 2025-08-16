@@ -63,10 +63,10 @@ export function useAuthState() {
 
   const login = async (email: string, password: string): Promise<LoginResult> => {
     if (!isClient || typeof window === 'undefined') {
-      return { 
-        success: false, 
+      return {
+        success: false,
         error: 'Login must be called after client hydration',
-        code: 'client_error'
+        code: 'client_error',
       }
     }
 
@@ -93,34 +93,38 @@ export function useAuthState() {
         return {
           success: false,
           error: data.message || data.detail || data.error,
-          code: data.code || 'unknown_error'
+          code: data.code || 'unknown_error',
         }
       }
     } catch (error: any) {
       console.error('Error de red en login:', error)
-      
+
       if (error instanceof APIError) {
         return {
           success: false,
           error: error.message,
-          code: error.code || 'network_error'
+          code: error.code || 'network_error',
         }
       }
-      
+
       return {
         success: false,
         error: error.message || 'Error de conexión',
-        code: 'network_error'
+        code: 'network_error',
       }
     }
   }
 
-  const signup = async (email: string, password: string, confirmPassword: string): Promise<SignupResult> => {
+  const signup = async (
+    email: string,
+    password: string,
+    confirmPassword: string
+  ): Promise<SignupResult> => {
     if (!isClient || typeof window === 'undefined') {
-      return { 
-        success: false, 
+      return {
+        success: false,
         error: 'Signup must be called after client hydration',
-        code: 'client_error'
+        code: 'client_error',
       }
     }
 
@@ -128,7 +132,7 @@ export function useAuthState() {
       return {
         success: false,
         error: 'Passwords do not match',
-        code: 'password_mismatch'
+        code: 'password_mismatch',
       }
     }
 
@@ -136,8 +140,7 @@ export function useAuthState() {
       const response = await authAPI.signup({ email, password })
       const data = response.data
 
-      const isSuccess =
-        response.ok && data.code === 'signup_success' && response.status === 201
+      const isSuccess = response.ok && data.code === 'signup_success' && response.status === 201
 
       if (isSuccess) {
         localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
@@ -155,24 +158,24 @@ export function useAuthState() {
         return {
           success: false,
           error: data.message || data.detail || data.error,
-          code: data.code || 'unknown_error'
+          code: data.code || 'unknown_error',
         }
       }
     } catch (error: any) {
       console.error('Error de red en signup:', error)
-      
+
       if (error instanceof APIError) {
         return {
           success: false,
           error: error.message,
-          code: error.code || 'network_error'
+          code: error.code || 'network_error',
         }
       }
-      
+
       return {
         success: false,
         error: error.message || 'Error de conexión',
-        code: 'network_error'
+        code: 'network_error',
       }
     }
   }

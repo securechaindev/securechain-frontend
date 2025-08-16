@@ -1,2 +1,2 @@
 // API client utilities
-export * from './api-client'
+export * from './apiClient'

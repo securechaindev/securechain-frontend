@@ -1,9 +1,11 @@
 'use client'
 
-import { Badge } from '@/components/ui'
-import { Package, CheckCircle, XCircle } from 'lucide-react'
+import { Badge, Button } from '@/components/ui'
+import { Package, CheckCircle, XCircle, Settings } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import type { Repository } from '@/types'
+import { useState } from 'react'
+import type { Repository, RequirementFile } from '@/types'
+import { RequirementOperationsModal } from './RequirementOperationsModal'
 
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
@@ -19,6 +21,14 @@ interface RepositoryCardProps {
 }
 
 export default function RepositoryCard({ repository, translations }: RepositoryCardProps) {
+  const [selectedFile, setSelectedFile] = useState<RequirementFile | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleOperationsClick = (file: RequirementFile) => {
+    setSelectedFile(file)
+    setIsModalOpen(true)
+  }
+
   return (
     <div className="border rounded-lg p-3 sm:p-4 bg-card hover:bg-accent/50 transition-colors">
       <div className="flex items-start gap-3 mb-3">
@@ -55,7 +65,9 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
             <span className="hidden sm:inline">
               {translations.requirementFiles} ({repository.requirement_files.length})
             </span>
-            <span className="sm:hidden">{translations.files} ({repository.requirement_files.length})</span>
+            <span className="sm:hidden">
+              {translations.files} ({repository.requirement_files.length})
+            </span>
           </h4>
           <div className="grid gap-2">
             {repository.requirement_files.map((file, fileIndex) => (
@@ -71,6 +83,18 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
                   <Badge variant="outline" className="text-xs">
                     {file.manager}
                   </Badge>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleOperationsClick(file)}
+                    className="h-6 w-6 p-0 sm:h-8 sm:w-auto sm:px-2"
+                    title={translations.docs?.requirementOperations?.analyzeRequirements}
+                  >
+                    <Settings className="h-3 w-3 sm:mr-1" />
+                    <span className="hidden sm:inline text-xs">
+                      {translations.docs?.requirementOperations?.analyze}
+                    </span>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -86,6 +110,18 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
           </p>
         </div>
       )}
+
+      {/* Requirement Operations Modal */}
+      <RequirementOperationsModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        repositoryPath={`${repository.owner}/${repository.name}`}
+        requirementFile={selectedFile?.requirement_file_id || ''}
+        requirementFileName={selectedFile?.name || ''}
+        repositoryName={`${repository.owner}/${repository.name}`}
+        fileManager={selectedFile?.manager || ''}
+        translations={translations}
+      />
     </div>
   )
 }

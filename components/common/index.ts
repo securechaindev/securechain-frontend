@@ -1,2 +1,2 @@
 // Common components barrel exports
-export { TryButton } from './try-button'
+export { TryButton } from './TryButton'

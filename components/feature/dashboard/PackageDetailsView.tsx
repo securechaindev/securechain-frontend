@@ -48,7 +48,7 @@ export default function PackageDetailsView({
   onLogout,
 }: PackageDetailsViewProps) {
   const { packageDetails, setIsViewingPackage } = usePackage()
-  const [sortBy, setSortBy] = useState<'date' | 'vulnerabilities' | 'score'>('date')
+  const [sortBy, setSortBy] = useState<'semver' | 'vulnerabilities' | 'score'>('semver')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -76,10 +76,10 @@ export default function PackageDetailsView({
       let compareValue = 0
 
       switch (sortBy) {
-        case 'date':
-          const dateA = a.release_date ? new Date(a.release_date).getTime() : 0
-          const dateB = b.release_date ? new Date(b.release_date).getTime() : 0
-          compareValue = dateA - dateB
+        case 'semver':
+          const serialA = a.serial_number || 0
+          const serialB = b.serial_number || 0
+          compareValue = serialA - serialB
           break
         case 'vulnerabilities':
           compareValue = a.vulnerabilities.length - b.vulnerabilities.length
@@ -222,7 +222,7 @@ export default function PackageDetailsView({
                     onChange={e => setSortBy(e.target.value as any)}
                     className="px-3 py-1 text-sm border rounded-md bg-background"
                   >
-                    <option value="date">{translations.docs.sortByDate}</option>
+                    <option value="semver">{translations.docs.sortBySemver}</option>
                     <option value="vulnerabilities">
                       {translations.docs.sortByVulnerabilities}
                     </option>

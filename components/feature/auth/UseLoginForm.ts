@@ -3,7 +3,7 @@ import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/ui'
 import { useAuthState } from '@/hooks/auth'
-import { getErrorMessage, getSuccessMessage, isErrorCode } from '@/lib/utils'
+import { getErrorMessage, getSuccessMessage } from '@/lib/utils'
 
 interface UseLoginFormProps {
   locale: 'en' | 'es'
@@ -58,7 +58,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
       if (result.success && result.code) {
         const successMessage = getSuccessMessage(result.code, t)
-        
+
         toast({
           title: t.loginSuccessTitle,
           description: successMessage,
@@ -70,7 +70,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
         router.push(`/${locale}/home`)
       } else if (result.code) {
         const errorMessage = getErrorMessage(result.code, t)
-        
+
         toast({
           title: t.loginFailedTitle,
           description: errorMessage,
@@ -97,7 +97,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault()
-    
+
     if (!signupEmail || !signupPassword || !confirmPassword) {
       toast({
         title: t.errorTitle,
@@ -124,7 +124,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
 
       if (result.success && result.code) {
         const successMessage = getSuccessMessage(result.code, t)
-        
+
         toast({
           title: t.accountCreatedTitle,
           description: successMessage,
@@ -137,7 +137,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
         router.push(`/${locale}/home`)
       } else if (result.code) {
         const errorMessage = getErrorMessage(result.code, t)
-        
+
         toast({
           title: t.signupErrorTitle,
           description: errorMessage,

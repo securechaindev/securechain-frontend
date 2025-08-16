@@ -1,3 +1,3 @@
 // Layout components barrel exports
-export { ThemeToggle } from './theme-toggle'
-export { LanguageToggle } from './language-toggle'
+export { ThemeToggle } from './ThemeToggle'
+export { LanguageToggle } from './LanguageToggle'

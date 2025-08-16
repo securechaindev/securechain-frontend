@@ -1,3 +1,9 @@
-// Diagram components barrel exports
-export { ArchitectureDiagram } from './architecture-diagram'
-export { OverviewDiagram } from './overview-diagram'
+export { RequirementOperations } from './RequirementOperations'
+export { FileOperationsForm } from './FileOperationsForm'
+export { ConfigOperationsForm } from './ConfigOperationsForm'
+export { OperationResults } from './OperationResults'
+export { ArchitectureDiagram } from './ArchitectureDiagram'
+export { OverviewDiagram } from './OverviewDiagram'
+export { VersionModal } from './VersionModal'
+export { ErrorDisplay } from './ErrorDisplay'
+export { FileInfoDisplay } from './FileInfoDisplay'

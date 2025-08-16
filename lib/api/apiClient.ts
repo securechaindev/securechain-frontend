@@ -1,4 +1,4 @@
-import { clientConfig } from '@/lib/config/client-config'
+import { clientConfig } from '@/lib/config/clientConfig'
 import { APIError, NetworkError } from '@/lib/utils'
 import { API_ENDPOINTS } from '@/constants'
 
@@ -344,30 +344,30 @@ export const depexAPI = {
 
   operations: {
     config: {
-      getCompleteConfig: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.CONFIG.COMPLETE_CONFIG}?${params}`),
+      completeConfig: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.CONFIG.COMPLETE_CONFIG, data, { retries: 0 }),
 
-      getConfigByImpact: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.CONFIG.CONFIG_BY_IMPACT}?${params}`),
+      configByImpact: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.CONFIG.CONFIG_BY_IMPACT, data, { retries: 0 }),
 
-      getValidConfig: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.CONFIG.VALID_CONFIG}?${params}`),
+      validConfig: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.CONFIG.VALID_CONFIG, data, { retries: 0 }),
     },
     file: {
-      getFileInfo: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.FILE_INFO}?${params}`),
+      fileInfo: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.FILE_INFO, data, { retries: 0 }),
 
-      filterConfigs: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.FILTER_CONFIGS}?${params}`),
+      filterConfigs: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.FILTER_CONFIGS, data, { retries: 0 }),
 
-      maximizeImpact: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.MAXIMIZE_IMPACT}?${params}`),
+      maximizeImpact: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.MAXIMIZE_IMPACT, data, { retries: 0 }),
 
-      minimizeImpact: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.MINIMIZE_IMPACT}?${params}`),
+      minimizeImpact: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.MINIMIZE_IMPACT, data, { retries: 0 }),
 
-      getValidGraph: (params: string) =>
-        apiClient.get(`${API_ENDPOINTS.DEPEX.OPERATION.FILE.VALID_GRAPH}?${params}`),
+      validGraph: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.VALID_GRAPH, data, { retries: 0 }),
     },
   },
 }

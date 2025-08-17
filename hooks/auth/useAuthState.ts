@@ -140,19 +140,9 @@ export function useAuthState() {
       const response = await authAPI.signup({ email, password })
       const data = response.data
 
-      const isSuccess = response.ok && data.code === 'signup_success' && response.status === 201
+      const isSuccess = response.ok && data.code === 'signup_success' && (response.status === 201 || response.status === 200)
 
       if (isSuccess) {
-        localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
-        localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email)
-
-        setAuthState({
-          isAuthenticated: true,
-          isLoading: false,
-          userId: data.user_id,
-          email: email,
-        })
-
         return { success: true, data, code: data.code }
       } else {
         return {

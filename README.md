@@ -2,25 +2,66 @@
 
 User Interface for Secure Chain's open-source cybersecurity tools.
 
-## Features
+## Development requirements
 
-- Responsive design with mobile navigation
-- Dark mode support
-- Tool overview and comparison
-- Repository submission form with Web3Forms email integration
-- Use cases and feature highlights
+1. [Docker](https://www.docker.com/) to deploy the tool.
+2. [Docker Compose](https://docs.docker.com/compose/) for container orchestration.
+3. It is recommended to use a GUI such as [MongoDB Compass](https://www.mongodb.com/en/products/compass).
+4. The Neo4J browser interface to visualize the graph built from the data is in [localhost:7474](http://0.0.0.0:7474/browser/) when the container is running.
+5. Node 18.19.1 or higher.
 
-## Email Configuration
+## Deployment with docker
 
-This project uses Web3Forms for email submissions. The Web3Forms access key is stored as an environment variable:
-
+### 1. Clone the repository
+Clone the repository from the official GitHub repository:
 ```bash
-WEB3FORMS_ACCESS_KEY=your_access_key_here
+git clone https://github.com/securechaindev/securechain-frontend.git
+cd securechain-frontend
 ```
 
-To get your own access key:
+### 2. Configure environment variables
+Create a `.env.local` file from the `.env.example` file and place it in the root directory.
 
-1. Go to [Web3Forms](https://web3forms.com/)
-2. Sign up for a free account
-3. Create a new form and get your access key
-4. Add it to your environment variables
+#### Get API Keys
+
+- How to get a *GitHub* [API key](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+
+- Modify the **Json Web Token (JWT)** secret key and algorithm with your own. You can generate your own secret key with the command **openssl rand -base64 32**.
+
+### 3. Create Docker network
+Ensure you have the `securechain` Docker network created. If not, create it with:
+```bash
+docker network create securechain
+```
+
+### 4. Databases containers
+
+For graphs and vulnerabilities information you need to download the zipped [data dumps]() from Zenodo. Once you have unzipped the dumps, inside the root folder run the command:
+```bash
+docker compose up --build
+```
+
+The containerized databases will also be seeded automatically.
+
+### 5. Start the application
+Run the command from the project root:
+```bash
+docker compose -f dev/docker-compose.yml up --build
+```
+
+### 6. Access the application
+The web will be available at [http://localhost](http://localhost).
+
+## Node Environment
+The project uses Node 18.19.1 and the dependencies are listed in `package.json`.
+
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+[GNU General Public License 3.0](https://www.gnu.org/licenses/gpl-3.0.html)
+
+## Links
+- [Secure Chain Team](mailto:hi@securechain.dev)
+- [Secure Chain Organization](https://github.com/securechaindev)
+- [Secure Chain Documentation](https://securechaindev.github.io/)

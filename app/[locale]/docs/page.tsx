@@ -92,13 +92,6 @@ export default async function DocsPage({ params }: PageProps) {
       description: t.docs.refreshTokenDescription,
       auth: false,
     },
-    {
-      method: 'GET',
-      path: '/auth/health',
-      summary: t.docs.healthCheck,
-      description: t.docs.healthCheckDescription,
-      auth: false,
-    },
   ]
 
   const depexGraphEndpoints = [
@@ -482,7 +475,7 @@ export default async function DocsPage({ params }: PageProps) {
                           {t.docs.baseUrl}
                         </h4>
                         <p className="text-muted-foreground font-mono text-xs sm:text-sm break-all">
-                          https://api.securechain.dev
+                          https://securechain.dev/api/
                         </p>
                       </div>
                       <div className="sm:col-span-2 lg:col-span-1">

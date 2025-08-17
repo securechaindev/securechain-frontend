@@ -31,7 +31,7 @@
   "architectureTitle": "System Architecture",
   "architectureDescription": "An overview of Secure Chain's robust and scalable microservices architecture.",
   "architectureDiagramExplanationTitle": "Secure Chain's Integrated Architecture",
-  "architectureDiagramExplanationText": "The Secure Chain architecture is designed for scalability and efficiency. A Dev User interacts with the Next.js FrontEnd, which communicates with a Gateway BackEnd. This gateway routes requests to various FastAPI BackEnd Microservices, including Auth BackEnd for authentication, Depex BackEnd for dependency analysis, and VEXGen BackEnd for VEX document generation. These microservices leverage a Mongo Vulnerability Database for vulnerability data and a Neo4j Graph Database for dependency graph storage, ensuring comprehensive and performant security analysis.",
+  "architectureDiagramExplanationText": "The Secure Chain architecture is designed for scalability and efficiency. A Developer User interacts with the Next.js FrontEnd, which is served statically by Nginx, and which communicates with a Gateway BackEnd. This gateway routes requests to various FastAPI BackEnd Microservices, including Auth BackEnd for authentication, Depex BackEnd for dependency analysis, and VEXGen BackEnd for VEX document generation. These microservices leverage a Mongo Vulnerability Database for vulnerability data and a Neo4j Graph Database for dependency graph storage, ensuring comprehensive and performant security analysis.",
   "useCasesTitle": "Use Cases",
   "useCasesDescription": "Real-world applications for enhanced supply chain security",
   "enterpriseSecurityTitle": "Enterprise Security",

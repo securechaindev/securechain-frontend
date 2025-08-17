@@ -413,36 +413,30 @@ export default async function DocsPage({ params }: PageProps) {
             <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 h-auto">
               <TabsTrigger value="overview" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
                 <span className="hidden sm:inline">{t.docs.overview}</span>
-                <span className="sm:hidden">Info</span>
               </TabsTrigger>
               <TabsTrigger value="auth" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
                 <span className="hidden sm:inline">{t.docs.auth}</span>
-                <span className="sm:hidden">Auth</span>
               </TabsTrigger>
               <TabsTrigger value="graph" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
                 <span className="hidden sm:inline">{t.docs.graph}</span>
-                <span className="sm:hidden">Graph</span>
               </TabsTrigger>
               <TabsTrigger
                 value="file-ops"
                 className="text-xs sm:text-sm py-2 px-1 sm:px-3 col-span-3 lg:col-span-1"
               >
                 <span className="hidden lg:inline">{t.docs.fileOps}</span>
-                <span className="lg:hidden">File Ops</span>
               </TabsTrigger>
               <TabsTrigger
                 value="config-ops"
                 className="text-xs sm:text-sm py-2 px-1 sm:px-3 col-span-3 lg:col-span-1"
               >
                 <span className="hidden lg:inline">{t.docs.configOps}</span>
-                <span className="lg:hidden">Config Ops</span>
               </TabsTrigger>
               <TabsTrigger
                 value="schemas"
                 className="text-xs sm:text-sm py-2 px-1 sm:px-3 col-span-3 lg:col-span-1"
               >
                 <span className="hidden sm:inline">{t.docs.schemas}</span>
-                <span className="sm:hidden">Schema</span>
               </TabsTrigger>
             </TabsList>
 

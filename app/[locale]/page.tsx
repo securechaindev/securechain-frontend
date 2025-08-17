@@ -75,6 +75,12 @@ export default async function LandingPage({ params }: PageProps) {
                 {t.apiDocsButton} <ExternalLink className="h-4 w-4 ml-2" />
               </a>
             </Button>
+            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
+              <a href="https://securechaindev.github.io/" target="_blank" rel="noopener noreferrer">
+                <BookOpen className="h-5 w-5" />
+                {t.documentationLink}
+              </a>
+            </Button>
           </div>
         </div>
       </section>
@@ -364,12 +370,6 @@ export default async function LandingPage({ params }: PageProps) {
               >
                 <ExternalLink className="h-5 w-5" />
                 {t.zenodoOrgLink}
-              </a>
-            </Button>
-            <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
-              <a href="https://securechaindev.github.io/" target="_blank" rel="noopener noreferrer">
-                <BookOpen className="h-5 w-5" />
-                {t.documentationLink}
               </a>
             </Button>
           </div>

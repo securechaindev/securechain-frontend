@@ -56,7 +56,7 @@
   "contactButton": "Contáctanos",
   "githubOrgLink": "Organización GitHub",
   "zenodoOrgLink": "Organización Zenodo",
-  "documentationLink": "Documentación",
+  "documentationLink": "Documentación General",
   "zenodoDataDumpTitle": "Volcados de Datos de Secure Chain",
   "zenodoDataDumpDescription": "Este repositorio contiene los archivos y scripts necesarios para inicializar y poblar las bases de datos utilizadas por Secure Chain. Incluye información sobre ~270,000 vulnerabilidades y ~260,000 exploits. La segunda base de datos contiene un grafo de dependencias con ~4.4M paquetes y ~64.6M versiones de NPM, PyPI, Ruby Gems, Cargo Crates, y parcialmente Maven.",
   "viewDataDumpButton": "Ver Volcado de Datos",

@@ -56,7 +56,7 @@
   "contactButton": "Contact Us",
   "githubOrgLink": "GitHub Organization",
   "zenodoOrgLink": "Zenodo Organization",
-  "documentationLink": "Documentation",
+  "documentationLink": "General Documentation",
   "zenodoDataDumpTitle": "Secure Chain Data Dumps",
   "zenodoDataDumpDescription": "This repository contains files and scripts to initialize and populate Secure Chain's databases. It includes information on ~270,000 vulnerabilities and ~260,000 exploits. The second database holds a dependency graph with ~4.4M packages and ~64.6M versions from NPM, PyPI, Ruby Gems, Cargo Crates, and partially Maven.",
   "viewDataDumpButton": "View Data Dump",

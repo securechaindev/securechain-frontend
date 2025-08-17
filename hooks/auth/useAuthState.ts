@@ -140,7 +140,10 @@ export function useAuthState() {
       const response = await authAPI.signup({ email, password })
       const data = response.data
 
-      const isSuccess = response.ok && data.code === 'signup_success' && (response.status === 201 || response.status === 200)
+      const isSuccess =
+        response.ok &&
+        data.code === 'signup_success' &&
+        (response.status === 201 || response.status === 200)
 
       if (isSuccess) {
         return { success: true, data, code: data.code }

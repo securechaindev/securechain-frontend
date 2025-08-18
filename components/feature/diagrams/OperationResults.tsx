@@ -128,7 +128,7 @@ export function OperationResults({ results, translations }: OperationResultsProp
               <div className="text-sm text-muted-foreground">
                 {translations.docs?.requirementOperations?.configurations}: {configArray.length}
               </div>
-              
+
               {/* Mobile Layout */}
               <div className="md:hidden space-y-4">
                 {configArray.map((config: any, index: number) => {
@@ -184,10 +184,11 @@ export function OperationResults({ results, translations }: OperationResultsProp
                                   : 'destructive'
                             }
                           >
-                            {translations.docs?.requirementOperations?.totalRisk}: {totalRisk.toFixed(2)}
+                            {translations.docs?.requirementOperations?.totalRisk}:{' '}
+                            {totalRisk.toFixed(2)}
                           </Badge>
                         </div>
-                        
+
                         <div>
                           <p className="text-xs font-medium mb-2 text-muted-foreground">
                             {translations.docs?.requirementOperations?.configuration}:
@@ -204,7 +205,10 @@ export function OperationResults({ results, translations }: OperationResultsProp
                             </p>
                             <div className="grid grid-cols-1 gap-1">
                               {Object.entries(impacts).map(([pkg, impact]) => (
-                                <div key={pkg} className="flex justify-between items-center p-1 bg-muted/50 rounded text-xs">
+                                <div
+                                  key={pkg}
+                                  className="flex justify-between items-center p-1 bg-muted/50 rounded text-xs"
+                                >
                                   <span className="font-mono truncate flex-1 mr-2">{pkg}</span>
                                   <Badge
                                     variant="outline"
@@ -234,7 +238,9 @@ export function OperationResults({ results, translations }: OperationResultsProp
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{translations.docs?.requirementOperations?.configuration}</TableHead>
+                      <TableHead>
+                        {translations.docs?.requirementOperations?.configuration}
+                      </TableHead>
                       <TableHead className="text-center">
                         {translations.docs?.requirementOperations?.totalRisk}
                       </TableHead>

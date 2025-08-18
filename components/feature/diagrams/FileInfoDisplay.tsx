@@ -58,7 +58,7 @@ export function FileInfoDisplay({
             <h4 className="text-base sm:text-lg font-semibold mb-3">
               {translations.docs?.requirementOperations?.directDependencies}
             </h4>
-            
+
             {/* Mobile Layout */}
             <div className="md:hidden space-y-3">
               {fileInfo.direct_dependencies.map((dep, index) => (
@@ -66,9 +66,9 @@ export function FileInfoDisplay({
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <h5 className="font-medium text-sm truncate flex-1">{dep.package_name}</h5>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => onOpenVersionModal(dep)}
                         className="ml-2 text-xs px-2 py-1"
                       >
@@ -99,7 +99,9 @@ export function FileInfoDisplay({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{translations.docs?.requirementOperations?.dependencyName}</TableHead>
+                    <TableHead>
+                      {translations.docs?.requirementOperations?.dependencyName}
+                    </TableHead>
                     <TableHead>{translations.docs?.requirementOperations?.vendor}</TableHead>
                     <TableHead>{translations.docs?.requirementOperations?.constraints}</TableHead>
                     <TableHead className="text-center">
@@ -138,17 +140,19 @@ export function FileInfoDisplay({
                     <h5 className="text-sm sm:text-md font-medium mb-2">
                       {translations.docs?.requirementOperations?.depthLevel} {depth}
                     </h5>
-                    
+
                     {/* Mobile Layout */}
                     <div className="md:hidden space-y-2">
                       {dependencies.map((dep, index) => (
                         <Card key={index} className="p-2">
                           <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                              <h6 className="font-medium text-sm truncate flex-1">{dep.package_name}</h6>
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
+                              <h6 className="font-medium text-sm truncate flex-1">
+                                {dep.package_name}
+                              </h6>
+                              <Button
+                                variant="outline"
+                                size="sm"
                                 onClick={() => onOpenVersionModal(dep)}
                                 className="ml-2 text-xs px-2 py-1"
                               >
@@ -166,7 +170,9 @@ export function FileInfoDisplay({
                                 <span className="text-muted-foreground">
                                   {translations.docs?.requirementOperations?.constraints}:
                                 </span>
-                                <span className="font-mono text-right">{dep.package_constraints}</span>
+                                <span className="font-mono text-right">
+                                  {dep.package_constraints}
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -182,7 +188,9 @@ export function FileInfoDisplay({
                             <TableHead>
                               {translations.docs?.requirementOperations?.dependencyName}
                             </TableHead>
-                            <TableHead>{translations.docs?.requirementOperations?.vendor}</TableHead>
+                            <TableHead>
+                              {translations.docs?.requirementOperations?.vendor}
+                            </TableHead>
                             <TableHead>
                               {translations.docs?.requirementOperations?.constraints}
                             </TableHead>

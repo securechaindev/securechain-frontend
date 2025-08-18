@@ -79,7 +79,7 @@ export function VersionModal({
                         {version.vulnerability_count?.length || 0} vuln.
                       </Badge>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Mean:</span>
@@ -119,7 +119,9 @@ export function VersionModal({
 
                     {version.vulnerability_count && version.vulnerability_count.length > 0 && (
                       <div className="space-y-1">
-                        <p className="text-xs text-muted-foreground font-medium">Vulnerabilidades:</p>
+                        <p className="text-xs text-muted-foreground font-medium">
+                          Vulnerabilidades:
+                        </p>
                         <div className="space-y-1">
                           {(expandedVulns.has(index)
                             ? version.vulnerability_count
@@ -216,39 +218,40 @@ export function VersionModal({
                           >
                             {version.vulnerability_count?.length || 0}
                           </Badge>
-                          {version.vulnerability_count && version.vulnerability_count.length > 0 && (
-                            <div className="mt-1 text-xs space-y-1">
-                              {(expandedVulns.has(index)
-                                ? version.vulnerability_count
-                                : version.vulnerability_count.slice(0, 3)
-                              ).map((vulnId: string, vulnIndex: number) => (
-                                <div key={vulnIndex}>
-                                  <a
-                                    href={`https://osv.dev/vulnerability/${vulnId}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
-                                  >
-                                    {vulnId}
-                                  </a>
-                                </div>
-                              ))}
-                              {version.vulnerability_count.length > 3 && (
-                                <div className="mt-1">
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => toggleVulnerabilities(index)}
-                                    className="h-auto p-1 text-xs text-blue-600 hover:text-blue-800"
-                                  >
-                                    {expandedVulns.has(index)
-                                      ? translations.docs?.requirementOperations?.showLess
-                                      : `+${version.vulnerability_count.length - 3} ${translations.docs?.requirementOperations?.moreVulnerabilities}`}
-                                  </Button>
-                                </div>
-                              )}
-                            </div>
-                          )}
+                          {version.vulnerability_count &&
+                            version.vulnerability_count.length > 0 && (
+                              <div className="mt-1 text-xs space-y-1">
+                                {(expandedVulns.has(index)
+                                  ? version.vulnerability_count
+                                  : version.vulnerability_count.slice(0, 3)
+                                ).map((vulnId: string, vulnIndex: number) => (
+                                  <div key={vulnIndex}>
+                                    <a
+                                      href={`https://osv.dev/vulnerability/${vulnId}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                                    >
+                                      {vulnId}
+                                    </a>
+                                  </div>
+                                ))}
+                                {version.vulnerability_count.length > 3 && (
+                                  <div className="mt-1">
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => toggleVulnerabilities(index)}
+                                      className="h-auto p-1 text-xs text-blue-600 hover:text-blue-800"
+                                    >
+                                      {expandedVulns.has(index)
+                                        ? translations.docs?.requirementOperations?.showLess
+                                        : `+${version.vulnerability_count.length - 3} ${translations.docs?.requirementOperations?.moreVulnerabilities}`}
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                         </TableCell>
                       </TableRow>
                     ))}

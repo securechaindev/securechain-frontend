@@ -423,24 +423,15 @@ export default async function DocsPage({ params }: PageProps) {
                 <span className="lg:hidden">{t.docs.graph}</span>
                 <span className="hidden lg:inline">{t.docs.graph}</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="file-ops"
-                className="text-xs sm:text-sm py-2 px-1 sm:px-3"
-              >
+              <TabsTrigger value="file-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
                 <span className="lg:hidden">{t.docs.fileOps}</span>
                 <span className="hidden lg:inline">{t.docs.fileOps}</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="config-ops"
-                className="text-xs sm:text-sm py-2 px-1 sm:px-3"
-              >
+              <TabsTrigger value="config-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
                 <span className="lg:hidden">{t.docs.configOps}</span>
                 <span className="hidden lg:inline">{t.docs.configOps}</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="schemas"
-                className="text-xs sm:text-sm py-2 px-1 sm:px-3"
-              >
+              <TabsTrigger value="schemas" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
                 <span className="lg:hidden">{t.docs.schemas}</span>
                 <span className="hidden lg:inline">{t.docs.schemas}</span>
               </TabsTrigger>

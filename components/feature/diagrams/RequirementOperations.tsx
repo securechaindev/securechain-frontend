@@ -214,8 +214,8 @@ export function RequirementOperations({
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 h-auto p-1">
-              <TabsTrigger 
-                value="file" 
+              <TabsTrigger
+                value="file"
                 className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-3 sm:py-2 px-1 sm:px-3 min-h-[3.5rem] sm:min-h-0"
               >
                 <FileIcon className="h-4 w-4 flex-shrink-0" />
@@ -228,8 +228,8 @@ export function RequirementOperations({
                   </span>
                 </span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="config" 
+              <TabsTrigger
+                value="config"
                 className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-3 sm:py-2 px-1 sm:px-3 min-h-[3.5rem] sm:min-h-0"
               >
                 <SettingsIcon className="h-4 w-4 flex-shrink-0" />

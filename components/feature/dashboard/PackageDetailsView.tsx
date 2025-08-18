@@ -1,15 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  Button,
-  Badge,
-  Input,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui'
+import { Button, Badge, Input, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
 import {
   ArrowLeft,
   Package,
@@ -36,7 +28,6 @@ interface PackageDetailsViewProps {
 export default function PackageDetailsView({
   translations,
   locale,
-  onLocaleChange,
   userEmail,
   onLogout,
 }: PackageDetailsViewProps) {
@@ -106,10 +97,12 @@ export default function PackageDetailsView({
               </Button>
               <div className="flex items-center gap-2">
                 <Package className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                <span className="font-bold text-sm sm:text-base">{translations.docs.packageDetailsTitle}</span>
+                <span className="font-bold text-sm sm:text-base">
+                  {translations.docs.packageDetailsTitle}
+                </span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-1 sm:gap-2">
               {userEmail && (
                 <Badge variant="secondary" className="gap-1 text-xs sm:text-sm hidden sm:flex">
@@ -121,12 +114,7 @@ export default function PackageDetailsView({
               <LanguageToggle currentLang={locale} />
               <ThemeToggle />
               {onLogout && (
-                <Button
-                  onClick={onLogout}
-                  variant="outline"
-                  size="sm"
-                  className="px-2 sm:px-3"
-                >
+                <Button onClick={onLogout} variant="outline" size="sm" className="px-2 sm:px-3">
                   <LogOut className="h-4 w-4 sm:mr-2" />
                   <span className="hidden sm:inline">{translations.logoutButton}</span>
                 </Button>
@@ -150,7 +138,7 @@ export default function PackageDetailsView({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.vendor}</p>
-                  <p className="font-semibold">{packageDetails.vendor || "n/a"}</p>
+                  <p className="font-semibold">{packageDetails.vendor || 'n/a'}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.totalVersions}</p>

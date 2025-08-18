@@ -346,7 +346,9 @@ export default async function LandingPage({ params }: PageProps) {
 
           {/* Email Contact */}
           <div className="mb-6 sm:mb-8">
-            <p className="text-base sm:text-lg text-muted-foreground mb-2">{t.contactGetInTouchText}</p>
+            <p className="text-base sm:text-lg text-muted-foreground mb-2">
+              {t.contactGetInTouchText}
+            </p>
             <a
               href="mailto:hi@securechain.dev"
               className="text-xl sm:text-2xl font-semibold text-primary hover:text-primary/80 transition-colors break-all"
@@ -405,9 +407,17 @@ export default async function LandingPage({ params }: PageProps) {
                   </div>
                   <div className="w-full">
                     <h3 className="text-lg sm:text-xl font-semibold mb-2">{t.ideaTitle}</h3>
-                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">{t.ideaLocation}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">{t.ideaText}</p>
-                    <Button variant="outline" asChild className="w-full sm:w-auto text-sm px-4 py-2 min-h-[40px] flex items-center justify-center whitespace-nowrap">
+                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">
+                      {t.ideaLocation}
+                    </p>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">
+                      {t.ideaText}
+                    </p>
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="w-full sm:w-auto text-sm px-4 py-2 min-h-[40px] flex items-center justify-center whitespace-nowrap"
+                    >
                       <a
                         href="https://www.idea.us.es/home/"
                         target="_blank"
@@ -436,10 +446,23 @@ export default async function LandingPage({ params }: PageProps) {
                   </div>
                   <div className="w-full">
                     <h3 className="text-lg sm:text-xl font-semibold mb-2">{t.i3usTitle}</h3>
-                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">{t.i3usLocation}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">{t.i3usText}</p>
-                    <Button variant="outline" asChild className="w-full sm:w-auto text-sm px-4 py-2 min-h-[40px] flex items-center justify-center whitespace-nowrap">
-                      <a href="https://i3us.us.es/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">
+                      {t.i3usLocation}
+                    </p>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">
+                      {t.i3usText}
+                    </p>
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="w-full sm:w-auto text-sm px-4 py-2 min-h-[40px] flex items-center justify-center whitespace-nowrap"
+                    >
+                      <a
+                        href="https://i3us.us.es/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2"
+                      >
                         {t.visitI3usButton}
                         <ExternalLink className="h-4 w-4 flex-shrink-0" />
                       </a>

@@ -126,53 +126,59 @@ export function ConfigOperationsForm({
   return (
     <div className="space-y-6">
       {/* Operation Selection */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card
-          className={`cursor-pointer transition-all hover:shadow-md ${
+          className={`cursor-pointer transition-all hover:shadow-md h-full ${
             selectedOperation === 'validateConfig' ? 'ring-2 ring-primary' : ''
           }`}
           onClick={() => setSelectedOperation('validateConfig')}
         >
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-sm">
-              <CheckIcon className="h-4 w-4" />
-              {translations.docs?.requirementOperations?.validConfigTitle}
+          <CardHeader className="pb-3 h-full">
+            <CardTitle className="flex items-center gap-2 text-sm leading-tight">
+              <CheckIcon className="h-4 w-4 flex-shrink-0" />
+              <span className="break-words">
+                {translations.docs?.requirementOperations?.validConfigTitle}
+              </span>
             </CardTitle>
-            <CardDescription className="text-xs">
+            <CardDescription className="text-xs leading-relaxed">
               {translations.docs?.requirementOperations?.validConfigDescription}
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card
-          className={`cursor-pointer transition-all hover:shadow-md ${
+          className={`cursor-pointer transition-all hover:shadow-md h-full ${
             selectedOperation === 'completeConfig' ? 'ring-2 ring-primary' : ''
           }`}
           onClick={() => setSelectedOperation('completeConfig')}
         >
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-sm">
-              <FileTextIcon className="h-4 w-4" />
-              {translations.docs?.requirementOperations?.completeConfigTitle}
+          <CardHeader className="pb-3 h-full">
+            <CardTitle className="flex items-center gap-2 text-sm leading-tight">
+              <FileTextIcon className="h-4 w-4 flex-shrink-0" />
+              <span className="break-words">
+                {translations.docs?.requirementOperations?.completeConfigTitle}
+              </span>
             </CardTitle>
-            <CardDescription className="text-xs">
+            <CardDescription className="text-xs leading-relaxed">
               {translations.docs?.requirementOperations?.completeConfigDescription}
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card
-          className={`cursor-pointer transition-all hover:shadow-md ${
+          className={`cursor-pointer transition-all hover:shadow-md h-full ${
             selectedOperation === 'configByImpact' ? 'ring-2 ring-primary' : ''
           }`}
           onClick={() => setSelectedOperation('configByImpact')}
         >
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-sm">
-              <TargetIcon className="h-4 w-4" />
-              {translations.docs?.requirementOperations?.configByImpactTitle}
+          <CardHeader className="pb-3 h-full">
+            <CardTitle className="flex items-center gap-2 text-sm leading-tight">
+              <TargetIcon className="h-4 w-4 flex-shrink-0" />
+              <span className="break-words">
+                {translations.docs?.requirementOperations?.configByImpactTitle}
+              </span>
             </CardTitle>
-            <CardDescription className="text-xs">
+            <CardDescription className="text-xs leading-relaxed">
               {translations.docs?.requirementOperations?.configByImpactDescription}
             </CardDescription>
           </CardHeader>

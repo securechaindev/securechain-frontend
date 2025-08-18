@@ -213,14 +213,34 @@ export function RequirementOperations({
 
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="file" className="flex items-center gap-2">
-                <FileIcon className="h-4 w-4" />
-                {translations.docs?.requirementOperations?.fileOperationsTitle}
+            <TabsList className="grid w-full grid-cols-2 h-auto p-1">
+              <TabsTrigger 
+                value="file" 
+                className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-3 sm:py-2 px-1 sm:px-3 min-h-[3.5rem] sm:min-h-0"
+              >
+                <FileIcon className="h-4 w-4 flex-shrink-0" />
+                <span className="text-[10px] sm:text-sm text-center leading-tight break-words max-w-full">
+                  <span className="hidden sm:inline">
+                    {translations.docs?.requirementOperations?.fileOperationsTitle}
+                  </span>
+                  <span className="sm:hidden">
+                    {translations.docs?.requirementOperations?.fileOperationsTitleShort}
+                  </span>
+                </span>
               </TabsTrigger>
-              <TabsTrigger value="config" className="flex items-center gap-2">
-                <SettingsIcon className="h-4 w-4" />
-                {translations.docs?.requirementOperations?.configOperationsTitle}
+              <TabsTrigger 
+                value="config" 
+                className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-3 sm:py-2 px-1 sm:px-3 min-h-[3.5rem] sm:min-h-0"
+              >
+                <SettingsIcon className="h-4 w-4 flex-shrink-0" />
+                <span className="text-[10px] sm:text-sm text-center leading-tight break-words max-w-full">
+                  <span className="hidden sm:inline">
+                    {translations.docs?.requirementOperations?.configOperationsTitle}
+                  </span>
+                  <span className="sm:hidden">
+                    {translations.docs?.requirementOperations?.configOperationsTitleShort}
+                  </span>
+                </span>
               </TabsTrigger>
             </TabsList>
 

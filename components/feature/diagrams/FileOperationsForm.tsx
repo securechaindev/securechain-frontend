@@ -110,7 +110,7 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {operations.map(operation => {
           const Icon = operation.icon
           const isSelected = selectedOperation === operation.id
@@ -118,17 +118,19 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
           return (
             <Card
               key={operation.id}
-              className={`cursor-pointer transition-all hover:shadow-md ${
+              className={`cursor-pointer transition-all hover:shadow-md h-full ${
                 isSelected ? 'ring-2 ring-primary' : ''
               }`}
               onClick={() => setSelectedOperation(operation.id)}
             >
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <Icon className="h-4 w-4" />
-                  {operation.title}
+              <CardHeader className="pb-3 h-full">
+                <CardTitle className="flex items-center gap-2 text-sm leading-tight">
+                  <Icon className="h-4 w-4 flex-shrink-0" />
+                  <span className="break-words">{operation.title}</span>
                 </CardTitle>
-                <CardDescription className="text-xs">{operation.description}</CardDescription>
+                <CardDescription className="text-xs leading-relaxed">
+                  {operation.description}
+                </CardDescription>
               </CardHeader>
             </Card>
           )

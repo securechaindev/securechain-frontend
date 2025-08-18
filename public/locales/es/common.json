@@ -494,6 +494,8 @@
     "sortBySemver": "Ordenar por Versión",
     "sortByVulnerabilities": "Ordenar por Vulnerabilidades",
     "sortByScore": "Ordenar por Puntuación",
+    "sortAscending": "Asc",
+    "sortDescending": "Desc",
     "critical": "Crítico",
     "high": "Alto",
     "medium": "Medio",

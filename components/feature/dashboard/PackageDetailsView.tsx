@@ -9,11 +9,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
 } from '@/components/ui'
 import {
   ArrowLeft,
@@ -24,13 +19,11 @@ import {
   TrendingUp,
   TrendingDown,
   Search,
-  Globe,
-  Check,
-  LogOut,
   User,
+  LogOut,
 } from 'lucide-react'
 import { usePackage } from '@/context'
-import { ThemeToggle } from '@/components/layout'
+import { ThemeToggle, LanguageToggle } from '@/components/layout'
 
 interface PackageDetailsViewProps {
   translations: Record<string, any>
@@ -96,77 +89,46 @@ export default function PackageDetailsView({
     setIsViewingPackage(false)
   }
 
-  const handleLanguageChange = (value: string) => {
-    onLocaleChange?.(value as 'en' | 'es')
-  }
-
   return (
     <div className="fixed inset-0 bg-background z-50 overflow-y-auto">
       {/* Header */}
-      <header className="sticky top-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Button
                 variant="ghost"
-                size="sm"
                 onClick={handleClose}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-2"
               >
                 <ArrowLeft className="h-4 w-4" />
-                {translations.docs.packageBackToHome}
+                <span className="hidden sm:inline">{translations.docs.packageBackToHome}</span>
               </Button>
               <div className="flex items-center gap-2">
-                <Package className="h-6 w-6 text-primary" />
-                <span className="font-bold">{translations.docs.packageDetailsTitle}</span>
+                <Package className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                <span className="font-bold text-sm sm:text-base">{translations.docs.packageDetailsTitle}</span>
               </div>
             </div>
-
-            <div className="flex items-center gap-2">
+            
+            <div className="flex items-center gap-1 sm:gap-2">
               {userEmail && (
-                <Badge variant="secondary" className="gap-1">
+                <Badge variant="secondary" className="gap-1 text-xs sm:text-sm hidden sm:flex">
                   <User className="h-3 w-3" />
-                  {userEmail}
+                  <span className="hidden md:inline">{userEmail}</span>
+                  <span className="md:hidden">{userEmail.split('@')[0]}</span>
                 </Badge>
               )}
-
+              <LanguageToggle currentLang={locale} />
               <ThemeToggle />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="px-3">
-                    <Globe className="h-[1.2rem] w-[1.2rem]" />
-                    <span className="sr-only">Toggle language</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-40">
-                  <DropdownMenuRadioGroup value={locale} onValueChange={handleLanguageChange}>
-                    <DropdownMenuRadioItem
-                      value="en"
-                      className="flex items-center justify-between relative [&>span]:hidden"
-                    >
-                      English
-                      {locale === 'en' && <Check className="h-4 w-4" />}
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem
-                      value="es"
-                      className="flex items-center justify-between relative [&>span]:hidden"
-                    >
-                      Español
-                      {locale === 'es' && <Check className="h-4 w-4" />}
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
               {onLogout && (
                 <Button
+                  onClick={onLogout}
                   variant="outline"
                   size="sm"
-                  onClick={onLogout}
-                  className="flex items-center gap-2"
+                  className="px-2 sm:px-3"
                 >
-                  <LogOut className="h-4 w-4" />
-                  {translations.logoutButton}
+                  <LogOut className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">{translations.logoutButton}</span>
                 </Button>
               )}
             </div>
@@ -211,16 +173,16 @@ export default function PackageDetailsView({
           {/* Sort Controls */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>
+              <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <span className="text-base sm:text-lg">
                   {translations.docs.versions} ({sortedVersions.length}{' '}
                   {translations.docs.versionsOf} {packageDetails.versions.length})
                 </span>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value as any)}
-                    className="px-3 py-1 text-sm border rounded-md bg-background"
+                    className="px-3 py-2 text-sm border rounded-md bg-background min-w-0 flex-1 sm:flex-none sm:min-w-[180px]"
                   >
                     <option value="semver">{translations.docs.sortBySemver}</option>
                     <option value="vulnerabilities">
@@ -232,11 +194,18 @@ export default function PackageDetailsView({
                     variant="outline"
                     size="sm"
                     onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                    className="flex items-center justify-center gap-2 py-2 px-3 min-w-[100px]"
                   >
                     {sortOrder === 'asc' ? (
-                      <TrendingUp className="h-4 w-4" />
+                      <>
+                        <TrendingUp className="h-4 w-4" />
+                        <span className="hidden sm:inline">{translations.docs.sortAscending}</span>
+                      </>
                     ) : (
-                      <TrendingDown className="h-4 w-4" />
+                      <>
+                        <TrendingDown className="h-4 w-4" />
+                        <span className="hidden sm:inline">{translations.docs.sortDescending}</span>
+                      </>
                     )}
                   </Button>
                 </div>

@@ -346,7 +346,7 @@ export default async function LandingPage({ params }: PageProps) {
 
           {/* Email Contact */}
           <div className="mb-6 sm:mb-8">
-            <p className="text-base sm:text-lg text-muted-foreground mb-2">Get in touch with us:</p>
+            <p className="text-base sm:text-lg text-muted-foreground mb-2">{t.contactGetInTouchText}</p>
             <a
               href="mailto:hi@securechain.dev"
               className="text-xl sm:text-2xl font-semibold text-primary hover:text-primary/80 transition-colors break-all"
@@ -392,29 +392,30 @@ export default async function LandingPage({ params }: PageProps) {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
               {/* IDEA Research Group */}
-              <Card className="p-8">
-                <CardContent className="flex flex-col items-center text-center space-y-4">
-                  <div className="flex items-center justify-center w-20 h-20 bg-[#f9f4ff] dark:bg-[#f9f4ff] rounded-full">
+              <Card className="p-4 sm:p-6 lg:p-8">
+                <CardContent className="flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                  <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-[#f9f4ff] dark:bg-[#f9f4ff] rounded-full">
                     <Image
                       src="/assets/images/idea-logo.png"
                       alt="IDEA Research Group Logo"
                       width={70}
                       height={70}
-                      className="h-16 w-auto"
+                      className="h-12 w-auto sm:h-16"
                     />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">{t.ideaTitle}</h3>
-                    <p className="text-muted-foreground mb-4">{t.ideaLocation}</p>
-                    <p className="text-sm text-muted-foreground mb-4">{t.ideaText}</p>
-                    <Button variant="outline" asChild>
+                  <div className="w-full">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2">{t.ideaTitle}</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">{t.ideaLocation}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">{t.ideaText}</p>
+                    <Button variant="outline" asChild className="w-full sm:w-auto text-sm px-4 py-2 min-h-[40px] flex items-center justify-center whitespace-nowrap">
                       <a
                         href="https://www.idea.us.es/home/"
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="flex items-center gap-2"
                       >
                         {t.visitIdeaButton}
-                        <ExternalLink className="h-4 w-4 ml-2" />
+                        <ExternalLink className="h-4 w-4 flex-shrink-0" />
                       </a>
                     </Button>
                   </div>
@@ -422,25 +423,25 @@ export default async function LandingPage({ params }: PageProps) {
               </Card>
 
               {/* I3US Institute */}
-              <Card className="p-8">
-                <CardContent className="flex flex-col items-center text-center space-y-4">
-                  <div className="flex items-center justify-center w-20 h-20 bg-[#f4f9ff] dark:bg-[#f4f9ff] rounded-full">
+              <Card className="p-4 sm:p-6 lg:p-8">
+                <CardContent className="flex flex-col items-center text-center space-y-3 sm:space-y-4">
+                  <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-[#f4f9ff] dark:bg-[#f4f9ff] rounded-full">
                     <Image
                       src="/assets/images/i3us-logo.png"
                       alt="I3US Institute Logo"
                       width={170}
                       height={70}
-                      className="h-12 w-auto"
+                      className="h-10 w-auto sm:h-12"
                     />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">{t.i3usTitle}</h3>
-                    <p className="text-muted-foreground mb-4">{t.i3usLocation}</p>
-                    <p className="text-sm text-muted-foreground mb-4">{t.i3usText}</p>
-                    <Button variant="outline" asChild>
-                      <a href="https://i3us.us.es/" target="_blank" rel="noopener noreferrer">
+                  <div className="w-full">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2">{t.i3usTitle}</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">{t.i3usLocation}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">{t.i3usText}</p>
+                    <Button variant="outline" asChild className="w-full sm:w-auto text-sm px-4 py-2 min-h-[40px] flex items-center justify-center whitespace-nowrap">
+                      <a href="https://i3us.us.es/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                         {t.visitI3usButton}
-                        <ExternalLink className="h-4 w-4 ml-2" />
+                        <ExternalLink className="h-4 w-4 flex-shrink-0" />
                       </a>
                     </Button>
                   </div>

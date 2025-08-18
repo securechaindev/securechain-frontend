@@ -147,16 +147,10 @@ export default function PackageDetailsView({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.vendor}</p>
-                  <p className="font-semibold">{packageDetails.vendor}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">{translations.docs.importName}</p>
-                  <p className="font-mono text-sm bg-muted px-2 py-1 rounded">
-                    {packageDetails.import_name}
-                  </p>
+                  <p className="font-semibold">{packageDetails.vendor || "n/a"}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.totalVersions}</p>

@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import { depexAPI } from '@/lib/api/apiClient'
 import { useToast } from '@/hooks/ui/useToast'
-import { getDepexErrorMessage, getDepexSuccessMessage } from '@/lib/utils/errorCodes'
+import { getDepexErrorMessage, getDepexSuccessMessage } from '@/lib/utils/errorDetails'
 import type {
   FileInfoRequest,
   ValidGraphRequest,
@@ -56,7 +56,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       const errorTitle = translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.code, translations) || error?.message || fallbackMessage
+        getDepexErrorMessage(error?.detail, translations) || error?.message || fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
@@ -68,26 +68,20 @@ export function useRequirementOperations(translations: Record<string, any> = {})
   )
 
   const handleResponse = useCallback((response: any, operationType: string) => {
-    // If response is from apiClient, it should have { data, status, ok } structure
     if (response && typeof response === 'object' && 'data' in response) {
       if (response.ok) {
-        // Check if the data has the expected Depex structure
-        if (response.data && response.data.code === 'operation_success') {
+        if (response.data && response.data.detail === 'operation_success') {
           return response.data.result
         }
-        // Return the full response data to handle error codes in OperationResults
         return response.data
       } else {
-        // For HTTP errors, check if there's error data with a code
-        if (response.data && response.data.code) {
-          // Return error response to be handled by OperationResults
+        if (response.data && response.data.detail) {
           return response.data
         }
         throw new Error(`${operationType} failed: ${response.status}`)
       }
     }
 
-    // Legacy check for success field
     if (response && response.success) {
       return response.data
     } else {
@@ -95,7 +89,6 @@ export function useRequirementOperations(translations: Record<string, any> = {})
     }
   }, [])
 
-  // File operations
   const getFileInfo = useCallback(
     async (params: FileInfoRequest) => {
       setState(prev => ({ ...prev, isLoading: true, error: null, selectedOperation: 'file_info' }))
@@ -104,15 +97,14 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         const response = await depexAPI.operations.file.fileInfo(params)
         const result = handleResponse(response, 'file info retrieval')
 
-        // Check if result is an error response with code
         if (
           result &&
           typeof result === 'object' &&
-          result.code &&
-          result.code !== 'operation_success'
+          result.detail &&
+          result.detail !== 'operation_success'
         ) {
           setState(prev => ({ ...prev, isLoading: false }))
-          return result // Return error result to be shown in OperationResults
+          return result
         }
 
         if (result) {
@@ -249,7 +241,6 @@ export function useRequirementOperations(translations: Record<string, any> = {})
     [handleResponse, showError, showSuccess, translations]
   )
 
-  // Config operations
   const validateConfig = useCallback(
     async (params: ValidConfigRequest) => {
       setState(prev => ({
@@ -352,17 +343,14 @@ export function useRequirementOperations(translations: Record<string, any> = {})
 
   return {
     ...state,
-    // File operations
     getFileInfo,
     validateGraph,
     minimizeImpact,
     maximizeImpact,
     filterConfigs,
-    // Config operations
     validateConfig,
     completeConfig,
     configByImpact,
-    // Utility
     clearResults,
     isExecuting: state.isLoading,
   }

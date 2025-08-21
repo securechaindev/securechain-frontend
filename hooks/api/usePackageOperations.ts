@@ -33,7 +33,7 @@ export function usePackageOperations(translations: Record<string, any>) {
 
       if (
         response.ok &&
-        response.data.code === 'get_package_status_success' &&
+        response.data.detail === 'get_package_status_success' &&
         response.data.package
       ) {
         setPackageDetails(response.data.package)
@@ -44,12 +44,12 @@ export function usePackageOperations(translations: Record<string, any>) {
           title: translations.successTitle || 'Success',
           description: successMessage,
         })
-      } else if (response.data.code === 'package_not_found') {
+      } else if (response.data.detail === 'package_not_found') {
         setPendingPackageInit({ packageName, nodeType })
         setShowPackageInitModal(true)
       } else {
         const errorMessage = getDepexErrorMessage(
-          response.data.code || 'unknown_error',
+          response.data.detail || 'unknown_error',
           translations
         )
         toast({
@@ -65,13 +65,13 @@ export function usePackageOperations(translations: Record<string, any>) {
 
       if (
         error.status === 404 ||
-        (error instanceof APIError && error.code === 'package_not_found')
+        (error instanceof APIError && error.detail === 'package_not_found')
       ) {
         setPendingPackageInit({ packageName, nodeType })
         setShowPackageInitModal(true)
         return
-      } else if (error instanceof APIError && error.code) {
-        errorMessage = getDepexErrorMessage(error.code, translations)
+      } else if (error instanceof APIError && error.detail) {
+        errorMessage = getDepexErrorMessage(error.detail, translations)
       }
 
       toast({
@@ -95,7 +95,7 @@ export function usePackageOperations(translations: Record<string, any>) {
         node_type: packageToInit.nodeType,
       })
 
-      if (response.ok && response.data.code === 'package_initializing') {
+      if (response.ok && response.data.detail === 'package_initializing') {
         const successMessage = getDepexSuccessMessage('package_initializing', translations)
         toast({
           title: translations.packageInitialized || 'Package Initialized',
@@ -105,7 +105,7 @@ export function usePackageOperations(translations: Record<string, any>) {
         setPendingPackageInit(null)
       } else {
         const errorMessage = getDepexErrorMessage(
-          response.data.code || 'unknown_error',
+          response.data.detail || 'unknown_error',
           translations
         )
         toast({
@@ -118,8 +118,8 @@ export function usePackageOperations(translations: Record<string, any>) {
       console.error('Error initializing package:', error)
 
       let errorMessage = 'Failed to initialize package'
-      if (error instanceof APIError && error.code) {
-        errorMessage = getDepexErrorMessage(error.code, translations)
+      if (error instanceof APIError && error.detail) {
+        errorMessage = getDepexErrorMessage(error.detail, translations)
       }
 
       toast({

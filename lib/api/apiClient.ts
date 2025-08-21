@@ -195,7 +195,7 @@ class APIClient {
             throw new APIError(
               retryResponse.status,
               errorData.message || retryResponse.statusText,
-              errorData.code || 'unknown_error',
+              errorData.detail || 'unknown_error',
               errorData
             )
           } else {
@@ -212,7 +212,7 @@ class APIClient {
           throw new APIError(
             response.status,
             errorData.message || response.statusText,
-            errorData.code || 'unknown_error',
+            errorData.detail || 'unknown_error',
             errorData
           )
         }

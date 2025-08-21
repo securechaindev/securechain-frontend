@@ -303,7 +303,7 @@
     "tokenRefreshed": "Sesión renovada exitosamente"
   },
 
-  "authErrorCodes": {
+  "authErrorDetails": {
     "userAlreadyExists": "Ya existe una cuenta con este correo electrónico",
     "userNotFound": "Usuario no encontrado",
     "incorrectPassword": "Contraseña incorrecta",
@@ -319,7 +319,7 @@
     "unknownError": "Ocurrió un error inesperado"
   },
 
-  "authSuccessCodes": {
+  "authSuccessDetails": {
     "signupSuccess": "Cuenta creada exitosamente",
     "loginSuccess": "¡Bienvenido! Inicio de sesión exitoso",
     "logoutSuccess": "Has cerrado sesión exitosamente",
@@ -330,20 +330,20 @@
     "unknownSuccess": "Operación completada exitosamente"
   },
 
-  "backendErrorCodes": {
+  "backendErrorDetails": {
     "validationError": "Datos de solicitud inválidos proporcionados",
     "httpError": "Error de solicitud HTTP ocurrido",
     "internalError": "Error interno del servidor ocurrido"
   },
 
-  "depexErrorCodes": {
+  "depexErrorDetails": {
     "packageNotFound": "Paquete no encontrado en la base de datos",
     "versionNotFound": "Versión no encontrada para este paquete",
     "versionAlreadyExists": "La versión ya existe en la base de datos",
     "noRepo": "Repositorio no encontrado o no accesible"
   },
 
-  "depexSuccessCodes": {
+  "depexSuccessDetails": {
     "getRepositoriesSuccess": "Repositorios de usuario obtenidos exitosamente",
     "getPackageStatusSuccess": "Estado del paquete obtenido exitosamente",
     "getVersionStatusSuccess": "Estado de la versión obtenido exitosamente",
@@ -511,56 +511,8 @@
     "errorLoadingPackage": "Error",
     "failedToLoadPackageDetails": "Error al cargar los detalles del paquete",
     "authLoading": "Verificando autenticación...",
-
-    "authErrorCodes": {
-      "userAlreadyExists": "Ya existe una cuenta con este correo electrónico",
-      "userNotFound": "Usuario no encontrado",
-      "incorrectPassword": "Contraseña incorrecta",
-      "invalidOldPassword": "La contraseña actual es inválida",
-      "passwordMismatch": "Las contraseñas no coinciden",
-      "missingRefreshToken": "Token de actualización faltante",
-      "tokenRevoked": "La sesión ha sido revocada",
-      "tokenMissing": "Token de autenticación faltante",
-      "tokenExpired": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente",
-      "tokenInvalid": "Token de autenticación inválido",
-      "tokenError": "Error de autenticación ocurrido",
-      "networkError": "Error de conexión de red",
-      "serverError": "Servidor temporalmente no disponible",
-      "unknownError": "Ocurrió un error inesperado"
-    },
-
-    "authSuccessCodes": {
-      "signupSuccess": "Cuenta creada exitosamente",
-      "loginSuccess": "¡Bienvenido! Inicio de sesión exitoso",
-      "logoutSuccess": "Has cerrado sesión exitosamente",
-      "changePasswordSuccess": "Tu contraseña ha sido actualizada exitosamente",
-      "accountExistsSuccess": "Verificación de cuenta completada",
-      "tokenVerificationSuccess": "El token es válido",
-      "refreshTokenSuccess": "Sesión renovada exitosamente",
-      "unknownSuccess": "Operación completada exitosamente"
-    },
-
-    "backendErrorCodes": {
-      "validationError": "Datos de solicitud inválidos proporcionados",
-      "httpError": "Error de solicitud HTTP ocurrido",
-      "internalError": "Error interno del servidor ocurrido"
-    },
-
-    "depexErrorCodes": {
-      "packageNotFound": "Paquete no encontrado en la base de datos",
-      "versionNotFound": "Versión no encontrada para este paquete",
-      "versionAlreadyExists": "La versión ya existe en la base de datos",
-      "noRepo": "Repositorio no encontrado o no accesible"
-    },
-
-    "depexSuccessCodes": {
-      "getRepositoriesSuccess": "Repositorios de usuario obtenidos exitosamente",
-      "getPackageStatusSuccess": "Estado del paquete obtenido exitosamente",
-      "getVersionStatusSuccess": "Estado de la versión obtenido exitosamente",
-      "versionInitializing": "Proceso de inicialización de versión iniciado",
-      "packageInitializing": "Proceso de inicialización de paquete iniciado",
-      "initRepo": "Análisis de repositorio iniciado en segundo plano"
-    },
+    "packageInitializing": "Proceso de inicialización de paquete iniciado",
+    "initRepo": "Análisis de repositorio iniciado en segundo plano",
 
     "requirementOperations": {
       "noDependencies": "El grafo del fichero de requisitos no tiene dependencias",
@@ -610,20 +562,14 @@
       "configByImpactDescription": "Generar configuración más cercana al nivel de impacto especificado",
       "fileOperationsTitleShort": "Archivos",
       "configOperationsTitleShort": "Config",
-      "viewVersionsShort": "Ver",
-      "maxLevelLabel": "Nivel de Profundidad Máximo",
-      "maxLevelHelp": "Nivel máximo de profundidad para análisis de dependencias (-1 para ilimitado, debe ser > 0 o -1)",
-      "maxLevelError": "El nivel máximo debe ser -1 o mayor que 0",
-      "maxLevelDescription": "Nivel máximo de profundidad para análisis de dependencias (-1 para ilimitado, debe ser > 0 o -1)",
-      "aggregatorLabel": "Agregador de Vulnerabilidades",
-      "aggregatorDescription": "Método para agregar puntuaciones de vulnerabilidades",
-      "aggregatorMean": "Media",
-      "aggregatorMax": "Máximo",
-      "aggregatorMin": "Mínimo",
-      "aggregatorSum": "Suma",
+      "maxLevelLabel": "Nivel Máximo",
+      "maxLevelDescription": "Nivel de profundidad máximo para análisis de dependencias (debe ser > 0)",
+      "aggregatorLabel": "Agregador",
+      "aggregatorDescription": "Método de agregación para cálculo de impacto",
+      "aggregatorHelp": "Elige cómo agregar impactos de vulnerabilidades: suma, media, máximo o mínimo",
       "meanOption": "Media",
       "weightedMeanOption": "Media Ponderada",
-      "limitLabel": "Límite de Configuraciones",
+      "limitLabel": "Límite",
       "limitDescription": "Número máximo de configuraciones a descubrir (debe ser > 0)",
       "minThresholdLabel": "Umbral Mínimo",
       "minThresholdDescription": "Umbral mínimo de impacto para filtrado",

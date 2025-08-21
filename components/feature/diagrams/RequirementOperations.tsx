@@ -120,8 +120,8 @@ export function RequirementOperations({
       if (
         result &&
         typeof result === 'object' &&
-        result.code &&
-        result.code !== 'operation_success'
+        result.detail &&
+        result.detail !== 'operation_success'
       ) {
         setResults({ type: operation, data: result })
       } else {

@@ -16,13 +16,13 @@ export class BaseError extends Error {
 
 export class APIError extends BaseError {
   public readonly status: number
-  public readonly code?: string
+  public readonly detail?: string
   public readonly details?: any
 
-  constructor(status: number, message: string, code?: string, details?: any) {
+  constructor(status: number, message: string, detail?: string, details?: any) {
     super('APIError', message)
     this.status = status
-    this.code = code
+    this.detail = detail
     this.details = details
   }
 }

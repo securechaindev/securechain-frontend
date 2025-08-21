@@ -13,7 +13,7 @@ interface ErrorDisplayProps {
 }
 
 export function ErrorDisplay({ results, translations }: ErrorDisplayProps) {
-  if (results.data?.code === 'memory_out') {
+  if (results.data?.detail === 'memory_out') {
     return (
       <Alert variant="destructive">
         <AlertTriangleIcon className="h-4 w-4" />
@@ -29,7 +29,7 @@ export function ErrorDisplay({ results, translations }: ErrorDisplayProps) {
     )
   }
 
-  if (results.data?.code === 'smt_timeout') {
+  if (results.data?.detail === 'smt_timeout') {
     return (
       <Alert variant="destructive">
         <AlertTriangleIcon className="h-4 w-4" />

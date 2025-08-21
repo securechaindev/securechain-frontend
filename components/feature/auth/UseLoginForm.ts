@@ -16,11 +16,11 @@ interface UseLoginFormProps {
     accountCreatedTitle: string
     signupErrorTitle: string
     signupNetworkError: string
-    authErrorCodes?: Record<string, string>
-    authSuccessCodes?: Record<string, string>
-    backendErrorCodes?: Record<string, string>
-    depexErrorCodes?: Record<string, string>
-    depexSuccessCodes?: Record<string, string>
+    authErrorDetails?: Record<string, string>
+    authSuccessDetails?: Record<string, string>
+    backendErrorDetails?: Record<string, string>
+    depexErrorDetails?: Record<string, string>
+    depexSuccessDetails?: Record<string, string>
   }
 }
 
@@ -56,8 +56,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await login(loginEmail, loginPassword)
 
-      if (result.success && result.code) {
-        const successMessage = getSuccessMessage(result.code, t)
+        if (result.success && result.detail) {
+          const successMessage = getSuccessMessage(result.detail, t)
 
         toast({
           title: t.loginSuccessTitle,
@@ -68,8 +68,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
         setLoginPassword('')
 
         router.push(`/${locale}/home`)
-      } else if (result.code) {
-        const errorMessage = getErrorMessage(result.code, t)
+      } else if (result.detail) {
+        const errorMessage = getErrorMessage(result.detail, t)
 
         toast({
           title: t.loginFailedTitle,
@@ -122,8 +122,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await signup(signupEmail, signupPassword, confirmPassword)
 
-      if (result.success && result.code) {
-        const successMessage = getSuccessMessage(result.code, t)
+        if (result.success && result.detail) {
+          const successMessage = getSuccessMessage(result.detail, t)
 
         toast({
           title: t.accountCreatedTitle,
@@ -135,8 +135,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
         setConfirmPassword('')
 
         router.push(`/${locale}/home`)
-      } else if (result.code) {
-        const errorMessage = getErrorMessage(result.code, t)
+      } else if (result.detail) {
+        const errorMessage = getErrorMessage(result.detail, t)
 
         toast({
           title: t.signupErrorTitle,

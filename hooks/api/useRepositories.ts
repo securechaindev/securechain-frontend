@@ -19,7 +19,7 @@ export function useRepositories(userId: string, translations: Record<string, any
     try {
       const response = await depexAPI.getRepositories(userId)
 
-      if (response.ok && response.data.code === 'get_repositories_success') {
+      if (response.ok && response.data.detail === 'get_repositories_success') {
         setUserRepositories(response.data.repositories || [])
         if (response.data.repositories?.length > 0) {
           const successMessage = getDepexSuccessMessage('get_repositories_success', translations)
@@ -30,7 +30,7 @@ export function useRepositories(userId: string, translations: Record<string, any
         }
       } else {
         const errorMessage = getDepexErrorMessage(
-          response.data.code || 'unknown_error',
+          response.data.detail || 'unknown_error',
           translations
         )
         toast({
@@ -44,8 +44,8 @@ export function useRepositories(userId: string, translations: Record<string, any
 
       let errorMessage = translations.networkErrorDescription || 'Network error occurred'
 
-      if (error instanceof APIError && error.code) {
-        errorMessage = getDepexErrorMessage(error.code, translations)
+      if (error instanceof APIError && error.detail) {
+        errorMessage = getDepexErrorMessage(error.detail, translations)
       }
 
       toast({

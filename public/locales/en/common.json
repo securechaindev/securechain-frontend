@@ -461,7 +461,7 @@
     "failedToLoadPackageDetails": "Failed to load package details",
     "authLoading": "Verifying authentication...",
 
-    "authErrorCodes": {
+    "authErrorDetails": {
       "userAlreadyExists": "An account with this email already exists",
       "userNotFound": "User not found",
       "incorrectPassword": "Incorrect password",
@@ -478,7 +478,7 @@
       "unknownError": "An unexpected error occurred"
     },
 
-    "authSuccessCodes": {
+    "authSuccessDetails": {
       "signupSuccess": "Account created successfully",
       "loginSuccess": "Welcome! Login successful",
       "logoutSuccess": "You have been logged out successfully",
@@ -489,20 +489,20 @@
       "unknownSuccess": "Operation completed successfully"
     },
 
-    "backendErrorCodes": {
+    "backendErrorDetails": {
       "validationError": "Invalid request data provided",
       "httpError": "HTTP request error occurred",
       "internalError": "Internal server error occurred"
     },
 
-    "depexErrorCodes": {
+    "depexErrorDetails": {
       "packageNotFound": "Package not found in the database",
       "versionNotFound": "Version not found for this package",
       "versionAlreadyExists": "Version already exists in the database",
       "noRepo": "Repository not found or not accessible"
     },
 
-    "depexSuccessCodes": {
+    "depexSuccessDetails": {
       "getRepositoriesSuccess": "User repositories retrieved successfully",
       "getPackageStatusSuccess": "Package status retrieved successfully",
       "getVersionStatusSuccess": "Version status retrieved successfully",
@@ -559,24 +559,18 @@
       "configByImpactDescription": "Generate configuration closest to specified impact level",
       "fileOperationsTitleShort": "Files",
       "configOperationsTitleShort": "Config",
-      "viewVersionsShort": "View",
-      "maxLevelLabel": "Maximum Depth Level",
-      "maxLevelHelp": "Maximum depth level for dependency analysis (-1 for unlimited, must be > 0 or -1)",
-      "maxLevelError": "Maximum level must be -1 or greater than 0",
-      "maxLevelDescription": "Maximum depth level for dependency analysis (-1 for unlimited, must be > 0 or -1)",
-      "aggregatorLabel": "Vulnerability Aggregator",
-      "aggregatorMean": "Mean",
-      "aggregatorMax": "Maximum",
-      "aggregatorMin": "Minimum",
-      "aggregatorSum": "Sum",
-      "aggregatorDescription": "Method for aggregating vulnerability scores",
+      "maxLevelLabel": "Max Level",
+      "maxLevelDescription": "Maximum depth level for dependency analysis (must be > 0)",
+      "aggregatorLabel": "Aggregator",
+      "aggregatorDescription": "Aggregation method for impact calculation",
+      "aggregatorHelp": "Choose how to aggregate vulnerability impacts: sum, mean, max, or min",
       "meanOption": "Mean",
       "weightedMeanOption": "Weighted Mean",
-      "limitLabel": "Configuration Limit",
+      "limitLabel": "Limit",
       "limitDescription": "Maximum number of configurations to discover (must be > 0)",
-      "minThresholdLabel": "Minimum Threshold",
+      "minThresholdLabel": "Min Threshold",
       "minThresholdDescription": "Minimum impact threshold for filtering",
-      "maxThresholdLabel": "Maximum Threshold",
+      "maxThresholdLabel": "Max Threshold",
       "maxThresholdDescription": "Maximum impact threshold for filtering",
       "impactLabel": "Target Impact",
       "impactHelp": "Target impact level (numeric value between 0 and 10 inclusive)",

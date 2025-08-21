@@ -9,7 +9,7 @@ export function handleAuthError(error: any): {
     if (error.status === 401) {
       return {
         isAuthError: true,
-        shouldRedirect: error.code === 'TOKEN_EXPIRED',
+  shouldRedirect: error.detail === 'TOKEN_EXPIRED',
         message: error.message || 'Authentication required',
       }
     }

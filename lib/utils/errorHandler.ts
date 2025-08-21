@@ -73,7 +73,7 @@ class ErrorHandler {
       const errorObj = error as any
 
       if (errorObj.status && errorObj.message) {
-        return new APIError(errorObj.status, errorObj.message, errorObj.code, errorObj.details)
+        return new APIError(errorObj.status, errorObj.message, errorObj.detail, errorObj.details)
       }
 
       return new BaseError('ObjectError', errorObj.message || 'Unknown error occurred', true)
@@ -95,7 +95,7 @@ class ErrorHandler {
     if (error instanceof APIError) {
       Object.assign(logData, {
         status: error.status,
-        code: error.code,
+        detail: error.detail,
         details: error.details,
       })
     }
@@ -185,7 +185,7 @@ class ErrorHandler {
           const apiError = new APIError(
             response.status,
             errorData.message || response.statusText,
-            errorData.code,
+            errorData.detail,
             errorData.details
           )
 

@@ -1,4 +1,3 @@
-// Validation utilities
 export const isValidUrl = (url: string): boolean => {
   try {
     new URL(url)
@@ -21,41 +20,36 @@ export const isPositiveNumber = (value: any): value is number => {
   return typeof value === 'number' && value > 0
 }
 
-// Package name validation for different ecosystems
+export const isValidMongoObjectId = (id: string): boolean => {
+  const mongoIdPattern = /^[0-9a-fA-F]{24}$/
+  return mongoIdPattern.test(id)
+}
+
 export const isValidPackageName = (name: string, ecosystem: string): boolean => {
   switch (ecosystem.toLowerCase()) {
     case 'pypi':
-      // PyPI package naming rules
       return /^[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?$/.test(name)
     case 'npm':
-      // NPM package naming rules
       return /^(@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
     case 'maven':
-      // Maven artifact naming (simplified)
       return /^[a-zA-Z0-9._-]+$/.test(name)
     case 'rubygems':
-      // RubyGems naming rules
       return /^[a-zA-Z0-9._-]+$/.test(name)
     case 'cargo':
-      // Cargo package naming rules
       return /^[a-zA-Z][a-zA-Z0-9_-]*$/.test(name)
     case 'nuget':
-      // NuGet package naming rules
       return /^[a-zA-Z0-9._-]+$/.test(name)
     default:
       return /^[a-zA-Z0-9._-]+$/.test(name)
   }
 }
 
-// Version validation
 export const isValidVersion = (version: string): boolean => {
-  // Semantic versioning pattern
   const semverRegex =
     /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
   return semverRegex.test(version)
 }
 
-// Repository URL validation
 export const isValidRepositoryUrl = (url: string): boolean => {
   if (!isValidUrl(url)) return false
 
@@ -69,7 +63,6 @@ export const isValidRepositoryUrl = (url: string): boolean => {
   }
 }
 
-// Form validation schemas
 export interface ValidationRule<T = any> {
   required?: boolean
   message: string
@@ -96,18 +89,15 @@ export const validateForm = (
     const fieldErrors: string[] = []
 
     for (const rule of rules) {
-      // Check required
       if (rule.required && (value === undefined || value === null || value === '')) {
         fieldErrors.push(rule.message)
         continue
       }
 
-      // Skip validation if not required and value is empty
       if (!rule.required && (value === undefined || value === null || value === '')) {
         continue
       }
 
-      // Run custom validator
       if (!rule.validator(value)) {
         fieldErrors.push(rule.message)
       }
@@ -124,7 +114,6 @@ export const validateForm = (
   }
 }
 
-// Common validation schemas
 export const authValidationSchema: ValidationSchema = {
   email: [
     {

@@ -1,6 +1,6 @@
 'use client'
 
-import PackageDetailsView from './PackageDetailsView'
+import { PackageDetailsView } from '@/components/feature/depex'
 import { LoadingSpinner } from '@/components/ui'
 import AuthRedirect from './AuthRedirect'
 import HomeHeader from './HomeHeader'

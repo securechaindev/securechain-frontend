@@ -89,14 +89,11 @@ export default function InitializationTab({ userId, translations }: Initializati
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <GitPullRequest className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="truncate">{translations.initializeDataTitle}</span>
+          <span className="truncate">{translations.initializeRepositoryTitle}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 sm:space-y-6">
         <div className="space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold">
-            {translations.initializeRepositoryTitle}
-          </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="repoOwner" className="text-sm font-medium">

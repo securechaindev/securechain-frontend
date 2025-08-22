@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import type { Repository, RequirementFile } from '@/types'
 import { RequirementOperationsModal } from './RequirementOperationsModal'
+import { VEXGenButton } from '@/components/feature/vexgen'
 
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
@@ -23,6 +24,18 @@ interface RepositoryCardProps {
 export default function RepositoryCard({ repository, translations }: RepositoryCardProps) {
   const [selectedFile, setSelectedFile] = useState<RequirementFile | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // Get user_id from cookies
+  const getUserIdFromCookies = () => {
+    if (typeof document !== 'undefined') {
+      const cookies = document.cookie.split(';')
+      const userIdCookie = cookies.find(cookie => cookie.trim().startsWith('user_id='))
+      return userIdCookie ? decodeURIComponent(userIdCookie.split('=')[1].trim()) : null
+    }
+    return null
+  }
+
+  const userId = getUserIdFromCookies()
 
   const handleOperationsClick = (file: RequirementFile) => {
     setSelectedFile(file)
@@ -54,6 +67,18 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
                 </>
               )}
             </Badge>
+            <div className="flex gap-1">
+              <VEXGenButton
+                owner={repository.owner}
+                name={repository.name}
+                translations={translations}
+                size="sm"
+                variant="outline"
+              />
+              {userId && (
+                <>{/* VEX/TIX listing functionality is now available in the main tabs */}</>
+              )}
+            </div>
           </div>
         </div>
       </div>

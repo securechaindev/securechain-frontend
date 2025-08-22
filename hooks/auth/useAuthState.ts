@@ -75,7 +75,7 @@ export function useAuthState() {
       const data = response.data
 
       const isSuccess =
-        response.ok && (data.detail === 'login_success') && response.status === 200 && data.user_id
+        response.ok && data.detail === 'login_success' && response.status === 200 && data.user_id
 
       if (isSuccess) {
         localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
@@ -142,11 +142,11 @@ export function useAuthState() {
 
       const isSuccess =
         response.ok &&
-        (data.detail === 'signup_success') &&
+        data.detail === 'signup_success' &&
         (response.status === 201 || response.status === 200)
 
       if (isSuccess) {
-        return { success: true, data, detail: data.detail}
+        return { success: true, data, detail: data.detail }
       } else {
         return {
           success: false,

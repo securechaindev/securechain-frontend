@@ -21,13 +21,7 @@ export function useRepositories(userId: string, translations: Record<string, any
 
       if (response.ok && response.data.detail === 'get_repositories_success') {
         setUserRepositories(response.data.repositories || [])
-        if (response.data.repositories?.length > 0) {
-          const successMessage = getDepexSuccessMessage('get_repositories_success', translations)
-          toast({
-            title: translations.successTitle || 'Success',
-            description: successMessage,
-          })
-        }
+        // Removed success notification - not needed when loading data
       } else {
         const errorMessage = getDepexErrorMessage(
           response.data.detail || 'unknown_error',
@@ -40,8 +34,6 @@ export function useRepositories(userId: string, translations: Record<string, any
         })
       }
     } catch (error: any) {
-      console.error('Error fetching repositories:', error)
-
       let errorMessage = translations.networkErrorDescription || 'Network error occurred'
 
       if (error instanceof APIError && error.detail) {

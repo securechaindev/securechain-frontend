@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
-import { RequirementOperations } from '@/components/feature/diagrams'
+import { RequirementOperations } from './RequirementOperations'
 
 interface RequirementOperationsModalProps {
   open: boolean

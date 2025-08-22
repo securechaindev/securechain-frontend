@@ -3,6 +3,7 @@ export const STORAGE_KEYS = {
   USER_EMAIL: 'user_email',
   THEME: 'theme',
   LOCALE: 'locale',
+  HOME_ACTIVE_TAB: 'home-active-tab',
 } as const
 
 export const LOCALES = {

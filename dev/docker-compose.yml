@@ -30,6 +30,23 @@ services:
         condition: service_healthy
       securechain-depex:
         condition: service_healthy
+      securechain-vexgen:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  securechain-auth:
+    container_name: securechain-auth
+    image: ghcr.io/securechaindev/securechain-auth:latest
+    env_file:
+      - ../.env.local
+    ports:
+      - '8000'
+    networks:
+      - securechain
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 5s
@@ -51,9 +68,9 @@ services:
       timeout: 3s
       retries: 5
 
-  securechain-auth:
-    container_name: securechain-auth
-    image: ghcr.io/securechaindev/securechain-auth:latest
+  securechain-vexgen:
+    container_name: securechain-vexgen
+    image: ghcr.io/securechaindev/securechain-vexgen:latest
     env_file:
       - ../.env.local
     ports:

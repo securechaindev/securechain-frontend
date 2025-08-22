@@ -128,7 +128,6 @@ export function RequirementOperations({
         setResults({ type: operation, data: result })
       }
     } catch (error) {
-      console.error('File operation failed:', error)
       setResults({
         type: 'error',
         data: { message: error instanceof Error ? error.message : String(error) },
@@ -181,7 +180,6 @@ export function RequirementOperations({
 
       setResults({ type: operation, data: result })
     } catch (error) {
-      console.error('Config operation failed:', error)
       setResults({
         type: 'error',
         data: { message: error instanceof Error ? error.message : String(error) },

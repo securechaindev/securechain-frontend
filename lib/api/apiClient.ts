@@ -1,5 +1,6 @@
 import { clientConfig } from '@/lib/config/clientConfig'
 import { APIError, NetworkError } from '@/lib/utils'
+import { isValidMongoObjectId } from '@/lib/validation'
 import { API_ENDPOINTS } from '@/constants'
 
 interface APIClientConfig {
@@ -182,7 +183,29 @@ class APIClient {
             })
 
             if (retryResponse.ok) {
-              const data = await retryResponse.json().catch(() => null)
+              const contentType = retryResponse.headers.get('content-type') || ''
+              let data: any = null
+
+              if (
+                contentType.includes('application/zip') ||
+                contentType.includes('application/octet-stream') ||
+                contentType.includes('application/pdf') ||
+                retryResponse.headers.get('content-disposition')?.includes('attachment')
+              ) {
+                data = await retryResponse.blob()
+              } else if (
+                contentType.includes('application/json') ||
+                contentType.includes('text/')
+              ) {
+                data = await retryResponse
+                  .json()
+                  .catch(() => retryResponse.text().catch(() => null))
+              } else {
+                data = await retryResponse
+                  .json()
+                  .catch(() => retryResponse.text().catch(() => null))
+              }
+
               return {
                 data,
                 status: retryResponse.status,
@@ -217,7 +240,21 @@ class APIClient {
           )
         }
 
-        const data = await response.json().catch(() => null)
+        const contentType = response.headers.get('content-type') || ''
+        let data: any = null
+
+        if (
+          contentType.includes('application/zip') ||
+          contentType.includes('application/octet-stream') ||
+          contentType.includes('application/pdf') ||
+          response.headers.get('content-disposition')?.includes('attachment')
+        ) {
+          data = await response.blob()
+        } else if (contentType.includes('application/json') || contentType.includes('text/')) {
+          data = await response.json().catch(() => response.text().catch(() => null))
+        } else {
+          data = await response.json().catch(() => response.text().catch(() => null))
+        }
 
         return {
           data,
@@ -277,8 +314,7 @@ class APIClient {
         } else {
           return false
         }
-      } catch (error) {
-        console.error('❌ Token refresh error:', error)
+      } catch {
         return false
       } finally {
         this.isRefreshing = false
@@ -369,5 +405,100 @@ export const depexAPI = {
       validGraph: (data: any) =>
         apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.VALID_GRAPH, data, { retries: 0 }),
     },
+  },
+}
+
+export const vexgenAPI = {
+  generateVEXTIX: async (data: { owner: string; name: string; user_id: string }) => {
+    if (!isValidMongoObjectId(data.user_id)) {
+      throw new APIError(400, 'Invalid user ID format', 'INVALID_USER_ID')
+    }
+
+    const requestBody = {
+      owner: data.owner.trim(),
+      name: data.name.trim(),
+      user_id: data.user_id,
+    }
+
+    const response = await apiClient.post(API_ENDPOINTS.VEXGEN.GENERATE_VEX_TIX, requestBody, {
+      retries: 0,
+    })
+
+    if (response.data instanceof Blob || response.data instanceof ArrayBuffer) {
+      return {
+        ...response,
+        data: response.data,
+      }
+    }
+
+    return response
+  },
+
+  getUserVEXs: async (userId: string) => {
+    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_USER_VEXS(userId))
+  },
+
+  getVEX: async (vexId: string) => {
+    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_VEX(vexId))
+  },
+
+  downloadVEX: async (vexId: string) => {
+    try {
+      const response = await apiClient.post(
+        API_ENDPOINTS.VEXGEN.DOWNLOAD_VEX,
+        { vex_id: vexId },
+        {
+          retries: 0,
+          headers: {
+            Accept: 'application/octet-stream, application/json',
+          },
+        }
+      )
+
+      if (response.data instanceof Blob) {
+        return {
+          ...response,
+          data: response.data,
+        }
+      } else {
+        return response
+      }
+    } catch (error) {
+      throw error
+    }
+  },
+
+  getUserTIXs: async (userId: string) => {
+    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_USER_TIXS(userId))
+  },
+
+  getTIX: async (tixId: string) => {
+    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_TIX(tixId))
+  },
+
+  downloadTIX: async (tixId: string) => {
+    try {
+      const response = await apiClient.post(
+        API_ENDPOINTS.VEXGEN.DOWNLOAD_TIX,
+        { tix_id: tixId },
+        {
+          retries: 0,
+          headers: {
+            Accept: 'application/octet-stream, application/json',
+          },
+        }
+      )
+
+      if (response.data instanceof Blob) {
+        return {
+          ...response,
+          data: response.data,
+        }
+      } else {
+        return response
+      }
+    } catch (error) {
+      throw error
+    }
   },
 }

@@ -30,6 +30,15 @@ export const API_ENDPOINTS = {
       },
     },
   },
+  VEXGEN: {
+    GENERATE_VEX_TIX: '/api/vexgen/vex_tix/generate',
+    GET_USER_VEXS: (userId: string) => `/api/vexgen/vex/user/${userId}`,
+    GET_VEX: (vexId: string) => `/api/vexgen/vex/show/${vexId}`,
+    DOWNLOAD_VEX: '/api/vexgen/vex/download',
+    GET_USER_TIXS: (userId: string) => `/api/vexgen/tix/user/${userId}`,
+    GET_TIX: (tixId: string) => `/api/vexgen/tix/show/${tixId}`,
+    DOWNLOAD_TIX: '/api/vexgen/tix/download',
+  },
 } as const
 
 export type ApiEndpoint = typeof API_ENDPOINTS

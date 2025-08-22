@@ -56,8 +56,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await login(loginEmail, loginPassword)
 
-        if (result.success && result.detail) {
-          const successMessage = getSuccessMessage(result.detail, t)
+      if (result.success && result.detail) {
+        const successMessage = getSuccessMessage(result.detail, t)
 
         toast({
           title: t.loginSuccessTitle,
@@ -122,8 +122,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await signup(signupEmail, signupPassword, confirmPassword)
 
-        if (result.success && result.detail) {
-          const successMessage = getSuccessMessage(result.detail, t)
+      if (result.success && result.detail) {
+        const successMessage = getSuccessMessage(result.detail, t)
 
         toast({
           title: t.accountCreatedTitle,

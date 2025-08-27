@@ -22,7 +22,13 @@ export function LanguageToggle({ currentLang }: LanguageToggleProps) {
     const newLang = value as 'en' | 'es'
     const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, '')
     const newPath = `/${newLang}${pathWithoutLocale}`
-    router.push(newPath)
+
+    // Preserve URL hash and search params
+    const currentUrl = new URL(window.location.href)
+    const search = currentUrl.search
+    const hash = currentUrl.hash
+
+    router.push(`${newPath}${search}${hash}`)
   }
 
   return (

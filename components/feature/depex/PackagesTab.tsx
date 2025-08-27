@@ -39,11 +39,11 @@ export default function PackagesTab({ translations, packageOperations }: Package
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="nodeType" className="text-sm font-medium">
-                Package Type
+                {translations.packageTypeLabel}
               </Label>
               <Select value={nodeType} onValueChange={(value: any) => setNodeType(value)}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select package type" />
+                  <SelectValue placeholder={translations.selectPackageTypePlaceholder} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="PyPIPackage">PyPI</SelectItem>

@@ -1,4 +1,7 @@
 {
+  "appName": "Secure Chain API",
+  "appNameShort": "SC API",
+  "back": "← Back",
   "heroBadge": "Open Source • Cybersecurity • Supply Chain",
   "heroTitle": "Enhancing Software Supply Chain Security",
   "heroDescription": "Comprehensive tools for dependency analysis and vulnerability assessment. Secure your software supply chain with advanced dependency exploration and VEX document generation.",
@@ -242,6 +245,8 @@
   "packageNameLabel": "Package Name",
   "packageNamePlaceholder": "e.g., react",
   "packageNameRequired": "Package name is required",
+  "packageTypeLabel": "Package Type",
+  "selectPackageTypePlaceholder": "Select package type",
   "checkPackageStatusButton": "Check Package Status",
   "checkVersionStatusTitle": "Check Version Status",
   "packageVersionLabel": "Package Version",
@@ -397,6 +402,7 @@
   },
 
   "docs": {
+    "back": "← Back",
     "backToHome": "Back to Home",
     "apiDocumentationBadge": "API Documentation",
     "title": "Secure Chain API Gateway",
@@ -453,6 +459,8 @@
     "checkTokenDescription": "Verify the validity of a user token.",
     "refreshToken": "User Refresh Token",
     "refreshTokenDescription": "Refresh a user's access token using a refresh token.",
+    "getUserRepositories": "Get User Repositories",
+    "getUserRepositoriesDescription": "Retrieve a list of repositories for a specific user.",
     "healthCheck": "Health Check",
     "healthCheckDescription": "Check the status of the API.",
     "getRepositories": "Get Repositories",
@@ -499,7 +507,7 @@
     "completeConfigRequestDescription": "Request schema for completing configurations",
     "configByImpactRequestDescription": "Request schema for configuration by impact",
     "nodeTypeDescription": "Supported package ecosystem types",
-    "agregatorDescription": "Aggregation methods for impact calculations",
+    "aggregatorDescription": "Aggregation methods for impact calculations",
     "getRepositoryDetails": "Get Repository",
     "getRepositoryDetailsDescription": "Get the details of a specific repository.",
     "depexAnalyze": "DEPEX Analyze",
@@ -565,6 +573,34 @@
       "refreshTokenSuccess": "Session refreshed successfully",
       "unknownSuccess": "Operation completed successfully"
     },
+
+    "vexgen": {
+      "title": "VEX & TIX Generation",
+      "description": "Generate and manage VEX and TIX documents for vulnerability and threat intelligence exchange.",
+      "tabTitle": "VEX/TIX",
+      "vexTitle": "VEX (Vulnerability Exploitability eXchange)",
+      "vexUserDocuments": "Retrieve VEX documents for a user",
+      "vexUserDocumentsDescription": "Fetches all VEX documents associated with a specific user. Returns a list with metadata and content in JSON format.",
+      "vexShowDocument": "Retrieve a specific VEX document",
+      "vexShowDocumentDescription": "Fetches a specific VEX document by its ID. Returns the document metadata and content in JSON format.",
+      "vexDownload": "Download VEX",
+      "vexDownloadDescription": "Downloads a VEX document as a ZIP file. Requires a VEX ID in the request body.",
+      "tixTitle": "TIX (Threat Intelligence eXchange)",
+      "tixUserDocuments": "Retrieve TIX documents for a user",
+      "tixUserDocumentsDescription": "Fetches all TIX documents associated with a specific user. Returns a list with metadata and content in JSON format.",
+      "tixShowDocument": "Retrieve a specific TIX document",
+      "tixShowDocumentDescription": "Fetches a specific TIX document by its ID. Returns the document metadata and content in JSON format.",
+      "tixDownload": "Download TIX",
+      "tixDownloadDescription": "Downloads a TIX document as a ZIP file. Requires a TIX ID in the request body.",
+      "generationTitle": "Document Generation",
+      "generateFromRepo": "Generate VEX and TIX from repository",
+      "generateFromRepoDescription": "Generates both VEX and TIX documents from a GitHub repository. Requires repository owner, name, and user ID.",
+      "downloadVexRequestDescription": "Request to download a VEX document from VEXGen API.",
+      "downloadTixRequestDescription": "Request to download a TIX document from VEXGen API.",
+      "generateVexTixRequestDescription": "Request to generate VEX and TIX documents from a GitHub repository."
+    },
+
+    "loading": "Loading...",
 
     "backendErrorDetails": {
       "validationError": "Invalid request data provided",

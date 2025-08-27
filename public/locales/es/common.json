@@ -1,4 +1,7 @@
 {
+  "appName": "Secure Chain API",
+  "appNameShort": "SC API",
+  "back": "← Atrás",
   "heroBadge": "Código Abierto • Ciberseguridad • Cadena de Suministro",
   "heroTitle": "Mejorando la Seguridad de la Cadena de Suministro de Software",
   "heroDescription": "Herramientas completas para el análisis de dependencias y la evaluación de vulnerabilidades. Asegure su cadena de suministro de software con exploración avanzada de dependencias y generación de documentos VEX.",
@@ -244,6 +247,8 @@
   "packageNameLabel": "Nombre del Paquete",
   "packageNamePlaceholder": "ej., react",
   "packageNameRequired": "El nombre del paquete es obligatorio",
+  "packageTypeLabel": "Tipo de Paquete",
+  "selectPackageTypePlaceholder": "Seleccionar tipo de paquete",
   "checkPackageStatusButton": "Verificar Estado del Paquete",
   "checkVersionStatusTitle": "Verificar Estado de la Versión",
   "packageVersionLabel": "Versión del Paquete",
@@ -448,6 +453,7 @@
   },
 
   "docs": {
+    "back": "← Atrás",
     "backToHome": "Volver al Inicio",
     "apiDocumentationBadge": "Documentación de la API",
     "title": "Gateway de la API Secure Chain",
@@ -504,6 +510,8 @@
     "checkTokenDescription": "Verificar la validez de un token de usuario.",
     "refreshToken": "Token de Renovación de Usuario",
     "refreshTokenDescription": "Renovar el token de acceso de un usuario usando un token de renovación.",
+    "getUserRepositories": "Obtener Repositorios de Usuario",
+    "getUserRepositoriesDescription": "Recuperar una lista de repositorios para un usuario específico.",
     "healthCheck": "Verificación de Estado",
     "healthCheckDescription": "Verificar el estado de la API.",
     "getRepositories": "Obtener Repositorios",
@@ -549,8 +557,11 @@
     "validConfigRequestDescription": "Esquema de solicitud para validación de configuración",
     "completeConfigRequestDescription": "Esquema de solicitud para completar configuraciones",
     "configByImpactRequestDescription": "Esquema de solicitud para configuración por impacto",
+    "downloadVEXRequestDescription": "Esquema de solicitud para descargar documentos VEX",
+    "downloadTIXRequestDescription": "Esquema de solicitud para descargar documentos TIX",
+    "generateVEXTIXRequestDescription": "Esquema de solicitud para generar documentos VEX y TIX",
     "nodeTypeDescription": "Tipos de ecosistemas de paquetes soportados",
-    "agregatorDescription": "Métodos de agregación para cálculos de impacto",
+    "aggregatorDescription": "Métodos de agregación para cálculos de impacto",
     "getRepositoryDetails": "Obtener Repositorio",
     "getRepositoryDetailsDescription": "Obtener los detalles de un repositorio específico.",
     "depexAnalyze": "Análisis DEPEX",
@@ -695,6 +706,34 @@
       "viewVersions": "Ver Versiones",
       "showLess": "Mostrar menos",
       "moreVulnerabilities": "más"
-    }
+    },
+
+    "vexgen": {
+      "title": "Generación de VEX y TIX",
+      "description": "Generar y gestionar documentos VEX y TIX para el intercambio de vulnerabilidades e inteligencia de amenazas.",
+      "tabTitle": "VEX/TIX",
+      "vexTitle": "VEX (Vulnerability Exploitability eXchange)",
+      "vexUserDocuments": "Obtener documentos VEX de un usuario",
+      "vexUserDocumentsDescription": "Obtiene todos los documentos VEX asociados con un usuario específico. Devuelve una lista con metadatos y contenido en formato JSON.",
+      "vexShowDocument": "Obtener un documento VEX específico",
+      "vexShowDocumentDescription": "Obtiene un documento VEX específico por su ID. Devuelve los metadatos y contenido del documento en formato JSON.",
+      "vexDownload": "Descargar VEX",
+      "vexDownloadDescription": "Descarga un documento VEX como archivo ZIP. Requiere un ID de VEX en el cuerpo de la solicitud.",
+      "tixTitle": "TIX (Threat Intelligence eXchange)",
+      "tixUserDocuments": "Obtener documentos TIX de un usuario",
+      "tixUserDocumentsDescription": "Obtiene todos los documentos TIX asociados con un usuario específico. Devuelve una lista con metadatos y contenido en formato JSON.",
+      "tixShowDocument": "Obtener un documento TIX específico",
+      "tixShowDocumentDescription": "Obtiene un documento TIX específico por su ID. Devuelve los metadatos y contenido del documento en formato JSON.",
+      "tixDownload": "Descargar TIX",
+      "tixDownloadDescription": "Descarga un documento TIX como archivo ZIP. Requiere un ID de TIX en el cuerpo de la solicitud.",
+      "generationTitle": "Generación de Documentos",
+      "generateFromRepo": "Generar VEX y TIX desde repositorio",
+      "generateFromRepoDescription": "Genera documentos VEX y TIX desde un repositorio de GitHub. Requiere propietario del repositorio, nombre e ID de usuario.",
+      "downloadVexRequestDescription": "Solicitud para descargar un documento VEX desde la API VEXGen.",
+      "downloadTixRequestDescription": "Solicitud para descargar un documento TIX desde la API VEXGen.",
+      "generateVexTixRequestDescription": "Solicitud para generar documentos VEX y TIX desde un repositorio de GitHub."
+    },
+
+    "loading": "Cargando..."
   }
 }

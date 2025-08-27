@@ -298,6 +298,7 @@
   "generateVexTixButton": "Generar VEX/TIX",
   "generatingVexTix": "Generando...",
   "sbomsNotFound": "SBOMs no encontrados",
+  "sbomNotFoundError": "El repositorio no tiene un SBOM asociado",
 
   "vexDetailsModal": {
     "title": "Documento VEX",

@@ -3,10 +3,9 @@ import { BookOpen, ExternalLink } from 'lucide-react'
 
 interface HeroSectionProps {
   t: any
-  locale: string
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ t, locale }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
   return (
     <section className="py-8 sm:py-12 lg:py-16 px-4 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
       <div className="container mx-auto text-center">

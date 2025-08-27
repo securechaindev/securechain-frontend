@@ -8,4 +8,3 @@ export { ConfigOpsTab } from './tabs/ConfigOpsTab'
 // Shared components
 export { EndpointCard } from './shared/EndpointCard'
 export { OverviewSection } from './shared/OverviewSection'
-export { EcosystemsSection } from './shared/EcosystemsSection'

@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui'
 
 interface DocsTabsProps {
   children: React.ReactNode
@@ -11,12 +10,14 @@ interface DocsTabsProps {
 
 export function DocsTabs({ children, t }: DocsTabsProps) {
   const [activeTab, setActiveTab] = useState('overview')
-  const router = useRouter()
 
   // Read the hash from URL on mount
   useEffect(() => {
     const hash = window.location.hash.replace('#', '')
-    if (hash && ['overview', 'auth', 'vexgen', 'graph', 'file-ops', 'config-ops', 'schemas'].includes(hash)) {
+    if (
+      hash &&
+      ['overview', 'auth', 'vexgen', 'graph', 'file-ops', 'config-ops', 'schemas'].includes(hash)
+    ) {
       setActiveTab(hash)
     }
   }, [])
@@ -42,9 +43,7 @@ export function DocsTabs({ children, t }: DocsTabsProps) {
         </TabsTrigger>
         <TabsTrigger value="vexgen" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
           <span className="lg:hidden">VEX/TIX</span>
-          <span className="hidden lg:inline">
-            {(t as any).vexgen?.tabTitle || 'VEX & TIX'}
-          </span>
+          <span className="hidden lg:inline">{(t as any).vexgen?.tabTitle || 'VEX & TIX'}</span>
         </TabsTrigger>
         <TabsTrigger value="graph" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
           <span className="lg:hidden">{t.docs.graph}</span>

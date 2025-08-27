@@ -9,7 +9,12 @@ import {
 import { FileText } from 'lucide-react'
 import Image from 'next/image'
 import { getDictionary, type Locale } from '@/lib/i18n'
-import { Navigation, HeroSection, OverviewSection, DocsTabs } from '@/components/feature/docs/shared'
+import {
+  Navigation,
+  HeroSection,
+  OverviewSection,
+  DocsTabs,
+} from '@/components/feature/docs/shared'
 import {
   AuthTab,
   GraphTab,
@@ -47,7 +52,7 @@ export default async function DocsPage({ params }: PageProps) {
       <Navigation t={t} locale={locale} />
 
       {/* Hero Section */}
-      <HeroSection t={t} locale={locale} />
+      <HeroSection t={t} />
 
       {/* Main Content */}
       <section className="py-8 sm:py-12 lg:py-16 px-4">
@@ -65,22 +70,13 @@ export default async function DocsPage({ params }: PageProps) {
             <VexgenTab vexgenEndpoints={vexgenEndpoints} t={t} />
 
             {/* Graph Tab */}
-            <GraphTab
-              depexRepositoryEndpoints={depexGraphEndpoints}
-              t={t}
-            />
+            <GraphTab depexRepositoryEndpoints={depexGraphEndpoints} t={t} />
 
             {/* File Operations Tab */}
-            <FileOpsTab
-              depexFileOperationEndpoints={depexFileOperationEndpoints}
-              t={t}
-            />
+            <FileOpsTab depexFileOperationEndpoints={depexFileOperationEndpoints} t={t} />
 
             {/* Config Operations Tab */}
-            <ConfigOpsTab
-              depexConfigOperationEndpoints={depexConfigOperationEndpoints}
-              t={t}
-            />
+            <ConfigOpsTab depexConfigOperationEndpoints={depexConfigOperationEndpoints} t={t} />
 
             {/* Schemas Tab */}
             <TabsContent value="schemas" className="mt-4 sm:mt-6">

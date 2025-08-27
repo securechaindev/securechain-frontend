@@ -125,28 +125,30 @@ export const getSchemas = (t: any): Schema[] => [
       'impact (number, 0-10)',
       'node_type (NodeType)',
       'agregator (Aggregator)',
-      ],
-    },
-    {
-      name: 'DownloadVEXRequest',
-      description: t.docs.downloadVEXRequestDescription || 'Request to download a VEX document by ID',
-      fields: ['vex_id (string, 24-char hex pattern)'],
-    },
-    {
-      name: 'DownloadTIXRequest',
-      description: t.docs.downloadTIXRequestDescription || 'Request to download a TIX document by ID',
-      fields: ['tix_id (string, 24-char hex pattern)'],
-    },
-    {
-      name: 'GenerateVEXTIXRequest',
-      description: t.docs.generateVEXTIXRequestDescription || 'Request to generate VEX and TIX documents for a repository',
-      fields: [
-        'owner (string, min length: 1)',
-        'name (string, min length: 1)',
-        'user_id (string, 24-char hex pattern)',
-      ],
-    },
-  ]
+    ],
+  },
+  {
+    name: 'DownloadVEXRequest',
+    description: t.docs.downloadVEXRequestDescription || 'Request to download a VEX document by ID',
+    fields: ['vex_id (string, 24-char hex pattern)'],
+  },
+  {
+    name: 'DownloadTIXRequest',
+    description: t.docs.downloadTIXRequestDescription || 'Request to download a TIX document by ID',
+    fields: ['tix_id (string, 24-char hex pattern)'],
+  },
+  {
+    name: 'GenerateVEXTIXRequest',
+    description:
+      t.docs.generateVEXTIXRequestDescription ||
+      'Request to generate VEX and TIX documents for a repository',
+    fields: [
+      'owner (string, min length: 1)',
+      'name (string, min length: 1)',
+      'user_id (string, 24-char hex pattern)',
+    ],
+  },
+]
 
 export const getEnums = (t: any): Enum[] => [
   {

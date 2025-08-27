@@ -73,8 +73,11 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
     } catch (err: any) {
       let errorMessage = err?.message || 'Failed to generate VEX and TIX files'
 
-      if (err?.status === 404 && err?.detail === 'repository_not_found') {
-        errorMessage = props?.translations?.sbomsNotFound || 'SBOMs not found'
+      if (err?.status === 404) {
+        const detail = err?.detail || err?.data?.detail
+        if (detail === 'sbom_not_found' || detail === 'repository_not_found' || !detail) {
+          errorMessage = props?.translations?.sbomNotFoundError
+        }
       }
 
       setError(errorMessage)

@@ -15,10 +15,7 @@ interface GraphTabProps {
   t: any
 }
 
-export const GraphTab: React.FC<GraphTabProps> = ({
-  depexRepositoryEndpoints,
-  t,
-}) => {
+export const GraphTab: React.FC<GraphTabProps> = ({ depexRepositoryEndpoints, t }) => {
   return (
     <TabsContent value="graph" className="mt-4 sm:mt-6">
       <div className="space-y-4 sm:space-y-6">
@@ -35,12 +32,7 @@ export const GraphTab: React.FC<GraphTabProps> = ({
           <CardContent>
             <div className="space-y-3 sm:space-y-4">
               {depexRepositoryEndpoints.map((endpoint, index) => (
-                <EndpointCard
-                  key={index}
-                  endpoint={endpoint}
-                  index={index}
-                  t={t}
-                />
+                <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
               ))}
             </div>
           </CardContent>

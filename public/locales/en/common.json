@@ -296,6 +296,7 @@
   "generateVexTixButton": "Generate VEX/TIX",
   "generatingVexTix": "Generating...",
   "sbomsNotFound": "SBOMs not found",
+  "sbomNotFoundError": "The repository does not have an associated SBOM",
 
   "vexDetailsModal": {
     "title": "VEX Document",

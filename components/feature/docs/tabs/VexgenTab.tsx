@@ -25,9 +25,7 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
               <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
               {t.docs.vexgen.title}
             </CardTitle>
-            <CardDescription className="text-sm">
-              {t.docs.vexgen.description}
-            </CardDescription>
+            <CardDescription className="text-sm">{t.docs.vexgen.description}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
@@ -41,12 +39,7 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
                   {vexgenEndpoints
                     .filter(endpoint => endpoint.tag === 'VEX')
                     .map((endpoint, index) => (
-                      <EndpointCard
-                        key={index}
-                        endpoint={endpoint}
-                        index={index}
-                        t={t}
-                      />
+                      <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
                     ))}
                 </div>
               </div>
@@ -61,12 +54,7 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
                   {vexgenEndpoints
                     .filter(endpoint => endpoint.tag === 'TIX')
                     .map((endpoint, index) => (
-                      <EndpointCard
-                        key={index}
-                        endpoint={endpoint}
-                        index={index}
-                        t={t}
-                      />
+                      <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
                     ))}
                 </div>
               </div>
@@ -81,12 +69,7 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
                   {vexgenEndpoints
                     .filter(endpoint => endpoint.tag === 'Generation')
                     .map((endpoint, index) => (
-                      <EndpointCard
-                        key={index}
-                        endpoint={endpoint}
-                        index={index}
-                        t={t}
-                      />
+                      <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
                     ))}
                 </div>
               </div>

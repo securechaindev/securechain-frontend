@@ -15,10 +15,7 @@ interface FileOpsTabProps {
   t: any
 }
 
-export const FileOpsTab: React.FC<FileOpsTabProps> = ({
-  depexFileOperationEndpoints,
-  t,
-}) => {
+export const FileOpsTab: React.FC<FileOpsTabProps> = ({ depexFileOperationEndpoints, t }) => {
   return (
     <TabsContent value="file-ops" className="mt-4 sm:mt-6">
       <div className="space-y-4 sm:space-y-6">
@@ -35,12 +32,7 @@ export const FileOpsTab: React.FC<FileOpsTabProps> = ({
           <CardContent>
             <div className="space-y-3 sm:space-y-4">
               {depexFileOperationEndpoints.map((endpoint, index) => (
-                <EndpointCard
-                  key={index}
-                  endpoint={endpoint}
-                  index={index}
-                  t={t}
-                />
+                <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
               ))}
             </div>
           </CardContent>

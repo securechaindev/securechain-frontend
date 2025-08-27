@@ -30,14 +30,16 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, index, t }
         return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700'
     }
   }
-  
+
   const methodColorClasses = getMethodColorClasses(endpoint.method)
-  
+
   return (
     <div key={index} className="border rounded-lg p-3 sm:p-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold border ${methodColorClasses}`}>
+          <span
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold border ${methodColorClasses}`}
+          >
             {endpoint.method}
           </span>
           <code className="text-xs sm:text-sm font-mono break-all">{endpoint.path}</code>

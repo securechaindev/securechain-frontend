@@ -30,12 +30,7 @@ export const AuthTab: React.FC<AuthTabProps> = ({ authEndpoints, t }) => {
           <CardContent>
             <div className="space-y-3 sm:space-y-4">
               {authEndpoints.map((endpoint, index) => (
-                <EndpointCard
-                  key={index}
-                  endpoint={endpoint}
-                  index={index}
-                  t={t}
-                />
+                <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
               ))}
             </div>
           </CardContent>

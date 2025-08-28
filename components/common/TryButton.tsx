@@ -25,18 +25,18 @@ export function TryButton({ locale, buttonText }: TryButtonProps) {
   return (
     <div className="relative group">
       {/* Glow effect background */}
-      <div className="absolute -inset-1 bg-blue-500/30 rounded-lg blur-md opacity-30 group-hover:opacity-60 transition duration-300 animate-pulse"></div>
-      
+      <div className="absolute -inset-1 bg-blue-800/30 rounded-lg blur-md opacity-30 group-hover:opacity-60 transition duration-300 animate-pulse"></div>
+
       {/* Main button */}
-      <button 
+      <button
         onClick={handleClick}
         className="
-          relative px-8 py-3 bg-blue-500 text-white font-medium text-base
-          hover:bg-blue-600 transform hover:scale-[1.02]
+          relative px-8 py-3 bg-blue-900 text-white font-medium text-base
+          hover:bg-blue-800 transform hover:scale-[1.02]
           transition-all duration-200 ease-out shadow-lg hover:shadow-xl
           w-full sm:w-auto tracking-wide rounded-md
-          border border-blue-400/20 hover:border-blue-400/40
-          hover:shadow-blue-500/25
+          border border-blue-700/30 hover:border-blue-600/50
+          hover:shadow-blue-800/25
           flex items-center justify-center gap-2
           animate-pulse hover:animate-none
           [animation-duration:2s]

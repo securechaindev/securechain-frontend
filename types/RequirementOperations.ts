@@ -13,16 +13,16 @@ export interface PackageVersion {
   name: string
   weighted_mean: number
   mean: number
-  vulnerability_count: string[];
-  release_date: string;
+  vulnerability_count: string[]
+  release_date: string
 }
 
 export interface Package {
   package_name: string
   package_vendor: string
   package_constraints: string
-  versions: PackageVersion[];
-  repository_url: string;
+  versions: PackageVersion[]
+  repository_url: string
 }
 
 export interface FileInfoResult {

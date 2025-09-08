@@ -61,7 +61,7 @@ export function ConfigOperationsForm({
   }
 
   const handleExecute = () => {
-  if (!selectedOperation || maxDepth === '') return
+    if (!selectedOperation || maxDepth === '') return
 
     const baseParams = {
       maxDepth: parseInt(maxDepth),

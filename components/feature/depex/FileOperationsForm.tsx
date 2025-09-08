@@ -40,7 +40,7 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
   const handleExecute = () => {
     if (!selectedOperation) return
 
-  let maxDepth: number
+    let maxDepth: number
     if (typeof params.maxDepth === 'string') {
       if (params.maxDepth === '' || params.maxDepth === '-') {
         maxDepth = -1

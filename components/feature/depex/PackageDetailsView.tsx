@@ -149,7 +149,9 @@ export default function PackageDetailsView({
                   <p className="text-sm">{new Date(packageDetails.moment).toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{translations.docs.requirementOperations.repositoryUrlLabel}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {translations.docs.requirementOperations.repositoryUrlLabel}
+                  </p>
                   {packageDetails.repository_url ? (
                     <a
                       href={packageDetails.repository_url}

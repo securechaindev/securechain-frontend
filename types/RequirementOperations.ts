@@ -38,20 +38,20 @@ export interface Configuration {
 export interface FileInfoRequest {
   node_type: NodeType
   requirement_file_id: string
-  max_level: number
+  max_depth: number
 }
 
 export interface ValidGraphRequest {
   node_type: NodeType
   requirement_file_id: string
-  max_level: number
+  max_depth: number
 }
 
 export interface ImpactOperationRequest {
   node_type: NodeType
   limit: number
   requirement_file_id: string
-  max_level: number
+  max_depth: number
   agregator: AggregatorType
 }
 
@@ -61,13 +61,13 @@ export interface FilterConfigsRequest {
   max_threshold: number
   min_threshold: number
   requirement_file_id: string
-  max_level: number
+  max_depth: number
   agregator: AggregatorType
 }
 
 export interface ValidConfigRequest {
   requirement_file_id: string
-  max_level: number
+  max_depth: number
   node_type: NodeType
   agregator: AggregatorType
   config: Configuration

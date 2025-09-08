@@ -72,7 +72,7 @@ export function RequirementOperations({
       const baseRequest = {
         node_type: nodeType,
         requirement_file_id: requirementFile,
-        max_level: params.maxLevel,
+        max_depth: params.maxDepth,
       }
 
       switch (operation) {

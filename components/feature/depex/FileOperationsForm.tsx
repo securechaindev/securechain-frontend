@@ -24,13 +24,13 @@ interface FileOperationsFormProps {
 export function FileOperationsForm({ onExecute, disabled, translations }: FileOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
   const [params, setParams] = useState<{
-    maxLevel: number | string
+    maxDepth: number | string
     aggregator: string
     limit: number
     minThreshold: number
     maxThreshold: number
   }>({
-    maxLevel: -1,
+    maxDepth: -1,
     aggregator: 'mean',
     limit: 10,
     minThreshold: 0,
@@ -40,29 +40,26 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
   const handleExecute = () => {
     if (!selectedOperation) return
 
-    // Convert maxLevel to number and validate
-    let maxLevel: number
-    if (typeof params.maxLevel === 'string') {
-      if (params.maxLevel === '' || params.maxLevel === '-') {
-        maxLevel = -1 // Default to -1 if invalid
+  let maxDepth: number
+    if (typeof params.maxDepth === 'string') {
+      if (params.maxDepth === '' || params.maxDepth === '-') {
+        maxDepth = -1
       } else {
-        maxLevel = parseInt(params.maxLevel)
-        if (isNaN(maxLevel) || (maxLevel !== -1 && maxLevel <= 0)) {
-          maxLevel = -1 // Default to -1 if invalid
+        maxDepth = parseInt(params.maxDepth)
+        if (isNaN(maxDepth) || (maxDepth !== -1 && maxDepth <= 0)) {
+          maxDepth = -1
         }
       }
     } else {
-      maxLevel = params.maxLevel
-      // Validate even if it's already a number
-      if (isNaN(maxLevel) || (maxLevel !== -1 && maxLevel <= 0)) {
-        maxLevel = -1 // Default to -1 if invalid
+      maxDepth = params.maxDepth
+      if (isNaN(maxDepth) || (maxDepth !== -1 && maxDepth <= 0)) {
+        maxDepth = -1
       }
     }
 
-    // Create params with validated maxLevel
     const validatedParams = {
       ...params,
-      maxLevel,
+      maxDepth,
     }
 
     onExecute(selectedOperation, validatedParams)
@@ -74,35 +71,35 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
       title: translations.docs?.requirementOperations?.fileInfoTitle,
       description: translations.docs?.requirementOperations?.fileInfoDescription,
       icon: InfoIcon,
-      requiresParams: ['maxLevel', 'aggregator'],
+      requiresParams: ['maxDepth', 'aggregator'],
     },
     {
       id: 'validateGraph',
       title: translations.docs?.requirementOperations?.validGraphTitle,
       description: translations.docs?.requirementOperations?.validGraphDescription,
       icon: CheckCircleIcon,
-      requiresParams: ['maxLevel'],
+      requiresParams: ['maxDepth'],
     },
     {
       id: 'minimizeImpact',
       title: translations.docs?.requirementOperations?.minimizeImpactTitle,
       description: translations.docs?.requirementOperations?.minimizeImpactDescription,
       icon: BarChartIcon,
-      requiresParams: ['maxLevel', 'aggregator', 'limit'],
+      requiresParams: ['maxDepth', 'aggregator', 'limit'],
     },
     {
       id: 'maximizeImpact',
       title: translations.docs?.requirementOperations?.maximizeImpactTitle,
       description: translations.docs?.requirementOperations?.maximizeImpactDescription,
       icon: BarChartIcon,
-      requiresParams: ['maxLevel', 'aggregator', 'limit'],
+      requiresParams: ['maxDepth', 'aggregator', 'limit'],
     },
     {
       id: 'filterConfigs',
       title: translations.docs?.requirementOperations?.filterConfigsTitle,
       description: translations.docs?.requirementOperations?.filterConfigsDescription,
       icon: FilterIcon,
-      requiresParams: ['maxLevel', 'aggregator', 'limit', 'minThreshold', 'maxThreshold'],
+      requiresParams: ['maxDepth', 'aggregator', 'limit', 'minThreshold', 'maxThreshold'],
     },
   ]
 
@@ -151,64 +148,64 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
             </CardHeader>
 
             <CardContent className="space-y-4">
-              {selectedOperationData.requiresParams.includes('maxLevel') && (
+              {selectedOperationData.requiresParams.includes('maxDepth') && (
                 <div className="space-y-2">
-                  <Label htmlFor="maxLevel">
-                    {translations.docs?.requirementOperations?.maxLevelLabel}
+                  <Label htmlFor="maxDepth">
+                    {translations.docs?.requirementOperations?.maxDepthLabel}
                   </Label>
                   <Input
-                    id="maxLevel"
+                    id="maxDepth"
                     type="number"
-                    value={params.maxLevel}
+                    value={params.maxDepth}
                     step="1"
                     onChange={e => {
                       const value = e.target.value
 
                       if (value === '' || value === '-') {
-                        setParams(prev => ({ ...prev, maxLevel: value }))
+                        setParams(prev => ({ ...prev, maxDepth: value }))
                         return
                       }
 
                       const numValue = parseInt(value)
                       if (numValue === 0) {
                         const currentValue =
-                          typeof params.maxLevel === 'string'
-                            ? parseInt(params.maxLevel) || -1
-                            : params.maxLevel
+                          typeof params.maxDepth === 'string'
+                            ? parseInt(params.maxDepth) || -1
+                            : params.maxDepth
                         if (currentValue === -1) {
-                          setParams(prev => ({ ...prev, maxLevel: 1 }))
+                          setParams(prev => ({ ...prev, maxDepth: 1 }))
                         } else {
-                          setParams(prev => ({ ...prev, maxLevel: -1 }))
+                          setParams(prev => ({ ...prev, maxDepth: -1 }))
                         }
                         return
                       }
 
                       if (!isNaN(numValue) && (numValue === -1 || numValue > 0)) {
-                        setParams(prev => ({ ...prev, maxLevel: numValue }))
+                        setParams(prev => ({ ...prev, maxDepth: numValue }))
                       }
                     }}
                     onKeyDown={e => {
                       if (e.key === 'ArrowUp') {
                         e.preventDefault()
                         const currentValue =
-                          typeof params.maxLevel === 'string'
-                            ? parseInt(params.maxLevel) || -1
-                            : params.maxLevel
+                          typeof params.maxDepth === 'string'
+                            ? parseInt(params.maxDepth) || -1
+                            : params.maxDepth
                         if (currentValue === -1) {
-                          setParams(prev => ({ ...prev, maxLevel: 1 }))
+                          setParams(prev => ({ ...prev, maxDepth: 1 }))
                         } else if (currentValue > 0) {
-                          setParams(prev => ({ ...prev, maxLevel: currentValue + 1 }))
+                          setParams(prev => ({ ...prev, maxDepth: currentValue + 1 }))
                         }
                       } else if (e.key === 'ArrowDown') {
                         e.preventDefault()
                         const currentValue =
-                          typeof params.maxLevel === 'string'
-                            ? parseInt(params.maxLevel) || -1
-                            : params.maxLevel
+                          typeof params.maxDepth === 'string'
+                            ? parseInt(params.maxDepth) || -1
+                            : params.maxDepth
                         if (currentValue > 1) {
-                          setParams(prev => ({ ...prev, maxLevel: currentValue - 1 }))
+                          setParams(prev => ({ ...prev, maxDepth: currentValue - 1 }))
                         } else if (currentValue === 1) {
-                          setParams(prev => ({ ...prev, maxLevel: -1 }))
+                          setParams(prev => ({ ...prev, maxDepth: -1 }))
                         }
                       }
                     }}
@@ -216,7 +213,7 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
                     min="-1"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.maxLevelDescription}
+                    {translations.docs?.requirementOperations?.maxDepthDescription}
                   </p>
                 </div>
               )}

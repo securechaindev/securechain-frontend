@@ -58,7 +58,7 @@ export const getSchemas = (t: any): Schema[] => [
     fields: [
       'node_type (NodeType)',
       'requirement_file_id (string, UUID pattern)',
-      'max_level (integer)',
+      'max_depth (integer)',
     ],
   },
   {
@@ -66,7 +66,7 @@ export const getSchemas = (t: any): Schema[] => [
     description: t.docs.validGraphRequestDescription,
     fields: [
       'requirement_file_id (string, UUID pattern)',
-      'max_level (integer)',
+      'max_depth (integer)',
       'node_type (NodeType)',
     ],
   },
@@ -76,7 +76,7 @@ export const getSchemas = (t: any): Schema[] => [
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'limit (integer, min: 1)',
-      'max_level (integer)',
+      'max_depth (integer)',
       'node_type (NodeType)',
       'agregator (Aggregator)',
     ],
@@ -89,7 +89,7 @@ export const getSchemas = (t: any): Schema[] => [
       'max_threshold (number, 0-10)',
       'min_threshold (number, 0-10)',
       'limit (integer, min: 1)',
-      'max_level (integer)',
+      'max_depth (integer)',
       'node_type (NodeType)',
       'agregator (Aggregator)',
     ],
@@ -99,7 +99,7 @@ export const getSchemas = (t: any): Schema[] => [
     description: t.docs.validConfigRequestDescription,
     fields: [
       'requirement_file_id (string, UUID pattern)',
-      'max_level (integer)',
+      'max_depth (integer)',
       'node_type (NodeType)',
       'agregator (Aggregator)',
       'config (object)',
@@ -110,7 +110,7 @@ export const getSchemas = (t: any): Schema[] => [
     description: t.docs.completeConfigRequestDescription,
     fields: [
       'requirement_file_id (string, UUID pattern)',
-      'max_level (integer)',
+      'max_depth (integer)',
       'node_type (NodeType)',
       'agregator (Aggregator)',
       'config (object)',

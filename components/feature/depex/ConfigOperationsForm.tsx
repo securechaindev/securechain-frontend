@@ -28,24 +28,24 @@ export function ConfigOperationsForm({
   translations,
 }: ConfigOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
-  const [maxLevel, setMaxLevel] = useState<string>('-1')
+  const [maxDepth, setMaxDepth] = useState<string>('-1')
   const [aggregator, setAggregator] = useState<string>('mean')
   const [configuration, setConfiguration] = useState<string>('')
   const [partialConfiguration, setPartialConfiguration] = useState<string>('')
   const [impact, setImpact] = useState<string>('')
 
-  const handleMaxLevelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMaxDepthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
 
     if (value === '') {
-      setMaxLevel('')
+      setMaxDepth('')
       return
     }
 
     const numValue = parseInt(value)
 
     if (numValue === -1 || numValue > 0) {
-      setMaxLevel(value)
+      setMaxDepth(value)
     }
   }
 
@@ -61,10 +61,10 @@ export function ConfigOperationsForm({
   }
 
   const handleExecute = () => {
-    if (!selectedOperation || maxLevel === '') return
+  if (!selectedOperation || maxDepth === '') return
 
     const baseParams = {
-      maxLevel: parseInt(maxLevel),
+      maxDepth: parseInt(maxDepth),
       aggregator,
     }
 
@@ -111,7 +111,7 @@ export function ConfigOperationsForm({
     }
   }
 
-  const isValidMaxLevel = maxLevel === '' || maxLevel === '-1' || parseInt(maxLevel) > 0
+  const isValidMaxDepth = maxDepth === '' || maxDepth === '-1' || parseInt(maxDepth) > 0
 
   const isValidImpact = () => {
     if (selectedOperation !== 'configByImpact') return true
@@ -121,7 +121,7 @@ export function ConfigOperationsForm({
   }
 
   const canExecute =
-    selectedOperation && maxLevel !== '' && isValidMaxLevel && isValidImpact() && !disabled
+    selectedOperation && maxDepth !== '' && isValidMaxDepth && isValidImpact() && !disabled
 
   return (
     <div className="space-y-6">
@@ -217,23 +217,23 @@ export function ConfigOperationsForm({
               {/* Common Parameters */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="maxLevel">
-                    {translations.docs?.requirementOperations?.maxLevelLabel}
+                  <Label htmlFor="maxDepth">
+                    {translations.docs?.requirementOperations?.maxDepthLabel}
                   </Label>
                   <Input
-                    id="maxLevel"
+                    id="maxDepth"
                     type="number"
-                    value={maxLevel}
-                    onChange={handleMaxLevelChange}
+                    value={maxDepth}
+                    onChange={handleMaxDepthChange}
                     placeholder="-1"
-                    className={!isValidMaxLevel ? 'border-red-500' : ''}
+                    className={!isValidMaxDepth ? 'border-red-500' : ''}
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.maxLevelHelp}
+                    {translations.docs?.requirementOperations?.maxDepthHelp}
                   </p>
-                  {!isValidMaxLevel && (
+                  {!isValidMaxDepth && (
                     <p className="text-xs text-red-500">
-                      {translations.docs?.requirementOperations?.maxLevelError}
+                      {translations.docs?.requirementOperations?.maxDepthError}
                     </p>
                   )}
                 </div>

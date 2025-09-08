@@ -12,11 +12,12 @@ interface PackageVersion {
 }
 
 interface PackageDetails {
-  versions: PackageVersion[]
-  vendor: string
-  moment: string
-  name: string
-  import_name: string
+  versions: PackageVersion[];
+  vendor: string;
+  moment: string;
+  name: string;
+  import_name: string;
+  repository_url?: string;
 }
 
 interface PackageContextType {

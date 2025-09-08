@@ -706,7 +706,9 @@
       "vulnerabilities": "Vulnerabilidades",
       "viewVersions": "Ver Versiones",
       "showLess": "Mostrar menos",
-      "moreVulnerabilities": "más"
+      "moreVulnerabilities": "más",
+      "repositoryUrlLabel": "URL del repositorio",
+      "releaseDateLabel": "Fecha de lanzamiento"
     },
 
     "vexgen": {

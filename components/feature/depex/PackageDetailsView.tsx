@@ -135,7 +135,7 @@ export default function PackageDetailsView({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.vendor}</p>
                   <p className="font-semibold">{packageDetails.vendor || 'n/a'}</p>
@@ -147,6 +147,21 @@ export default function PackageDetailsView({
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.lastUpdated}</p>
                   <p className="text-sm">{new Date(packageDetails.moment).toLocaleDateString()}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">{translations.docs.requirementOperations.repositoryUrlLabel}</p>
+                  {packageDetails.repository_url ? (
+                    <a
+                      href={packageDetails.repository_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                      {packageDetails.repository_url}
+                    </a>
+                  ) : (
+                    <span className="text-muted-foreground">-</span>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -226,17 +241,12 @@ export default function PackageDetailsView({
                       </Badge>
                     </div>
                     <div className="text-right text-sm text-muted-foreground">
-                      {version.release_date ? (
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {new Date(version.release_date).toLocaleDateString()}
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {translations.docs.noDate}
-                        </div>
-                      )}
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {version.release_date
+                          ? `${translations.docs.requirementOperations.releaseDateLabel}: ${new Date(version.release_date).toLocaleDateString()}`
+                          : translations.docs.noDate}
+                      </div>
                       <div className="flex items-center gap-1 mt-1">
                         <Hash className="h-3 w-3" />
                         {translations.docs.serial}: {version.serial_number}

@@ -728,7 +728,9 @@
       "vulnerabilities": "Vulnerabilities",
       "viewVersions": "View Versions",
       "showLess": "Show less",
-      "moreVulnerabilities": "more"
+      "moreVulnerabilities": "more",
+      "repositoryUrlLabel": "Repository URL",
+      "releaseDateLabel": "Release Date"
     }
   }
 }

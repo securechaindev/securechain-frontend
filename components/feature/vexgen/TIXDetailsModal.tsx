@@ -388,50 +388,71 @@ export default function TIXDetailsModal({
                                                               {artefact.artefact_name}
                                                             </code>
                                                           </div>
-                                                          
+
                                                           {/* Sources */}
-                                                          {artefact.sources && artefact.sources.length > 0 && (
-                                                            <div className="mb-2">
-                                                              <p className="text-xs font-medium text-muted-foreground mb-1">
-                                                                {translations.tixDetailsModal?.sources || 'Sources'}:
-                                                              </p>
-                                                              <div className="flex flex-wrap gap-1">
-                                                                {artefact.sources.map((source: string, sourceIndex: number) => (
-                                                                  <Badge
-                                                                    key={sourceIndex}
-                                                                    variant="outline"
-                                                                    className="text-xs"
-                                                                  >
-                                                                    {source}
-                                                                  </Badge>
-                                                                ))}
+                                                          {artefact.sources &&
+                                                            artefact.sources.length > 0 && (
+                                                              <div className="mb-2">
+                                                                <p className="text-xs font-medium text-muted-foreground mb-1">
+                                                                  {translations.tixDetailsModal
+                                                                    ?.sources || 'Sources'}
+                                                                  :
+                                                                </p>
+                                                                <div className="flex flex-wrap gap-1">
+                                                                  {artefact.sources.map(
+                                                                    (
+                                                                      source: string,
+                                                                      sourceIndex: number
+                                                                    ) => (
+                                                                      <Badge
+                                                                        key={sourceIndex}
+                                                                        variant="outline"
+                                                                        className="text-xs"
+                                                                      >
+                                                                        {source}
+                                                                      </Badge>
+                                                                    )
+                                                                  )}
+                                                                </div>
                                                               </div>
-                                                            </div>
-                                                          )}
-                                                          
+                                                            )}
+
                                                           {artefact.used_in_lines && (
                                                             <div className="text-muted-foreground text-xs">
-                                                              {translations.tixDetailsModal?.lines || 'Lines'}:{' '}
-                                                              {typeof artefact.used_in_lines === 'string' 
-                                                                ? artefact.used_in_lines.split(',').map((line: string, lineIndex: number) => (
-                                                                    <span
-                                                                      key={lineIndex}
-                                                                      className="inline-block bg-orange-100 text-orange-800 px-1 rounded mr-1 text-xs"
-                                                                    >
-                                                                      {line.trim()}
-                                                                    </span>
-                                                                  ))
-                                                                : Array.isArray(artefact.used_in_lines) 
-                                                                  ? artefact.used_in_lines.map((line: number) => (
-                                                                      <span
-                                                                        key={line}
-                                                                        className="inline-block bg-orange-100 text-orange-800 px-1 rounded mr-1 text-xs"
-                                                                      >
-                                                                        {line}
-                                                                      </span>
-                                                                    ))
-                                                                  : null
-                                                              }
+                                                              {translations.tixDetailsModal
+                                                                ?.lines || 'Lines'}
+                                                              :{' '}
+                                                              {typeof artefact.used_in_lines ===
+                                                              'string'
+                                                                ? artefact.used_in_lines
+                                                                    .split(',')
+                                                                    .map(
+                                                                      (
+                                                                        line: string,
+                                                                        lineIndex: number
+                                                                      ) => (
+                                                                        <span
+                                                                          key={lineIndex}
+                                                                          className="inline-block bg-orange-100 text-orange-800 px-1 rounded mr-1 text-xs"
+                                                                        >
+                                                                          {line.trim()}
+                                                                        </span>
+                                                                      )
+                                                                    )
+                                                                : Array.isArray(
+                                                                      artefact.used_in_lines
+                                                                    )
+                                                                  ? artefact.used_in_lines.map(
+                                                                      (line: number) => (
+                                                                        <span
+                                                                          key={line}
+                                                                          className="inline-block bg-orange-100 text-orange-800 px-1 rounded mr-1 text-xs"
+                                                                        >
+                                                                          {line}
+                                                                        </span>
+                                                                      )
+                                                                    )
+                                                                  : null}
                                                             </div>
                                                           )}
                                                         </div>

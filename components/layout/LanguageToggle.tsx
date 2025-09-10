@@ -12,14 +12,23 @@ import {
 
 interface LanguageToggleProps {
   currentLang: 'en' | 'es'
+  onLanguageChange?: (locale: 'en' | 'es') => void
 }
 
-export function LanguageToggle({ currentLang }: LanguageToggleProps) {
+export function LanguageToggle({ currentLang, onLanguageChange }: LanguageToggleProps) {
   const router = useRouter()
   const pathname = usePathname()
 
   const handleLanguageChange = (value: string) => {
     const newLang = value as 'en' | 'es'
+    
+    // If a custom handler is provided, use it instead of router navigation
+    if (onLanguageChange) {
+      onLanguageChange(newLang)
+      return
+    }
+
+    // Default behavior: navigate to new locale URL
     const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, '')
     const newPath = `/${newLang}${pathWithoutLocale}`
 

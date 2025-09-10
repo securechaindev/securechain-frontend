@@ -28,6 +28,7 @@ interface PackageDetailsViewProps {
 export default function PackageDetailsView({
   translations,
   locale,
+  onLocaleChange,
   userEmail,
   onLogout,
 }: PackageDetailsViewProps) {
@@ -111,7 +112,10 @@ export default function PackageDetailsView({
                   <span className="md:hidden">{userEmail.split('@')[0]}</span>
                 </Badge>
               )}
-              <LanguageToggle currentLang={locale} />
+              <LanguageToggle 
+                currentLang={locale} 
+                onLanguageChange={onLocaleChange}
+              />
               <ThemeToggle />
               {onLogout && (
                 <Button onClick={onLogout} variant="outline" size="sm" className="px-2 sm:px-3">

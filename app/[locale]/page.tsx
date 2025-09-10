@@ -16,6 +16,7 @@ import {
   Heart,
   Server,
   BookOpen,
+  Bot,
 } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 import { ThemeToggle, LanguageToggle } from '@/components/layout'
@@ -93,9 +94,9 @@ export default async function LandingPage({ params }: PageProps) {
             <p className="text-muted-foreground max-w-2xl mx-auto px-4">{t.toolsDescription}</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 mb-8">
             {/* Depex Card */}
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden flex flex-col h-full">
               <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-bl-full" />
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
@@ -112,10 +113,10 @@ export default async function LandingPage({ params }: PageProps) {
                 </div>
                 <CardDescription className="text-base">{t.depexDescription}</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
                 <p className="text-muted-foreground">{t.depexFullDescription}</p>
 
-                <div className="space-y-2">
+                <div className="space-y-2 flex-1">
                   <h4 className="font-semibold flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500" />
                     {t.depexFeaturesTitle}
@@ -128,7 +129,7 @@ export default async function LandingPage({ params }: PageProps) {
                   </ul>
                 </div>
 
-                <div className="flex gap-2 pt-4">
+                <div className="flex gap-2 pt-4 mt-auto">
                   <Button className="flex-1 gap-2" asChild>
                     <a
                       href="https://github.com/securechaindev/securechain-depex"
@@ -144,7 +145,7 @@ export default async function LandingPage({ params }: PageProps) {
             </Card>
 
             {/* VEXGen Card */}
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden flex flex-col h-full">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/20 to-transparent rounded-bl-full" />
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
@@ -161,10 +162,10 @@ export default async function LandingPage({ params }: PageProps) {
                 </div>
                 <CardDescription className="text-base">{t.vexgenDescription}</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 flex-1 flex flex-col">
                 <p className="text-muted-foreground">{t.vexgenFullDescription}</p>
 
-                <div className="space-y-2">
+                <div className="space-y-2 flex-1">
                   <h4 className="font-semibold flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500" />
                     {t.vexgenFeaturesTitle}
@@ -177,7 +178,7 @@ export default async function LandingPage({ params }: PageProps) {
                   </ul>
                 </div>
 
-                <div className="flex gap-2 pt-4">
+                <div className="flex gap-2 pt-4 mt-auto">
                   <Button className="flex-1 gap-2" asChild>
                     <a
                       href="https://github.com/securechaindev/securechain-vexgen"
@@ -186,6 +187,59 @@ export default async function LandingPage({ params }: PageProps) {
                     >
                       <SiGithub className="h-5 w-5" />
                       {t.viewVEXGenButton} <ExternalLink className="h-4 w-4 ml-2" />
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* MCP Server Card */}
+            <Card className="relative overflow-hidden flex flex-col h-full">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/20 to-transparent rounded-bl-full" />
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                    <Bot className="h-6 w-6 text-purple-500" />
+                  </div>
+                  <CardTitle className="text-2xl">{t.mcpTitle}</CardTitle>
+                </div>
+                <CardDescription className="text-base">{t.mcpDescription}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 flex-1 flex flex-col">
+                <p className="text-muted-foreground">{t.mcpFullDescription}</p>
+
+                <div className="space-y-2 flex-1">
+                  <h4 className="font-semibold flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    {t.mcpFeaturesTitle}
+                  </h4>
+                  <ul className="space-y-1 text-sm text-muted-foreground ml-6">
+                    <li>• {t.mcpFeature1}</li>
+                    <li>• {t.mcpFeature2}</li>
+                    <li>• {t.mcpFeature3}</li>
+                    <li>• {t.mcpFeature4}</li>
+                  </ul>
+                </div>
+
+                <div className="flex gap-2 pt-4 mt-auto">
+                  <Button className="flex-1 gap-2" asChild>
+                    <a
+                      href="https://github.com/securechaindev/securechain-mcp-server"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <SiGithub className="h-5 w-5" />
+                      {t.viewMCPButton} <ExternalLink className="h-4 w-4 ml-2" />
+                    </a>
+                  </Button>
+                  <Button variant="outline" className="gap-2" asChild>
+                    <a
+                      href="https://www.pulsemcp.com/servers/securechaindev-secure-chain"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      {t.viewPulseMCPButton}
                     </a>
                   </Button>
                 </div>

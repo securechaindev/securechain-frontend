@@ -37,6 +37,7 @@
   "mcpFeature4": "LLM-powered analysis",
   "viewMCPButton": "View MCP Server",
   "viewPulseMCPButton": "PulseMCP",
+  "viewYoutubeDemoButton": "YouTube Demo",
   "howTheyWorkTitle": "How They Work Together",
   "howTheyWorkDescription": "Depex and VEXGen complement each other to provide complete software supply chain security",
   "diagramExplanationTitle": "Understanding the Secure Chain Workflow",

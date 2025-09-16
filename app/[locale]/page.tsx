@@ -18,7 +18,7 @@ import {
   BookOpen,
   Bot,
 } from 'lucide-react'
-import { SiGithub } from 'react-icons/si'
+import { SiGithub, SiYoutube } from 'react-icons/si'
 import { ThemeToggle, LanguageToggle } from '@/components/layout'
 import { TryButton } from '@/components/common'
 import Image from 'next/image'
@@ -221,8 +221,8 @@ export default async function LandingPage({ params }: PageProps) {
                   </ul>
                 </div>
 
-                <div className="flex gap-2 pt-4 mt-auto">
-                  <Button className="flex-1 gap-2" asChild>
+                <div className="flex flex-col gap-2 pt-4 mt-auto">
+                  <Button className="w-full gap-2" asChild>
                     <a
                       href="https://github.com/securechaindev/securechain-mcp-server"
                       target="_blank"
@@ -232,16 +232,30 @@ export default async function LandingPage({ params }: PageProps) {
                       {t.viewMCPButton} <ExternalLink className="h-4 w-4 ml-2" />
                     </a>
                   </Button>
-                  <Button variant="outline" className="gap-2" asChild>
-                    <a
-                      href="https://www.pulsemcp.com/servers/securechaindev-secure-chain"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      {t.viewPulseMCPButton}
-                    </a>
-                  </Button>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button variant="outline" className="gap-2 text-xs sm:text-sm" asChild>
+                      <a
+                        href="https://www.pulsemcp.com/servers/securechaindev-secure-chain"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        <span className="hidden sm:inline">{t.viewPulseMCPButton}</span>
+                        <span className="sm:hidden">Pulse</span>
+                      </a>
+                    </Button>
+                    <Button variant="outline" className="gap-2 text-xs sm:text-sm" asChild>
+                      <a
+                        href="https://www.youtube.com/watch?v=6BJkT47soZM"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <SiYoutube className="h-4 w-4" />
+                        <span className="hidden sm:inline">{t.viewYoutubeDemoButton}</span>
+                        <span className="sm:hidden">Demo</span>
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>

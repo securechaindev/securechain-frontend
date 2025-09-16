@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -10,8 +11,18 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  Button,
 } from '@/components/ui'
-import { AlertTriangle, Info, Calendar, Shield, ExternalLink, Bug } from 'lucide-react'
+import {
+  AlertTriangle,
+  Info,
+  Calendar,
+  Shield,
+  ExternalLink,
+  Bug,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react'
 
 interface CVSSInfo {
   vuln_impact: number
@@ -85,6 +96,17 @@ export default function TIXDetailsModal({
   repositoryName,
   translations,
 }: TIXDetailsModalProps) {
+  const [expandedPayloads, setExpandedPayloads] = useState<Set<string>>(new Set())
+
+  const togglePayload = (exploitId: string) => {
+    const newExpanded = new Set(expandedPayloads)
+    if (newExpanded.has(exploitId)) {
+      newExpanded.delete(exploitId)
+    } else {
+      newExpanded.add(exploitId)
+    }
+    setExpandedPayloads(newExpanded)
+  }
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A'
     return new Date(dateString).toLocaleDateString('es-ES', {
@@ -478,16 +500,99 @@ export default function TIXDetailsModal({
                                     {translations.tixDetailsModal?.knownExploits ||
                                       'Known Exploits'}
                                   </p>
-                                  <Badge
-                                    variant={
-                                      statement.exploits.length > 0 ? 'destructive' : 'secondary'
-                                    }
-                                    className="text-xs"
-                                  >
-                                    {statement.exploits.length > 0
-                                      ? `${statement.exploits.length} ${translations.tixDetailsModal?.available || 'available'}`
-                                      : translations.tixDetailsModal?.notKnown || 'Not known'}
-                                  </Badge>
+                                  {statement.exploits.length > 0 ? (
+                                    <div className="space-y-2">
+                                      <Badge variant="destructive" className="text-xs mb-2">
+                                        {statement.exploits.length}{' '}
+                                        {translations.tixDetailsModal?.available || 'available'}
+                                      </Badge>
+                                      <div className="space-y-2 max-h-32 sm:max-h-40 overflow-y-auto">
+                                        {statement.exploits.map(
+                                          (exploit: any, exploitIndex: number) => {
+                                            const exploitId = `${index}-${exploitIndex}`
+                                            const isExpanded = expandedPayloads.has(exploitId)
+                                            const shouldTruncate =
+                                              exploit.payload && exploit.payload.length > 500
+
+                                            return (
+                                              <div
+                                                key={exploitIndex}
+                                                className="bg-muted/30 rounded-lg p-2 sm:p-3"
+                                              >
+                                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                                                  <a
+                                                    href={exploit['@id']}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 break-all"
+                                                  >
+                                                    {exploit.name}
+                                                    <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                                                  </a>
+                                                  {exploit.attack_vector &&
+                                                    exploit.attack_vector !== 'NONE' && (
+                                                      <Badge variant="outline" className="text-xs">
+                                                        {exploit.attack_vector}
+                                                      </Badge>
+                                                    )}
+                                                </div>
+                                                {exploit.description &&
+                                                  exploit.description.trim() && (
+                                                    <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                                                      {exploit.description}
+                                                    </p>
+                                                  )}
+                                                {exploit.payload && (
+                                                  <div className="bg-background border rounded p-2">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                      <p className="text-xs font-medium text-muted-foreground">
+                                                        Payload/Details:
+                                                      </p>
+                                                      {shouldTruncate && (
+                                                        <Button
+                                                          variant="ghost"
+                                                          size="sm"
+                                                          onClick={() => togglePayload(exploitId)}
+                                                          className="h-6 px-2 text-xs"
+                                                        >
+                                                          {isExpanded ? (
+                                                            <>
+                                                              <ChevronUp className="h-3 w-3 mr-1" />
+                                                              Show less
+                                                            </>
+                                                          ) : (
+                                                            <>
+                                                              <ChevronDown className="h-3 w-3 mr-1" />
+                                                              Show more
+                                                            </>
+                                                          )}
+                                                        </Button>
+                                                      )}
+                                                    </div>
+                                                    <div
+                                                      className={`text-xs font-mono text-gray-700 dark:text-gray-300 overflow-y-auto ${
+                                                        isExpanded ? 'max-h-96' : 'max-h-20'
+                                                      }`}
+                                                    >
+                                                      <pre className="whitespace-pre-wrap break-words">
+                                                        {isExpanded || !shouldTruncate
+                                                          ? exploit.payload
+                                                          : `${exploit.payload.substring(0, 500)}...`}
+                                                      </pre>
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </div>
+                                            )
+                                          }
+                                        )}
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <Badge variant="secondary" className="text-xs">
+                                      {translations.tixDetailsModal?.notKnown || 'Not known'}
+                                    </Badge>
+                                  )}
                                 </div>
                               </div>
 

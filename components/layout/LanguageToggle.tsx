@@ -27,6 +27,8 @@ export function LanguageToggle({ currentLang, onLanguageChange }: LanguageToggle
       return
     }
 
+    const currentScrollY = window.scrollY
+
     const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, '')
     const newPath = `/${newLang}${pathWithoutLocale}`
 
@@ -34,7 +36,20 @@ export function LanguageToggle({ currentLang, onLanguageChange }: LanguageToggle
     const search = currentUrl.search
     const hash = currentUrl.hash
 
-    router.push(`${newPath}${search}${hash}`)
+    router.push(`${newPath}${search}${hash}`, { scroll: false })
+
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
+    } else {
+      setTimeout(() => {
+        window.scrollTo(0, currentScrollY)
+      }, 100)
+    }
   }
 
   return (

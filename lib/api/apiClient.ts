@@ -1,7 +1,7 @@
 import { clientConfig } from '@/lib/config/clientConfig'
 import { APIError, NetworkError } from '@/lib/utils'
 import { isValidMongoObjectId } from '@/lib/validation'
-import { API_ENDPOINTS } from '@/constants'
+import { API_ENDPOINTS, STORAGE_KEYS } from '@/constants'
 
 interface APIClientConfig {
   baseURL: string
@@ -222,6 +222,7 @@ class APIClient {
               errorData
             )
           } else {
+            this.clearStoredUser()
             if (typeof window !== 'undefined') {
               window.location.href = '/login'
             }
@@ -312,9 +313,11 @@ class APIClient {
         if (refreshResponse.ok) {
           return true
         } else {
+          this.clearStoredUser()
           return false
         }
       } catch {
+        this.clearStoredUser()
         return false
       } finally {
         this.isRefreshing = false
@@ -323,6 +326,19 @@ class APIClient {
     })()
 
     return await this.refreshPromise
+  }
+
+  private clearStoredUser() {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    try {
+      localStorage.removeItem(STORAGE_KEYS.USER_ID)
+      localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
+    } catch (error) {
+      console.warn('Failed to clear auth storage:', error)
+    }
   }
 
   private combineAbortSignals(signals: AbortSignal[]): AbortSignal {

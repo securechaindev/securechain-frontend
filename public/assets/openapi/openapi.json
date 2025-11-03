@@ -309,34 +309,6 @@
         }
       }
     },
-    "/depex/graph/version/init": {
-      "post": {
-        "tags": ["Secure Chain Depex - Graph"],
-        "summary": "Init Version",
-        "operationId": "init_version_graph_version_init_post",
-        "requestBody": {
-          "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/InitVersionRequest" } }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
-              }
-            }
-          }
-        },
-        "security": [{ "JWTBearer": [] }]
-      }
-    },
     "/depex/graph/package/init": {
       "post": {
         "tags": ["Secure Chain Depex - Graph"],
@@ -847,16 +819,6 @@
         "type": "object",
         "required": ["owner", "name", "user_id"],
         "title": "InitRepositoryRequest"
-      },
-      "InitVersionRequest": {
-        "properties": {
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "package_name": { "type": "string", "title": "Package Name" },
-          "version_name": { "type": "string", "title": "Version Name" }
-        },
-        "type": "object",
-        "required": ["node_type", "package_name", "version_name"],
-        "title": "InitVersionRequest"
       },
       "MinMaxImpactRequest": {
         "properties": {

@@ -49,7 +49,6 @@ export function getSuccessMessage(detail: string, translations: Record<string, a
     get_repositories_success: translations.depexSuccessDetails?.getRepositoriesSuccess,
     get_package_status_success: translations.depexSuccessDetails?.getPackageStatusSuccess,
     get_version_status_success: translations.depexSuccessDetails?.getVersionStatusSuccess,
-    version_initializing: translations.depexSuccessDetails?.versionInitializing,
     package_initializing: translations.depexSuccessDetails?.packageInitializing,
     init_repo: translations.depexSuccessDetails?.initRepo,
   }
@@ -113,7 +112,6 @@ export function getDepexSuccessMessage(detail: string, translations: Record<stri
     get_repositories_success: translations.depexSuccessDetails?.getRepositoriesSuccess,
     get_package_status_success: translations.depexSuccessDetails?.getPackageStatusSuccess,
     get_version_status_success: translations.depexSuccessDetails?.getVersionStatusSuccess,
-    version_initializing: translations.depexSuccessDetails?.versionInitializing,
     package_initializing: translations.depexSuccessDetails?.packageInitializing,
     init_repo: translations.depexSuccessDetails?.initRepo,
   }

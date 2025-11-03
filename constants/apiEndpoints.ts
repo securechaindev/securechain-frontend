@@ -14,7 +14,6 @@ export const API_ENDPOINTS = {
     PACKAGE_STATUS: '/api/depex/graph/package/status',
     PACKAGE_INIT: '/api/depex/graph/package/init',
     VERSION_STATUS: '/api/depex/graph/version/status',
-    VERSION_INIT: '/api/depex/graph/version/init',
     OPERATION: {
       CONFIG: {
         COMPLETE_CONFIG: '/api/depex/operation/config/complete_config',

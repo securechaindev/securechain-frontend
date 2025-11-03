@@ -90,13 +90,6 @@ export const getEndpointData = (t: any) => {
         },
         {
           method: 'POST',
-          path: '/depex/graph/version/init',
-          summary: t.docs.initVersion,
-          description: t.docs.initVersionDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
           path: '/depex/graph/package/init',
           summary: t.docs.initPackage,
           description: t.docs.initPackageDescription,

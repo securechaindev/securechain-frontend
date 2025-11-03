@@ -392,8 +392,6 @@ export const depexAPI = {
   getVersionStatus: (params: string) =>
     apiClient.get(`${API_ENDPOINTS.DEPEX.VERSION_STATUS}?${params}`),
 
-  initializeVersion: (data: any) => apiClient.post(API_ENDPOINTS.DEPEX.VERSION_INIT, data),
-
   operations: {
     config: {
       completeConfig: (data: any) =>

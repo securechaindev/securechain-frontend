@@ -48,11 +48,6 @@ export const getSchemas = (t: any): Schema[] => [
     fields: ['node_type (NodeType)', 'package_name (string)'],
   },
   {
-    name: 'InitVersionRequest',
-    description: t.docs.initVersionRequestDescription,
-    fields: ['node_type (NodeType)', 'package_name (string)', 'version_name (string)'],
-  },
-  {
     name: 'FileInfoRequest',
     description: t.docs.fileInfoRequestDescription,
     fields: [

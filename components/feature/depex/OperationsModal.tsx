@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
-import { RequirementOperations } from './RequirementOperations'
+import { Operations } from './Operations'
 
-interface RequirementOperationsModalProps {
+interface OperationsModalProps {
   open: boolean
   onOpenChange: (_open: boolean) => void
   repositoryPath: string
@@ -15,7 +15,7 @@ interface RequirementOperationsModalProps {
   translations: Record<string, any>
 }
 
-export function RequirementOperationsModal({
+export function OperationsModal({
   open,
   onOpenChange,
   repositoryPath,
@@ -24,7 +24,7 @@ export function RequirementOperationsModal({
   repositoryName,
   fileManager,
   translations,
-}: RequirementOperationsModalProps) {
+}: OperationsModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
@@ -37,7 +37,7 @@ export function RequirementOperationsModal({
           </DialogTitle>
         </DialogHeader>
 
-        <RequirementOperations
+        <Operations
           repositoryPath={repositoryPath}
           requirementFile={requirementFile}
           requirementFileName={requirementFileName}

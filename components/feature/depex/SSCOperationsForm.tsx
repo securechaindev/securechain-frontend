@@ -13,28 +13,22 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { Separator } from '@/components/ui/Separator'
-import { InfoIcon, CheckCircleIcon, BarChartIcon, FilterIcon } from 'lucide-react'
+import { InfoIcon } from 'lucide-react'
 
-interface FileOperationsFormProps {
+interface SSCOperationsFormProps {
   onExecute: (_operation: string, _params: any) => void
   disabled?: boolean
   translations: Record<string, any>
 }
 
-export function FileOperationsForm({ onExecute, disabled, translations }: FileOperationsFormProps) {
+export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
   const [params, setParams] = useState<{
     maxDepth: number | string
     aggregator: string
-    limit: number
-    minThreshold: number
-    maxThreshold: number
   }>({
     maxDepth: -1,
     aggregator: 'mean',
-    limit: 10,
-    minThreshold: 0,
-    maxThreshold: 10,
   })
 
   const handleExecute = () => {
@@ -73,41 +67,13 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
       icon: InfoIcon,
       requiresParams: ['maxDepth', 'aggregator'],
     },
-    {
-      id: 'validateGraph',
-      title: translations.docs?.requirementOperations?.validGraphTitle,
-      description: translations.docs?.requirementOperations?.validGraphDescription,
-      icon: CheckCircleIcon,
-      requiresParams: ['maxDepth'],
-    },
-    {
-      id: 'minimizeImpact',
-      title: translations.docs?.requirementOperations?.minimizeImpactTitle,
-      description: translations.docs?.requirementOperations?.minimizeImpactDescription,
-      icon: BarChartIcon,
-      requiresParams: ['maxDepth', 'aggregator', 'limit'],
-    },
-    {
-      id: 'maximizeImpact',
-      title: translations.docs?.requirementOperations?.maximizeImpactTitle,
-      description: translations.docs?.requirementOperations?.maximizeImpactDescription,
-      icon: BarChartIcon,
-      requiresParams: ['maxDepth', 'aggregator', 'limit'],
-    },
-    {
-      id: 'filterConfigs',
-      title: translations.docs?.requirementOperations?.filterConfigsTitle,
-      description: translations.docs?.requirementOperations?.filterConfigsDescription,
-      icon: FilterIcon,
-      requiresParams: ['maxDepth', 'aggregator', 'limit', 'minThreshold', 'maxThreshold'],
-    },
   ]
 
   const selectedOperationData = operations.find(op => op.id === selectedOperation)
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {operations.map(operation => {
           const Icon = operation.icon
           const isSelected = selectedOperation === operation.id
@@ -246,82 +212,6 @@ export function FileOperationsForm({ onExecute, disabled, translations }: FileOp
                   <p className="text-xs text-muted-foreground">
                     {translations.docs?.requirementOperations?.aggregatorDescription}
                   </p>
-                </div>
-              )}
-
-              {selectedOperationData.requiresParams.includes('limit') && (
-                <div className="space-y-2">
-                  <Label htmlFor="limit">
-                    {translations.docs?.requirementOperations?.limitLabel}
-                  </Label>
-                  <Input
-                    id="limit"
-                    type="number"
-                    min="1"
-                    value={params.limit}
-                    onChange={e =>
-                      setParams(prev => ({
-                        ...prev,
-                        limit: parseInt(e.target.value) || 10,
-                      }))
-                    }
-                    placeholder="10"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.limitDescription}
-                  </p>
-                </div>
-              )}
-
-              {selectedOperationData.requiresParams.includes('minThreshold') && (
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="minThreshold">
-                      {translations.docs?.requirementOperations?.minThresholdLabel}
-                    </Label>
-                    <Input
-                      id="minThreshold"
-                      type="number"
-                      min="0"
-                      max="10"
-                      step="0.1"
-                      value={params.minThreshold}
-                      onChange={e =>
-                        setParams(prev => ({
-                          ...prev,
-                          minThreshold: parseFloat(e.target.value) || 0,
-                        }))
-                      }
-                      placeholder="0"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      {translations.docs?.requirementOperations?.minThresholdDescription}
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="maxThreshold">
-                      {translations.docs?.requirementOperations?.maxThresholdLabel}
-                    </Label>
-                    <Input
-                      id="maxThreshold"
-                      type="number"
-                      min="0"
-                      max="10"
-                      step="0.1"
-                      value={params.maxThreshold}
-                      onChange={e =>
-                        setParams(prev => ({
-                          ...prev,
-                          maxThreshold: parseFloat(e.target.value) || 10,
-                        }))
-                      }
-                      placeholder="10"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      {translations.docs?.requirementOperations?.maxThresholdDescription}
-                    </p>
-                  </div>
                 </div>
               )}
 

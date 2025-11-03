@@ -5,7 +5,7 @@ import { Package, CheckCircle, XCircle, Settings } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import type { Repository, RequirementFile } from '@/types'
-import { RequirementOperationsModal } from './RequirementOperationsModal'
+import { OperationsModal } from './OperationsModal'
 import { VEXGenButton } from '@/components/feature/vexgen'
 
 const GitHubIcon = dynamic(
@@ -137,7 +137,7 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
       )}
 
       {/* Requirement Operations Modal */}
-      <RequirementOperationsModal
+      <OperationsModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         repositoryPath={`${repository.owner}/${repository.name}`}

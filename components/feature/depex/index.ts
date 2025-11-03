@@ -7,19 +7,24 @@ export { default as RepositoriesTab } from './RepositoriesTab'
 export { default as RepositoryCard } from './RepositoryCard'
 
 // Modals and operations
-export { RequirementOperationsModal } from './RequirementOperationsModal'
-export { RequirementOperations } from './RequirementOperations'
+export { OperationsModal } from './OperationsModal'
+export { Operations } from './Operations'
 
 // Forms and displays
-export { ConfigOperationsForm } from './ConfigOperationsForm'
-export { FileOperationsForm } from './FileOperationsForm'
+export { SSCOperationsForm } from './SSCOperationsForm'
+export { SMTOperationsForm } from './SMTOperationsForm'
 export { OperationResults } from './OperationResults'
 export { FileInfoDisplay } from './FileInfoDisplay'
 export { ErrorDisplay } from './ErrorDisplay'
 export { VersionModal } from './VersionModal'
 
-// Package Info (SSC Operation)
-export { PackageInfoView } from './PackageInfoView'
+// Package Info components (used in Operations.tsx)
 export { PackageInfoForm } from './PackageInfoForm'
 export { DirectDependenciesList } from './DirectDependenciesList'
 export { IndirectDependenciesList } from './IndirectDependenciesList'
+
+// Version Info components (used in Operations.tsx)
+export { VersionInfoForm } from './VersionInfoForm'
+export { DirectDependenciesVersionList } from './DirectDependenciesVersionList'
+export { IndirectDependenciesVersionList } from './IndirectDependenciesVersionList'
+export { VersionList } from './VersionList'

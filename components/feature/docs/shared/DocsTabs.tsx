@@ -16,7 +16,7 @@ export function DocsTabs({ children, t }: DocsTabsProps) {
     const hash = window.location.hash.replace('#', '')
     if (
       hash &&
-      ['overview', 'auth', 'vexgen', 'graph', 'file-ops', 'config-ops', 'schemas'].includes(hash)
+      ['overview', 'auth', 'vexgen', 'graph', 'ssc-ops', 'smt-ops', 'schemas'].includes(hash)
     ) {
       setActiveTab(hash)
     }
@@ -49,13 +49,13 @@ export function DocsTabs({ children, t }: DocsTabsProps) {
           <span className="lg:hidden">{t.docs.graph}</span>
           <span className="hidden lg:inline">{t.docs.graph}</span>
         </TabsTrigger>
-        <TabsTrigger value="file-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.fileOps}</span>
-          <span className="hidden lg:inline">{t.docs.fileOps}</span>
+        <TabsTrigger value="ssc-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+          <span className="lg:hidden">{t.docs.sscOps}</span>
+          <span className="hidden lg:inline">{t.docs.sscOps}</span>
         </TabsTrigger>
-        <TabsTrigger value="config-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.configOps}</span>
-          <span className="hidden lg:inline">{t.docs.configOps}</span>
+        <TabsTrigger value="smt-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+          <span className="lg:hidden">{t.docs.smtOps}</span>
+          <span className="hidden lg:inline">{t.docs.smtOps}</span>
         </TabsTrigger>
         <TabsTrigger value="schemas" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
           <span className="lg:hidden">{t.docs.schemas}</span>

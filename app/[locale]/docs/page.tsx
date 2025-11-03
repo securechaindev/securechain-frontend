@@ -18,8 +18,8 @@ import {
 import {
   AuthTab,
   GraphTab,
-  FileOpsTab,
-  ConfigOpsTab,
+  SSCTab,
+  SMTTab,
   VexgenTab,
 } from '@/components/feature/docs/tabs'
 import { nodeTypes } from '@/lib/utils/endpointUtils'
@@ -37,8 +37,8 @@ export default async function DocsPage({ params }: PageProps) {
   const {
     authEndpoints,
     depexGraphEndpoints,
-    depexFileOperationEndpoints,
-    depexConfigOperationEndpoints,
+    depexSSCOperationEndpoints,
+    depexSMTOperationEndpoints,
     vexgenEndpoints,
   } = getEndpointData(t)
 
@@ -72,11 +72,11 @@ export default async function DocsPage({ params }: PageProps) {
             {/* Graph Tab */}
             <GraphTab depexRepositoryEndpoints={depexGraphEndpoints} t={t} />
 
-            {/* File Operations Tab */}
-            <FileOpsTab depexFileOperationEndpoints={depexFileOperationEndpoints} t={t} />
+            {/* SSC Operations Tab (Software Supply Chain) */}
+            <SSCTab depexSSCOperationEndpoints={depexSSCOperationEndpoints} t={t} />
 
-            {/* Config Operations Tab */}
-            <ConfigOpsTab depexConfigOperationEndpoints={depexConfigOperationEndpoints} t={t} />
+            {/* SMT Operations Tab (Satisfiability Modulo Theories) */}
+            <SMTTab depexSMTOperationEndpoints={depexSMTOperationEndpoints} t={t} />
 
             {/* Schemas Tab */}
             <TabsContent value="schemas" className="mt-4 sm:mt-6">

@@ -94,7 +94,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       setState(prev => ({ ...prev, isLoading: true, error: null, selectedOperation: 'file_info' }))
 
       try {
-        const response = await depexAPI.operations.file.fileInfo(params)
+        const response = await depexAPI.operations.ssc.fileInfo(params)
         const result = handleResponse(response, 'file info retrieval')
 
         if (
@@ -133,7 +133,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.file.validGraph(params)
+        const response = await depexAPI.operations.smt.validGraph(params)
         const result = handleResponse(response, 'graph validation')
 
         if (result !== null) {
@@ -164,7 +164,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.file.minimizeImpact(params)
+        const response = await depexAPI.operations.smt.minimizeImpact(params)
         const result = handleResponse(response, 'impact minimization')
 
         if (result) {
@@ -193,7 +193,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.file.maximizeImpact(params)
+        const response = await depexAPI.operations.smt.maximizeImpact(params)
         const result = handleResponse(response, 'impact maximization')
 
         if (result) {
@@ -222,7 +222,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.file.filterConfigs(params)
+        const response = await depexAPI.operations.smt.filterConfigs(params)
         const result = handleResponse(response, 'configuration filtering')
 
         if (result) {
@@ -251,7 +251,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.config.validConfig(params)
+        const response = await depexAPI.operations.smt.validConfig(params)
         const result = handleResponse(response, 'configuration validation')
 
         if (result !== null) {
@@ -281,7 +281,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.config.completeConfig(params)
+        const response = await depexAPI.operations.smt.completeConfig(params)
         const result = handleResponse(response, 'configuration completion')
 
         if (result) {
@@ -310,7 +310,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       }))
 
       try {
-        const response = await depexAPI.operations.config.configByImpact(params)
+        const response = await depexAPI.operations.smt.configByImpact(params)
         const result = handleResponse(response, 'configuration by impact')
 
         if (result) {

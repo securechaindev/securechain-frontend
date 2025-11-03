@@ -367,11 +367,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/file/file_info": {
+    "/depex/operation/ssc/file_info": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/File"],
+        "tags": ["Secure Chain Depex - Operation/SSC"],
         "summary": "File Info",
-        "operationId": "file_info_operation_file_file_info_post",
+        "operationId": "file_info_operation_ssc_file_info_post",
         "requestBody": {
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/FileInfoRequest" } }
@@ -395,11 +395,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/file/valid_graph": {
+    "/depex/operation/smt/valid_graph": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/File"],
+        "tags": ["Secure Chain Depex - Operation/SSC"],
         "summary": "Valid Graph",
-        "operationId": "valid_graph_operation_file_valid_graph_post",
+        "operationId": "valid_graph_operation_smt_valid_graph_post",
         "requestBody": {
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/ValidGraphRequest" } }
@@ -423,11 +423,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/file/minimize_impact": {
+    "/depex/operation/smt/minimize_impact": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/File"],
+        "tags": ["Secure Chain Depex - Operation/SSC"],
         "summary": "Minimize Impact",
-        "operationId": "minimize_impact_operation_file_minimize_impact_post",
+        "operationId": "minimize_impact_operation_smt_minimize_impact_post",
         "requestBody": {
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/MinMaxImpactRequest" } }
@@ -451,11 +451,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/file/maximize_impact": {
+    "/depex/operation/smt/maximize_impact": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/File"],
+        "tags": ["Secure Chain Depex - Operation/SSC"],
         "summary": "Maximize Impact",
-        "operationId": "maximize_impact_operation_file_maximize_impact_post",
+        "operationId": "maximize_impact_operation_smt_maximize_impact_post",
         "requestBody": {
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/MinMaxImpactRequest" } }
@@ -479,11 +479,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/file/filter_configs": {
+    "/depex/operation/smt/filter_configs": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/File"],
+        "tags": ["Secure Chain Depex - Operation/SSC"],
         "summary": "Filter Configs",
-        "operationId": "filter_configs_operation_file_filter_configs_post",
+        "operationId": "filter_configs_operation_smt_filter_configs_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -509,11 +509,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/config/valid_config": {
+    "/depex/operation/smt/valid_config": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/Config"],
+        "tags": ["Secure Chain Depex - Operation/SMT"],
         "summary": "Valid Config",
-        "operationId": "valid_config_operation_config_valid_config_post",
+        "operationId": "valid_config_operation_smt_valid_config_post",
         "requestBody": {
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/ValidConfigRequest" } }
@@ -537,11 +537,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/config/complete_config": {
+    "/depex/operation/smt/complete_config": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/Config"],
+        "tags": ["Secure Chain Depex - Operation/SMT"],
         "summary": "Complete Config",
-        "operationId": "complete_config_operation_config_complete_config_post",
+        "operationId": "complete_config_operation_smt_complete_config_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -567,11 +567,11 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
-    "/depex/operation/config/config_by_impact": {
+    "/depex/operation/smt/config_by_impact": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/Config"],
+        "tags": ["Secure Chain Depex - Operation/SMT"],
         "summary": "Config By Impact",
-        "operationId": "config_by_impact_operation_config_config_by_impact_post",
+        "operationId": "config_by_impact_operation_smt_config_by_impact_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -892,11 +892,11 @@
       "description": "Endpoints for Secure Chain Depex - Graph"
     },
     {
-      "name": "Secure Chain Depex - Operation/Config",
+      "name": "Secure Chain Depex - Operation/SMT",
       "description": "Endpoints for Secure Chain Depex - Operation/Config"
     },
     {
-      "name": "Secure Chain Depex - Operation/File",
+      "name": "Secure Chain Depex - Operation/SSC",
       "description": "Endpoints for Secure Chain Depex - Operation/File"
     }
   ]

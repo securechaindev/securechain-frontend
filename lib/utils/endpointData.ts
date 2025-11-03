@@ -8,7 +8,6 @@ export interface Endpoint {
 }
 
 export const getEndpointData = (t: any) => {
-  // Auth endpoints (matching openapi.json)
   const authEndpoints: Endpoint[] = !t?.docs
     ? []
     : [
@@ -63,7 +62,6 @@ export const getEndpointData = (t: any) => {
         },
       ]
 
-  // Depex Graph endpoints (matching openapi.json)
   const depexGraphEndpoints: Endpoint[] = !t?.docs
     ? []
     : [
@@ -104,75 +102,72 @@ export const getEndpointData = (t: any) => {
         },
       ]
 
-  // Depex File Operation endpoints (matching openapi.json)
-  const depexFileOperationEndpoints: Endpoint[] = !t?.docs
+  const depexSSCOperationEndpoints: Endpoint[] = !t?.docs
     ? []
     : [
         {
           method: 'POST',
-          path: '/depex/operation/file/file_info',
+          path: '/depex/operation/ssc/file_info',
           summary: t.docs.fileInfo,
           description: t.docs.fileInfoDescription,
           auth: true,
         },
+      ]
+
+  const depexSMTOperationEndpoints: Endpoint[] = !t?.docs
+    ? []
+    : [
         {
           method: 'POST',
-          path: '/depex/operation/file/valid_graph',
-          summary: t.docs.validGraph,
-          description: t.docs.validGraphDescription,
+          path: '/depex/operation/smt/filter_configs',
+          summary: t.docs.filterConfigs,
+          description: t.docs.filterConfigsDescription,
           auth: true,
         },
         {
           method: 'POST',
-          path: '/depex/operation/file/minimize_impact',
-          summary: t.docs.minimizeImpact,
-          description: t.docs.minimizeImpactDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/file/maximize_impact',
+          path: '/depex/operation/smt/maximize_impact',
           summary: t.docs.maximizeImpact,
           description: t.docs.maximizeImpactDescription,
           auth: true,
         },
         {
           method: 'POST',
-          path: '/depex/operation/file/filter_configs',
-          summary: t.docs.filterConfigs,
-          description: t.docs.filterConfigsDescription,
-          auth: true,
-        },
-      ]
-
-  // Depex Config Operation endpoints (matching openapi.json)
-  const depexConfigOperationEndpoints: Endpoint[] = !t?.docs
-    ? []
-    : [
-        {
-          method: 'POST',
-          path: '/depex/operation/config/valid_config',
-          summary: t.docs.validConfig,
-          description: t.docs.validConfigDescription,
+          path: '/depex/operation/smt/minimize_impact',
+          summary: t.docs.minimizeImpact,
+          description: t.docs.minimizeImpactDescription,
           auth: true,
         },
         {
           method: 'POST',
-          path: '/depex/operation/config/complete_config',
+          path: '/depex/operation/smt/valid_graph',
+          summary: t.docs.validGraph,
+          description: t.docs.validGraphDescription,
+          auth: true,
+        },
+        {
+          method: 'POST',
+          path: '/depex/operation/smt/complete_config',
           summary: t.docs.completeConfig,
           description: t.docs.completeConfigDescription,
           auth: true,
         },
         {
           method: 'POST',
-          path: '/depex/operation/config/config_by_impact',
+          path: '/depex/operation/smt/config_by_impact',
           summary: t.docs.configByImpact,
           description: t.docs.configByImpactDescription,
           auth: true,
         },
+        {
+          method: 'POST',
+          path: '/depex/operation/smt/valid_config',
+          summary: t.docs.validConfig,
+          description: t.docs.validConfigDescription,
+          auth: true,
+        },
       ]
 
-  // VEXGen endpoints (matching openapi.json)
   const vexgenEndpoints: Endpoint[] = !t?.docs?.vexgen
     ? []
     : [
@@ -237,8 +232,8 @@ export const getEndpointData = (t: any) => {
   return {
     authEndpoints,
     depexGraphEndpoints,
-    depexFileOperationEndpoints,
-    depexConfigOperationEndpoints,
+    depexSSCOperationEndpoints,
+    depexSMTOperationEndpoints,
     vexgenEndpoints,
   }
 }

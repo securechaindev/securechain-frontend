@@ -1,5 +1,5 @@
 export { AuthTab } from './AuthTab'
 export { GraphTab } from './GraphTab'
-export { FileOpsTab } from './FileOpsTab'
-export { ConfigOpsTab } from './ConfigOpsTab'
+export { SSCTab } from './SSCOpsTab'
+export { SMTTab } from './SMTOpsTab'
 export { VexgenTab } from './VexgenTab'

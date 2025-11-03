@@ -6,32 +6,32 @@ import {
   CardTitle,
   TabsContent,
 } from '@/components/ui'
-import { Code } from 'lucide-react'
+import { Settings } from 'lucide-react'
 import { EndpointCard } from '../shared/EndpointCard'
 import type { Endpoint } from '@/lib/utils/endpointData'
 
-interface FileOpsTabProps {
-  depexFileOperationEndpoints: Endpoint[]
+interface SMTTabProps {
+  depexSMTOperationEndpoints: Endpoint[]
   t: any
 }
 
-export const FileOpsTab: React.FC<FileOpsTabProps> = ({ depexFileOperationEndpoints, t }) => {
+export const SMTTab: React.FC<SMTTabProps> = ({ depexSMTOperationEndpoints, t }) => {
   return (
-    <TabsContent value="file-ops" className="mt-4 sm:mt-6">
+    <TabsContent value="smt-ops" className="mt-4 sm:mt-6">
       <div className="space-y-4 sm:space-y-6">
         <Card>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-              <Code className="h-4 w-4 sm:h-5 sm:w-5" />
-              {t.docs.fileOperationsEndpoints}
+              <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
+              {t.docs.smtOperationsEndpoints}
             </CardTitle>
             <CardDescription className="text-sm">
-              {t.docs.fileOperationsEndpointsDescription}
+              {t.docs.smtOperationsEndpointsDescription}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 sm:space-y-4">
-              {depexFileOperationEndpoints.map((endpoint, index) => (
+              {depexSMTOperationEndpoints.map((endpoint, index) => (
                 <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
               ))}
             </div>

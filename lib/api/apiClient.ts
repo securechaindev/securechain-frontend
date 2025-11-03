@@ -393,31 +393,31 @@ export const depexAPI = {
     apiClient.get(`${API_ENDPOINTS.DEPEX.VERSION_STATUS}?${params}`),
 
   operations: {
-    config: {
-      completeConfig: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.CONFIG.COMPLETE_CONFIG, data, { retries: 0 }),
-
-      configByImpact: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.CONFIG.CONFIG_BY_IMPACT, data, { retries: 0 }),
-
-      validConfig: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.CONFIG.VALID_CONFIG, data, { retries: 0 }),
-    },
-    file: {
+    ssc: {
       fileInfo: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.FILE_INFO, data, { retries: 0 }),
-
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SSC.FILE_INFO, data, { retries: 0 }),
+    },
+    smt: {
       filterConfigs: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.FILTER_CONFIGS, data, { retries: 0 }),
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.FILTER_CONFIGS, data, { retries: 0 }),
 
       maximizeImpact: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.MAXIMIZE_IMPACT, data, { retries: 0 }),
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.MAXIMIZE_IMPACT, data, { retries: 0 }),
 
       minimizeImpact: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.MINIMIZE_IMPACT, data, { retries: 0 }),
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.MINIMIZE_IMPACT, data, { retries: 0 }),
 
       validGraph: (data: any) =>
-        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.FILE.VALID_GRAPH, data, { retries: 0 }),
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.VALID_GRAPH, data, { retries: 0 }),
+
+      completeConfig: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.COMPLETE_CONFIG, data, { retries: 0 }),
+
+      configByImpact: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.CONFIG_BY_IMPACT, data, { retries: 0 }),
+
+      validConfig: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SMT.VALID_CONFIG, data, { retries: 0 }),
     },
   },
 }

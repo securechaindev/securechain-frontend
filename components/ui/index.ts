@@ -12,6 +12,7 @@ export * from './Separator'
 export * from './Card'
 export * from './Tabs'
 export * from './Table'
+export * from './Accordion'
 
 // Form Components
 export * from './Form'

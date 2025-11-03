@@ -396,6 +396,9 @@ export const depexAPI = {
     ssc: {
       fileInfo: (data: any) =>
         apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SSC.FILE_INFO, data, { retries: 0 }),
+
+      packageInfo: (data: any) =>
+        apiClient.post(API_ENDPOINTS.DEPEX.OPERATION.SSC.PACKAGE_INFO, data, { retries: 0 }),
     },
     smt: {
       filterConfigs: (data: any) =>

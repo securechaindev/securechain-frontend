@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
     OPERATION: {
       SSC: {
         FILE_INFO: '/api/depex/operation/ssc/file_info',
+        PACKAGE_INFO: '/api/depex/operation/ssc/package_info',
       },
       SMT: {
         FILTER_CONFIGS: '/api/depex/operation/smt/filter_configs',

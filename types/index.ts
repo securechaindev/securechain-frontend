@@ -1,5 +1,6 @@
 export * from './Auth'
 export * from './Package'
+export * from './PackageInfo'
 export * from './Repository'
 export * from './RequirementOperations'
 export * from './Schema'

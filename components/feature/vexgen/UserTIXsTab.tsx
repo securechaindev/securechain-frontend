@@ -51,9 +51,9 @@ export default function UserTIXsTab({ userId, translations }: UserTIXsTabProps) 
       const response = await vexgenAPI.getUserTIXs(userId)
 
       if (response.ok && response.data) {
-        setTIXDocuments(response.data.tixs || [])
+        setTIXDocuments(response.data.data || [])
       } else {
-        throw new Error(response.data?.message || translations.tixFetchError)
+        throw new Error(translations.tixFetchError)
       }
     } catch (error: any) {
       const errorMessage = error?.message || translations.tixFetchError
@@ -117,10 +117,10 @@ export default function UserTIXsTab({ userId, translations }: UserTIXsTabProps) 
       const response = await vexgenAPI.getTIX(tixId)
 
       if (response.ok && response.data) {
-        const tixData = response.data.tix || response.data
+        const tixData = response.data.data
         setTixDetailsData(tixData)
       } else {
-        throw new Error(response.data?.message || 'Error al cargar los detalles del TIX')
+        throw new Error('Error al cargar los detalles del TIX')
       }
     } catch (error: any) {
       toast({

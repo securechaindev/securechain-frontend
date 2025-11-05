@@ -33,11 +33,11 @@ export const useTIXOperations = (): UseTIXOperationsReturn => {
       setError(null)
 
       const response = await vexgenAPI.getUserTIXs(userId)
-      setTIXDocuments(response.data.tixs || [])
+      setTIXDocuments(response.data.data?.tixs || [])
 
       toast({
         title: 'TIX Documents Loaded',
-        description: `Found ${response.data.tixs?.length || 0} TIX documents`,
+        description: `Found ${response.data.data?.tixs?.length || 0} TIX documents`,
       })
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch TIX documents'
@@ -58,7 +58,7 @@ export const useTIXOperations = (): UseTIXOperationsReturn => {
       setError(null)
 
       const response = await vexgenAPI.getTIX(tixId)
-      setSelectedTIX(response.data.tix)
+      setSelectedTIX(response.data.data?.tix)
 
       toast({
         title: 'TIX Document Loaded',

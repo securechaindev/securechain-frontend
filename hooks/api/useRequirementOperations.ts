@@ -56,7 +56,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       const errorTitle = translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.detail, translations) || error?.message || fallbackMessage
+        getDepexErrorMessage(error?.code || error?.detail, translations) || error?.message || fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
@@ -70,12 +70,12 @@ export function useRequirementOperations(translations: Record<string, any> = {})
   const handleResponse = useCallback((response: any, operationType: string) => {
     if (response && typeof response === 'object' && 'data' in response) {
       if (response.ok) {
-        if (response.data && response.data.detail === 'operation_success') {
-          return response.data.result
+        if (response.data && response.data.code === 'operation_success') {
+          return response.data.data
         }
-        return response.data
+        return response.data.data
       } else {
-        if (response.data && response.data.detail) {
+        if (response.data && response.data.code) {
           return response.data
         }
         throw new Error(`${operationType} failed: ${response.status}`)
@@ -100,8 +100,8 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (
           result &&
           typeof result === 'object' &&
-          result.detail &&
-          result.detail !== 'operation_success'
+          result.code &&
+          result.code !== 'operation_success'
         ) {
           setState(prev => ({ ...prev, isLoading: false }))
           return result

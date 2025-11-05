@@ -51,7 +51,6 @@ export default function InitializationTab({ userId, translations }: Initializati
 
       if (response.ok && response.data) {
         const successMessage =
-          response.data.message ||
           translations.repositoryInitializedSuccessfully ||
           'Repository initialized successfully'
 

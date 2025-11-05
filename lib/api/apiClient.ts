@@ -218,8 +218,9 @@ class APIClient {
             throw new APIError(
               retryResponse.status,
               errorData.message || retryResponse.statusText,
-              errorData.detail || 'unknown_error',
-              errorData
+              errorData.detail,
+              errorData,
+              errorData.code
             )
           } else {
             this.clearStoredUser()
@@ -236,8 +237,9 @@ class APIClient {
           throw new APIError(
             response.status,
             errorData.message || response.statusText,
-            errorData.detail || 'unknown_error',
-            errorData
+            errorData.detail,
+            errorData,
+            errorData.code
           )
         }
 

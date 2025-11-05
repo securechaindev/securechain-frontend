@@ -38,7 +38,7 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
       const errorTitle = translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.detail, translations) || error?.message || fallbackMessage
+        getDepexErrorMessage(error?.code || error?.detail, translations) || error?.message || fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
@@ -64,8 +64,7 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
               isLoading: false,
             }))
             showSuccess(
-              response.data.message ||
-                translations.packageInfoNoDependencies ||
+              translations.packageInfoNoDependencies ||
                 'The package has no dependencies.'
             )
             return response.data
@@ -78,8 +77,7 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
               isLoading: false,
             }))
             showSuccess(
-              response.data.message ||
-                translations.packageInfoSuccess ||
+              translations.packageInfoSuccess ||
                 'Package information retrieved successfully.'
             )
             return response.data

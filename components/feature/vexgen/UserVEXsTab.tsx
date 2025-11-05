@@ -51,9 +51,9 @@ export default function UserVEXsTab({ userId, translations }: UserVEXsTabProps) 
       const response = await vexgenAPI.getUserVEXs(userId)
 
       if (response.ok && response.data) {
-        setVEXDocuments(response.data.vexs || [])
+        setVEXDocuments(response.data.data || [])
       } else {
-        throw new Error(response.data?.message || translations.vexFetchError)
+        throw new Error(translations.vexFetchError)
       }
     } catch (error: any) {
       const errorMessage = error?.message || translations.vexFetchError
@@ -117,10 +117,10 @@ export default function UserVEXsTab({ userId, translations }: UserVEXsTabProps) 
       const response = await vexgenAPI.getVEX(vexId)
 
       if (response.ok && response.data) {
-        const vexData = response.data.vex || response.data
+        const vexData = response.data.data
         setVexDetailsData(vexData)
       } else {
-        throw new Error(response.data?.message || 'Error al cargar los detalles del VEX')
+        throw new Error('Error al cargar los detalles del VEX')
       }
     } catch (error: any) {
       toast({

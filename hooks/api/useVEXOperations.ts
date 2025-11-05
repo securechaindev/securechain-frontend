@@ -33,11 +33,11 @@ export const useVEXOperations = (): UseVEXOperationsReturn => {
       setError(null)
 
       const response = await vexgenAPI.getUserVEXs(userId)
-      setVEXDocuments(response.data)
+      setVEXDocuments(response.data.data || [])
 
       toast({
         title: 'VEX Documents Loaded',
-        description: `Found ${response.data.length} VEX documents`,
+        description: `Found ${response.data.data.length || 0} VEX documents`,
       })
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch VEX documents'
@@ -58,7 +58,7 @@ export const useVEXOperations = (): UseVEXOperationsReturn => {
       setError(null)
 
       const response = await vexgenAPI.getVEX(vexId)
-      setSelectedVEX(response.data)
+      setSelectedVEX(response.data.data)
 
       toast({
         title: 'VEX Document Loaded',

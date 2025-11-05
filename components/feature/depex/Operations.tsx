@@ -101,8 +101,8 @@ export function Operations({
       if (
         result &&
         typeof result === 'object' &&
-        result.detail &&
-        result.detail !== 'operation_success'
+        result.code &&
+        result.code !== 'operation_success'
       ) {
         setResults({ type: operation, data: result })
       } else {

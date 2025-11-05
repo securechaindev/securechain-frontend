@@ -13,15 +13,13 @@ interface AuthState {
 
 interface LoginResult {
   success: boolean
-  error?: string
-  detail?: string
+  code?: string
   data?: any
 }
 
 interface SignupResult {
   success: boolean
-  error?: string
-  detail?: string
+  code?: string
   data?: any
 }
 
@@ -65,8 +63,7 @@ export function useAuthState() {
     if (!isClient || typeof window === 'undefined') {
       return {
         success: false,
-        error: 'Login must be called after client hydration',
-        detail: 'client_error',
+        code: 'client_error',
       }
     }
 
@@ -75,7 +72,7 @@ export function useAuthState() {
       const data = response.data
 
       const isSuccess =
-        response.ok && data.detail === 'login_success' && response.status === 200 && data.user_id
+        response.ok && data.code === 'login_success' && response.status === 200 && data.user_id
 
       if (isSuccess) {
         localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
@@ -88,12 +85,11 @@ export function useAuthState() {
           email: email,
         })
 
-        return { success: true, data, detail: data.detail }
+        return { success: true, data, code: data.code }
       } else {
         return {
           success: false,
-          error: data.message || data.error,
-          detail: data.detail || 'unknown_error',
+          code: data.code || 'unknown_error',
         }
       }
     } catch (error: any) {
@@ -102,15 +98,13 @@ export function useAuthState() {
       if (error instanceof APIError) {
         return {
           success: false,
-          error: error.message,
-          detail: error.detail || 'network_error',
+          code: error.code || error.detail || 'network_error',
         }
       }
 
       return {
         success: false,
-        error: error.message || 'Error de conexión',
-        detail: 'network_error',
+        code: 'network_error',
       }
     }
   }
@@ -123,16 +117,14 @@ export function useAuthState() {
     if (!isClient || typeof window === 'undefined') {
       return {
         success: false,
-        error: 'Signup must be called after client hydration',
-        detail: 'client_error',
+        code: 'client_error',
       }
     }
 
     if (password !== confirmPassword) {
       return {
         success: false,
-        error: 'Passwords do not match',
-        detail: 'password_mismatch',
+        code: 'password_mismatch',
       }
     }
 
@@ -142,16 +134,15 @@ export function useAuthState() {
 
       const isSuccess =
         response.ok &&
-        data.detail === 'signup_success' &&
+        data.code === 'signup_success' &&
         (response.status === 201 || response.status === 200)
 
       if (isSuccess) {
-        return { success: true, data, detail: data.detail }
+        return { success: true, data, code: data.code }
       } else {
         return {
           success: false,
-          error: data.message || data.error,
-          detail: data.detail || 'unknown_error',
+          code: data.code || 'unknown_error',
         }
       }
     } catch (error: any) {
@@ -160,15 +151,13 @@ export function useAuthState() {
       if (error instanceof APIError) {
         return {
           success: false,
-          error: error.message,
-          detail: error.detail || 'network_error',
+          code: error.code || error.detail || 'network_error',
         }
       }
 
       return {
         success: false,
-        error: error.message || 'Error de conexión',
-        detail: 'network_error',
+        code: 'network_error',
       }
     }
   }

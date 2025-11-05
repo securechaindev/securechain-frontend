@@ -56,8 +56,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await login(loginEmail, loginPassword)
 
-      if (result.success && result.detail) {
-        const successMessage = getSuccessMessage(result.detail, t)
+      if (result.success && result.code) {
+        const successMessage = getSuccessMessage(result.code, t)
 
         toast({
           title: t.loginSuccessTitle,
@@ -68,8 +68,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
         setLoginPassword('')
 
         router.push(`/${locale}/home`)
-      } else if (result.detail) {
-        const errorMessage = getErrorMessage(result.detail, t)
+      } else if (result.code) {
+        const errorMessage = getErrorMessage(result.code, t)
 
         toast({
           title: t.loginFailedTitle,
@@ -79,7 +79,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
       } else {
         toast({
           title: t.loginFailedTitle,
-          description: result.error || getErrorMessage('unknown_error', t),
+          description: getErrorMessage('unknown_error', t),
           variant: 'destructive',
         })
       }
@@ -122,8 +122,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
     try {
       const result = await signup(signupEmail, signupPassword, confirmPassword)
 
-      if (result.success && result.detail) {
-        const successMessage = getSuccessMessage(result.detail, t)
+      if (result.success && result.code) {
+        const successMessage = getSuccessMessage(result.code, t)
 
         toast({
           title: t.accountCreatedTitle,
@@ -135,8 +135,8 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
         setConfirmPassword('')
 
         router.push(`/${locale}/home`)
-      } else if (result.detail) {
-        const errorMessage = getErrorMessage(result.detail, t)
+      } else if (result.code) {
+        const errorMessage = getErrorMessage(result.code, t)
 
         toast({
           title: t.signupErrorTitle,
@@ -146,7 +146,7 @@ export function UseLoginForm({ locale, translations: t }: UseLoginFormProps) {
       } else {
         toast({
           title: t.signupErrorTitle,
-          description: result.error || t.signupNetworkError,
+          description: t.signupNetworkError,
           variant: 'destructive',
         })
       }

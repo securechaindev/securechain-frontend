@@ -18,6 +18,7 @@ services:
 
   securechain-gateway:
     container_name: securechain-gateway
+    # image: ghcr.io/securechaindev/securechain-gateway:latest
     image: securechain-gateway:v1.1.0
     env_file:
       - ../.env.local
@@ -40,6 +41,7 @@ services:
 
   securechain-auth:
     container_name: securechain-auth
+    # image: ghcr.io/securechaindev/securechain-auth:latest
     image: securechain-auth:v1.1.1
     env_file:
       - ../.env.local
@@ -55,6 +57,7 @@ services:
 
   securechain-depex:
     container_name: securechain-depex
+    # image: ghcr.io/securechaindev/securechain-depex:latest
     image: securechain-depex:v1.1.0
     env_file:
       - ../.env.local
@@ -81,6 +84,7 @@ services:
 
   securechain-vexgen:
     container_name: securechain-vexgen
+    # image: ghcr.io/securechaindev/securechain-vexgen:latest
     image: securechain-vexgen:v1.1.0
     env_file:
       - ../.env.local

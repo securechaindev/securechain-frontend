@@ -16,21 +16,33 @@ interface IndirectDependenciesVersionListProps {
   dependenciesByDepth: {
     [depth: string]: DirectDependencyVersion[]
   }
+  nodeType: string
   translations: Record<string, any>
 }
 
 export function IndirectDependenciesVersionList({
   dependenciesByDepth,
+  nodeType,
   translations,
 }: IndirectDependenciesVersionListProps) {
+  // Map node_type to friendly display names
+  const getNodeTypeDisplay = (type: string) => {
+    const typeMap: Record<string, string> = {
+      PyPIPackage: 'PyPI',
+      NPMPackage: 'NPM',
+      MavenPackage: 'Maven',
+      RubyGemsPackage: 'RubyGems',
+      CargoPackage: 'Cargo',
+      NuGetPackage: 'NuGet',
+    }
+    return typeMap[type] || type
+  }
+
   const sortedDepths = Object.keys(dependenciesByDepth)
     .map(Number)
     .sort((a, b) => a - b)
 
-  const totalCount = Object.values(dependenciesByDepth).reduce(
-    (sum, deps) => sum + deps.length,
-    0
-  )
+  const totalCount = Object.values(dependenciesByDepth).reduce((sum, deps) => sum + deps.length, 0)
 
   return (
     <div className="space-y-4">
@@ -40,7 +52,7 @@ export function IndirectDependenciesVersionList({
       </h3>
 
       <Accordion type="multiple" className="w-full space-y-2">
-        {sortedDepths.map((depth) => (
+        {sortedDepths.map(depth => (
           <AccordionItem key={depth} value={`depth-${depth}`} className="border rounded-lg">
             <AccordionTrigger className="px-4 hover:no-underline">
               <div className="flex items-center gap-2">
@@ -62,7 +74,12 @@ export function IndirectDependenciesVersionList({
                     <CardHeader className="pb-3 bg-muted/50">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                         <div>
-                          <CardTitle className="text-sm font-mono">{dep.package_name}</CardTitle>
+                          <div className="flex items-center gap-2">
+                            <CardTitle className="text-sm font-mono">{dep.package_name}</CardTitle>
+                            <Badge variant="outline" className="text-xs">
+                              {getNodeTypeDisplay(nodeType)}
+                            </Badge>
+                          </div>
                           <p className="text-xs text-muted-foreground mt-1">
                             {translations.vendor || 'Vendor'}: {dep.package_vendor}
                           </p>

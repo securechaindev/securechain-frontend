@@ -19,6 +19,15 @@ export default function InitializationTab({ userId, translations }: Initializati
 
   const { toast } = useToast()
 
+  const t = (key: string) => {
+    const keys = key.split('.')
+    let value: any = translations
+    for (const k of keys) {
+      value = value?.[k]
+    }
+    return value || key
+  }
+
   useEffect(() => {
     if (errorMessage) {
       const timer = setTimeout(() => {
@@ -39,43 +48,103 @@ export default function InitializationTab({ userId, translations }: Initializati
       return
     }
 
+    if (!userId) {
+      toast({
+        title: translations.errorTitle,
+        description: 'User ID is required. Please log in again.',
+        variant: 'destructive',
+      })
+      return
+    }
+
     setDepexLoading(true)
     setErrorMessage(null)
 
     try {
-      const response = await depexAPI.initializeRepository({
-        owner: repoOwner,
-        name: repoName,
+      const requestData = {
+        owner: repoOwner.trim(),
+        name: repoName.trim(),
         user_id: userId,
-      })
+      }
 
-      if (response.ok && response.data) {
-        const successMessage =
-          translations.repositoryInitializedSuccessfully ||
-          'Repository initialized successfully'
+      const response = await depexAPI.initializeRepository(requestData)
 
+      const code = response.data?.code
+
+      if (code === 'repository_queued_for_processing') {
         setRepoOwner('')
         setRepoName('')
 
         toast({
-          title: translations.repositoryInitialized || 'Repository Initialized',
-          description: successMessage,
+          title: translations.loginSuccessTitle || 'Success',
+          description:
+            t('api.repository_queued_for_processing') ||
+            'The repository has been queued for processing',
+        })
+      } else if (code === 'repository_processing_in_progress') {
+        toast({
+          variant: 'default',
+          title: translations.infoTitle || 'Info',
+          description:
+            t('api.repository_processing_in_progress') ||
+            'The repository is already being processed',
+        })
+      } else if (code === 'repository_not_found') {
+        const errorMsg =
+          t('api.repository_not_found') || `Repository ${repoName} not found for owner ${repoOwner}`
+        setErrorMessage(errorMsg)
+        toast({
+          variant: 'destructive',
+          title: translations.errorTitle || 'Error',
+          description: errorMsg,
+        })
+      } else if (code === 'date_not_found') {
+        const errorMsg =
+          t('api.date_not_found') ||
+          `Last commit date not found in repository ${repoName} for owner ${repoOwner}`
+        setErrorMessage(errorMsg)
+        toast({
+          variant: 'destructive',
+          title: translations.errorTitle || 'Error',
+          description: errorMsg,
+        })
+      } else if (code === 'error_initializing_repository') {
+        const errorMsg =
+          t('api.error_initializing_repository') ||
+          'An error occurred while initializing the repository'
+        setErrorMessage(errorMsg)
+        toast({
+          variant: 'destructive',
+          title: translations.errorTitle || 'Error',
+          description: errorMsg,
         })
       } else {
-        throw new Error(response.data?.error || 'Unexpected response format')
+        throw new Error('Unexpected response code')
       }
     } catch (error: any) {
-      const errorMessage =
-        error.message ||
-        error.details ||
-        translations.networkErrorDescription ||
-        'Failed to initialize repository'
+      const code = error.code
+      let errorMsg = ''
 
-      setErrorMessage(errorMessage)
+      if (code === 'repository_not_found') {
+        errorMsg = t('api.repository_not_found') || 'Repository not found'
+      } else if (code === 'date_not_found') {
+        errorMsg = t('api.date_not_found') || 'Last commit date not found in repository'
+      } else if (code === 'error_initializing_repository') {
+        errorMsg =
+          t('api.error_initializing_repository') ||
+          'An error occurred while initializing the repository'
+      } else {
+        errorMsg =
+          error.message ||
+          t('api.error_initializing_repository') ||
+          'An error occurred while initializing the repository'
+      }
+
+      setErrorMessage(errorMsg)
 
       toast({
         title: translations.errorTitle || 'Error',
-        description: errorMessage,
+        description: errorMsg,
         variant: 'destructive',
       })
     } finally {

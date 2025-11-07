@@ -13,9 +13,15 @@ import {
   Search,
   User,
   LogOut,
+  Key,
+  Network,
+  GitBranch,
 } from 'lucide-react'
 import { usePackage } from '@/context'
 import { ThemeToggle, LanguageToggle } from '@/components/layout'
+import { ApiKeysDialog } from '@/components/feature/auth'
+import { PackageInfoDialog } from './PackageInfoDialog'
+import { VersionInfoDialog } from './VersionInfoDialog'
 
 interface PackageDetailsViewProps {
   translations: Record<string, any>
@@ -32,10 +38,13 @@ export default function PackageDetailsView({
   userEmail,
   onLogout,
 }: PackageDetailsViewProps) {
-  const { packageDetails, setIsViewingPackage } = usePackage()
+  const { packageDetails, setIsViewingPackage, packageNodeType } = usePackage()
   const [sortBy, setSortBy] = useState<'semver' | 'vulnerabilities' | 'score'>('semver')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [searchTerm, setSearchTerm] = useState('')
+  const [apiKeysOpen, setApiKeysOpen] = useState(false)
+  const [packageInfoOpen, setPackageInfoOpen] = useState(false)
+  const [selectedVersion, setSelectedVersion] = useState<string | null>(null)
 
   if (!packageDetails) return null
 
@@ -114,6 +123,21 @@ export default function PackageDetailsView({
               )}
               <LanguageToggle currentLang={locale} onLanguageChange={onLocaleChange} />
               <ThemeToggle />
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => setApiKeysOpen(true)}
+                  variant="outline"
+                  size="sm"
+                  className="px-2 sm:px-3"
+                >
+                  <Key className="h-4 w-4" />
+                </Button>
+                <span className="text-xs text-muted-foreground hidden md:inline">
+                  {translations.docs?.apiKeysDescription ||
+                    translations.apiKeysDescription ||
+                    'Manage API Keys'}
+                </span>
+              </div>
               {onLogout && (
                 <Button onClick={onLogout} variant="outline" size="sm" className="px-2 sm:px-3">
                   <LogOut className="h-4 w-4 sm:mr-2" />
@@ -130,10 +154,26 @@ export default function PackageDetailsView({
           {/* Package Overview */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Package className="h-5 w-5" />
-                {packageDetails.name}
-              </CardTitle>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="h-5 w-5" />
+                  {packageDetails.name}
+                </CardTitle>
+                <div className="flex items-center gap-2">
+                  <Button
+                    onClick={() => setPackageInfoOpen(true)}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
+                    <Network className="h-4 w-4" />
+                    <span className="hidden sm:inline">
+                      {translations.packageInfoTitle || 'Package Info'}
+                    </span>
+                    <span className="sm:hidden">Info</span>
+                  </Button>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -235,13 +275,34 @@ export default function PackageDetailsView({
               <Card key={index} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <Badge variant="outline" className="font-mono">
-                        v{version.name}
-                      </Badge>
-                      <Badge className={`text-white ${getSeverityColor(version.weighted_mean)}`}>
-                        {getSeverityLabel(version.weighted_mean)}
-                      </Badge>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="font-mono">
+                          v{version.name}
+                        </Badge>
+                        <Badge className={`text-white ${getSeverityColor(version.weighted_mean)}`}>
+                          {getSeverityLabel(version.weighted_mean)}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => setSelectedVersion(version.name)}
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center gap-2"
+                        >
+                          <GitBranch className="h-3 w-3" />
+                          <span className="hidden sm:inline">
+                            {translations.versionInfoTitle || 'Version Info'}
+                          </span>
+                          <span className="sm:hidden">Info</span>
+                        </Button>
+                        <span className="text-xs text-muted-foreground hidden md:inline">
+                          {translations.docs?.analyzeVersionDependencies ||
+                            translations.analyzeVersionDependencies ||
+                            'Analyze dependencies for this version'}
+                        </span>
+                      </div>
                     </div>
                     <div className="text-right text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
@@ -306,6 +367,25 @@ export default function PackageDetailsView({
           </div>
         </div>
       </div>
+
+      <ApiKeysDialog open={apiKeysOpen} onOpenChange={setApiKeysOpen} translations={translations} />
+
+      <PackageInfoDialog
+        open={packageInfoOpen}
+        onOpenChange={setPackageInfoOpen}
+        packageName={packageDetails.name}
+        nodeType={packageNodeType || undefined}
+        translations={translations}
+      />
+
+      <VersionInfoDialog
+        open={selectedVersion !== null}
+        onOpenChange={open => !open && setSelectedVersion(null)}
+        packageName={packageDetails.name}
+        versionName={selectedVersion || undefined}
+        nodeType={packageNodeType || undefined}
+        translations={translations}
+      />
     </div>
   )
 }

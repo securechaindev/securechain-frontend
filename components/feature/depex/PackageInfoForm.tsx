@@ -3,7 +3,13 @@
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 
@@ -14,15 +20,18 @@ interface PackageInfoFormProps {
 }
 
 const NODE_TYPES = [
-  'BOTH',
-  'ONLY_PROJECT_DEPENDENTS',
-  'ONLY_NOT_PROJECT_DEPENDENTS',
+  { value: 'PyPIPackage', label: 'PyPI (Python)' },
+  { value: 'NPMPackage', label: 'NPM (Node.js)' },
+  { value: 'MavenPackage', label: 'Maven (Java)' },
+  { value: 'CargoPackage', label: 'Cargo (Rust)' },
+  { value: 'RubyGemsPackage', label: 'RubyGems (Ruby)' },
+  { value: 'NuGetPackage', label: 'NuGet (.NET)' },
 ] as const
 
 export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageInfoFormProps) {
   const [packageName, setPackageName] = useState('')
   const [maxDepth, setMaxDepth] = useState('3')
-  const [nodeType, setNodeType] = useState<string>('BOTH')
+  const [nodeType, setNodeType] = useState<string>('PyPIPackage')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,7 +57,7 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
             type="text"
             placeholder="e.g., lodash"
             value={packageName}
-            onChange={(e) => setPackageName(e.target.value)}
+            onChange={e => setPackageName(e.target.value)}
             disabled={isLoading}
             required
           />
@@ -67,7 +76,7 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
             max="10"
             placeholder="3"
             value={maxDepth}
-            onChange={(e) => setMaxDepth(e.target.value)}
+            onChange={e => setMaxDepth(e.target.value)}
             disabled={isLoading}
             required
           />
@@ -84,9 +93,9 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {NODE_TYPES.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {translations[`nodeType_${type}`] || type}
+              {NODE_TYPES.map(type => (
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
                 </SelectItem>
               ))}
             </SelectContent>

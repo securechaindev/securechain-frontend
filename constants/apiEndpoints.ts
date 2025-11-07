@@ -1,12 +1,17 @@
 export const API_ENDPOINTS = {
-  AUTH: {
-    LOGIN: '/api/auth/login',
-    LOGOUT: '/api/auth/logout',
-    SIGNUP: '/api/auth/signup',
-    CHECK_TOKEN: '/api/auth/check_token',
-    REFRESH_TOKEN: '/api/auth/refresh_token',
-    CHANGE_PASSWORD: '/api/auth/change_password',
-    ACCOUNT_EXISTS: '/api/auth/account_exists',
+  USER: {
+    LOGIN: '/api/auth/user/login',
+    LOGOUT: '/api/auth/user/logout',
+    SIGNUP: '/api/auth/user/signup',
+    CHECK_TOKEN: '/api/auth/user/check_token',
+    REFRESH_TOKEN: '/api/auth/user/refresh_token',
+    CHANGE_PASSWORD: '/api/auth/user/change_password',
+    ACCOUNT_EXISTS: '/api/auth/user/account_exists',
+  },
+  API_KEYS: {
+    CREATE: '/api/auth/api-keys/create',
+    LIST: '/api/auth/api-keys/list',
+    REVOKE: (keyId: string) => `/api/auth/api-keys/${keyId}/revoke`,
   },
   DEPEX: {
     REPOSITORIES: (userId: string) => `/api/depex/graph/repositories/${userId}`,

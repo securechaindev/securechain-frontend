@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
+import type { NodeType } from '@/types'
 
 interface PackageVersion {
   weighted_mean: number
@@ -25,6 +26,8 @@ interface PackageContextType {
   setPackageDetails: (data: PackageDetails | null) => void
   isViewingPackage: boolean
   setIsViewingPackage: (viewing: boolean) => void
+  packageNodeType: NodeType | null
+  setPackageNodeType: (nodeType: NodeType | null) => void
 }
 
 const PackageContext = createContext<PackageContextType | undefined>(undefined)
@@ -32,6 +35,7 @@ const PackageContext = createContext<PackageContextType | undefined>(undefined)
 export function PackageProvider({ children }: { children: ReactNode }) {
   const [packageDetails, setPackageDetails] = useState<PackageDetails | null>(null)
   const [isViewingPackage, setIsViewingPackage] = useState(false)
+  const [packageNodeType, setPackageNodeType] = useState<NodeType | null>(null)
 
   return (
     <PackageContext.Provider
@@ -40,6 +44,8 @@ export function PackageProvider({ children }: { children: ReactNode }) {
         setPackageDetails,
         isViewingPackage,
         setIsViewingPackage,
+        packageNodeType,
+        setPackageNodeType,
       }}
     >
       {children}

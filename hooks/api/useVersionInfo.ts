@@ -4,12 +4,17 @@ import { useState, useCallback } from 'react'
 import { depexAPI } from '@/lib/api/apiClient'
 import { useToast } from '@/hooks/ui/useToast'
 import { getDepexErrorMessage } from '@/lib/utils/errorDetails'
-import type { VersionInfoRequest, VersionInfoResponse } from '@/types/VersionInfo'
+import type {
+  VersionInfoRequest,
+  VersionInfoResponse,
+  VersionInfoResult,
+} from '@/types/VersionInfo'
 
 interface VersionInfoState {
   isLoading: boolean
-  data: VersionInfoResponse | null
+  data: VersionInfoResult | null
   error: string | null
+  nodeType: string | null
 }
 
 export function useVersionInfo(translations: Record<string, any> = {}) {
@@ -19,6 +24,7 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
     isLoading: false,
     data: null,
     error: null,
+    nodeType: null,
   })
 
   const showSuccess = useCallback(
@@ -38,7 +44,9 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
       const errorTitle = translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.code || error?.detail, translations) || error?.message || fallbackMessage
+        getDepexErrorMessage(error?.code || error?.detail, translations) ||
+        error?.message ||
+        fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
@@ -51,7 +59,13 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
 
   const getVersionInfo = useCallback(
     async (params: VersionInfoRequest) => {
-      setState(prev => ({ ...prev, isLoading: true, error: null, data: null }))
+      setState(prev => ({
+        ...prev,
+        isLoading: true,
+        error: null,
+        data: null,
+        nodeType: params.node_type,
+      }))
 
       try {
         const response = await depexAPI.operations.ssc.versionInfo(params)
@@ -60,27 +74,26 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
           if (response.data.code === 'no_dependencies_version') {
             setState(prev => ({
               ...prev,
-              data: response.data,
+              data: response.data.data,
               isLoading: false,
             }))
             showSuccess(
-              translations.versionInfoNoDependencies ||
-                'The package version has no dependencies.'
+              translations.versionInfoNoDependencies || 'The package version has no dependencies.'
             )
-            return response.data
+            return response.data.data
           }
 
           if (response.data.code === 'version_info_success') {
             setState(prev => ({
               ...prev,
-              data: response.data,
+              data: response.data.data,
               isLoading: false,
             }))
             showSuccess(
               translations.versionInfoSuccess ||
                 'Package version information retrieved successfully.'
             )
-            return response.data
+            return response.data.data
           }
         }
 
@@ -98,6 +111,7 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
       isLoading: false,
       data: null,
       error: null,
+      nodeType: null,
     })
   }, [])
 

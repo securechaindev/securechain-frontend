@@ -32,7 +32,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{
   success: boolean
 }> {
   try {
-    const response = await fetch(`${BACKEND_URL}/auth/refresh_token`, {
+    const response = await fetch(`${BACKEND_URL}/auth/user/refresh_token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{
 
 async function isTokenValid(accessToken: string): Promise<boolean> {
   try {
-    const response = await fetch(`${BACKEND_URL}/auth/check_token`, {
+    const response = await fetch(`${BACKEND_URL}/auth/user/check_token`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,

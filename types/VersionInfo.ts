@@ -1,15 +1,10 @@
+import { VersionDetail } from './PackageInfo'
+
 export interface VersionInfoRequest {
   package_name: string
   version_name: string
   max_depth: number
   node_type: string
-}
-
-export interface VersionDetail {
-  name: string
-  weighted_mean: number
-  mean: number
-  vulnerability_count: string[]
 }
 
 export interface DirectDependencyVersion {

@@ -4,19 +4,11 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Button } from '@/components/ui/Button'
-import { Alert, AlertDescription } from '@/components/ui/Alert'
-import { LoadingSpinner } from '@/components/ui'
-import { FileIcon, SettingsIcon, Package, PackageCheck, AlertCircle } from 'lucide-react'
+import { FileIcon, SettingsIcon } from 'lucide-react'
 import { SSCOperationsForm } from './SSCOperationsForm'
 import { SMTOperationsForm } from './SMTOperationsForm'
-import { PackageInfoForm } from './PackageInfoForm'
-import { VersionInfoForm } from './VersionInfoForm'
 import { OperationResults } from './OperationResults'
-import { DirectDependenciesList } from './DirectDependenciesList'
-import { IndirectDependenciesList } from './IndirectDependenciesList'
-import { DirectDependenciesVersionList } from './DirectDependenciesVersionList'
-import { IndirectDependenciesVersionList } from './IndirectDependenciesVersionList'
-import { useRequirementOperations, usePackageInfo, useVersionInfo } from '@/hooks/api'
+import { useRequirementOperations } from '@/hooks/api'
 import type { NodeType } from '@/types'
 
 const getNodeTypeFromManager = (manager: string): NodeType => {
@@ -64,13 +56,10 @@ export function Operations({
   onClose,
 }: OperationsProps) {
   const [activeTab, setActiveTab] = useState('ssc')
-  const [sscSubTab, setSSCSubTab] = useState('file-info')
   const [results, setResults] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const operations = useRequirementOperations(translations)
-  const packageInfo = usePackageInfo(translations)
-  const versionInfo = useVersionInfo(translations)
 
   const handleSSCOperation = async (operation: string, params: any) => {
     setIsLoading(true)
@@ -206,32 +195,6 @@ export function Operations({
     setResults(null)
   }
 
-  const handlePackageInfoSubmit = async (
-    packageName: string,
-    maxDepth: number,
-    nodeType: string
-  ) => {
-    await packageInfo.getPackageInfo({
-      package_name: packageName,
-      max_depth: maxDepth,
-      node_type: nodeType,
-    })
-  }
-
-  const handleVersionInfoSubmit = async (
-    packageName: string,
-    versionName: string,
-    maxDepth: number,
-    nodeType: string
-  ) => {
-    await versionInfo.getVersionInfo({
-      package_name: packageName,
-      version_name: versionName,
-      max_depth: maxDepth,
-      node_type: nodeType,
-    })
-  }
-
   const showLoading = isLoading || operations.isExecuting
 
   return (
@@ -272,144 +235,11 @@ export function Operations({
             </TabsList>
 
             <TabsContent value="ssc" className="space-y-6">
-              <Tabs value={sscSubTab} onValueChange={setSSCSubTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="file-info" className="flex items-center gap-2">
-                    <FileIcon className="h-4 w-4" />
-                    <span className="hidden sm:inline">File Info</span>
-                    <span className="sm:hidden">File</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="package-info" className="flex items-center gap-2">
-                    <Package className="h-4 w-4" />
-                    <span className="hidden sm:inline">Package Info</span>
-                    <span className="sm:hidden">Package</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="version-info" className="flex items-center gap-2">
-                    <PackageCheck className="h-4 w-4" />
-                    <span className="hidden sm:inline">Version Info</span>
-                    <span className="sm:hidden">Version</span>
-                  </TabsTrigger>
-                </TabsList>
-
-                {/* File Info Sub-Tab */}
-                <TabsContent value="file-info" className="space-y-6 mt-6">
-                  <SSCOperationsForm
-                    onExecute={handleSSCOperation}
-                    disabled={showLoading}
-                    translations={translations}
-                  />
-                </TabsContent>
-
-                {/* Package Info Sub-Tab */}
-                <TabsContent value="package-info" className="space-y-6 mt-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>
-                        {translations.packageInfoTitle || 'Package Dependency Analysis'}
-                      </CardTitle>
-                      <CardDescription>
-                        {translations.packageInfoDescription ||
-                          'Analyze package dependencies, vulnerabilities, and the software supply chain'}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <PackageInfoForm
-                        onSubmit={handlePackageInfoSubmit}
-                        isLoading={packageInfo.isLoading}
-                        translations={translations}
-                      />
-                    </CardContent>
-                  </Card>
-
-                  {packageInfo.isLoading && (
-                    <div className="flex justify-center py-8">
-                      <LoadingSpinner />
-                    </div>
-                  )}
-
-                  {packageInfo.error && !packageInfo.isLoading && (
-                    <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{packageInfo.error}</AlertDescription>
-                    </Alert>
-                  )}
-
-                  {packageInfo.data?.result && !packageInfo.isLoading && (
-                    <>
-                      {packageInfo.data.result.direct_dependencies.length > 0 && (
-                        <DirectDependenciesList
-                          dependencies={packageInfo.data.result.direct_dependencies}
-                          translations={translations}
-                        />
-                      )}
-                      {Object.keys(packageInfo.data.result.indirect_dependencies_by_depth).length >
-                        0 && (
-                        <IndirectDependenciesList
-                          dependenciesByDepth={
-                            packageInfo.data.result.indirect_dependencies_by_depth
-                          }
-                          translations={translations}
-                        />
-                      )}
-                    </>
-                  )}
-                </TabsContent>
-
-                {/* Version Info Sub-Tab */}
-                <TabsContent value="version-info" className="space-y-6 mt-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>
-                        {translations.versionInfoTitle || 'Package Version Dependency Analysis'}
-                      </CardTitle>
-                      <CardDescription>
-                        {translations.versionInfoDescription ||
-                          'Analyze specific version dependencies with detailed vulnerability scores'}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <VersionInfoForm
-                        onSubmit={handleVersionInfoSubmit}
-                        isLoading={versionInfo.isLoading}
-                        translations={translations}
-                      />
-                    </CardContent>
-                  </Card>
-
-                  {versionInfo.isLoading && (
-                    <div className="flex justify-center py-8">
-                      <LoadingSpinner />
-                    </div>
-                  )}
-
-                  {versionInfo.error && !versionInfo.isLoading && (
-                    <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{versionInfo.error}</AlertDescription>
-                    </Alert>
-                  )}
-
-                  {versionInfo.data?.result && !versionInfo.isLoading && (
-                    <>
-                      {versionInfo.data.result.direct_dependencies.length > 0 && (
-                        <DirectDependenciesVersionList
-                          dependencies={versionInfo.data.result.direct_dependencies}
-                          translations={translations}
-                        />
-                      )}
-                      {Object.keys(versionInfo.data.result.indirect_dependencies_by_depth).length >
-                        0 && (
-                        <IndirectDependenciesVersionList
-                          dependenciesByDepth={
-                            versionInfo.data.result.indirect_dependencies_by_depth
-                          }
-                          translations={translations}
-                        />
-                      )}
-                    </>
-                  )}
-                </TabsContent>
-              </Tabs>
+              <SSCOperationsForm
+                onExecute={handleSSCOperation}
+                disabled={showLoading}
+                translations={translations}
+              />
             </TabsContent>
 
             <TabsContent value="smt" className="space-y-6">

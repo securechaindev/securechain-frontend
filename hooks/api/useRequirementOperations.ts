@@ -56,7 +56,9 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       const errorTitle = translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.code || error?.detail, translations) || error?.message || fallbackMessage
+        getDepexErrorMessage(error?.code || error?.detail, translations) ||
+        error?.message ||
+        fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,

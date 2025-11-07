@@ -8,13 +8,28 @@ import { VersionList } from './VersionList'
 
 interface DirectDependenciesVersionListProps {
   dependencies: DirectDependencyVersion[]
+  nodeType: string
   translations: Record<string, any>
 }
 
 export function DirectDependenciesVersionList({
   dependencies,
+  nodeType,
   translations,
 }: DirectDependenciesVersionListProps) {
+  // Map node_type to friendly display names
+  const getNodeTypeDisplay = (type: string) => {
+    const typeMap: Record<string, string> = {
+      PyPIPackage: 'PyPI',
+      NPMPackage: 'NPM',
+      MavenPackage: 'Maven',
+      RubyGemsPackage: 'RubyGems',
+      CargoPackage: 'Cargo',
+      NuGetPackage: 'NuGet',
+    }
+    return typeMap[type] || type
+  }
+
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -27,7 +42,12 @@ export function DirectDependenciesVersionList({
           <CardHeader className="pb-3 bg-muted/50">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <div>
-                <CardTitle className="text-base font-mono">{dep.package_name}</CardTitle>
+                <div className="flex items-center gap-2">
+                  <CardTitle className="text-base font-mono">{dep.package_name}</CardTitle>
+                  <Badge variant="outline" className="text-xs">
+                    {getNodeTypeDisplay(nodeType)}
+                  </Badge>
+                </div>
                 <p className="text-sm text-muted-foreground mt-1">
                   {translations.vendor || 'Vendor'}: {dep.package_vendor}
                 </p>

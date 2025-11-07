@@ -20,8 +20,10 @@ export function useRepositories(userId: string, translations: Record<string, any
       const response = await depexAPI.getRepositories(userId)
 
       if (response.ok && response.data.code === 'get_repositories_success') {
-        setUserRepositories(response.data.data?.repositories || [])
-        // Removed success notification - not needed when loading data
+        const repositories = Array.isArray(response.data.data)
+          ? response.data.data
+          : response.data.data?.repositories || []
+        setUserRepositories(repositories)
       } else {
         const errorMessage = getDepexErrorMessage(
           response.data.code || 'unknown_error',

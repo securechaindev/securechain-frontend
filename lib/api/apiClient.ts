@@ -171,8 +171,8 @@ class APIClient {
 
         if (
           response.status === 401 &&
-          !url.includes('/auth/refresh_token') &&
-          !url.includes('/auth/login')
+          !url.includes('/auth/user/refresh_token') &&
+          !url.includes('/auth/user/login')
         ) {
           const refreshSuccess = await this.handleTokenRefresh()
 
@@ -306,7 +306,7 @@ class APIClient {
 
     this.refreshPromise = (async () => {
       try {
-        const refreshResponse = await fetch(this.buildURL(API_ENDPOINTS.AUTH.REFRESH_TOKEN), {
+        const refreshResponse = await fetch(this.buildURL(API_ENDPOINTS.USER.REFRESH_TOKEN), {
           method: 'POST',
           headers: this.defaultHeaders,
           credentials: 'include',
@@ -363,22 +363,22 @@ export const apiClient = new APIClient()
 
 export const authAPI = {
   login: (credentials: { email: string; password: string }) =>
-    apiClient.post(API_ENDPOINTS.AUTH.LOGIN, credentials),
+    apiClient.post(API_ENDPOINTS.USER.LOGIN, credentials),
 
   signup: (userData: { email: string; password: string; name?: string }) =>
-    apiClient.post(API_ENDPOINTS.AUTH.SIGNUP, userData),
+    apiClient.post(API_ENDPOINTS.USER.SIGNUP, userData),
 
-  logout: () => apiClient.post(API_ENDPOINTS.AUTH.LOGOUT),
+  logout: () => apiClient.post(API_ENDPOINTS.USER.LOGOUT),
 
-  refreshToken: () => apiClient.post(API_ENDPOINTS.AUTH.REFRESH_TOKEN),
+  refreshToken: () => apiClient.post(API_ENDPOINTS.USER.REFRESH_TOKEN),
 
-  checkToken: () => apiClient.post(API_ENDPOINTS.AUTH.CHECK_TOKEN),
+  checkToken: () => apiClient.post(API_ENDPOINTS.USER.CHECK_TOKEN),
 
   accountExists: (email: string) =>
-    apiClient.get(`${API_ENDPOINTS.AUTH.ACCOUNT_EXISTS}?email=${encodeURIComponent(email)}`),
+    apiClient.get(`${API_ENDPOINTS.USER.ACCOUNT_EXISTS}?email=${encodeURIComponent(email)}`),
 
   changePassword: (data: { oldPassword: string; newPassword: string }) =>
-    apiClient.post(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, data),
+    apiClient.post(API_ENDPOINTS.USER.CHANGE_PASSWORD, data),
 }
 
 export const depexAPI = {

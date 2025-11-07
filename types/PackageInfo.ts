@@ -4,20 +4,26 @@ export interface PackageInfoRequest {
   node_type: string
 }
 
+export interface VersionDetail {
+  name: string
+  weighted_mean: number
+  mean: number
+  vulnerability_count: string[]
+  serial_number: number
+}
+
 export interface DirectDependency {
   package_name: string
   package_vendor: string
   package_constraints: string
-  total_versions: number
-  vulnerabilities?: string[]
-  safe_versions?: string[]
-  status?: string
+  versions: VersionDetail[]
 }
 
 export interface IndirectDependency {
   package_name: string
   package_vendor: string
-  vulnerabilities: string[]
+  package_constraints: string
+  versions: VersionDetail[]
 }
 
 export interface PackageInfoResult {

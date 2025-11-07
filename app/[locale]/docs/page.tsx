@@ -15,13 +15,7 @@ import {
   OverviewSection,
   DocsTabs,
 } from '@/components/feature/docs/shared'
-import {
-  AuthTab,
-  GraphTab,
-  SSCTab,
-  SMTTab,
-  VexgenTab,
-} from '@/components/feature/docs/tabs'
+import { AuthTab, GraphTab, SSCTab, SMTTab, VexgenTab } from '@/components/feature/docs/tabs'
 import { nodeTypes } from '@/lib/utils/endpointUtils'
 import { getEndpointData } from '@/lib/utils/endpointData'
 import { getSchemas, getEnums } from '@/lib/utils/schemas'

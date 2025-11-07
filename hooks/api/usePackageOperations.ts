@@ -14,7 +14,7 @@ export function usePackageOperations(translations: Record<string, any>) {
   const [pendingPackageInit, setPendingPackageInit] = useState<PackageInitData | null>(null)
 
   const { toast } = useToast()
-  const { setPackageDetails, setIsViewingPackage } = usePackage()
+  const { setPackageDetails, setIsViewingPackage, setPackageNodeType } = usePackage()
 
   const handlePackageStatus = async () => {
     if (!packageName.trim()) {
@@ -37,6 +37,7 @@ export function usePackageOperations(translations: Record<string, any>) {
         response.data.data
       ) {
         setPackageDetails(response.data.data)
+        setPackageNodeType(nodeType)
         setIsViewingPackage(true)
 
         const successMessage = getDepexSuccessMessage('get_package_status_success', translations)

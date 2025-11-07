@@ -7,29 +7,42 @@ import {
   AccordionTrigger,
 } from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
-import { Card, CardContent } from '@/components/ui/Card'
-import { AlertTriangle, Network } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Network } from 'lucide-react'
 import type { IndirectDependency } from '@/types/PackageInfo'
+import { VersionList } from './VersionList'
 
 interface IndirectDependenciesListProps {
   dependenciesByDepth: {
     [depth: string]: IndirectDependency[]
   }
+  nodeType: string
   translations: Record<string, any>
 }
 
 export function IndirectDependenciesList({
   dependenciesByDepth,
+  nodeType,
   translations,
 }: IndirectDependenciesListProps) {
+  // Map node_type to friendly display names
+  const getNodeTypeDisplay = (type: string) => {
+    const typeMap: Record<string, string> = {
+      PyPIPackage: 'PyPI',
+      NPMPackage: 'NPM',
+      MavenPackage: 'Maven',
+      RubyGemsPackage: 'RubyGems',
+      CargoPackage: 'Cargo',
+      NuGetPackage: 'NuGet',
+    }
+    return typeMap[type] || type
+  }
+
   const sortedDepths = Object.keys(dependenciesByDepth)
     .map(Number)
     .sort((a, b) => a - b)
 
-  const totalCount = Object.values(dependenciesByDepth).reduce(
-    (sum, deps) => sum + deps.length,
-    0
-  )
+  const totalCount = Object.values(dependenciesByDepth).reduce((sum, deps) => sum + deps.length, 0)
 
   return (
     <div className="space-y-4">
@@ -39,7 +52,7 @@ export function IndirectDependenciesList({
       </h3>
 
       <Accordion type="multiple" className="w-full space-y-2">
-        {sortedDepths.map((depth) => (
+        {sortedDepths.map(depth => (
           <AccordionItem key={depth} value={`depth-${depth}`} className="border rounded-lg">
             <AccordionTrigger className="px-4 hover:no-underline">
               <div className="flex items-center gap-2">
@@ -55,37 +68,40 @@ export function IndirectDependenciesList({
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4">
-              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              <div className="space-y-6">
                 {dependenciesByDepth[depth].map((dep, index) => (
                   <Card key={index} className="overflow-hidden">
-                    <CardContent className="p-4 space-y-2">
-                      <div>
-                        <p className="font-mono text-sm font-medium">{dep.package_name}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {translations.vendor || 'Vendor'}: {dep.package_vendor}
-                        </p>
-                      </div>
-
-                      {dep.vulnerabilities && dep.vulnerabilities.length > 0 && (
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-1 text-xs text-destructive">
-                            <AlertTriangle className="h-4 w-4" />
-                            <span className="font-medium">
-                              {dep.vulnerabilities.length}{' '}
-                              {translations.vulnerabilities || 'vulnerabilities'}
-                            </span>
+                    <CardHeader className="pb-3 bg-muted/50">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <CardTitle className="text-base font-mono">
+                              {dep.package_name}
+                            </CardTitle>
+                            <Badge variant="outline" className="text-xs">
+                              {getNodeTypeDisplay(nodeType)}
+                            </Badge>
                           </div>
-                          <div className="max-h-16 overflow-y-auto">
-                            <div className="flex flex-wrap gap-1">
-                              {dep.vulnerabilities.map((vuln, idx) => (
-                                <Badge key={idx} variant="destructive" className="text-xs">
-                                  {vuln}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {translations.vendor || 'Vendor'}: {dep.package_vendor}
+                          </p>
                         </div>
-                      )}
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="font-mono text-xs">
+                            {dep.package_constraints}
+                          </Badge>
+                          <Badge variant="secondary">
+                            {dep.versions.length} {translations.versions || 'versions'}
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-6">
+                      <VersionList
+                        versions={dep.versions}
+                        packageName={dep.package_name}
+                        translations={translations}
+                      />
                     </CardContent>
                   </Card>
                 ))}

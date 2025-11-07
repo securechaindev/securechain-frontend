@@ -582,6 +582,8 @@
     "versionInfoDescription": "Analyze specific version dependencies with detailed vulnerability scores and version recommendations",
     "versionName": "Version Name",
     "analyzeVersion": "Analyze Version",
+    "analyzeVersionDependencies": "Analyze dependencies for this version",
+    "apiKeysDescription": "Manage API Keys",
     "versionInfoSuccess": "Package version information retrieved successfully.",
     "versionInfoNoDependencies": "The package version has no dependencies.",
     "noDependenciesMessageVersion": "This package version has no dependencies at the specified depth.",
@@ -593,6 +595,7 @@
     "sortByName": "Name",
     "showing": "Showing",
     "of": "of",
+    "showingVersions": "Showing {{showing}} of {{total}} versions",
 
     "authErrorDetails": {
       "userAlreadyExists": "An account with this email already exists",
@@ -780,5 +783,63 @@
       "repositoryUrlLabel": "Repository URL",
       "releaseDateLabel": "Release Date"
     }
+  },
+  "apiKeys": {
+    "title": "API Keys Management",
+    "description": "Create and manage your API keys for accessing the Secure Chain API",
+    "form": {
+      "name": "Key Name",
+      "namePlaceholder": "e.g., Production API, CI/CD Pipeline",
+      "duration": "Expiration Duration",
+      "selectDuration": "Select duration",
+      "days10": "10 days",
+      "days20": "20 days",
+      "days30": "30 days"
+    },
+    "actions": {
+      "create": "Create Key"
+    },
+    "list": {
+      "title": "Your API Keys",
+      "empty": "No API keys yet. Create one to get started.",
+      "name": "Name",
+      "key": "Key",
+      "created": "Created",
+      "expires": "Expires",
+      "status": "Status",
+      "actions": "Actions",
+      "never": "Never",
+      "noExpiration": "No expiration",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "warning": {
+      "copyNow": "⚠️ Copy this key now! You won't be able to see it again."
+    },
+    "success": {
+      "created": "API key created successfully",
+      "revoked": "API key revoked successfully",
+      "copied": "API key copied to clipboard"
+    },
+    "error": {
+      "nameRequired": "Please enter a name for the API key",
+      "invalidDuration": "Duration must be 10, 20, or 30 days"
+    }
+  },
+  "api": {
+    "success": "Operation completed successfully",
+    "api_key_created": "API key created successfully",
+    "api_key_list_success": "API keys retrieved successfully",
+    "api_key_revoked": "API key revoked successfully",
+    "api_key_not_found": "API key not found",
+    "api_key_already_revoked": "API key is already revoked",
+    "unauthorized": "Unauthorized access",
+    "invalid_request": "Invalid request data",
+    "server_error": "Server error occurred",
+    "repository_queued_for_processing": "The repository has been queued for processing",
+    "repository_processing_in_progress": "The repository is already being processed",
+    "repository_not_found": "Repository not found",
+    "date_not_found": "Last commit date not found in repository",
+    "error_initializing_repository": "An error occurred while initializing the repository"
   }
 }

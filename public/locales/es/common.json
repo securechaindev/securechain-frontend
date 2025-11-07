@@ -477,7 +477,7 @@
     "baseUrl": "URL Base",
     "authentication": "Autenticación",
     "jwtBearerToken": "Token JWT Bearer",
-        "authenticationTitle": "Autenticación",
+    "authenticationTitle": "Autenticación",
     "authenticationDescription": "Autenticación segura de usuarios con tokens JWT, incluyendo registro, inicio de sesión, cierre de sesión y gestión de contraseñas.",
     "dependencyGraphTitle": "Grafo de Dependencias",
     "dependencyGraphDescription": "Explorar y gestionar grafos de dependencias para repositorios, paquetes y versiones en múltiples ecosistemas.",
@@ -637,6 +637,8 @@
     "versionInfoDescription": "Analizar dependencias de versiones específicas con puntuaciones detalladas de vulnerabilidades y recomendaciones de versiones",
     "versionName": "Nombre de Versión",
     "analyzeVersion": "Analizar Versión",
+    "analyzeVersionDependencies": "Analizar dependencias de esta versión",
+    "apiKeysDescription": "Gestionar Claves API",
     "versionInfoSuccess": "Información de la versión del paquete obtenida exitosamente.",
     "versionInfoNoDependencies": "La versión del paquete no tiene dependencias.",
     "noDependenciesMessageVersion": "Esta versión del paquete no tiene dependencias en la profundidad especificada.",
@@ -648,6 +650,7 @@
     "sortByName": "Nombre",
     "showing": "Mostrando",
     "of": "de",
+    "showingVersions": "Mostrando {{showing}} de {{total}} versiones",
 
     "requirementOperations": {
       "noDependencies": "El grafo del fichero de requisitos no tiene dependencias",
@@ -786,5 +789,63 @@
     },
 
     "loading": "Cargando..."
+  },
+  "apiKeys": {
+    "title": "Gestión de Claves API",
+    "description": "Crea y gestiona tus claves API para acceder a la API de Secure Chain",
+    "form": {
+      "name": "Nombre de la Clave",
+      "namePlaceholder": "ej., API Producción, Pipeline CI/CD",
+      "duration": "Duración de Expiración",
+      "selectDuration": "Seleccionar duración",
+      "days10": "10 días",
+      "days20": "20 días",
+      "days30": "30 días"
+    },
+    "actions": {
+      "create": "Crear Clave"
+    },
+    "list": {
+      "title": "Tus Claves API",
+      "empty": "Aún no tienes claves API. Crea una para comenzar.",
+      "name": "Nombre",
+      "key": "Clave",
+      "created": "Creada",
+      "expires": "Expira",
+      "status": "Estado",
+      "actions": "Acciones",
+      "never": "Nunca",
+      "noExpiration": "Sin expiración",
+      "active": "Activa",
+      "inactive": "Inactiva"
+    },
+    "warning": {
+      "copyNow": "⚠️ ¡Copia esta clave ahora! No podrás verla de nuevo."
+    },
+    "success": {
+      "created": "Clave API creada exitosamente",
+      "revoked": "Clave API revocada exitosamente",
+      "copied": "Clave API copiada al portapapeles"
+    },
+    "error": {
+      "nameRequired": "Por favor ingresa un nombre para la clave API",
+      "invalidDuration": "La duración debe ser 10, 20 o 30 días"
+    }
+  },
+  "api": {
+    "success": "Operación completada exitosamente",
+    "api_key_created": "Clave API creada exitosamente",
+    "api_key_list_success": "Claves API obtenidas exitosamente",
+    "api_key_revoked": "Clave API revocada exitosamente",
+    "api_key_not_found": "Clave API no encontrada",
+    "api_key_already_revoked": "La clave API ya está revocada",
+    "unauthorized": "Acceso no autorizado",
+    "invalid_request": "Datos de solicitud inválidos",
+    "server_error": "Error del servidor",
+    "repository_queued_for_processing": "El repositorio ha sido encolado para procesamiento",
+    "repository_processing_in_progress": "El repositorio ya está siendo procesado",
+    "repository_not_found": "Repositorio no encontrado",
+    "date_not_found": "Fecha del último commit no encontrada en el repositorio",
+    "error_initializing_repository": "Ocurrió un error al inicializar el repositorio"
   }
 }

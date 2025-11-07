@@ -3,10 +3,16 @@
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select'
 import { Card, CardContent } from '@/components/ui/Card'
 import { AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react'
-import type { VersionDetail } from '@/types/VersionInfo'
+import type { VersionDetail } from '@/types/PackageInfo'
 import { useState } from 'react'
 
 interface VersionListProps {
@@ -16,7 +22,9 @@ interface VersionListProps {
 }
 
 export function VersionList({ versions, packageName, translations }: VersionListProps) {
-  const [sortBy, setSortBy] = useState<'name' | 'weighted_mean' | 'vulnerabilities'>('weighted_mean')
+  const [sortBy, setSortBy] = useState<'name' | 'weighted_mean' | 'vulnerabilities'>(
+    'weighted_mean'
+  )
   const [filterQuery, setFilterQuery] = useState('')
 
   // Filter and sort versions
@@ -39,7 +47,9 @@ export function VersionList({ versions, packageName, translations }: VersionList
     return 'text-red-600 dark:text-red-400'
   }
 
-  const getScoreBadgeVariant = (score: number): 'default' | 'secondary' | 'destructive' | 'outline' => {
+  const getScoreBadgeVariant = (
+    score: number
+  ): 'default' | 'secondary' | 'destructive' | 'outline' => {
     if (score === 0) return 'outline'
     if (score < 3) return 'secondary'
     if (score < 7) return 'default'
@@ -59,7 +69,7 @@ export function VersionList({ versions, packageName, translations }: VersionList
             type="text"
             placeholder={translations.searchVersions || 'Search versions...'}
             value={filterQuery}
-            onChange={(e) => setFilterQuery(e.target.value)}
+            onChange={e => setFilterQuery(e.target.value)}
           />
         </div>
         <div className="w-full sm:w-48">
@@ -101,7 +111,9 @@ export function VersionList({ versions, packageName, translations }: VersionList
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-1">
                   <TrendingUp className="h-3 w-3" />
-                  <span className="text-muted-foreground">{translations.weighted || 'Weighted'}:</span>
+                  <span className="text-muted-foreground">
+                    {translations.weighted || 'Weighted'}:
+                  </span>
                   <span className={getScoreColor(version.weighted_mean)}>
                     {version.weighted_mean.toFixed(2)}
                   </span>
@@ -109,9 +121,7 @@ export function VersionList({ versions, packageName, translations }: VersionList
                 <div className="flex items-center gap-1">
                   <TrendingDown className="h-3 w-3" />
                   <span className="text-muted-foreground">{translations.mean || 'Mean'}:</span>
-                  <span className={getScoreColor(version.mean)}>
-                    {version.mean.toFixed(2)}
-                  </span>
+                  <span className={getScoreColor(version.mean)}>{version.mean.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -129,7 +139,7 @@ export function VersionList({ versions, packageName, translations }: VersionList
                   </div>
                   <div className="max-h-24 overflow-y-auto">
                     <div className="flex flex-wrap gap-1">
-                      {version.vulnerability_count.map((vuln, idx) => (
+                      {version.vulnerability_count.map((vuln: string, idx: number) => (
                         <Badge key={idx} variant="destructive" className="text-xs px-1 py-0">
                           {vuln}
                         </Badge>
@@ -157,8 +167,11 @@ export function VersionList({ versions, packageName, translations }: VersionList
 
       {/* Summary */}
       <div className="text-sm text-muted-foreground text-center">
-        {translations.showing || 'Showing'} {filteredAndSortedVersions.length} {translations.of || 'of'}{' '}
-        {versions.length} {translations.versions || 'versions'}
+        {translations.showingVersions
+          ? translations.showingVersions
+              .replace('{{showing}}', filteredAndSortedVersions.length.toString())
+              .replace('{{total}}', versions.length.toString())
+          : `Showing ${filteredAndSortedVersions.length} of ${versions.length} versions`}
       </div>
     </div>
   )

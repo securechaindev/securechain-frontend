@@ -9,6 +9,8 @@ export { default as RepositoryCard } from './RepositoryCard'
 // Modals and operations
 export { OperationsModal } from './OperationsModal'
 export { Operations } from './Operations'
+export { PackageInfoDialog } from './PackageInfoDialog'
+export { VersionInfoDialog } from './VersionInfoDialog'
 
 // Forms and displays
 export { SSCOperationsForm } from './SSCOperationsForm'

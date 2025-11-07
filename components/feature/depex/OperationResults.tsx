@@ -58,8 +58,9 @@ export function OperationResults({ results, translations }: OperationResultsProp
 
   const { type, data } = results
 
-  if (type === 'fileInfo' && data?.result) {
-    const fileInfo = data.result as FileInfoResult
+  if (type === 'fileInfo') {
+    // Los datos pueden venir en data.result o directamente en data
+    const fileInfo = (data?.result || data) as FileInfoResult
 
     return (
       <>

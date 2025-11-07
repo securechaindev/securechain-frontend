@@ -3,23 +3,34 @@
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 
 interface VersionInfoFormProps {
-  onSubmit: (_packageName: string, _versionName: string, _maxDepth: number, _nodeType: string) => void
+  onSubmit: (
+    _packageName: string,
+    _versionName: string,
+    _maxDepth: number,
+    _nodeType: string
+  ) => void
   isLoading: boolean
   translations: Record<string, any>
 }
 
 const NODE_TYPES = [
-  'PyPIPackage',
-  'NPMPackage',
-  'MavenPackage',
-  'NuGetPackage',
-  'RubyGemsPackage',
-  'CargoPackage',
+  { value: 'PyPIPackage', label: 'PyPI (Python)' },
+  { value: 'NPMPackage', label: 'NPM (Node.js)' },
+  { value: 'MavenPackage', label: 'Maven (Java)' },
+  { value: 'CargoPackage', label: 'Cargo (Rust)' },
+  { value: 'RubyGemsPackage', label: 'RubyGems (Ruby)' },
+  { value: 'NuGetPackage', label: 'NuGet (.NET)' },
 ] as const
 
 export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionInfoFormProps) {
@@ -52,7 +63,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
             type="text"
             placeholder="e.g., requests"
             value={packageName}
-            onChange={(e) => setPackageName(e.target.value)}
+            onChange={e => setPackageName(e.target.value)}
             disabled={isLoading}
             required
           />
@@ -69,7 +80,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
             type="text"
             placeholder="e.g., 2.23.0"
             value={versionName}
-            onChange={(e) => setVersionName(e.target.value)}
+            onChange={e => setVersionName(e.target.value)}
             disabled={isLoading}
             required
           />
@@ -88,7 +99,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
             max="10"
             placeholder="2"
             value={maxDepth}
-            onChange={(e) => setMaxDepth(e.target.value)}
+            onChange={e => setMaxDepth(e.target.value)}
             disabled={isLoading}
             required
           />
@@ -105,9 +116,9 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {NODE_TYPES.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
+              {NODE_TYPES.map(type => (
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
                 </SelectItem>
               ))}
             </SelectContent>

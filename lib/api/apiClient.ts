@@ -459,9 +459,8 @@ export const vexgenAPI = {
 
   downloadVEX: async (vexId: string) => {
     try {
-      const response = await apiClient.post(
-        API_ENDPOINTS.VEXGEN.DOWNLOAD_VEX,
-        { vex_id: vexId },
+      const response = await apiClient.get(
+        API_ENDPOINTS.VEXGEN.DOWNLOAD_VEX(vexId),
         {
           retries: 0,
           headers: {
@@ -493,9 +492,8 @@ export const vexgenAPI = {
 
   downloadTIX: async (tixId: string) => {
     try {
-      const response = await apiClient.post(
-        API_ENDPOINTS.VEXGEN.DOWNLOAD_TIX,
-        { tix_id: tixId },
+      const response = await apiClient.get(
+        API_ENDPOINTS.VEXGEN.DOWNLOAD_TIX(tixId),
         {
           retries: 0,
           headers: {

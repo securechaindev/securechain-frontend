@@ -31,6 +31,14 @@ export const getSchemas = (t: any): Schema[] => [
     fields: ['token (string or null)'],
   },
   {
+    name: 'CreateApiKeyRequest',
+    description: t.docs.createApiKeyRequestDescription || 'Request to create a new API key',
+    fields: [
+      'name (string, 1-100 chars, descriptive name for the API key)',
+      'duration_days (integer, enum: 10, 20, or 30 days)',
+    ],
+  },
+  {
     name: 'InitRepositoryRequest',
     description: t.docs.initRepositoryRequestDescription,
     fields: [
@@ -120,16 +128,6 @@ export const getSchemas = (t: any): Schema[] => [
       'node_type (NodeType)',
       'agregator (Aggregator)',
     ],
-  },
-  {
-    name: 'DownloadVEXRequest',
-    description: t.docs.downloadVEXRequestDescription || 'Request to download a VEX document by ID',
-    fields: ['vex_id (string, 24-char hex pattern)'],
-  },
-  {
-    name: 'DownloadTIXRequest',
-    description: t.docs.downloadTIXRequestDescription || 'Request to download a TIX document by ID',
-    fields: ['tix_id (string, 24-char hex pattern)'],
   },
   {
     name: 'GenerateVEXTIXRequest',

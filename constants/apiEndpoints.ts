@@ -40,10 +40,10 @@ export const API_ENDPOINTS = {
     GENERATE_VEX_TIX: '/api/vexgen/vex_tix/generate',
     GET_USER_VEXS: '/api/vexgen/vex/user',
     GET_VEX: (vexId: string) => `/api/vexgen/vex/show/${vexId}`,
-    DOWNLOAD_VEX: '/api/vexgen/vex/download',
+    DOWNLOAD_VEX: (vexId: string) => `/api/vexgen/vex/download/${vexId}`,
     GET_USER_TIXS: '/api/vexgen/tix/user',
     GET_TIX: (tixId: string) => `/api/vexgen/tix/show/${tixId}`,
-    DOWNLOAD_TIX: '/api/vexgen/tix/download',
+    DOWNLOAD_TIX: (tixId: string) => `/api/vexgen/tix/download/${tixId}`,
   },
 } as const
 

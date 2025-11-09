@@ -39,7 +39,6 @@ interface ApiKey {
   created_at: string
   expires_at: string
   is_active: boolean
-  user_id: string
 }
 
 interface ApiKeysDialogProps {

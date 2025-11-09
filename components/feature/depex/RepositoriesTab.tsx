@@ -17,14 +17,11 @@ const GitHubIcon = dynamic(
 
 interface RepositoriesTabProps {
   user: User | null
-  userId: string
   translations: Record<string, any>
 }
 
-export default function RepositoriesTab({ user, userId, translations }: RepositoriesTabProps) {
-  const { userRepositories, depexLoading, fetchUserRepositories } = useRepositories(
-    translations
-  )
+export default function RepositoriesTab({ user, translations }: RepositoriesTabProps) {
+  const { userRepositories, depexLoading, fetchUserRepositories } = useRepositories(translations)
 
   useEffect(() => {
     fetchUserRepositories()

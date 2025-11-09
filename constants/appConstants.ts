@@ -1,5 +1,4 @@
 export const STORAGE_KEYS = {
-  USER_ID: 'user_id',
   USER_EMAIL: 'user_email',
   THEME: 'theme',
   LOCALE: 'locale',

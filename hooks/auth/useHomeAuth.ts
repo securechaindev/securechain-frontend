@@ -11,19 +11,16 @@ export function useHomeAuth(locale: 'en' | 'es') {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [userId, setUserId] = useState('')
 
   const router = useRouter()
   const { toast } = useToast()
 
   useEffect(() => {
     const checkAuth = () => {
-      const storedUserId = localStorage.getItem(STORAGE_KEYS.USER_ID)
       const userEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL)
 
-      if (storedUserId && userEmail) {
-        setUser({ id: storedUserId, email: userEmail })
-        setUserId(storedUserId)
+      if (userEmail) {
+        setUser({ email: userEmail })
         setIsAuthenticated(true)
       } else {
         router.push(`/${locale}/login`)
@@ -40,7 +37,6 @@ export function useHomeAuth(locale: 'en' | 'es') {
     try {
       await authAPI.logout()
 
-      localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
 
       setUser(null)
@@ -54,7 +50,6 @@ export function useHomeAuth(locale: 'en' | 'es') {
       router.push(`/${locale}/login`)
     } catch (error) {
       console.error('Logout error:', error)
-      localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
       setUser(null)
       setIsAuthenticated(false)
@@ -70,7 +65,6 @@ export function useHomeAuth(locale: 'en' | 'es') {
     user,
     loading,
     isSubmitting,
-    userId,
     handleLogout,
     setIsSubmitting,
   }

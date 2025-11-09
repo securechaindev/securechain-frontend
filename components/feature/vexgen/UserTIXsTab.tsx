@@ -18,11 +18,10 @@ const GitHubIcon = dynamic(
 )
 
 interface UserTIXsTabProps {
-  userId: string
   translations: Record<string, any>
 }
 
-export default function UserTIXsTab({ userId, translations }: UserTIXsTabProps) {
+export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
   const [tixDocuments, setTIXDocuments] = useState<TIXDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)

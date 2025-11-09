@@ -1,88 +1,130 @@
 {
   "openapi": "3.1.0",
-  "info": { "title": "Secure Chain API Gateway", "version": "1.0.0" },
+  "info": {
+    "title": "Secure Chain API Gateway",
+    "version": "1.1.0",
+    "contact": {
+      "name": "Secure Chain Team",
+      "url": "https://github.com/securechaindev",
+      "email": "hi@securechain.dev"
+    },
+    "license": {
+      "name": "GNU General Public License v3.0 or later (GPLv3+)",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.html"
+    }
+  },
   "paths": {
-    "/auth/signup": {
+    "/auth/user/signup": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Signup",
         "description": "Create a new user account.",
-        "operationId": "signup_signup_post",
+        "operationId": "signup_user_signup_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/SignUpRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "User created successfully.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       }
     },
-    "/auth/login": {
+    "/auth/user/login": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Login",
         "description": "Authenticate a user with email and password.",
-        "operationId": "login_login_post",
+        "operationId": "login_user_login_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "Access token and user data.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       }
     },
-    "/auth/logout": {
+    "/auth/user/logout": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Logout",
         "description": "Log out a user and revoke their refresh token.",
-        "operationId": "logout_logout_post",
+        "operationId": "logout_user_logout_post",
         "responses": {
           "200": {
             "description": "Logout successful.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
-    "/auth/account_exists": {
+    "/auth/user/account_exists": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Account Existence Check",
         "description": "Check if a user account exists with the given email.",
-        "operationId": "account_exists_account_exists_post",
+        "operationId": "account_exists_user_account_exists_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AccountExistsRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/AccountExistsRequest"
+              }
             }
           },
           "required": true
@@ -90,29 +132,37 @@
         "responses": {
           "200": {
             "description": "User existence status.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       }
     },
-    "/auth/change_password": {
+    "/auth/user/change_password": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Change Password",
         "description": "Change the password for a user.",
-        "operationId": "change_password_change_password_post",
+        "operationId": "change_password_user_change_password_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ChangePasswordRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
             }
           },
           "required": true
@@ -120,148 +170,301 @@
         "responses": {
           "200": {
             "description": "Password change status.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
       }
     },
-    "/auth/check_token": {
+    "/auth/user/check_token": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Token Verification",
         "description": "Verify the validity of a user token.",
-        "operationId": "check_token_check_token_post",
+        "operationId": "check_token_user_check_token_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/VerifyTokenRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyTokenRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "Token verification status.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         }
       }
     },
-    "/auth/refresh_token": {
+    "/auth/user/refresh_token": {
       "post": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - User"],
         "summary": "User Refresh Token",
         "description": "Refresh a user's access token using a refresh token.",
-        "operationId": "refresh_token_endpoint_refresh_token_post",
+        "operationId": "refresh_token_endpoint_user_refresh_token_post",
         "responses": {
           "200": {
             "description": "New access token.",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/api-keys/create": {
+      "post": {
+        "tags": ["Secure Chain Auth - API Keys"],
+        "summary": "Create API Key",
+        "description": "Create a new API key for a user.",
+        "operationId": "create_api_key_api_keys_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiKeyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "API key creation status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/auth/api-keys/list": {
+      "get": {
+        "tags": ["Secure Chain Auth - API Keys"],
+        "summary": "List API Keys",
+        "description": "Retrieve a list of API keys for the authenticated user.",
+        "operationId": "list_api_keys_api_keys_list_get",
+        "responses": {
+          "200": {
+            "description": "List of API keys.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ]
+      }
+    },
+    "/auth/api-keys/{key_id}/revoke": {
+      "patch": {
+        "tags": ["Secure Chain Auth - API Keys"],
+        "summary": "Revoke API Key",
+        "description": "Revoke an existing API key for a user.",
+        "operationId": "revoke_api_key_api_keys__key_id__revoke_patch",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API key revocation status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
     },
     "/auth/health": {
       "get": {
-        "tags": ["Secure Chain Auth"],
+        "tags": ["Secure Chain Auth - Health"],
         "summary": "Health Check",
         "description": "Check the status of the API.",
         "operationId": "health_check_health_get",
         "responses": {
           "200": {
             "description": "API status.",
-            "content": { "application/json": { "schema": {} } }
-          }
-        }
-      }
-    },
-    "/depex/health": {
-      "get": {
-        "tags": ["Secure Chain Depex"],
-        "summary": "Health Check",
-        "operationId": "health_check_health_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
-          }
-        }
-      }
-    },
-    "/depex/graph/repositories/{user_id}": {
-      "get": {
-        "tags": ["Secure Chain Depex - Graph"],
-        "summary": "Get Repositories",
-        "operationId": "get_repositories_graph_repositories__user_id__get",
-        "security": [{ "JWTBearer": [] }],
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string", "pattern": "^[a-fA-F0-9]{24}$", "title": "User Id" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
-          },
-          "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {}
               }
             }
           }
         }
       }
     },
+    "/depex/health": {
+      "get": {
+        "tags": ["Secure Chain Depex - Health"],
+        "summary": "Health Check",
+        "description": "Check the status of the API.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "API status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depex/graph/repositories": {
+      "get": {
+        "tags": ["Secure Chain Depex - Graph"],
+        "summary": "Get User Repositories",
+        "description": "Retrieve a list of repositories for the authenticated user.",
+        "operationId": "get_repositories_graph_repositories_get",
+        "responses": {
+          "200": {
+            "description": "List of user repositories.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
+      }
+    },
     "/depex/graph/package/status": {
       "get": {
         "tags": ["Secure Chain Depex - Graph"],
         "summary": "Get Package Status",
+        "description": "Retrieve the status of a specific package.",
         "operationId": "get_package_status_graph_package_status_get",
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "node_type",
             "in": "query",
             "required": true,
-            "schema": { "$ref": "#/components/schemas/NodeType" }
+            "schema": {
+              "$ref": "#/components/schemas/NodeType"
+            }
           },
           {
             "name": "package_name",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "title": "Package Name" }
+            "schema": {
+              "type": "string",
+              "title": "Package Name"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Package status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -272,37 +475,57 @@
       "get": {
         "tags": ["Secure Chain Depex - Graph"],
         "summary": "Get Version Status",
+        "description": "Retrieve the status of a specific version.",
         "operationId": "get_version_status_graph_version_status_get",
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "node_type",
             "in": "query",
             "required": true,
-            "schema": { "$ref": "#/components/schemas/NodeType" }
+            "schema": {
+              "$ref": "#/components/schemas/NodeType"
+            }
           },
           {
             "name": "package_name",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "title": "Package Name" }
+            "schema": {
+              "type": "string",
+              "title": "Package Name"
+            }
           },
           {
             "name": "version_name",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "title": "Version Name" }
+            "schema": {
+              "type": "string",
+              "title": "Version Name"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Version status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -312,289 +535,804 @@
     "/depex/graph/package/init": {
       "post": {
         "tags": ["Secure Chain Depex - Graph"],
-        "summary": "Init Package",
+        "summary": "Initialize Package",
+        "description": "Queue a package for extraction and analysis. The package will be processed asynchronously by Dagster.",
         "operationId": "init_package_graph_package_init_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/InitPackageRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitPackageRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Package queuing status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/graph/repository/init": {
       "post": {
         "tags": ["Secure Chain Depex - Graph"],
-        "summary": "Init Repository",
+        "summary": "Initialize Repository",
+        "description": "Initialize a repository by creating it in the graph and queuing its packages for extraction.",
         "operationId": "init_repository_graph_repository_init_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/InitRepositoryRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/InitRepositoryRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Repository initialization status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/ssc/file_info": {
       "post": {
         "tags": ["Secure Chain Depex - Operation/SSC"],
-        "summary": "File Info",
-        "operationId": "file_info_operation_ssc_file_info_post",
+        "summary": "Get Requirement File Information",
+        "description": "Retrieve information about dependnecy graph of a specific requirement file.",
+        "operationId": "requirement_file_info_operation_ssc_file_info_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/FileInfoRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileInfoRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Requirement File information.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
+      }
+    },
+    "/depex/operation/ssc/package_info": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/SSC"],
+        "summary": "Get Package SSC Information",
+        "description": "Retrieve information about the software supply chain of a specific package.",
+        "operationId": "package_ssc_info_operation_ssc_package_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PackageInfoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "SSC package information.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
+      }
+    },
+    "/depex/operation/ssc/version_info": {
+      "post": {
+        "tags": ["Secure Chain Depex - Operation/SSC"],
+        "summary": "Get Package Version SSC Information",
+        "description": "Retrieve information about the software supply chain of a specific package version.",
+        "operationId": "version_ssc_info_operation_ssc_version_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VersionInfoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "SSC package version information.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/valid_graph": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/SSC"],
-        "summary": "Valid Graph",
+        "tags": ["Secure Chain Depex - Operation/SMT"],
+        "summary": "Validate Requirement File Graph",
+        "description": "Validate the graph of a requirement file up to a specified level.",
         "operationId": "valid_graph_operation_smt_valid_graph_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/ValidGraphRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidGraphRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Validation result of the requirement file graph.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/minimize_impact": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/SSC"],
-        "summary": "Minimize Impact",
+        "tags": ["Secure Chain Depex - Operation/SMT"],
+        "summary": "Minimize Impact of Requirement File",
+        "description": "Get the minimized impact and configuration of a specific requirement file.",
         "operationId": "minimize_impact_operation_smt_minimize_impact_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/MinMaxImpactRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MinMaxImpactRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Minimized Impact Configuration.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/maximize_impact": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/SSC"],
-        "summary": "Maximize Impact",
+        "tags": ["Secure Chain Depex - Operation/SMT"],
+        "summary": "Maximize Impact of Requirement File",
+        "description": "Get the maximized impact and configuration of a specific requirement file.",
         "operationId": "maximize_impact_operation_smt_maximize_impact_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/MinMaxImpactRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MinMaxImpactRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Maximized Impact Configuration.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/filter_configs": {
       "post": {
-        "tags": ["Secure Chain Depex - Operation/SSC"],
-        "summary": "Filter Configs",
+        "tags": ["Secure Chain Depex - Operation/SMT"],
+        "summary": "Filter Configurations of Requirement File",
+        "description": "Get the filtered configurations of a specific requirement file.",
         "operationId": "filter_configs_operation_smt_filter_configs_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/FilterConfigsRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/FilterConfigsRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Filtered Configurations.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/valid_config": {
       "post": {
         "tags": ["Secure Chain Depex - Operation/SMT"],
-        "summary": "Valid Config",
+        "summary": "Validate a Configuration",
+        "description": "Validate the configuration based on a requirement file and maximum level.",
         "operationId": "valid_config_operation_smt_valid_config_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/ValidConfigRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidConfigRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Returns the result of the validation.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/complete_config": {
       "post": {
         "tags": ["Secure Chain Depex - Operation/SMT"],
-        "summary": "Complete Config",
+        "summary": "Complete a Configuration",
+        "description": "Complete the configuration based on a requirement file and maximum level.",
         "operationId": "complete_config_operation_smt_complete_config_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CompleteConfigRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/CompleteConfigRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Returns the result of the completion.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     },
     "/depex/operation/smt/config_by_impact": {
       "post": {
         "tags": ["Secure Chain Depex - Operation/SMT"],
-        "summary": "Config By Impact",
+        "summary": "Complete a Configuration by Impact",
+        "description": "Complete the configuration based on a requirement file, maximum level, and impact.",
         "operationId": "config_by_impact_operation_smt_config_by_impact_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ConfigByImpactRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/ConfigByImpactRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "description": "Returns the result of the completion by impact.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
         },
-        "security": [{ "JWTBearer": [] }]
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
+      }
+    },
+    "/vexgen/health": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - Health"],
+        "summary": "Health Check",
+        "description": "Check the status of the API.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "API status.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vexgen/vex/user": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - VEX"],
+        "summary": "Retrieve VEX documents for a user",
+        "description": "Fetches all VEX documents associated with the authenticated user.",
+        "operationId": "get_vexs_vex_user_get",
+        "responses": {
+          "200": {
+            "description": "List of VEX documents with their metadata and content in JSON format.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
+      }
+    },
+    "/vexgen/vex/show/{vex_id}": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - VEX"],
+        "summary": "Retrieve a specific VEX document",
+        "description": "Fetches a specific VEX document by its ID.",
+        "operationId": "get_vex_vex_show__vex_id__get",
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "vex_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$",
+              "title": "Vex Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "VEX document metadata and content in JSON format.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vexgen/vex/download/{vex_id}": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - VEX"],
+        "summary": "Download VEX",
+        "description": "Downloads a VEX document as a ZIP file by its ID.",
+        "operationId": "download_vex_vex_download__vex_id__get",
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "vex_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$",
+              "title": "Vex Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ZIP file containing VEX.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vexgen/tix/user": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - TIX"],
+        "summary": "Retrieve TIX documents for a user",
+        "description": "Fetches all TIX documents associated with the authenticated user.",
+        "operationId": "get_tixs_tix_user_get",
+        "responses": {
+          "200": {
+            "description": "List of TIX documents with their metadata and content in JSON format.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
+      }
+    },
+    "/vexgen/tix/show/{tix_id}": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - TIX"],
+        "summary": "Retrieve a specific TIX document",
+        "description": "Fetches a specific TIX document by its ID.",
+        "operationId": "get_tix_tix_show__tix_id__get",
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "tix_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$",
+              "title": "Tix Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TIX document metadata and content in JSON format.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vexgen/tix/download/{tix_id}": {
+      "get": {
+        "tags": ["Secure Chain VEXGen - TIX"],
+        "summary": "Download TIX",
+        "description": "Downloads a TIX document as a ZIP file by its ID.",
+        "operationId": "download_tix_tix_download__tix_id__get",
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "tix_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$",
+              "title": "Tix Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ZIP file containing TIX.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vexgen/vex_tix/generate": {
+      "post": {
+        "tags": ["Secure Chain VEXGen - VEX/TIX"],
+        "summary": "Generate VEX and TIX from a repository",
+        "description": "Generates VEX and TIX for a specific GitHub repository.",
+        "operationId": "generate_vex_tix_vex_tix_generate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateVEXTIXRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "ZIP file containing generated VEX and TIX.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DualAuthBearer": []
+          }
+        ]
       }
     }
   },
@@ -640,10 +1378,32 @@
         "required": ["email", "old_password", "new_password"],
         "title": "ChangePasswordRequest"
       },
+      "CreateApiKeyRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "description": "Descriptive name for the API key"
+          },
+          "duration_days": {
+            "type": "integer",
+            "enum": [10, 20, 30],
+            "title": "Duration Days",
+            "description": "Duration in days (10, 20, or 30)"
+          }
+        },
+        "type": "object",
+        "required": ["name", "duration_days"],
+        "title": "CreateApiKeyRequest"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
             "type": "array",
             "title": "Detail"
           }
@@ -679,7 +1439,11 @@
             "title": "Email",
             "description": "User's email address."
           },
-          "password": { "type": "string", "title": "Password", "description": "User's password." }
+          "password": {
+            "type": "string",
+            "title": "Password",
+            "description": "User's password."
+          }
         },
         "type": "object",
         "required": ["email", "password"],
@@ -688,12 +1452,27 @@
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
             "type": "array",
             "title": "Location"
           },
-          "msg": { "type": "string", "title": "Message" },
-          "type": { "type": "string", "title": "Error Type" }
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
         },
         "type": "object",
         "required": ["loc", "msg", "type"],
@@ -702,7 +1481,14 @@
       "VerifyTokenRequest": {
         "properties": {
           "token": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Token",
             "description": "The token to verify."
           }
@@ -711,7 +1497,11 @@
         "required": ["token"],
         "title": "VerifyTokenRequest"
       },
-      "Agregator": { "type": "string", "enum": ["mean", "weighted_mean"], "title": "Agregator" },
+      "Aggregator": {
+        "type": "string",
+        "enum": ["mean", "weighted_mean"],
+        "title": "Aggregator"
+      },
       "CompleteConfigRequest": {
         "properties": {
           "requirement_file_id": {
@@ -719,17 +1509,26 @@
             "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
             "title": "Requirement File Id"
           },
-          "max_level": { "type": "integer", "title": "Max Level" },
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "agregator": { "$ref": "#/components/schemas/Agregator" },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "aggregator": {
+            "$ref": "#/components/schemas/Aggregator"
+          },
           "config": {
-            "additionalProperties": { "type": "string" },
+            "additionalProperties": {
+              "type": "string"
+            },
             "type": "object",
             "title": "Config"
           }
         },
         "type": "object",
-        "required": ["requirement_file_id", "max_level", "node_type", "agregator", "config"],
+        "required": ["requirement_file_id", "max_depth", "node_type", "aggregator", "config"],
         "title": "CompleteConfigRequest"
       },
       "ConfigByImpactRequest": {
@@ -739,27 +1538,44 @@
             "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
             "title": "Requirement File Id"
           },
-          "max_level": { "type": "integer", "title": "Max Level" },
-          "impact": { "type": "number", "maximum": 10.0, "minimum": 0.0, "title": "Impact" },
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "agregator": { "$ref": "#/components/schemas/Agregator" }
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "impact": {
+            "type": "number",
+            "maximum": 10,
+            "minimum": 0,
+            "title": "Impact"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "aggregator": {
+            "$ref": "#/components/schemas/Aggregator"
+          }
         },
         "type": "object",
-        "required": ["requirement_file_id", "max_level", "impact", "node_type", "agregator"],
+        "required": ["requirement_file_id", "max_depth", "impact", "node_type", "aggregator"],
         "title": "ConfigByImpactRequest"
       },
       "FileInfoRequest": {
         "properties": {
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
           "requirement_file_id": {
             "type": "string",
             "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
             "title": "Requirement File Id"
           },
-          "max_level": { "type": "integer", "title": "Max Level" }
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          }
         },
         "type": "object",
-        "required": ["node_type", "requirement_file_id", "max_level"],
+        "required": ["requirement_file_id", "max_depth", "node_type"],
         "title": "FileInfoRequest"
       },
       "FilterConfigsRequest": {
@@ -771,20 +1587,31 @@
           },
           "max_threshold": {
             "type": "number",
-            "maximum": 10.0,
-            "minimum": 0.0,
+            "maximum": 10,
+            "minimum": 0,
             "title": "Max Threshold"
           },
           "min_threshold": {
             "type": "number",
-            "maximum": 10.0,
-            "minimum": 0.0,
+            "maximum": 10,
+            "minimum": 0,
             "title": "Min Threshold"
           },
-          "limit": { "type": "integer", "minimum": 1.0, "title": "Limit" },
-          "max_level": { "type": "integer", "title": "Max Level" },
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "agregator": { "$ref": "#/components/schemas/Agregator" }
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Limit"
+          },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "aggregator": {
+            "$ref": "#/components/schemas/Aggregator"
+          }
         },
         "type": "object",
         "required": [
@@ -792,16 +1619,75 @@
           "max_threshold",
           "min_threshold",
           "limit",
-          "max_level",
+          "max_depth",
           "node_type",
-          "agregator"
+          "aggregator"
         ],
         "title": "FilterConfigsRequest"
       },
       "InitPackageRequest": {
         "properties": {
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "package_name": { "type": "string", "title": "Package Name" }
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "package_name": {
+            "type": "string",
+            "title": "Package Name"
+          },
+          "vendor": {
+            "type": "string",
+            "title": "Vendor",
+            "default": "n/a"
+          },
+          "repository_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repository Url"
+          },
+          "constraints": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Constraints"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "parent_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Version"
+          },
+          "refresh": {
+            "type": "boolean",
+            "title": "Refresh",
+            "default": false
+          }
         },
         "type": "object",
         "required": ["node_type", "package_name"],
@@ -809,15 +1695,17 @@
       },
       "InitRepositoryRequest": {
         "properties": {
-          "owner": { "type": "string", "title": "Owner" },
-          "name": { "type": "string", "title": "Name" },
-          "moment": { "type": "string", "format": "date-time", "title": "Moment" },
-          "add_extras": { "type": "boolean", "title": "Add Extras", "default": false },
-          "is_complete": { "type": "boolean", "title": "Is Complete", "default": false },
-          "user_id": { "type": "string", "title": "User Id" }
+          "owner": {
+            "type": "string",
+            "title": "Owner"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
         },
         "type": "object",
-        "required": ["owner", "name", "user_id"],
+        "required": ["owner", "name"],
         "title": "InitRepositoryRequest"
       },
       "MinMaxImpactRequest": {
@@ -827,13 +1715,24 @@
             "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
             "title": "Requirement File Id"
           },
-          "limit": { "type": "integer", "minimum": 1.0, "title": "Limit" },
-          "max_level": { "type": "integer", "title": "Max Level" },
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "agregator": { "$ref": "#/components/schemas/Agregator" }
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Limit"
+          },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "aggregator": {
+            "$ref": "#/components/schemas/Aggregator"
+          }
         },
         "type": "object",
-        "required": ["requirement_file_id", "limit", "max_level", "node_type", "agregator"],
+        "required": ["requirement_file_id", "limit", "max_depth", "node_type", "aggregator"],
         "title": "MinMaxImpactRequest"
       },
       "NodeType": {
@@ -848,6 +1747,24 @@
         ],
         "title": "NodeType"
       },
+      "PackageInfoRequest": {
+        "properties": {
+          "package_name": {
+            "type": "string",
+            "title": "Package Name"
+          },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          }
+        },
+        "type": "object",
+        "required": ["package_name", "max_depth", "node_type"],
+        "title": "PackageInfoRequest"
+      },
       "ValidConfigRequest": {
         "properties": {
           "requirement_file_id": {
@@ -855,17 +1772,26 @@
             "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
             "title": "Requirement File Id"
           },
-          "max_level": { "type": "integer", "title": "Max Level" },
-          "node_type": { "$ref": "#/components/schemas/NodeType" },
-          "agregator": { "$ref": "#/components/schemas/Agregator" },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "aggregator": {
+            "$ref": "#/components/schemas/Aggregator"
+          },
           "config": {
-            "additionalProperties": { "type": "string" },
+            "additionalProperties": {
+              "type": "string"
+            },
             "type": "object",
             "title": "Config"
           }
         },
         "type": "object",
-        "required": ["requirement_file_id", "max_level", "node_type", "agregator", "config"],
+        "required": ["requirement_file_id", "max_depth", "node_type", "aggregator", "config"],
         "title": "ValidConfigRequest"
       },
       "ValidGraphRequest": {
@@ -875,29 +1801,103 @@
             "pattern": "^4:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}:[0-9]+$",
             "title": "Requirement File Id"
           },
-          "max_level": { "type": "integer", "title": "Max Level" },
-          "node_type": { "$ref": "#/components/schemas/NodeType" }
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          }
         },
         "type": "object",
-        "required": ["requirement_file_id", "max_level", "node_type"],
+        "required": ["requirement_file_id", "max_depth", "node_type"],
         "title": "ValidGraphRequest"
+      },
+      "VersionInfoRequest": {
+        "properties": {
+          "package_name": {
+            "type": "string",
+            "title": "Package Name"
+          },
+          "version_name": {
+            "type": "string",
+            "title": "Version Name"
+          },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/NodeType"
+          }
+        },
+        "type": "object",
+        "required": ["package_name", "version_name", "max_depth", "node_type"],
+        "title": "VersionInfoRequest"
+      },
+      "GenerateVEXTIXRequest": {
+        "properties": {
+          "owner": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Owner"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": ["owner", "name"],
+        "title": "GenerateVEXTIXRequest"
       }
     }
   },
   "tags": [
-    { "name": "Secure Chain Auth", "description": "Endpoints for Secure Chain Auth" },
-    { "name": "Secure Chain Depex", "description": "Endpoints for Secure Chain Depex" },
+    {
+      "name": "Secure Chain Auth - API Keys",
+      "description": "Endpoints for Secure Chain Auth - API Keys"
+    },
+    {
+      "name": "Secure Chain Auth - Health",
+      "description": "Endpoints for Secure Chain Auth - Health"
+    },
+    {
+      "name": "Secure Chain Auth - User",
+      "description": "Endpoints for Secure Chain Auth - User"
+    },
     {
       "name": "Secure Chain Depex - Graph",
       "description": "Endpoints for Secure Chain Depex - Graph"
     },
     {
+      "name": "Secure Chain Depex - Health",
+      "description": "Endpoints for Secure Chain Depex - Health"
+    },
+    {
       "name": "Secure Chain Depex - Operation/SMT",
-      "description": "Endpoints for Secure Chain Depex - Operation/Config"
+      "description": "Endpoints for Secure Chain Depex - Operation/SMT"
     },
     {
       "name": "Secure Chain Depex - Operation/SSC",
-      "description": "Endpoints for Secure Chain Depex - Operation/File"
+      "description": "Endpoints for Secure Chain Depex - Operation/SSC"
+    },
+    {
+      "name": "Secure Chain VEXGen - Health",
+      "description": "Endpoints for Secure Chain VEXGen - Health"
+    },
+    {
+      "name": "Secure Chain VEXGen - TIX",
+      "description": "Endpoints for Secure Chain VEXGen - TIX"
+    },
+    {
+      "name": "Secure Chain VEXGen - VEX",
+      "description": "Endpoints for Secure Chain VEXGen - VEX"
+    },
+    {
+      "name": "Secure Chain VEXGen - VEX/TIX",
+      "description": "Endpoints for Secure Chain VEXGen - VEX/TIX"
     }
   ]
 }

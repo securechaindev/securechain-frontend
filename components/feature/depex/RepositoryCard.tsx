@@ -25,18 +25,6 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
   const [selectedFile, setSelectedFile] = useState<RequirementFile | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Get user_id from cookies
-  const getUserIdFromCookies = () => {
-    if (typeof document !== 'undefined') {
-      const cookies = document.cookie.split(';')
-      const userIdCookie = cookies.find(cookie => cookie.trim().startsWith('user_id='))
-      return userIdCookie ? decodeURIComponent(userIdCookie.split('=')[1].trim()) : null
-    }
-    return null
-  }
-
-  const userId = getUserIdFromCookies()
-
   const handleOperationsClick = (file: RequirementFile) => {
     setSelectedFile(file)
     setIsModalOpen(true)
@@ -75,9 +63,6 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
                 size="sm"
                 variant="outline"
               />
-              {userId && (
-                <>{/* VEX/TIX listing functionality is now available in the main tabs */}</>
-              )}
             </div>
           </div>
         </div>

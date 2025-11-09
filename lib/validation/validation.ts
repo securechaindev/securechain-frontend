@@ -20,11 +20,6 @@ export const isPositiveNumber = (value: any): value is number => {
   return typeof value === 'number' && value > 0
 }
 
-export const isValidMongoObjectId = (id: string): boolean => {
-  const mongoIdPattern = /^[0-9a-fA-F]{24}$/
-  return mongoIdPattern.test(id)
-}
-
 export const isValidPackageName = (name: string, ecosystem: string): boolean => {
   switch (ecosystem.toLowerCase()) {
     case 'pypi':

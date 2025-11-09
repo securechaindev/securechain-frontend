@@ -18,28 +18,12 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
 
-  const getUserIdFromLocalStorage = (): string | null => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('user_id')
-    }
-    return null
-  }
-
   const generateVEXTIX = async (request: { owner: string; name: string }) => {
     setIsLoading(true)
     setError(null)
 
     try {
-      // Get user_id from localStorage
-      const userId = getUserIdFromLocalStorage()
-      if (!userId) {
-        throw new APIError(401, 'User ID not found in localStorage', 'USER_ID_MISSING')
-      }
-
-      const response = await vexgenAPI.generateVEXTIX({
-        ...request,
-        user_id: userId,
-      })
+      const response = await vexgenAPI.generateVEXTIX(request)
 
       if (response.data instanceof Blob) {
         // Handle file download

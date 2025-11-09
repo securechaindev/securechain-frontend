@@ -67,7 +67,7 @@ export const getEndpointData = (t: any) => {
     : [
         {
           method: 'GET',
-          path: '/depex/graph/repositories/{user_id}',
+          path: '/depex/graph/repositories',
           summary: t.docs.getUserRepositories,
           description: t.docs.getUserRepositoriesDescription,
           auth: true,
@@ -173,7 +173,7 @@ export const getEndpointData = (t: any) => {
     : [
         {
           method: 'GET',
-          path: '/vexgen/vex/user/{user_id}',
+          path: '/vexgen/vex/user',
           summary: t.docs.vexgen.vexUserDocuments,
           description: t.docs.vexgen.vexUserDocumentsDescription,
           auth: true,
@@ -197,7 +197,7 @@ export const getEndpointData = (t: any) => {
         },
         {
           method: 'GET',
-          path: '/vexgen/tix/user/{user_id}',
+          path: '/vexgen/tix/user',
           summary: t.docs.vexgen.tixUserDocuments,
           description: t.docs.vexgen.tixUserDocumentsDescription,
           auth: true,

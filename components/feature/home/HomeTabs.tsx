@@ -25,11 +25,10 @@ const GitHubIcon = dynamic(
 
 interface HomeTabsProps {
   user: User | null
-  userId: string
   translations: Record<string, any>
 }
 
-export default function HomeTabs({ user, userId, translations }: HomeTabsProps) {
+export default function HomeTabs({ user, translations }: HomeTabsProps) {
   const [activeTab, setActiveTab] = useState('initialization')
 
   const packageOperations = usePackageOperations(translations)
@@ -113,27 +112,23 @@ export default function HomeTabs({ user, userId, translations }: HomeTabsProps) 
           </TabsList>
 
           <TabsContent value="initialization" className="mt-2 sm:mt-4 md:mt-6">
-            <InitializationTab userId={userId} translations={translations} />
+            <InitializationTab translations={translations} />
           </TabsContent>
 
           <TabsContent value="repositories" className="mt-2 sm:mt-4 md:mt-6">
-            <RepositoriesTab user={user} userId={userId} translations={translations} />
+            <RepositoriesTab user={user} translations={translations} />
           </TabsContent>
 
           <TabsContent value="packages" className="mt-2 sm:mt-4 md:mt-6">
-            <PackagesTab
-              userId={userId}
-              translations={translations}
-              packageOperations={packageOperations}
-            />
+            <PackagesTab translations={translations} packageOperations={packageOperations} />
           </TabsContent>
 
           <TabsContent value="user-vexs" className="mt-2 sm:mt-4 md:mt-6">
-            <UserVEXsTab userId={userId} translations={translations} />
+            <UserVEXsTab translations={translations} />
           </TabsContent>
 
           <TabsContent value="user-tixs" className="mt-2 sm:mt-4 md:mt-6">
-            <UserTIXsTab userId={userId} translations={translations} />
+            <UserTIXsTab translations={translations} />
           </TabsContent>
         </Tabs>
 

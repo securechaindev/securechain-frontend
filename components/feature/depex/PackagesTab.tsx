@@ -15,7 +15,6 @@ import {
 import { Package, Loader2 } from 'lucide-react'
 
 interface PackagesTabProps {
-  userId: string
   translations: Record<string, any>
   packageOperations: any
 }

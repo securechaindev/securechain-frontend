@@ -18,11 +18,10 @@ const GitHubIcon = dynamic(
 )
 
 interface UserVEXsTabProps {
-  userId: string
   translations: Record<string, any>
 }
 
-export default function UserVEXsTab({ userId, translations }: UserVEXsTabProps) {
+export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
   const [vexDocuments, setVEXDocuments] = useState<VEXDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)

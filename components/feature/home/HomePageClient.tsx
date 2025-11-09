@@ -15,7 +15,7 @@ interface HomePageClientProps {
 }
 
 export default function HomePageClient({ locale, translations: t }: HomePageClientProps) {
-  const { isAuthenticated, user, loading, isSubmitting, userId, handleLogout } = useHomeAuth(locale)
+  const { isAuthenticated, user, loading, isSubmitting, handleLogout } = useHomeAuth(locale)
   const { currentLocale, currentTranslations, handleLocaleChange } = useLocalization(locale, t)
   const { isViewingPackage } = usePackage()
 
@@ -50,7 +50,7 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
         onLocaleChange={handleLocaleChange}
         onLogout={() => handleLogout(currentTranslations)}
       />
-      <HomeTabs user={user} userId={userId} translations={currentTranslations} />
+      <HomeTabs user={user} translations={currentTranslations} />
     </div>
   )
 }

@@ -7,7 +7,6 @@ import { APIError } from '@/lib/utils'
 interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
-  userId: string | null
   email: string | null
 }
 
@@ -28,7 +27,6 @@ export function useAuthState() {
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
     isLoading: true,
-    userId: null,
     email: null,
   })
 
@@ -43,7 +41,6 @@ export function useAuthState() {
       setAuthState({
         isAuthenticated: true,
         isLoading: false,
-        userId: response.data.user_id || localStorage.getItem(STORAGE_KEYS.USER_ID),
         email: localStorage.getItem(STORAGE_KEYS.USER_EMAIL),
       })
     } catch (error) {
@@ -51,10 +48,8 @@ export function useAuthState() {
       setAuthState({
         isAuthenticated: false,
         isLoading: false,
-        userId: null,
         email: null,
       })
-      localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
     }
   }
@@ -71,17 +66,14 @@ export function useAuthState() {
       const response = await authAPI.login({ email, password })
       const data = response.data
 
-      const isSuccess =
-        response.ok && data.code === 'login_success' && response.status === 200 && data.user_id
+      const isSuccess = response.ok && data.code === 'login_success' && response.status === 200
 
       if (isSuccess) {
-        localStorage.setItem(STORAGE_KEYS.USER_ID, data.user_id)
         localStorage.setItem(STORAGE_KEYS.USER_EMAIL, email)
 
         setAuthState({
           isAuthenticated: true,
           isLoading: false,
-          userId: data.user_id,
           email: email,
         })
 
@@ -168,12 +160,10 @@ export function useAuthState() {
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
-      localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
       setAuthState({
         isAuthenticated: false,
         isLoading: false,
-        userId: null,
         email: null,
       })
     }

@@ -7,11 +7,10 @@ import { useToast } from '@/hooks/ui'
 import { depexAPI } from '@/lib/api'
 
 interface InitializationTabProps {
-  userId: string
   translations: Record<string, any>
 }
 
-export default function InitializationTab({ userId, translations }: InitializationTabProps) {
+export default function InitializationTab({ translations }: InitializationTabProps) {
   const [repoOwner, setRepoOwner] = useState('')
   const [repoName, setRepoName] = useState('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -48,15 +47,6 @@ export default function InitializationTab({ userId, translations }: Initializati
       return
     }
 
-    if (!userId) {
-      toast({
-        title: translations.errorTitle,
-        description: 'User ID is required. Please log in again.',
-        variant: 'destructive',
-      })
-      return
-    }
-
     setDepexLoading(true)
     setErrorMessage(null)
 
@@ -64,7 +54,6 @@ export default function InitializationTab({ userId, translations }: Initializati
       const requestData = {
         owner: repoOwner.trim(),
         name: repoName.trim(),
-        user_id: userId,
       }
 
       const response = await depexAPI.initializeRepository(requestData)

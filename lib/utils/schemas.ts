@@ -36,7 +36,6 @@ export const getSchemas = (t: any): Schema[] => [
     fields: [
       'owner (string)',
       'name (string)',
-      'user_id (string)',
       'moment (datetime, optional)',
       'add_extras (boolean, default: false)',
       'is_complete (boolean, default: false)',
@@ -137,11 +136,7 @@ export const getSchemas = (t: any): Schema[] => [
     description:
       t.docs.generateVEXTIXRequestDescription ||
       'Request to generate VEX and TIX documents for a repository',
-    fields: [
-      'owner (string, min length: 1)',
-      'name (string, min length: 1)',
-      'user_id (string, 24-char hex pattern)',
-    ],
+    fields: ['owner (string, min length: 1)', 'name (string, min length: 1)'],
   },
 ]
 

@@ -12,10 +12,9 @@ export function TryButton({ locale, buttonText }: TryButtonProps) {
   const router = useRouter()
 
   const handleClick = () => {
-    const userId = localStorage.getItem(STORAGE_KEYS.USER_ID)
     const userEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL)
 
-    if (userId && userEmail) {
+    if (userEmail) {
       router.push(`/${locale}/home`)
     } else {
       router.push(`/${locale}/login`)

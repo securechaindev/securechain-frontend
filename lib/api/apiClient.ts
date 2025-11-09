@@ -1,6 +1,5 @@
 import { clientConfig } from '@/lib/config/clientConfig'
 import { APIError, NetworkError } from '@/lib/utils'
-import { isValidMongoObjectId } from '@/lib/validation'
 import { API_ENDPOINTS, STORAGE_KEYS } from '@/constants'
 
 interface APIClientConfig {
@@ -336,7 +335,6 @@ class APIClient {
     }
 
     try {
-      localStorage.removeItem(STORAGE_KEYS.USER_ID)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
     } catch (error) {
       console.warn('Failed to clear auth storage:', error)
@@ -431,15 +429,10 @@ export const depexAPI = {
 }
 
 export const vexgenAPI = {
-  generateVEXTIX: async (data: { owner: string; name: string; user_id: string }) => {
-    if (!isValidMongoObjectId(data.user_id)) {
-      throw new APIError(400, 'Invalid user ID format', 'INVALID_USER_ID')
-    }
-
+  generateVEXTIX: async (data: { owner: string; name: string }) => {
     const requestBody = {
       owner: data.owner.trim(),
       name: data.name.trim(),
-      user_id: data.user_id,
     }
 
     const response = await apiClient.post(API_ENDPOINTS.VEXGEN.GENERATE_VEX_TIX, requestBody, {

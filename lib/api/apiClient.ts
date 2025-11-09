@@ -456,8 +456,8 @@ export const vexgenAPI = {
     return response
   },
 
-  getUserVEXs: async (userId: string) => {
-    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_USER_VEXS(userId))
+  getUserVEXs: async () => {
+    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_USER_VEXS)
   },
 
   getVEX: async (vexId: string) => {
@@ -490,8 +490,8 @@ export const vexgenAPI = {
     }
   },
 
-  getUserTIXs: async (userId: string) => {
-    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_USER_TIXS(userId))
+  getUserTIXs: async () => {
+    return apiClient.get(API_ENDPOINTS.VEXGEN.GET_USER_TIXS)
   },
 
   getTIX: async (tixId: string) => {

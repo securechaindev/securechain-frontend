@@ -13,7 +13,7 @@ interface UseTIXOperationsReturn {
   error: string | null
 
   // Actions
-  fetchUserTIXs: (userId: string) => Promise<void>
+  fetchUserTIXs: () => Promise<void>
   fetchTIX: (tixId: string) => Promise<void>
   downloadTIX: (tixId: string, filename?: string) => Promise<void>
   clearSelectedTIX: () => void
@@ -27,12 +27,12 @@ export const useTIXOperations = (): UseTIXOperationsReturn => {
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
 
-  const fetchUserTIXs = async (userId: string) => {
+  const fetchUserTIXs = async () => {
     try {
       setIsLoading(true)
       setError(null)
 
-      const response = await vexgenAPI.getUserTIXs(userId)
+      const response = await vexgenAPI.getUserTIXs()
       setTIXDocuments(response.data.data?.tixs || [])
 
       toast({

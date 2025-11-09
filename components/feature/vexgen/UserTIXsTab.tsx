@@ -44,11 +44,9 @@ export default function UserTIXsTab({ userId, translations }: UserTIXsTabProps) 
   }
 
   const fetchUserTIXs = useCallback(async () => {
-    if (!userId) return
-
     setLoading(true)
     try {
-      const response = await vexgenAPI.getUserTIXs(userId)
+      const response = await vexgenAPI.getUserTIXs()
 
       if (response.ok && response.data) {
         setTIXDocuments(response.data.data || [])
@@ -65,7 +63,7 @@ export default function UserTIXsTab({ userId, translations }: UserTIXsTabProps) 
     } finally {
       setLoading(false)
     }
-  }, [userId, translations.tixFetchError, translations.errorTitle, toast])
+  }, [translations.tixFetchError, translations.errorTitle, toast])
 
   const handleDownloadTIX = async (tixId: string, fileName: string) => {
     setDownloadingId(tixId)

@@ -44,11 +44,9 @@ export default function UserVEXsTab({ userId, translations }: UserVEXsTabProps) 
   }
 
   const fetchUserVEXs = useCallback(async () => {
-    if (!userId) return
-
     setLoading(true)
     try {
-      const response = await vexgenAPI.getUserVEXs(userId)
+      const response = await vexgenAPI.getUserVEXs()
 
       if (response.ok && response.data) {
         setVEXDocuments(response.data.data || [])
@@ -65,7 +63,7 @@ export default function UserVEXsTab({ userId, translations }: UserVEXsTabProps) 
     } finally {
       setLoading(false)
     }
-  }, [userId, translations.vexFetchError, translations.errorTitle, toast])
+  }, [translations.vexFetchError, translations.errorTitle, toast])
 
   const handleDownloadVEX = async (vexId: string, fileName: string) => {
     setDownloadingId(vexId)

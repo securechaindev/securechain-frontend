@@ -13,7 +13,7 @@ interface UseVEXOperationsReturn {
   error: string | null
 
   // Actions
-  fetchUserVEXs: (userId: string) => Promise<void>
+  fetchUserVEXs: () => Promise<void>
   fetchVEX: (vexId: string) => Promise<void>
   downloadVEX: (vexId: string, filename?: string) => Promise<void>
   clearSelectedVEX: () => void
@@ -27,12 +27,12 @@ export const useVEXOperations = (): UseVEXOperationsReturn => {
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
 
-  const fetchUserVEXs = async (userId: string) => {
+  const fetchUserVEXs = async () => {
     try {
       setIsLoading(true)
       setError(null)
 
-      const response = await vexgenAPI.getUserVEXs(userId)
+      const response = await vexgenAPI.getUserVEXs()
       setVEXDocuments(response.data.data || [])
 
       toast({

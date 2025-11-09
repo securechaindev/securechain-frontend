@@ -382,7 +382,7 @@ export const authAPI = {
 }
 
 export const depexAPI = {
-  getRepositories: (userId: string) => apiClient.get(API_ENDPOINTS.DEPEX.REPOSITORIES(userId)),
+  getRepositories: () => apiClient.get(API_ENDPOINTS.DEPEX.REPOSITORIES),
 
   initializeRepository: (data: any) => apiClient.post(API_ENDPOINTS.DEPEX.REPOSITORY_INIT, data),
 

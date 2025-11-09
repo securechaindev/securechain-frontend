@@ -23,15 +23,12 @@ interface RepositoriesTabProps {
 
 export default function RepositoriesTab({ user, userId, translations }: RepositoriesTabProps) {
   const { userRepositories, depexLoading, fetchUserRepositories } = useRepositories(
-    userId,
     translations
   )
 
   useEffect(() => {
-    if (userId) {
-      fetchUserRepositories()
-    }
-  }, [userId, fetchUserRepositories])
+    fetchUserRepositories()
+  }, [fetchUserRepositories])
 
   return (
     <Card>

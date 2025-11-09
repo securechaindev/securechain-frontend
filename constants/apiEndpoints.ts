@@ -14,7 +14,7 @@ export const API_ENDPOINTS = {
     REVOKE: (keyId: string) => `/api/auth/api-keys/${keyId}/revoke`,
   },
   DEPEX: {
-    REPOSITORIES: (userId: string) => `/api/depex/graph/repositories/${userId}`,
+    REPOSITORIES: '/api/depex/graph/repositories',
     REPOSITORY_INIT: '/api/depex/graph/repository/init',
     PACKAGE_STATUS: '/api/depex/graph/package/status',
     PACKAGE_INIT: '/api/depex/graph/package/init',

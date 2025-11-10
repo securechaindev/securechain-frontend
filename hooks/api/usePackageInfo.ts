@@ -29,7 +29,11 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
 
   const showSuccess = useCallback(
     (message: string) => {
-      const successTitle = translations.successTitle || translations.success || 'Success'
+      const successTitle =
+        translations.docs?.successTitle ||
+        translations.successTitle ||
+        translations.success ||
+        'Success'
 
       toast({
         title: successTitle,
@@ -41,7 +45,8 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
 
   const showError = useCallback(
     (error: any, fallbackMessage: string) => {
-      const errorTitle = translations.errorTitle || translations.error || 'Error'
+      const errorTitle =
+        translations.docs?.errorTitle || translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
         getDepexErrorMessage(error?.code || error?.detail, translations) ||
@@ -78,7 +83,9 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
               isLoading: false,
             }))
             showSuccess(
-              translations.packageInfoNoDependencies || 'The package has no dependencies.'
+              translations.docs?.packageInfoNoDependencies ||
+                translations.packageInfoNoDependencies ||
+                'The package has no dependencies.'
             )
             return response.data.data
           }
@@ -90,7 +97,9 @@ export function usePackageInfo(translations: Record<string, any> = {}) {
               isLoading: false,
             }))
             showSuccess(
-              translations.packageInfoSuccess || 'Package information retrieved successfully.'
+              translations.docs?.packageInfoSuccess ||
+                translations.packageInfoSuccess ||
+                'Package information retrieved successfully.'
             )
             return response.data.data
           }

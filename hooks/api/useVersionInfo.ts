@@ -4,11 +4,7 @@ import { useState, useCallback } from 'react'
 import { depexAPI } from '@/lib/api/apiClient'
 import { useToast } from '@/hooks/ui/useToast'
 import { getDepexErrorMessage } from '@/lib/utils/errorDetails'
-import type {
-  VersionInfoRequest,
-  VersionInfoResponse,
-  VersionInfoResult,
-} from '@/types/VersionInfo'
+import type { VersionInfoRequest, VersionInfoResult } from '@/types/VersionInfo'
 
 interface VersionInfoState {
   isLoading: boolean
@@ -29,7 +25,11 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
 
   const showSuccess = useCallback(
     (message: string) => {
-      const successTitle = translations.successTitle || translations.success || 'Success'
+      const successTitle =
+        translations.docs?.successTitle ||
+        translations.successTitle ||
+        translations.success ||
+        'Success'
 
       toast({
         title: successTitle,
@@ -41,7 +41,8 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
 
   const showError = useCallback(
     (error: any, fallbackMessage: string) => {
-      const errorTitle = translations.errorTitle || translations.error || 'Error'
+      const errorTitle =
+        translations.docs?.errorTitle || translations.errorTitle || translations.error || 'Error'
 
       const errorMessage =
         getDepexErrorMessage(error?.code || error?.detail, translations) ||
@@ -78,7 +79,9 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
               isLoading: false,
             }))
             showSuccess(
-              translations.versionInfoNoDependencies || 'The package version has no dependencies.'
+              translations.docs?.versionInfoNoDependencies ||
+                translations.versionInfoNoDependencies ||
+                'The package version has no dependencies.'
             )
             return response.data.data
           }
@@ -90,7 +93,8 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
               isLoading: false,
             }))
             showSuccess(
-              translations.versionInfoSuccess ||
+              translations.docs?.versionInfoSuccess ||
+                translations.versionInfoSuccess ||
                 'Package version information retrieved successfully.'
             )
             return response.data.data

@@ -32,21 +32,20 @@ interface VEXStatement {
   impact_statement: number
 }
 
-interface VEXData {
-  vex?: {
-    author: string
-    role: string
-    timestamp: string
-    tooling: string
-    version: string
-    statements: VEXStatement[]
-  }
+interface VEXMetadata {
+  '@context': string
+  '@id': string
   author: string
   role: string
   timestamp: string
-  tooling: string
+  last_updated?: string
   version: string
+  tooling: string
   statements: VEXStatement[]
+}
+
+interface VEXData {
+  metadata: VEXMetadata
 }
 
 interface VEXDetailsModalProps {
@@ -66,6 +65,8 @@ export default function VEXDetailsModal({
   repositoryName,
   translations,
 }: VEXDetailsModalProps) {
+  const metadata = vexData?.metadata || null
+
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A'
     return new Date(dateString).toLocaleDateString('es-ES', {
@@ -136,24 +137,20 @@ export default function VEXDetailsModal({
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         {translations.vexDetailsModal?.author || 'Author'}
                       </p>
-                      <p className="text-xs sm:text-sm truncate">
-                        {vexData.vex?.author || vexData.author}
-                      </p>
+                      <p className="text-xs sm:text-sm truncate">{metadata?.author}</p>
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         {translations.vexDetailsModal?.role || 'Role'}
                       </p>
-                      <p className="text-xs sm:text-sm truncate">
-                        {vexData.vex?.role || vexData.role}
-                      </p>
+                      <p className="text-xs sm:text-sm truncate">{metadata?.role}</p>
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                         {translations.vexDetailsModal?.version || 'Version'}
                       </p>
                       <Badge variant="outline" className="text-xs">
-                        {vexData.vex?.version || vexData.version}
+                        {metadata?.version}
                       </Badge>
                     </div>
                     <div className="min-w-0">
@@ -162,9 +159,7 @@ export default function VEXDetailsModal({
                       </p>
                       <p className="text-xs sm:text-sm flex items-center gap-1">
                         <Calendar className="h-3 w-3 flex-shrink-0" />
-                        <span className="truncate">
-                          {formatDate(vexData.vex?.timestamp || vexData.timestamp || '')}
-                        </span>
+                        <span className="truncate">{formatDate(metadata?.timestamp || '')}</span>
                       </p>
                     </div>
                   </div>
@@ -173,12 +168,12 @@ export default function VEXDetailsModal({
                       {translations.vexDetailsModal?.tooling || 'Tooling'}
                     </p>
                     <a
-                      href={vexData.vex?.tooling || vexData.tooling}
+                      href={metadata?.tooling}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs sm:text-sm text-blue-600 hover:underline flex items-center gap-1 break-all"
                     >
-                      <span className="truncate">{vexData.vex?.tooling || vexData.tooling}</span>
+                      <span className="truncate">{metadata?.tooling}</span>
                       <ExternalLink className="h-3 w-3 flex-shrink-0" />
                     </a>
                   </div>
@@ -193,13 +188,13 @@ export default function VEXDetailsModal({
                     <span className="truncate">
                       {translations.vexDetailsModal?.vulnerabilitiesFound ||
                         'Vulnerabilities Found'}{' '}
-                      ({(vexData.vex?.statements || vexData.statements)?.length || 0})
+                      ({metadata?.statements?.length || 0})
                     </span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3 sm:space-y-4">
-                    {(vexData.vex?.statements || vexData.statements)?.map((statement, index) => (
+                    {metadata?.statements?.map((statement, index) => (
                       <Card key={index} className="border-l-2 sm:border-l-4 border-l-red-500">
                         <CardContent className="p-3 sm:p-4">
                           <div className="space-y-3 sm:space-y-4">

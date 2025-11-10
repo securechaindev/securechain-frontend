@@ -60,13 +60,6 @@ export const getEndpointData = (t: any) => {
           description: t.docs.refreshTokenDescription,
           auth: false,
         },
-        {
-          method: 'GET',
-          path: '/auth/health',
-          summary: t.docs.authHealth || 'Auth Health Check',
-          description: t.docs.authHealthDescription || 'Check the health status of the authentication service',
-          auth: false,
-        },
       ]
 
   const apiKeysEndpoints: Endpoint[] = !t?.docs
@@ -83,7 +76,9 @@ export const getEndpointData = (t: any) => {
           method: 'GET',
           path: '/auth/api-keys/list',
           summary: t.docs.listApiKeys || 'List API Keys',
-          description: t.docs.listApiKeysDescription || 'Retrieve a list of API keys for the authenticated user',
+          description:
+            t.docs.listApiKeysDescription ||
+            'Retrieve a list of API keys for the authenticated user',
           auth: true,
         },
         {
@@ -98,13 +93,6 @@ export const getEndpointData = (t: any) => {
   const depexGraphEndpoints: Endpoint[] = !t?.docs
     ? []
     : [
-        {
-          method: 'GET',
-          path: '/depex/health',
-          summary: t.docs.depexHealth || 'Depex Health Check',
-          description: t.docs.depexHealthDescription || 'Check the health status of the dependency explorer service',
-          auth: false,
-        },
         {
           method: 'GET',
           path: '/depex/graph/repositories',
@@ -156,14 +144,16 @@ export const getEndpointData = (t: any) => {
           method: 'POST',
           path: '/depex/operation/ssc/package_info',
           summary: t.docs.packageInfo || 'Get Package Info',
-          description: t.docs.packageInfoDescription || 'Retrieve detailed information about a package',
+          description:
+            t.docs.packageInfoDescription || 'Retrieve detailed information about a package',
           auth: true,
         },
         {
           method: 'POST',
           path: '/depex/operation/ssc/version_info',
           summary: t.docs.versionInfo || 'Get Version Info',
-          description: t.docs.versionInfoDescription || 'Retrieve detailed information about a version',
+          description:
+            t.docs.versionInfoDescription || 'Retrieve detailed information about a version',
           auth: true,
         },
       ]
@@ -225,13 +215,6 @@ export const getEndpointData = (t: any) => {
   const vexgenEndpoints: Endpoint[] = !t?.docs?.vexgen
     ? []
     : [
-        {
-          method: 'GET',
-          path: '/vexgen/health',
-          summary: t.docs.vexgen.vexgenHealth || 'VEXGen Health Check',
-          description: t.docs.vexgen.vexgenHealthDescription || 'Check the health status of the VEX/TIX generation service',
-          auth: false,
-        },
         {
           method: 'GET',
           path: '/vexgen/vex/user',

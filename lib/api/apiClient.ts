@@ -459,15 +459,12 @@ export const vexgenAPI = {
 
   downloadVEX: async (vexId: string) => {
     try {
-      const response = await apiClient.get(
-        API_ENDPOINTS.VEXGEN.DOWNLOAD_VEX(vexId),
-        {
-          retries: 0,
-          headers: {
-            Accept: 'application/octet-stream, application/json',
-          },
-        }
-      )
+      const response = await apiClient.get(API_ENDPOINTS.VEXGEN.DOWNLOAD_VEX(vexId), {
+        retries: 0,
+        headers: {
+          Accept: 'application/octet-stream, application/json',
+        },
+      })
 
       if (response.data instanceof Blob) {
         return {
@@ -492,15 +489,12 @@ export const vexgenAPI = {
 
   downloadTIX: async (tixId: string) => {
     try {
-      const response = await apiClient.get(
-        API_ENDPOINTS.VEXGEN.DOWNLOAD_TIX(tixId),
-        {
-          retries: 0,
-          headers: {
-            Accept: 'application/octet-stream, application/json',
-          },
-        }
-      )
+      const response = await apiClient.get(API_ENDPOINTS.VEXGEN.DOWNLOAD_TIX(tixId), {
+        retries: 0,
+        headers: {
+          Accept: 'application/octet-stream, application/json',
+        },
+      })
 
       if (response.data instanceof Blob) {
         return {

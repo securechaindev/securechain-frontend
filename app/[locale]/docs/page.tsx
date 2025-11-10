@@ -30,6 +30,7 @@ export default async function DocsPage({ params }: PageProps) {
 
   const {
     authEndpoints,
+    apiKeysEndpoints,
     depexGraphEndpoints,
     depexSSCOperationEndpoints,
     depexSMTOperationEndpoints,
@@ -58,7 +59,7 @@ export default async function DocsPage({ params }: PageProps) {
             </TabsContent>
 
             {/* Auth Tab */}
-            <AuthTab authEndpoints={authEndpoints} t={t} />
+            <AuthTab authEndpoints={authEndpoints} apiKeysEndpoints={apiKeysEndpoints} t={t} />
 
             {/* VEXGen Tab */}
             <VexgenTab vexgenEndpoints={vexgenEndpoints} t={t} />

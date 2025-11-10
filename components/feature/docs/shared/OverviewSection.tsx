@@ -53,7 +53,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ t, nodeTypes }
               {t.docs.authenticationDescription}
             </p>
             <Badge variant="secondary" className="text-xs">
-              7 {t.docs.endpoints}
+              10 {t.docs.endpoints}
             </Badge>
           </CardContent>
         </Card>
@@ -70,7 +70,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ t, nodeTypes }
               {t.docs.dependencyGraphDescription}
             </p>
             <Badge variant="secondary" className="text-xs">
-              6 {t.docs.endpoints}
+              5 {t.docs.endpoints}
             </Badge>
           </CardContent>
         </Card>
@@ -104,7 +104,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ t, nodeTypes }
               {t.docs.fileOperationsDescription}
             </p>
             <Badge variant="secondary" className="text-xs">
-              5 {t.docs.endpoints}
+              3 {t.docs.endpoints}
             </Badge>
           </CardContent>
         </Card>
@@ -121,7 +121,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ t, nodeTypes }
               {t.docs.configOperationsDescription}
             </p>
             <Badge variant="secondary" className="text-xs">
-              3 {t.docs.endpoints}
+              7 {t.docs.endpoints}
             </Badge>
           </CardContent>
         </Card>

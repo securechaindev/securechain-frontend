@@ -15,12 +15,14 @@
 ## 🏗️ Technology Stack
 
 ### Main Framework
+
 - **Next.js 15.2.4** - React framework with App Router
 - **React 19** - UI library
 - **TypeScript 5** - Programming language
 - **Node.js 18.19.1+** - Minimum required runtime
 
 ### UI and Styling
+
 - **Tailwind CSS 3.4.17** - CSS utility framework
 - **Radix UI** - Accessible unstyled components
 - **Lucide React** - Icons
@@ -30,29 +32,35 @@
 - **tailwindcss-animate** - Animations
 
 ### Internationalization
+
 - **i18next** - i18n system
 - **react-i18next** - React integration
 - **next-i18next** - Next.js integration
 - Supported languages: **English (en)** and **Spanish (es)**
 
 ### Forms and Validation
+
 - **React Hook Form 7.54.1** - Form management
 - **Zod 3.24.1** - Schema validation
 - **@hookform/resolvers** - Resolvers for RHF
 
 ### State and Data
+
 - **React Context API** - State management (PackageContext)
 - Custom hooks in `/hooks` for reusable logic
 - Custom API client in `/lib/api`
 
 ### Charts and Visualizations
+
 - **Recharts 2.15.0** - Charts
 - **react-day-picker** - Date picker
 
 ### Theming
+
 - **next-themes** - Theme system (light/dark/system)
 
 ### Other Tools
+
 - **date-fns** - Date manipulation
 - **embla-carousel-react** - Carousels
 - **react-resizable-panels** - Resizable panels
@@ -184,12 +192,14 @@ securechain-frontend/
 ## 🔐 Authentication and Security
 
 ### Authentication System
+
 - **JWT-based** with access_token and refresh_token
 - **HTTP-Only Cookies** for storing tokens
 - **Middleware** for automatic token refresh
 - **Token validation** against backend
 
 ### Authentication Flow
+
 1. Login → Backend issues access_token + refresh_token
 2. Tokens stored in httpOnly cookies
 3. Middleware verifies tokens on each request
@@ -197,6 +207,7 @@ securechain-frontend/
 5. If refresh fails → redirect to login
 
 ### Required Environment Variables
+
 ```bash
 # URLs
 NEXT_PUBLIC_API_URL=http://localhost:8000      # Backend API
@@ -218,17 +229,20 @@ NEXT_PUBLIC_POSTHOG_HOST=
 ## 🌐 Internationalization (i18n)
 
 ### Configuration
+
 - **Supported locales:** `en` (English), `es` (Spanish)
 - **Default locale:** `en`
 - **Route structure:** `/{locale}/route` (example: `/en/home`, `/es/login`)
 - **Translations:** In `public/locales/{locale}/*.json`
 
 ### Locale Detection
+
 1. URL pathname (if includes `/en/` or `/es/`)
 2. `Accept-Language` header
 3. Fallback to `en`
 
 ### Usage in Components
+
 ```typescript
 import { useLocalization } from '@/hooks/utils/useLocalization'
 
@@ -243,12 +257,14 @@ function MyComponent() {
 ## 🎨 Design System
 
 ### shadcn/ui
+
 - Base components in `/components/ui`
 - Built on Radix UI primitives
 - Fully customizable
 - Accessible by default (ARIA)
 
 ### Themes
+
 - **Light**
 - **Dark**
 - **System** - Detects OS preference
@@ -256,7 +272,9 @@ function MyComponent() {
 - Stored in localStorage
 
 ### Color Palette
+
 Defined in `tailwind.config.ts` with CSS variables:
+
 - `--background`, `--foreground`
 - `--primary`, `--secondary`, `--accent`
 - `--destructive`, `--muted`, `--border`
@@ -267,6 +285,7 @@ Defined in `tailwind.config.ts` with CSS variables:
 ## 🔌 Backend Integration
 
 ### API Client
+
 - Located in `/lib/api/apiClient.ts`
 - Based on native `fetch`
 - Includes interceptors for:
@@ -276,7 +295,9 @@ Defined in `tailwind.config.ts` with CSS variables:
   - Timeout (30s)
 
 ### API Hooks
+
 All in `/hooks/api/`:
+
 - `useAuthenticatedApi` - Client with auth
 - `usePackageInfo` - Package info
 - `usePackageOperations` - Package CRUD
@@ -286,6 +307,7 @@ All in `/hooks/api/`:
 - `useTIXOperations` - TIX operations
 
 ### Endpoints
+
 Defined in `/constants/apiEndpoints.ts`
 
 ---
@@ -293,25 +315,30 @@ Defined in `/constants/apiEndpoints.ts`
 ## 🏠 Main Features
 
 ### 1. Dependency Explorer (DepEx)
+
 - Visual dependency explorer
 - Graph visualization
 - Vulnerability analysis
 - Supports: PyPI, NPM, Maven, RubyGems, Cargo, NuGet
 
 ### 2. VEX Generation
+
 - VEX (Vulnerability Exploitability eXchange) generation
 - Vulnerability documentation
 - Export in standard formats
 
 ### 3. TIX (Threat Intelligence Exchange)
+
 - Threat intelligence exchange
 - Integration with vulnerability databases
 
 ### 4. Repository Management
+
 - Git repository management
 - Dependency analysis in repos
 
 ### 5. Package Analysis
+
 - Detailed package analysis
 - Version history
 - Vulnerability detection
@@ -321,11 +348,13 @@ Defined in `/constants/apiEndpoints.ts`
 ## 🗄️ State Management
 
 ### Context API
+
 - **PackageContext** - Global package state
 - **AuthProvider** - Authentication state
 - **ThemeProvider** - Theme state
 
 ### Local Storage Keys
+
 ```typescript
 STORAGE_KEYS = {
   USER_EMAIL: 'user_email',
@@ -340,6 +369,7 @@ STORAGE_KEYS = {
 ## 🚀 Next.js Configuration
 
 ### Key Features
+
 ```javascript
 {
   output: 'export',              // Static export
@@ -351,6 +381,7 @@ STORAGE_KEYS = {
 ```
 
 ### Routes
+
 - **App Router** (Next.js 13+)
 - Server Components by default
 - Client Components with 'use client'
@@ -360,6 +391,7 @@ STORAGE_KEYS = {
 ## 🐳 Docker and Deployment
 
 ### Local Development
+
 ```bash
 # With Docker Compose
 docker compose -f dev/docker-compose.yml up --build
@@ -370,12 +402,14 @@ pnpm dev
 ```
 
 ### Production
+
 ```bash
 pnpm build
 pnpm start
 ```
 
 ### Docker Network
+
 - Name: `securechain`
 - Connects frontend with backend and databases
 
@@ -384,10 +418,12 @@ pnpm start
 ## 📦 Package Management
 
 ### Package Manager: pnpm
+
 - Workspace: `pnpm-workspace.yaml`
 - Lockfile: `pnpm-lock.yaml`
 
 ### Available Scripts
+
 ```bash
 pnpm dev           # Development (port 3000)
 pnpm build         # Production build
@@ -404,11 +440,13 @@ pnpm type-check    # Check TypeScript types
 ## 🧪 Testing and Quality
 
 ### Tools
+
 - **ESLint** - Linting with TypeScript
 - **Prettier** - Code formatting
 - **TypeScript** - Type checking
 
 ### Configuration
+
 - `.eslintrc` with custom rules
 - Next.js integration
 - Import sorting
@@ -419,12 +457,12 @@ pnpm type-check    # Check TypeScript types
 
 ```typescript
 NODE_TYPES = {
-  PYPI: 'PyPIPackage',           // Python
-  NPM: 'NPMPackage',             // Node.js
-  MAVEN: 'MavenPackage',         // Java
-  RUBYGEMS: 'RubyGemsPackage',   // Ruby
-  CARGO: 'CargoPackage',         // Rust
-  NUGET: 'NuGetPackage',         // .NET
+  PYPI: 'PyPIPackage', // Python
+  NPM: 'NPMPackage', // Node.js
+  MAVEN: 'MavenPackage', // Java
+  RUBYGEMS: 'RubyGemsPackage', // Ruby
+  CARGO: 'CargoPackage', // Rust
+  NUGET: 'NuGetPackage', // .NET
 }
 ```
 
@@ -447,23 +485,27 @@ VULNERABILITY_SEVERITY = {
 ## 📝 Code Conventions
 
 ### TypeScript
+
 - **Strict mode** enabled
 - **Interfaces** over types (preferred)
 - **Named exports** instead of default
 - Path alias: `@/` points to project root
 
 ### React Components
+
 - **Functional Components** with hooks
 - **Client Components** explicit with 'use client'
 - Props with TypeScript interfaces
 - Props destructuring
 
 ### Styling
+
 - **Tailwind utility-first**
 - Use `cn()` helper to combine classes
 - Components with variants using CVA
 
 ### File Structure
+
 - `index.ts` for exports
 - Co-location of related files
 - Naming: PascalCase for components, camelCase for hooks/utils
@@ -517,6 +559,7 @@ VULNERABILITY_SEVERITY = {
 ## 📚 Technical Resources
 
 ### Key Dependency Documentation
+
 - Next.js: https://nextjs.org/docs
 - React: https://react.dev
 - Tailwind: https://tailwindcss.com
@@ -526,6 +569,7 @@ VULNERABILITY_SEVERITY = {
 - i18next: https://www.i18next.com
 
 ### shadcn/ui Components
+
 - Catalog: https://ui.shadcn.com/docs/components
 - Installation: `npx shadcn-ui@latest add [component]`
 
@@ -560,4 +604,3 @@ If you are an AI agent working on this project:
 
 **Last updated:** November 2025  
 **Maintained by:** Secure Chain Team
-

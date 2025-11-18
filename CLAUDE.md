@@ -1,5 +1,13 @@
 # CLAUDE.md - SecureChain Frontend Project Context
 
+> **⚠️ IMPORTANT GUIDELINES FOR THIS FILE:**
+> - **Maximum length:** 500 lines
+> - **Include only relevant context** for current development needs
+> - **Remove outdated or unused sections** regularly
+> - **Focus on active features** and commonly referenced information
+
+---
+
 ## 📋 General Project Information
 
 **Name:** SecureChain Frontend  
@@ -14,7 +22,7 @@
 
 ## 🏗️ Technology Stack
 
-### Main Framework
+### Core
 
 - **Next.js 15.2.4** - React framework with App Router
 - **React 19** - UI library
@@ -25,17 +33,14 @@
 
 - **Tailwind CSS 3.4.17** - CSS utility framework
 - **Radix UI** - Accessible unstyled components
-- **Lucide React** - Icons
-- **React Icons** - Additional icons
+- **shadcn/ui** - Component library built on Radix
+- **Lucide React** - Icon library
 - **class-variance-authority** - Component variants
-- **tailwind-merge** - Tailwind class merging
-- **tailwindcss-animate** - Animations
+- **next-themes** - Theme system (light/dark/system)
 
 ### Internationalization
 
-- **i18next** - i18n system
-- **react-i18next** - React integration
-- **next-i18next** - Next.js integration
+- **i18next** + **react-i18next** + **next-i18next**
 - Supported languages: **English (en)** and **Spanish (es)**
 
 ### Forms and Validation
@@ -44,27 +49,16 @@
 - **Zod 3.24.1** - Schema validation
 - **@hookform/resolvers** - Resolvers for RHF
 
-### State and Data
+### Data and State
 
-- **React Context API** - State management (PackageContext)
+- **React Context API** - State management (PackageContext, AuthProvider, ThemeProvider)
 - Custom hooks in `/hooks` for reusable logic
 - Custom API client in `/lib/api`
 
-### Charts and Visualizations
+### Visualization
 
-- **Recharts 2.15.0** - Charts
-- **react-day-picker** - Date picker
-
-### Theming
-
-- **next-themes** - Theme system (light/dark/system)
-
-### Other Tools
-
-- **date-fns** - Date manipulation
-- **embla-carousel-react** - Carousels
-- **react-resizable-panels** - Resizable panels
-- **geist** - Typography font
+- **Recharts 2.15.0** - Charts and data visualization
+- **force-graph** - Interactive graph visualization (for dependency graphs)
 
 ---
 
@@ -194,7 +188,7 @@ securechain-frontend/
 ### Authentication System
 
 - **JWT-based** with access_token and refresh_token
-- **HTTP-Only Cookies** for storing tokens
+- **HTTP-Only Cookies** for storing tokens securely
 - **Middleware** for automatic token refresh
 - **Token validation** against backend
 
@@ -209,19 +203,14 @@ securechain-frontend/
 ### Required Environment Variables
 
 ```bash
-# URLs
+# Backend URLs
 NEXT_PUBLIC_API_URL=http://localhost:8000      # Backend API
 NEXT_PUBLIC_APP_URL=http://localhost:3000      # Frontend URL
 BACKEND_URL=http://localhost:8000              # For middleware
 
-# Authentication (NextAuth - optional)
+# Authentication
 NEXTAUTH_SECRET=your-secret-key
 NEXTAUTH_URL=http://localhost:3000
-
-# Optional: Analytics and Monitoring
-NEXT_PUBLIC_SENTRY_DSN=
-NEXT_PUBLIC_POSTHOG_KEY=
-NEXT_PUBLIC_POSTHOG_HOST=
 ```
 
 ---
@@ -256,119 +245,42 @@ function MyComponent() {
 
 ## 🎨 Design System
 
-### shadcn/ui
-
-- Base components in `/components/ui`
-- Built on Radix UI primitives
-- Fully customizable
-- Accessible by default (ARIA)
-
-### Themes
-
-- **Light**
-- **Dark**
-- **System** - Detects OS preference
-- Toggle via `<ThemeToggle />`
-- Stored in localStorage
-
-### Color Palette
-
-Defined in `tailwind.config.ts` with CSS variables:
-
-- `--background`, `--foreground`
-- `--primary`, `--secondary`, `--accent`
-- `--destructive`, `--muted`, `--border`
-- Support for light and dark modes
+- **shadcn/ui** components in `/components/ui` (built on Radix UI)
+- **Themes:** Light, Dark, System (detects OS preference)
+- Toggle via `<ThemeToggle />`, stored in localStorage
+- **Color variables** in `tailwind.config.ts`: `--background`, `--foreground`, `--primary`, `--secondary`, `--accent`, `--destructive`, `--muted`, `--border`
 
 ---
 
 ## 🔌 Backend Integration
 
-### API Client
-
-- Located in `/lib/api/apiClient.ts`
-- Based on native `fetch`
-- Includes interceptors for:
-  - Adding Authorization header
-  - Error handling
-  - Retry logic
-  - Timeout (30s)
-
-### API Hooks
-
-All in `/hooks/api/`:
-
-- `useAuthenticatedApi` - Client with auth
-- `usePackageInfo` - Package info
-- `usePackageOperations` - Package CRUD
-- `useRepositories` - Repository management
-- `useVersionInfo` - Version information
-- `useVEXOperations` - VEX operations
-- `useTIXOperations` - TIX operations
-
-### Endpoints
-
-Defined in `/constants/apiEndpoints.ts`
+- **API Client:** `/lib/api/apiClient.ts` (fetch-based with interceptors)
+- **API Hooks:** `/hooks/api/` - useAuthenticatedApi, usePackageInfo, usePackageOperations, useRepositories, useVersionInfo, useVEXOperations, useTIXOperations
+- **Endpoints:** Defined in `/constants/apiEndpoints.ts`
+- **Timeout:** 30s | **Retry logic** included
 
 ---
 
 ## 🏠 Main Features
 
-### 1. Dependency Explorer (DepEx)
-
-- Visual dependency explorer
-- Graph visualization
-- Vulnerability analysis
-- Supports: PyPI, NPM, Maven, RubyGems, Cargo, NuGet
-
-### 2. VEX Generation
-
-- VEX (Vulnerability Exploitability eXchange) generation
-- Vulnerability documentation
-- Export in standard formats
-
-### 3. TIX (Threat Intelligence Exchange)
-
-- Threat intelligence exchange
-- Integration with vulnerability databases
-
-### 4. Repository Management
-
-- Git repository management
-- Dependency analysis in repos
-
-### 5. Package Analysis
-
-- Detailed package analysis
-- Version history
-- Vulnerability detection
+1. **Dependency Explorer (DepEx)** - Visual dependency graph with vulnerability analysis (PyPI, NPM, Maven, RubyGems, Cargo, NuGet)
+2. **VEX Generation** - Vulnerability Exploitability eXchange documentation and export
+3. **TIX** - Threat Intelligence Exchange integration
+4. **Repository Management** - Git repository analysis
+5. **Package Analysis** - Detailed package info, version history, vulnerability detection
 
 ---
 
 ## 🗄️ State Management
 
-### Context API
-
 - **PackageContext** - Global package state
-- **AuthProvider** - Authentication state
+- **AuthProvider** - Authentication state  
 - **ThemeProvider** - Theme state
-
-### Local Storage Keys
-
-```typescript
-STORAGE_KEYS = {
-  USER_EMAIL: 'user_email',
-  THEME: 'theme',
-  LOCALE: 'locale',
-  HOME_ACTIVE_TAB: 'home-active-tab',
-}
-```
+- **Local Storage Keys:** `user_email`, `theme`, `locale`, `home-active-tab`
 
 ---
 
 ## 🚀 Next.js Configuration
-
-### Key Features
 
 ```javascript
 {
@@ -380,198 +292,179 @@ STORAGE_KEYS = {
 }
 ```
 
-### Routes
-
-- **App Router** (Next.js 13+)
-- Server Components by default
-- Client Components with 'use client'
+- **App Router** (Next.js 13+) with Server Components by default
+- Client Components require `'use client'` directive
 
 ---
 
 ## 🐳 Docker and Deployment
 
-### Local Development
-
 ```bash
-# With Docker Compose
+# Development
 docker compose -f dev/docker-compose.yml up --build
+# OR: pnpm install && pnpm dev
 
-# Without Docker (Node)
-pnpm install
-pnpm dev
+# Production
+pnpm build && pnpm start
 ```
 
-### Production
-
-```bash
-pnpm build
-pnpm start
-```
-
-### Docker Network
-
-- Name: `securechain`
-- Connects frontend with backend and databases
+**Docker Network:** `securechain` (connects frontend, backend, databases)
 
 ---
 
 ## 📦 Package Management
 
-### Package Manager: pnpm
-
-- Workspace: `pnpm-workspace.yaml`
-- Lockfile: `pnpm-lock.yaml`
-
-### Available Scripts
+**Package Manager:** pnpm
 
 ```bash
 pnpm dev           # Development (port 3000)
 pnpm build         # Production build
 pnpm start         # Production server
 pnpm lint          # ESLint
-pnpm lint:fix      # ESLint with auto-fix
 pnpm format        # Prettier
-pnpm format:check  # Check formatting
-pnpm type-check    # Check TypeScript types
+pnpm type-check    # TypeScript check
 ```
 
 ---
 
 ## 🧪 Testing and Quality
 
-### Tools
-
-- **ESLint** - Linting with TypeScript
-- **Prettier** - Code formatting
-- **TypeScript** - Type checking
-
-### Configuration
-
-- `.eslintrc` with custom rules
-- Next.js integration
-- Import sorting
+- **ESLint** with TypeScript and Next.js integration
+- **Prettier** for code formatting
+- **TypeScript** strict type checking
 
 ---
 
-## 🔍 Package Node Types
+## 🔍 Package Node Types & Vulnerability Severity
 
-```typescript
-NODE_TYPES = {
-  PYPI: 'PyPIPackage', // Python
-  NPM: 'NPMPackage', // Node.js
-  MAVEN: 'MavenPackage', // Java
-  RUBYGEMS: 'RubyGemsPackage', // Ruby
-  CARGO: 'CargoPackage', // Rust
-  NUGET: 'NuGetPackage', // .NET
-}
-```
+**Node Types:** `PyPIPackage`, `NPMPackage`, `MavenPackage`, `RubyGemsPackage`, `CargoPackage`, `NuGetPackage`
 
----
-
-## 🚨 Vulnerability Severity
-
-```typescript
-VULNERABILITY_SEVERITY = {
-  CRITICAL: 'critical',
-  HIGH: 'high',
-  MEDIUM: 'medium',
-  LOW: 'low',
-  INFO: 'info',
-}
-```
+**Severity:** `critical`, `high`, `medium`, `low`, `info`
 
 ---
 
 ## 📝 Code Conventions
 
-### TypeScript
+- **TypeScript:** Strict mode, interfaces over types, named exports, path alias `@/`
+- **React:** Functional components with hooks, `'use client'` for client components, props with TypeScript interfaces
+- **Styling:** Tailwind utility-first, `cn()` helper for class merging, CVA for component variants
+- **Files:** `index.ts` for exports, co-location of related files, PascalCase for components, camelCase for hooks/utils
 
-- **Strict mode** enabled
-- **Interfaces** over types (preferred)
-- **Named exports** instead of default
-- Path alias: `@/` points to project root
+---
 
-### React Components
+## 📊 Graph API Specification
 
-- **Functional Components** with hooks
-- **Client Components** explicit with 'use client'
-- Props with TypeScript interfaces
-- Props destructuring
+### Overview
 
-### Styling
+The backend exposes **two separate endpoints** for graph expansion:
 
-- **Tailwind utility-first**
-- Use `cn()` helper to combine classes
-- Components with variants using CVA
+1. **Expand Package** (`POST /api/depex/graph/expand/package`)
+   - Returns all versions of a package
+   - Request: `{ node_type: string, package_purl: string }`
+   - Response: Version nodes with HAVE edges
 
-### File Structure
+2. **Expand Version** (`POST /api/depex/graph/expand/version`)
+   - Returns dependencies of a specific version
+   - Request: `{ version_purl: string }`
+   - Response: Package nodes with DEPENDS_ON edges
 
-- `index.ts` for exports
-- Co-location of related files
-- Naming: PascalCase for components, camelCase for hooks/utils
+### Data Structures
+
+```typescript
+interface GraphNode {
+  id: string          // PURL format
+  label: string       // Package name or version
+  type: string        // PyPIPackage, NPMPackage, Version, etc.
+  props: {
+    name: string
+    purl: string
+    // Package nodes:
+    vendor?: string
+    repository_url?: string
+    // Version nodes:
+    release_date?: string
+    vulnerabilities?: string[]
+    serial_number?: number
+  }
+}
+
+interface GraphEdge {
+  id: string          // Format: {source}_{type}_{target}
+  source: string      // Node ID
+  target: string      // Node ID
+  type: string        // HAVE or DEPENDS_ON
+  props?: {
+    constraints?: string          // Version constraints
+    parent_version_name?: string
+  }
+}
+```
+
+### Frontend Logic
+
+```typescript
+if (node.type === 'Version') {
+  // Expand version dependencies
+  expandVersion({ version_purl: node.props.purl })
+} else {
+  // Expand package versions (PyPIPackage, NPMPackage, etc.)
+  expandPackage({ node_type: node.type, package_purl: node.props.purl })
+}
+```
+
+### Key Points
+
+- **Node limit:** 200 nodes with UI warning
+- **PURL format:** `pkg:pypi/package@version` or `pkg:pypi/package`
+- **Edge types:** HAVE (package→version), DEPENDS_ON (version→package)
+- **Deduplication:** Frontend handles automatically
+- **Tracking:** Prevents duplicate API calls for expanded nodes
 
 ---
 
 ## 🔗 Important Links
 
-- **Documentation:** https://securechaindev.github.io/
+- **Docs:** https://securechaindev.github.io/
 - **GitHub:** https://github.com/securechaindev/securechain-frontend
 - **Data Dumps:** https://doi.org/10.5281/zenodo.16739081
-- **Neo4j Browser:** http://localhost:7474/ (when running locally)
-- **MongoDB Compass:** Recommended for MongoDB GUI
+- **Local Neo4j:** http://localhost:7474/
 
 ---
 
 ## 🛠️ Quick Guide for AI Agents
 
-### To add a new feature:
+### Adding a new feature:
+1. Create types in `/types/NewFeature.ts`
+2. Create hooks in `/hooks/api/useNewFeature.ts`
+3. Create components in `/components/feature/newfeature/`
+4. Add routes in `/app/[locale]/newfeature/`
+5. Add translations in `/public/locales/{en,es}/newfeature.json`
 
-1. **Create types** in `/types/NewFeature.ts`
-2. **Create hooks** in `/hooks/api/useNewFeature.ts`
-3. **Create components** in `/components/feature/newfeature/`
-4. **Add routes** in `/app/[locale]/newfeature/`
-5. **Add translations** in `/public/locales/{en,es}/newfeature.json`
-6. **Update constants** if necessary
+### Modifying UI:
+1. Check `/components/ui/` for existing components
+2. Add with shadcn if needed: `npx shadcn-ui@latest add [component]`
+3. Use Tailwind for styling
 
-### To modify UI:
-
-1. Check if component exists in `/components/ui/`
-2. If not, consider adding with shadcn: `npx shadcn-ui@latest add [component]`
-3. Customize in `/components/ui/` as needed
-4. Use Tailwind for styling
-
-### To add endpoints:
-
+### Adding endpoints:
 1. Define in `/constants/apiEndpoints.ts`
 2. Create type in `/types/`
 3. Create hook in `/hooks/api/`
-4. Use hook in component
 
-### For debugging:
-
-- Review `/lib/config/config.ts` for environment vars
-- Check middleware.ts for auth issues
-- Check browser console
-- Review Network tab for API calls
+### Debugging:
+- Check `/lib/config/config.ts` for env vars
+- Review `middleware.ts` for auth issues
+- Browser console and Network tab for API calls
 
 ---
 
 ## 📚 Technical Resources
 
-### Key Dependency Documentation
-
-- Next.js: https://nextjs.org/docs
-- React: https://react.dev
-- Tailwind: https://tailwindcss.com
-- Radix UI: https://www.radix-ui.com
-- React Hook Form: https://react-hook-form.com
-- Zod: https://zod.dev
-- i18next: https://www.i18next.com
-
-### shadcn/ui Components
-
-- Catalog: https://ui.shadcn.com/docs/components
-- Installation: `npx shadcn-ui@latest add [component]`
+- **Next.js:** https://nextjs.org/docs
+- **React:** https://react.dev
+- **Tailwind:** https://tailwindcss.com
+- **shadcn/ui:** https://ui.shadcn.com/docs/components
+- **React Hook Form:** https://react-hook-form.com
+- **Zod:** https://zod.dev
 
 ---
 

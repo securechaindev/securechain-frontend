@@ -1,11 +1,8 @@
 import type React from 'react'
-import { Inter } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { ThemeProvider } from '@/components/providers'
 import { Toaster } from '@/components/ui'
 import { PackageProvider } from '@/context'
-
-const inter = Inter({ subsets: ['latin'] })
 
 const locales = ['en', 'es'] as const
 type Locale = (typeof locales)[number]
@@ -28,7 +25,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

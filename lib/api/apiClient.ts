@@ -392,6 +392,14 @@ export const depexAPI = {
   getVersionStatus: (params: string) =>
     apiClient.get(`${API_ENDPOINTS.DEPEX.VERSION_STATUS}?${params}`),
 
+  graph: {
+    expandPackage: (data: { node_type: string; package_purl: string }) =>
+      apiClient.post(API_ENDPOINTS.DEPEX.GRAPH.EXPAND_PACKAGE, data, { retries: 0 }),
+
+    expandVersion: (data: { version_purl: string }) =>
+      apiClient.post(API_ENDPOINTS.DEPEX.GRAPH.EXPAND_VERSION, data, { retries: 0 }),
+  },
+
   operations: {
     ssc: {
       fileInfo: (data: any) =>

@@ -445,7 +445,7 @@ export function SMTOperationsForm({
                     id="configuration"
                     value={configuration}
                     onChange={e => setConfiguration(e.target.value)}
-                    placeholder='{"package1": "1.0.0", "package2": "2.0.0"}'
+                    placeholder='{"pkg:pypi/package1": "1.0.0", "pkg:pypi/package2": "2.0.0"}'
                     rows={6}
                     className="font-mono text-sm"
                   />
@@ -464,7 +464,7 @@ export function SMTOperationsForm({
                     id="partialConfiguration"
                     value={partialConfiguration}
                     onChange={e => setPartialConfiguration(e.target.value)}
-                    placeholder='{"package1": "1.0.0"}'
+                    placeholder='{"pkg:pypi/package1": "1.0.0"}'
                     rows={6}
                     className="font-mono text-sm"
                   />

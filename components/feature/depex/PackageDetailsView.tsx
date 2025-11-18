@@ -16,12 +16,14 @@ import {
   Key,
   Network,
   GitBranch,
+  Copy,
 } from 'lucide-react'
 import { usePackage } from '@/context'
 import { ThemeToggle, LanguageToggle } from '@/components/layout'
 import { ApiKeysDialog } from '@/components/feature/auth'
 import { PackageInfoDialog } from './PackageInfoDialog'
 import { VersionInfoDialog } from './VersionInfoDialog'
+import PackageGraphView from './PackageGraphView'
 
 interface PackageDetailsViewProps {
   translations: Record<string, any>
@@ -44,7 +46,9 @@ export default function PackageDetailsView({
   const [searchTerm, setSearchTerm] = useState('')
   const [apiKeysOpen, setApiKeysOpen] = useState(false)
   const [packageInfoOpen, setPackageInfoOpen] = useState(false)
+  const [graphOpen, setGraphOpen] = useState(false)
   const [selectedVersion, setSelectedVersion] = useState<string | null>(null)
+  const [copiedId, setCopiedId] = useState<string | null>(null)
 
   if (!packageDetails) return null
 
@@ -172,11 +176,53 @@ export default function PackageDetailsView({
                     </span>
                     <span className="sm:hidden">Info</span>
                   </Button>
+
+                  <Button
+                    onClick={() => setGraphOpen(true)}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="6" cy="6" r="2" stroke="currentColor" strokeWidth="1.5" />
+                      <circle cx="18" cy="6" r="2" stroke="currentColor" strokeWidth="1.5" />
+                      <circle cx="12" cy="18" r="2" stroke="currentColor" strokeWidth="1.5" />
+                      <path d="M7.6 7.6L11 16" stroke="currentColor" strokeWidth="1.2" />
+                      <path d="M13 16L16.4 7.6" stroke="currentColor" strokeWidth="1.2" />
+                    </svg>
+                    <span className="hidden sm:inline">Graph</span>
+                    <span className="sm:hidden">G</span>
+                  </Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="md:col-span-2">
+                  <p className="text-sm text-muted-foreground">PURL</p>
+                  <div className="flex items-center gap-2">
+                    <code className="text-xs bg-muted px-2 py-1 rounded font-mono break-all">
+                      {packageDetails.purl}
+                    </code>
+                    <button
+                      onClick={() => {
+                        const purl = packageDetails.purl
+                        navigator.clipboard?.writeText(purl)
+                        setCopiedId('package')
+                        setTimeout(() => setCopiedId(null), 2000)
+                      }}
+                      className="text-muted-foreground hover:text-foreground transition-colors p-1 relative"
+                      title="Copy PURL"
+                    >
+                      <Copy className="h-4 w-4" />
+                      {copiedId === 'package' && (
+                        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded whitespace-nowrap">
+                          Copied!
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </div>
                 <div>
                   <p className="text-sm text-muted-foreground">{translations.docs.vendor}</p>
                   <p className="font-semibold">{packageDetails.vendor || 'n/a'}</p>
@@ -189,7 +235,7 @@ export default function PackageDetailsView({
                   <p className="text-sm text-muted-foreground">{translations.docs.lastUpdated}</p>
                   <p className="text-sm">{new Date(packageDetails.moment).toLocaleDateString()}</p>
                 </div>
-                <div>
+                <div className="md:col-span-2 lg:col-span-1">
                   <p className="text-sm text-muted-foreground">
                     {translations.docs.requirementOperations.repositoryUrlLabel}
                   </p>
@@ -198,7 +244,7 @@ export default function PackageDetailsView({
                       href={packageDetails.repository_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                      className="text-blue-600 hover:text-blue-800 hover:underline text-sm break-all"
                     >
                       {packageDetails.repository_url}
                     </a>
@@ -275,7 +321,7 @@ export default function PackageDetailsView({
               <Card key={index} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div className="flex flex-col gap-3">
                       <div className="flex items-center gap-2">
                         <Badge variant="outline" className="font-mono">
                           v{version.name}
@@ -283,6 +329,28 @@ export default function PackageDetailsView({
                         <Badge className={`text-white ${getSeverityColor(version.weighted_mean)}`}>
                           {getSeverityLabel(version.weighted_mean)}
                         </Badge>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">PURL</span>
+                        <code className="text-xs bg-muted px-2 py-1 rounded font-mono break-all">
+                          {version.purl}
+                        </code>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard?.writeText(version.purl)
+                            setCopiedId(version.purl)
+                            setTimeout(() => setCopiedId(null), 2000)
+                          }}
+                          className="text-muted-foreground hover:text-foreground transition-colors p-1 relative flex-shrink-0"
+                          title="Copy version PURL"
+                        >
+                          <Copy className="h-3 w-3" />
+                          {copiedId === version.purl && (
+                            <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+                              Copied!
+                            </span>
+                          )}
+                        </button>
                       </div>
                       <div className="flex items-center gap-2">
                         <Button
@@ -370,22 +438,37 @@ export default function PackageDetailsView({
 
       <ApiKeysDialog open={apiKeysOpen} onOpenChange={setApiKeysOpen} translations={translations} />
 
-      <PackageInfoDialog
-        open={packageInfoOpen}
-        onOpenChange={setPackageInfoOpen}
-        packageName={packageDetails.name}
-        nodeType={packageNodeType || undefined}
-        translations={translations}
-      />
+      {packageNodeType && (
+        <PackageInfoDialog
+          open={packageInfoOpen}
+          onOpenChange={setPackageInfoOpen}
+          packageName={packageDetails.name}
+          nodeType={packageNodeType}
+          translations={translations}
+        />
+      )}
 
-      <VersionInfoDialog
-        open={selectedVersion !== null}
-        onOpenChange={open => !open && setSelectedVersion(null)}
-        packageName={packageDetails.name}
-        versionName={selectedVersion || undefined}
-        nodeType={packageNodeType || undefined}
-        translations={translations}
-      />
+      {packageNodeType && (
+        <PackageGraphView
+          open={graphOpen}
+          onOpenChange={setGraphOpen}
+          packageName={packageDetails.name}
+          translations={translations}
+          purl={packageDetails.purl}
+          nodeType={packageNodeType}
+        />
+      )}
+
+      {packageNodeType && (
+        <VersionInfoDialog
+          open={selectedVersion !== null}
+          onOpenChange={open => !open && setSelectedVersion(null)}
+          packageName={packageDetails.name}
+          versionName={selectedVersion || undefined}
+          nodeType={packageNodeType}
+          translations={translations}
+        />
+      )}
     </div>
   )
 }

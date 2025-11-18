@@ -10,6 +10,7 @@ interface PackageVersion {
   mean: number
   vulnerabilities: string[]
   serial_number: number
+  purl: string
 }
 
 interface PackageDetails {
@@ -19,6 +20,7 @@ interface PackageDetails {
   name: string
   import_name: string
   repository_url?: string
+  purl: string
 }
 
 interface PackageContextType {

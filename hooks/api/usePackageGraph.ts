@@ -47,9 +47,16 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
           version_purl: node.props?.purl || nodeId
         })
       } else {
+        // Find the REQUIRE edge that points to this package to get constraints
+        const requireEdge = graph.edges.find(
+          e => e.type === 'REQUIRE' && e.target === nodeId
+        )
+        const constraints = requireEdge?.props?.constraints || null
+
         response = await depexAPI.graph.expandPackage({
           node_type: node.type,
-          package_purl: node.props?.purl || nodeId
+          package_purl: node.props?.purl || nodeId,
+          constraints: constraints
         })
       }
 

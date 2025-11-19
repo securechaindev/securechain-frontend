@@ -15,11 +15,15 @@ services:
     depends_on:
       securechain-gateway:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 1.5g
 
   securechain-gateway:
     container_name: securechain-gateway
-    # image: ghcr.io/securechaindev/securechain-gateway:latest
-    image: securechain-gateway:v1.1.0
+    image: ghcr.io/securechaindev/securechain-gateway:latest
+    # image: securechain-gateway:v1.1.0
     env_file:
       - ../.env.local
     ports:
@@ -29,8 +33,8 @@ services:
     depends_on:
       securechain-auth:
         condition: service_healthy
-      securechain-depex:
-        condition: service_healthy
+      # securechain-depex:
+      #   condition: service_healthy
       securechain-vexgen:
         condition: service_healthy
     healthcheck:
@@ -38,11 +42,15 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1.5g
 
   securechain-auth:
     container_name: securechain-auth
-    # image: ghcr.io/securechaindev/securechain-auth:latest
-    image: securechain-auth:v1.1.1
+    image: ghcr.io/securechaindev/securechain-auth:latest
+    # image: securechain-auth:v1.1.1
     env_file:
       - ../.env.local
     ports:
@@ -54,38 +62,50 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1.5g
 
-  securechain-depex:
-    container_name: securechain-depex
-    # image: ghcr.io/securechaindev/securechain-depex:latest
-    image: securechain-depex:v1.1.0
-    env_file:
-      - ../.env.local
-    ports:
-      - '8000'
-    networks:
-      - securechain
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+  # securechain-depex:
+  #   container_name: securechain-depex
+  #   # image: ghcr.io/securechaindev/securechain-depex:latest
+  #   image: securechain-depex:v1.1.2
+  #   env_file:
+  #     - ../.env.local
+  #   ports:
+  #     - '8000'
+  #   networks:
+  #     - securechain
+  #   healthcheck:
+  #     test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+  #     interval: 5s
+  #     timeout: 3s
+  #     retries: 5
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 1.5g
 
-  redis:
-    container_name: securechain-redis
-    image: redis:7-alpine
-    ports:
-      - '6379:6379'
-    volumes:
-      - redis-data:/data
-    networks:
-      - securechain
-    command: redis-server --appendonly yes
+  # redis:
+  #   container_name: securechain-redis
+  #   image: redis:7-alpine
+  #   ports:
+  #     - '6379:6379'
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - securechain
+  #   command: redis-server --appendonly yes
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 1.5g
 
   securechain-vexgen:
     container_name: securechain-vexgen
-    # image: ghcr.io/securechaindev/securechain-vexgen:latest
-    image: securechain-vexgen:v1.1.0
+    image: ghcr.io/securechaindev/securechain-vexgen:latest
+    # image: securechain-vexgen:v1.1.0
     env_file:
       - ../.env.local
     ports:
@@ -97,6 +117,10 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1.5g
 
 networks:
   securechain:

@@ -8,7 +8,6 @@ import {
 } from '@/components/ui'
 import { FileText } from 'lucide-react'
 import Image from 'next/image'
-import { getDictionary, type Locale } from '@/lib/i18n'
 import {
   Navigation,
   HeroSection,
@@ -20,14 +19,7 @@ import { nodeTypes } from '@/lib/utils/endpointUtils'
 import { getEndpointData } from '@/lib/utils/endpointData'
 import { getSchemas, getEnums } from '@/lib/utils/schemas'
 
-interface PageProps {
-  params: Promise<{ locale: Locale }>
-}
-
-export default async function DocsPage({ params }: PageProps) {
-  const { locale } = await params
-  const t = await getDictionary(locale)
-
+export default function DocsPage() {
   const {
     authEndpoints,
     apiKeysEndpoints,
@@ -35,43 +27,43 @@ export default async function DocsPage({ params }: PageProps) {
     depexSSCOperationEndpoints,
     depexSMTOperationEndpoints,
     vexgenEndpoints,
-  } = getEndpointData(t)
+  } = getEndpointData()
 
   // Get schemas and enums using utility functions
-  const schemas = getSchemas(t)
-  const enums = getEnums(t)
+  const schemas = getSchemas()
+  const enums = getEnums()
 
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <Navigation t={t} locale={locale} />
+      <Navigation />
 
       {/* Hero Section */}
-      <HeroSection t={t} />
+      <HeroSection />
 
       {/* Main Content */}
       <section className="py-8 sm:py-12 lg:py-16 px-4">
         <div className="container mx-auto max-w-6xl">
-          <DocsTabs t={t}>
+          <DocsTabs>
             {/* Overview Tab */}
             <TabsContent value="overview" className="mt-4 sm:mt-6">
-              <OverviewSection t={t} nodeTypes={nodeTypes} />
+              <OverviewSection nodeTypes={nodeTypes} />
             </TabsContent>
 
             {/* Auth Tab */}
-            <AuthTab authEndpoints={authEndpoints} apiKeysEndpoints={apiKeysEndpoints} t={t} />
+            <AuthTab authEndpoints={authEndpoints} apiKeysEndpoints={apiKeysEndpoints} />
 
             {/* VEXGen Tab */}
-            <VexgenTab vexgenEndpoints={vexgenEndpoints} t={t} />
+            <VexgenTab vexgenEndpoints={vexgenEndpoints} />
 
             {/* Graph Tab */}
-            <GraphTab depexRepositoryEndpoints={depexGraphEndpoints} t={t} />
+            <GraphTab depexRepositoryEndpoints={depexGraphEndpoints} />
 
             {/* SSC Operations Tab (Software Supply Chain) */}
-            <SSCTab depexSSCOperationEndpoints={depexSSCOperationEndpoints} t={t} />
+            <SSCTab depexSSCOperationEndpoints={depexSSCOperationEndpoints} />
 
             {/* SMT Operations Tab (Satisfiability Modulo Theories) */}
-            <SMTTab depexSMTOperationEndpoints={depexSMTOperationEndpoints} t={t} />
+            <SMTTab depexSMTOperationEndpoints={depexSMTOperationEndpoints} />
 
             {/* Schemas Tab */}
             <TabsContent value="schemas" className="mt-4 sm:mt-6">
@@ -80,10 +72,10 @@ export default async function DocsPage({ params }: PageProps) {
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                       <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
-                      {t.docs.requestSchemas}
+                      Request Schemas
                     </CardTitle>
                     <CardDescription className="text-sm">
-                      {t.docs.requestSchemasDescription}
+                      Data structures for API requests and responses
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -95,7 +87,7 @@ export default async function DocsPage({ params }: PageProps) {
                             {schema.description}
                           </p>
                           <div className="space-y-1">
-                            <h5 className="text-xs sm:text-sm font-medium">{t.docs.fields}:</h5>
+                            <h5 className="text-xs sm:text-sm font-medium">Fields:</h5>
                             <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
                               {schema.fields.map((field, fieldIndex) => (
                                 <li key={fieldIndex} className="font-mono text-xs break-all">
@@ -112,9 +104,9 @@ export default async function DocsPage({ params }: PageProps) {
 
                 <Card>
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-lg sm:text-xl">{t.docs.enumerations}</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl">Enumerations</CardTitle>
                     <CardDescription className="text-sm">
-                      {t.docs.enumerationsDescription}
+                      Predefined value sets used across the API
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -164,7 +156,9 @@ export default async function DocsPage({ params }: PageProps) {
               <span className="sm:hidden">SC API</span>
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-muted-foreground px-4">{t.docs.footerText}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground px-4">
+            Complete API documentation for the Secure Chain platform
+          </p>
         </div>
       </footer>
     </div>

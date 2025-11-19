@@ -8,8 +8,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
+  SelectValue} from '@/components/ui/Select'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 
@@ -21,7 +20,7 @@ interface VersionInfoFormProps {
     _nodeType: string
   ) => void
   isLoading: boolean
-  translations: Record<string, any>
+
 }
 
 const NODE_TYPES = [
@@ -33,7 +32,7 @@ const NODE_TYPES = [
   { value: 'NuGetPackage', label: 'NuGet (.NET)' },
 ] as const
 
-export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionInfoFormProps) {
+export function VersionInfoForm({ onSubmit, isLoading }: VersionInfoFormProps) {
   const [packageName, setPackageName] = useState('')
   const [versionName, setVersionName] = useState('')
   const [maxDepth, setMaxDepth] = useState('2')
@@ -55,7 +54,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
         {/* Package Name Input */}
         <div className="space-y-2">
           <Label htmlFor="package-name">
-            {translations.packageName || 'Package Name'}
+            Package Name
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Input
@@ -72,7 +71,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
         {/* Version Name Input */}
         <div className="space-y-2">
           <Label htmlFor="version-name">
-            {translations.versionName || 'Version Name'}
+            Version Name
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Input
@@ -89,7 +88,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
         {/* Max Depth Input */}
         <div className="space-y-2">
           <Label htmlFor="max-depth">
-            {translations.maxDepth || 'Max Depth'}
+            Max Depth
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Input
@@ -108,7 +107,7 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
         {/* Node Type Select */}
         <div className="space-y-2">
           <Label htmlFor="node-type">
-            {translations.nodeType || 'Node Type'}
+            Node Type
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Select value={nodeType} onValueChange={setNodeType} disabled={isLoading}>
@@ -131,8 +130,8 @@ export function VersionInfoForm({ onSubmit, isLoading, translations }: VersionIn
         <Button type="submit" disabled={isLoading || !packageName.trim() || !versionName.trim()}>
           <Search className="mr-2 h-4 w-4" />
           {isLoading
-            ? translations.analyzing || 'Analyzing...'
-            : translations.analyzeVersion || 'Analyze Version'}
+            ? 'Analyzing...'
+            : 'Analyze Version'}
         </Button>
       </div>
     </form>

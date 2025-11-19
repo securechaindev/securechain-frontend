@@ -13,10 +13,9 @@ import type { Endpoint } from '@/lib/utils/endpointData'
 interface AuthTabProps {
   authEndpoints: Endpoint[]
   apiKeysEndpoints: Endpoint[]
-  t: any
 }
 
-export const AuthTab: React.FC<AuthTabProps> = ({ authEndpoints, apiKeysEndpoints, t }) => {
+export const AuthTab: React.FC<AuthTabProps> = ({ authEndpoints, apiKeysEndpoints }) => {
   return (
     <TabsContent value="auth" className="mt-4 sm:mt-6">
       <div className="space-y-4 sm:space-y-6">
@@ -24,14 +23,14 @@ export const AuthTab: React.FC<AuthTabProps> = ({ authEndpoints, apiKeysEndpoint
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
-              {t.docs.authEndpoints}
+              Authentication Endpoints
             </CardTitle>
-            <CardDescription className="text-sm">{t.docs.authEndpointsDescription}</CardDescription>
+            <CardDescription className="text-sm">User authentication and registration endpoints</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 sm:space-y-4">
               {authEndpoints.map((endpoint, index) => (
-                <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
+                <EndpointCard key={index} endpoint={endpoint} index={index} />
               ))}
             </div>
           </CardContent>
@@ -41,17 +40,16 @@ export const AuthTab: React.FC<AuthTabProps> = ({ authEndpoints, apiKeysEndpoint
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
-              {t.docs.apiKeysEndpoints || 'API Keys'}
+              API Keys
             </CardTitle>
             <CardDescription className="text-sm">
-              {t.docs.apiKeysEndpointsDescription ||
-                'Create and manage API keys for authentication'}
+              Create and manage API keys for authentication
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 sm:space-y-4">
               {apiKeysEndpoints.map((endpoint, index) => (
-                <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
+                <EndpointCard key={index} endpoint={endpoint} index={index} />
               ))}
             </div>
           </CardContent>

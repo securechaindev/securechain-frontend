@@ -26,13 +26,11 @@ import {
 interface SMTOperationsFormProps {
   onExecute: (_operation: string, _params: any) => void
   disabled?: boolean
-  translations: Record<string, any>
 }
 
 export function SMTOperationsForm({
   onExecute,
   disabled = false,
-  translations,
 }: SMTOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
   const [params, setParams] = useState<{
@@ -91,7 +89,7 @@ export function SMTOperationsForm({
     switch (selectedOperation) {
       case 'validateConfig':
         if (!validateConfiguration(configuration)) {
-          alert(translations.docs?.requirementOperations?.invalidConfigurationFormat)
+          alert("Invalid configuration format. Please provide valid JSON.")
           return
         }
         onExecute(selectedOperation, {
@@ -102,7 +100,7 @@ export function SMTOperationsForm({
 
       case 'completeConfig':
         if (!validateConfiguration(partialConfiguration)) {
-          alert(translations.docs?.requirementOperations?.invalidPartialConfigurationFormat)
+          alert("Invalid partial configuration format. Please provide valid JSON.")
           return
         }
         onExecute(selectedOperation, {
@@ -113,13 +111,13 @@ export function SMTOperationsForm({
 
       case 'configByImpact':
         if (!impact.trim()) {
-          alert(translations.docs?.requirementOperations?.impactRequired)
+          alert("Impact value is required")
           return
         }
 
         const impactValue = parseFloat(impact.trim())
         if (isNaN(impactValue) || impactValue < 0 || impactValue > 10) {
-          alert(translations.docs?.requirementOperations?.impactRangeError)
+          alert("Impact must be between 0 and 10")
           return
         }
 
@@ -161,50 +159,50 @@ export function SMTOperationsForm({
   const operations = [
     {
       id: 'validateGraph',
-      title: translations.docs?.requirementOperations?.validGraphTitle,
-      description: translations.docs?.requirementOperations?.validGraphDescription,
+      title: "Validate Graph",
+      description: "Validate a dependency graph for a requirement file",
       icon: CheckCircleIcon,
       requiresParams: ['maxDepth'],
     },
     {
       id: 'minimizeImpact',
-      title: translations.docs?.requirementOperations?.minimizeImpactTitle,
-      description: translations.docs?.requirementOperations?.minimizeImpactDescription,
+      title: "Minimize Impact",
+      description: "Find configurations that minimize dependency impact",
       icon: BarChartIcon,
       requiresParams: ['maxDepth', 'aggregator', 'limit'],
     },
     {
       id: 'maximizeImpact',
-      title: translations.docs?.requirementOperations?.maximizeImpactTitle,
-      description: translations.docs?.requirementOperations?.maximizeImpactDescription,
+      title: "Maximize Impact",
+      description: "Find configurations that maximize dependency impact",
       icon: BarChartIcon,
       requiresParams: ['maxDepth', 'aggregator', 'limit'],
     },
     {
       id: 'filterConfigs',
-      title: translations.docs?.requirementOperations?.filterConfigsTitle,
-      description: translations.docs?.requirementOperations?.filterConfigsDescription,
+      title: "Filter Configs",
+      description: "Filter configurations based on impact thresholds",
       icon: FilterIcon,
       requiresParams: ['maxDepth', 'aggregator', 'limit', 'minThreshold', 'maxThreshold'],
     },
     {
       id: 'validateConfig',
-      title: translations.docs?.requirementOperations?.validConfigTitle,
-      description: translations.docs?.requirementOperations?.validConfigDescription,
+      title: "Validate Config",
+      description: "Validate a specific configuration",
       icon: CheckIcon,
       requiresParams: ['maxDepth', 'aggregator', 'configuration'],
     },
     {
       id: 'completeConfig',
-      title: translations.docs?.requirementOperations?.completeConfigTitle,
-      description: translations.docs?.requirementOperations?.completeConfigDescription,
+      title: "Complete Config",
+      description: "Complete a partial configuration with optimal values",
       icon: FileTextIcon,
       requiresParams: ['maxDepth', 'aggregator', 'partialConfiguration'],
     },
     {
       id: 'configByImpact',
-      title: translations.docs?.requirementOperations?.configByImpactTitle,
-      description: translations.docs?.requirementOperations?.configByImpactDescription,
+      title: "Config By Impact",
+      description: "Get configuration recommendations based on impact level",
       icon: TargetIcon,
       requiresParams: ['maxDepth', 'aggregator', 'impact'],
     },
@@ -261,7 +259,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('maxDepth') && (
                 <div className="space-y-2">
                   <Label htmlFor="maxDepth">
-                    {translations.docs?.requirementOperations?.maxDepthLabel}
+                    {"Max Depth"}
                   </Label>
                   <Input
                     id="maxDepth"
@@ -323,7 +321,7 @@ export function SMTOperationsForm({
                     min="-1"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.maxDepthDescription}
+                    {"Maximum depth for dependency traversal (-1 for unlimited)"}
                   </p>
                 </div>
               )}
@@ -331,7 +329,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('aggregator') && (
                 <div className="space-y-2">
                   <Label htmlFor="aggregator">
-                    {translations.docs?.requirementOperations?.aggregatorLabel}
+                    {"Aggregator"}
                   </Label>
                   <Select
                     value={params.aggregator}
@@ -340,21 +338,21 @@ export function SMTOperationsForm({
                     <SelectTrigger>
                       <SelectValue
                         placeholder={
-                          translations.docs?.requirementOperations?.aggregatorDescription
+                          "Aggregation method for impact calculation"
                         }
                       />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="mean">
-                        {translations.docs?.requirementOperations?.meanOption}
+                        {"Mean"}
                       </SelectItem>
                       <SelectItem value="weighted_mean">
-                        {translations.docs?.requirementOperations?.weightedMeanOption}
+                        {"Weighted Mean"}
                       </SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.aggregatorDescription}
+                    {"Aggregation method for impact calculation"}
                   </p>
                 </div>
               )}
@@ -362,7 +360,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('limit') && (
                 <div className="space-y-2">
                   <Label htmlFor="limit">
-                    {translations.docs?.requirementOperations?.limitLabel}
+                    {"Limit"}
                   </Label>
                   <Input
                     id="limit"
@@ -378,7 +376,7 @@ export function SMTOperationsForm({
                     placeholder="10"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.limitDescription}
+                    {"Maximum number of results to return"}
                   </p>
                 </div>
               )}
@@ -387,7 +385,7 @@ export function SMTOperationsForm({
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="minThreshold">
-                      {translations.docs?.requirementOperations?.minThresholdLabel}
+                      {"Min Threshold"}
                     </Label>
                     <Input
                       id="minThreshold"
@@ -405,13 +403,13 @@ export function SMTOperationsForm({
                       placeholder="0"
                     />
                     <p className="text-xs text-muted-foreground">
-                      {translations.docs?.requirementOperations?.minThresholdDescription}
+                      {"Minimum impact threshold"}
                     </p>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="maxThreshold">
-                      {translations.docs?.requirementOperations?.maxThresholdLabel}
+                      {"Max Threshold"}
                     </Label>
                     <Input
                       id="maxThreshold"
@@ -429,7 +427,7 @@ export function SMTOperationsForm({
                       placeholder="10"
                     />
                     <p className="text-xs text-muted-foreground">
-                      {translations.docs?.requirementOperations?.maxThresholdDescription}
+                      {"Maximum impact threshold"}
                     </p>
                   </div>
                 </div>
@@ -439,7 +437,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('configuration') && (
                 <div className="space-y-2">
                   <Label htmlFor="configuration">
-                    {translations.docs?.requirementOperations?.configurationLabel}
+                    {"Configuration"}
                   </Label>
                   <Textarea
                     id="configuration"
@@ -450,7 +448,7 @@ export function SMTOperationsForm({
                     className="font-mono text-sm"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.configurationHelp}
+                    {"Enter a valid JSON configuration object"}
                   </p>
                 </div>
               )}
@@ -458,7 +456,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('partialConfiguration') && (
                 <div className="space-y-2">
                   <Label htmlFor="partialConfiguration">
-                    {translations.docs?.requirementOperations?.partialConfigurationLabel}
+                    {"Partial Configuration"}
                   </Label>
                   <Textarea
                     id="partialConfiguration"
@@ -469,7 +467,7 @@ export function SMTOperationsForm({
                     className="font-mono text-sm"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.partialConfigurationHelp}
+                    {"Enter a partial JSON configuration to be completed"}
                   </p>
                 </div>
               )}
@@ -477,7 +475,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('impact') && (
                 <div className="space-y-2">
                   <Label htmlFor="impact">
-                    {translations.docs?.requirementOperations?.impactLabel}
+                    {"Impact"}
                   </Label>
                   <Input
                     id="impact"
@@ -491,11 +489,11 @@ export function SMTOperationsForm({
                     className={!isValidImpact() && impact.trim() ? 'border-red-500' : ''}
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.impactHelp}
+                    {"Enter an impact value between 0 and 10"}
                   </p>
                   {!isValidImpact() && impact.trim() && (
                     <p className="text-xs text-red-500">
-                      {translations.docs?.requirementOperations?.impactRangeError}
+                      {"Impact must be between 0 and 10"}
                     </p>
                   )}
                 </div>
@@ -507,10 +505,10 @@ export function SMTOperationsForm({
                   {disabled ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      {translations.docs?.requirementOperations?.executing}
+                      {"Executing..."}
                     </>
                   ) : (
-                    translations.docs?.requirementOperations?.executeOperation
+                    "Execute Operation"
                   )}
                 </Button>
               </div>

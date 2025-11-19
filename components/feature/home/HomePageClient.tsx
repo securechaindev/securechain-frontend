@@ -7,35 +7,25 @@ import HomeHeader from './HomeHeader'
 import HomeTabs from './HomeTabs'
 import { usePackage } from '@/context'
 import { useHomeAuth } from '@/hooks/auth'
-import { useLocalization } from '@/hooks/utils'
 
-interface HomePageClientProps {
-  locale: 'en' | 'es'
-  translations: Record<string, any>
-}
-
-export default function HomePageClient({ locale, translations: t }: HomePageClientProps) {
-  const { isAuthenticated, user, loading, isSubmitting, handleLogout } = useHomeAuth(locale)
-  const { currentLocale, currentTranslations, handleLocaleChange } = useLocalization(locale, t)
+export default function HomePageClient() {
+  const { isAuthenticated, user, loading, isSubmitting, handleLogout } = useHomeAuth()
   const { isViewingPackage } = usePackage()
 
   if (loading) {
-    return <LoadingSpinner message={t.loadingDashboard} />
+    return <LoadingSpinner message="Loading dashboard..." />
   }
 
   if (!isAuthenticated) {
-    return <AuthRedirect locale={locale} translations={t} />
+    return <AuthRedirect />
   }
 
   // Show package details view if viewing package
   if (isViewingPackage) {
     return (
       <PackageDetailsView
-        translations={currentTranslations}
-        locale={currentLocale}
-        onLocaleChange={handleLocaleChange}
         userEmail={user?.email}
-        onLogout={() => handleLogout(currentTranslations)}
+        onLogout={handleLogout}
       />
     )
   }
@@ -44,13 +34,10 @@ export default function HomePageClient({ locale, translations: t }: HomePageClie
     <div className="min-h-screen bg-background">
       <HomeHeader
         user={user}
-        locale={locale}
-        translations={currentTranslations}
         isSubmitting={isSubmitting}
-        onLocaleChange={handleLocaleChange}
-        onLogout={() => handleLogout(currentTranslations)}
+        onLogout={handleLogout}
       />
-      <HomeTabs user={user} translations={currentTranslations} />
+      <HomeTabs user={user} />
     </div>
   )
 }

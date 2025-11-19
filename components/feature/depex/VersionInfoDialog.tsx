@@ -6,8 +6,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
-} from '@/components/ui/Dialog'
+  DialogTitle} from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -25,7 +24,7 @@ interface VersionInfoDialogProps {
   packageName?: string
   versionName?: string
   nodeType?: NodeType
-  translations: Record<string, any>
+
 }
 
 export function VersionInfoDialog({
@@ -33,14 +32,12 @@ export function VersionInfoDialog({
   onOpenChange,
   packageName: initialPackageName,
   versionName: initialVersionName,
-  nodeType: initialNodeType,
-  translations,
-}: VersionInfoDialogProps) {
+  nodeType: initialNodeType}: VersionInfoDialogProps) {
   const [packageName, setPackageName] = useState('')
   const [versionName, setVersionName] = useState('')
   const [maxDepth, setMaxDepth] = useState('2')
 
-  const versionInfo = useVersionInfo(translations)
+  const versionInfo = useVersionInfo()
 
   useEffect(() => {
     if (initialPackageName) {
@@ -65,8 +62,7 @@ export function VersionInfoDialog({
       package_name: packageName.trim(),
       version_name: versionName.trim(),
       max_depth: depth,
-      node_type: initialNodeType || 'PyPIPackage',
-    })
+      node_type: initialNodeType || 'PyPIPackage'})
   }
 
   const handleClose = () => {
@@ -79,14 +75,10 @@ export function VersionInfoDialog({
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {translations.docs?.versionInfoTitle ||
-              translations.versionInfoTitle ||
-              'Package Version Dependency Analysis'}
+            Package Version Dependency Analysis
           </DialogTitle>
           <DialogDescription>
-            {translations.docs?.versionInfoDescription ||
-              translations.versionInfoDescription ||
-              'Analyze specific version dependencies with detailed vulnerability scores'}
+            Analyze specific version dependencies with detailed vulnerability scores
           </DialogDescription>
         </DialogHeader>
 
@@ -95,7 +87,7 @@ export function VersionInfoDialog({
             {/* Package Name Input */}
             <div className="space-y-2">
               <Label htmlFor="package-name">
-                {translations.docs?.packageName || translations.packageName || 'Package Name'}
+                Package Name
                 <span className="text-destructive ml-1">*</span>
               </Label>
               <Input
@@ -113,7 +105,7 @@ export function VersionInfoDialog({
             {/* Version Name Input */}
             <div className="space-y-2">
               <Label htmlFor="version-name">
-                {translations.docs?.versionName || translations.versionName || 'Version Name'}
+                Version Name
                 <span className="text-destructive ml-1">*</span>
               </Label>
               <Input
@@ -131,7 +123,7 @@ export function VersionInfoDialog({
             {/* Max Depth Input */}
             <div className="space-y-2">
               <Label htmlFor="max-depth">
-                {translations.docs?.maxDepth || translations.maxDepth || 'Max Depth'}
+                Max Depth
                 <span className="text-destructive ml-1">*</span>
               </Label>
               <Input
@@ -156,10 +148,8 @@ export function VersionInfoDialog({
             >
               <Search className="mr-2 h-4 w-4" />
               {versionInfo.isLoading
-                ? translations.docs?.analyzing || translations.analyzing || 'Analyzing...'
-                : translations.docs?.analyzeVersion ||
-                  translations.analyzeVersion ||
-                  'Analyze Version'}
+                ? 'Analyzing...'
+                : 'Analyze Version'}
             </Button>
           </div>
         </form>
@@ -187,7 +177,7 @@ export function VersionInfoDialog({
                 <DirectDependenciesVersionList
                   dependencies={versionInfo.data.direct_dependencies}
                   nodeType={versionInfo.nodeType || ''}
-                  translations={translations.docs || translations}
+                  
                 />
               )}
             {versionInfo.data.indirect_dependencies_by_depth &&
@@ -195,7 +185,7 @@ export function VersionInfoDialog({
                 <IndirectDependenciesVersionList
                   dependenciesByDepth={versionInfo.data.indirect_dependencies_by_depth}
                   nodeType={versionInfo.nodeType || ''}
-                  translations={translations.docs || translations}
+                  
                 />
               )}
           </div>

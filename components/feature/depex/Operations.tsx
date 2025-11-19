@@ -44,7 +44,7 @@ interface OperationsProps {
   requirementFile: string
   requirementFileName?: string
   fileManager?: string
-  translations: Record<string, any>
+
   onClose?: () => void
 }
 
@@ -52,14 +52,12 @@ export function Operations({
   requirementFile,
   requirementFileName,
   fileManager,
-  translations,
-  onClose,
-}: OperationsProps) {
+  onClose}: OperationsProps) {
   const [activeTab, setActiveTab] = useState('ssc')
   const [results, setResults] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const operations = useRequirementOperations(translations)
+  const operations = useRequirementOperations()
 
   const handleSSCOperation = async (operation: string, params: any) => {
     setIsLoading(true)
@@ -72,15 +70,13 @@ export function Operations({
       const baseRequest = {
         node_type: nodeType,
         requirement_file_id: requirementFile,
-        max_depth: params.maxDepth,
-      }
+        max_depth: params.maxDepth}
 
       switch (operation) {
         case 'fileInfo':
           result = await operations.getFileInfo({
             ...baseRequest,
-            aggregator: params.aggregator,
-          } as any)
+            aggregator: params.aggregator} as any)
           break
 
         default:
@@ -100,8 +96,7 @@ export function Operations({
     } catch (error) {
       setResults({
         type: 'error',
-        data: { message: error instanceof Error ? error.message : String(error) },
-      })
+        data: { message: error instanceof Error ? error.message : String(error) }})
     } finally {
       setIsLoading(false)
     }
@@ -118,8 +113,7 @@ export function Operations({
       const baseRequest = {
         node_type: nodeType,
         requirement_file_id: requirementFile,
-        max_depth: params.maxDepth,
-      }
+        max_depth: params.maxDepth}
 
       switch (operation) {
         case 'validateGraph':
@@ -130,16 +124,14 @@ export function Operations({
           result = await operations.minimizeImpact({
             ...baseRequest,
             aggregator: params.aggregator,
-            limit: params.limit,
-          } as any)
+            limit: params.limit} as any)
           break
 
         case 'maximizeImpact':
           result = await operations.maximizeImpact({
             ...baseRequest,
             aggregator: params.aggregator,
-            limit: params.limit,
-          } as any)
+            limit: params.limit} as any)
           break
 
         case 'filterConfigs':
@@ -148,32 +140,28 @@ export function Operations({
             aggregator: params.aggregator,
             limit: params.limit,
             min_threshold: params.minThreshold,
-            max_threshold: params.maxThreshold,
-          } as any)
+            max_threshold: params.maxThreshold} as any)
           break
 
         case 'validateConfig':
           result = await operations.validateConfig({
             ...baseRequest,
             aggregator: params.aggregator,
-            config: params.configuration,
-          } as any)
+            config: params.configuration} as any)
           break
 
         case 'completeConfig':
           result = await operations.completeConfig({
             ...baseRequest,
             aggregator: params.aggregator,
-            config: params.partialConfiguration,
-          } as any)
+            config: params.partialConfiguration} as any)
           break
 
         case 'configByImpact':
           result = await operations.configByImpact({
             ...baseRequest,
             aggregator: params.aggregator,
-            impact: params.impact,
-          } as any)
+            impact: params.impact} as any)
           break
 
         default:
@@ -184,8 +172,7 @@ export function Operations({
     } catch (error) {
       setResults({
         type: 'error',
-        data: { message: error instanceof Error ? error.message : String(error) },
-      })
+        data: { message: error instanceof Error ? error.message : String(error) }})
     } finally {
       setIsLoading(false)
     }
@@ -203,10 +190,10 @@ export function Operations({
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2">
             <SettingsIcon className="h-5 w-5" />
-            {translations.docs?.requirementOperations?.operationTitle}
+            Operation
           </CardTitle>
           <CardDescription>
-            {translations.docs?.requirementOperations?.operationDescription}:{' '}
+            Requirement file: {' '}
             {requirementFileName || requirementFile}
           </CardDescription>
         </CardHeader>
@@ -220,7 +207,7 @@ export function Operations({
               >
                 <FileIcon className="h-4 w-4 flex-shrink-0" />
                 <span className="text-[10px] sm:text-sm text-center leading-tight break-words max-w-full">
-                  {translations.docs?.requirementOperations?.sscOperationsTitle || 'SSC'}
+                  SSC
                 </span>
               </TabsTrigger>
               <TabsTrigger
@@ -229,7 +216,7 @@ export function Operations({
               >
                 <SettingsIcon className="h-4 w-4 flex-shrink-0" />
                 <span className="text-[10px] sm:text-sm text-center leading-tight break-words max-w-full">
-                  {translations.docs?.requirementOperations?.smtOperationsTitle || 'SMT'}
+                  SMT
                 </span>
               </TabsTrigger>
             </TabsList>
@@ -238,7 +225,7 @@ export function Operations({
               <SSCOperationsForm
                 onExecute={handleSSCOperation}
                 disabled={showLoading}
-                translations={translations}
+                
               />
             </TabsContent>
 
@@ -246,7 +233,7 @@ export function Operations({
               <SMTOperationsForm
                 onExecute={handleSMTOperation}
                 disabled={showLoading}
-                translations={translations}
+                
               />
             </TabsContent>
           </Tabs>
@@ -255,7 +242,7 @@ export function Operations({
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               <span className="ml-2 text-sm text-muted-foreground">
-                {translations.docs?.requirementOperations?.executing}
+                Executing...
               </span>
             </div>
           )}
@@ -264,20 +251,20 @@ export function Operations({
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-medium">
-                  {translations.docs?.requirementOperations?.results}
+                  Results
                 </h3>
                 <Button variant="outline" size="sm" onClick={clearResults}>
-                  {translations.docs?.requirementOperations?.clearResults}
+                  Clear Results
                 </Button>
               </div>
-              <OperationResults results={results} translations={translations} />
+              <OperationResults results={results}  />
             </div>
           )}
 
           {onClose && (
             <div className="flex justify-end mt-6 pt-4 border-t">
               <Button variant="outline" onClick={onClose}>
-                {translations.close}
+                Close
               </Button>
             </div>
           )}

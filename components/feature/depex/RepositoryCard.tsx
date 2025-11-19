@@ -18,10 +18,9 @@ const GitHubIcon = dynamic(
 
 interface RepositoryCardProps {
   repository: Repository
-  translations: Record<string, any>
 }
 
-export default function RepositoryCard({ repository, translations }: RepositoryCardProps) {
+export default function RepositoryCard({ repository }: RepositoryCardProps) {
   const [selectedFile, setSelectedFile] = useState<RequirementFile | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -44,13 +43,13 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
               {repository.is_complete ? (
                 <>
                   <CheckCircle className="h-3 w-3 mr-1" />
-                  <span className="hidden sm:inline">{translations.complete}</span>
+                  <span className="hidden sm:inline">Complete</span>
                   <span className="sm:hidden">✓</span>
                 </>
               ) : (
                 <>
                   <XCircle className="h-3 w-3 mr-1" />
-                  <span className="hidden sm:inline">{translations.incomplete}</span>
+                  <span className="hidden sm:inline">Incomplete</span>
                   <span className="sm:hidden">✗</span>
                 </>
               )}
@@ -59,7 +58,7 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
               <VEXGenButton
                 owner={repository.owner}
                 name={repository.name}
-                translations={translations}
+                
                 size="sm"
                 variant="outline"
               />
@@ -73,10 +72,10 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
           <h4 className="font-medium text-xs sm:text-sm text-muted-foreground mb-3 flex items-center gap-2">
             <Package className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">
-              {translations.requirementFiles} ({repository.requirement_files.length})
+              Requirement Files ({repository.requirement_files.length})
             </span>
             <span className="sm:hidden">
-              {translations.files} ({repository.requirement_files.length})
+              Files ({repository.requirement_files.length})
             </span>
           </h4>
           <div className="grid gap-2">
@@ -98,11 +97,11 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
                     variant="outline"
                     onClick={() => handleOperationsClick(file)}
                     className="h-6 w-6 p-0 sm:h-8 sm:w-auto sm:px-2"
-                    title={translations.docs?.requirementOperations?.analyzeRequirements}
+                    title="Analyze Requirements"
                   >
                     <Settings className="h-3 w-3 sm:mr-1" />
                     <span className="hidden sm:inline text-xs">
-                      {translations.docs?.requirementOperations?.analyze}
+                      Analyze
                     </span>
                   </Button>
                 </div>
@@ -115,8 +114,8 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
       {(!repository.requirement_files || repository.requirement_files.length === 0) && (
         <div className="mt-4 p-3 bg-muted/30 rounded-md border border-dashed">
           <p className="text-xs sm:text-sm text-muted-foreground text-center">
-            <span className="hidden sm:inline">{translations.noRequirementFilesFound}</span>
-            <span className="sm:hidden">{translations.noFilesFound}</span>
+            <span className="hidden sm:inline">No requirement files found</span>
+            <span className="sm:hidden">No files</span>
           </p>
         </div>
       )}
@@ -130,7 +129,7 @@ export default function RepositoryCard({ repository, translations }: RepositoryC
         requirementFileName={selectedFile?.name || ''}
         repositoryName={`${repository.owner}/${repository.name}`}
         fileManager={selectedFile?.manager || ''}
-        translations={translations}
+        
       />
     </div>
   )

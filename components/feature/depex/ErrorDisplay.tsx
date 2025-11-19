@@ -9,10 +9,10 @@ interface ErrorDisplayProps {
     type: string
     data: any
   }
-  translations: Record<string, any>
+
 }
 
-export function ErrorDisplay({ results, translations }: ErrorDisplayProps) {
+export function ErrorDisplay({ results }: ErrorDisplayProps) {
   const errorCode = results.data?.code || results.data?.detail
 
   if (errorCode === 'memory_out') {
@@ -21,9 +21,9 @@ export function ErrorDisplay({ results, translations }: ErrorDisplayProps) {
         <AlertTriangleIcon className="h-4 w-4" />
         <AlertDescription>
           <div className="space-y-2">
-            <div>{translations.docs?.requirementOperations?.memoryOut}</div>
+            <div>'Memory limit exceeded'</div>
             <div className="text-sm text-muted-foreground">
-              {translations.docs?.requirementOperations?.memoryOutSuggestion}
+              'Try reducing the depth or filtering dependencies'
             </div>
           </div>
         </AlertDescription>
@@ -37,7 +37,7 @@ export function ErrorDisplay({ results, translations }: ErrorDisplayProps) {
         <AlertTriangleIcon className="h-4 w-4" />
         <AlertDescription>
           <div className="space-y-2">
-            <div>{translations.docs?.requirementOperations?.smtTimeout}</div>
+            <div>'SMT operation timed out'</div>
           </div>
         </AlertDescription>
       </Alert>
@@ -54,20 +54,17 @@ export function ErrorDisplay({ results, translations }: ErrorDisplayProps) {
     results.data?.message?.includes('Service temporarily unavailable')
 
   if (isMemoryError) {
-    errorMessage = translations.docs?.requirementOperations?.memoryOut
-    suggestion = translations.docs?.requirementOperations?.memoryOutSuggestion
+    errorMessage = 'Memory limit exceeded'
+    suggestion = 'Try reducing the depth or filtering dependencies'
   } else if (
     results.data?.message?.includes('Request failed') ||
     results.data?.message?.includes('Network error')
   ) {
-    errorMessage = translations.docs?.requirementOperations?.networkError
-    suggestion = translations.docs?.requirementOperations?.networkErrorSuggestion
+    errorMessage = 'Network error'
+    suggestion = 'Please check your connection and try again'
   } else {
     errorMessage =
       results.data?.message ||
-      translations.httpError ||
-      translations.errorTitle ||
-      translations.error ||
       'Error'
   }
 

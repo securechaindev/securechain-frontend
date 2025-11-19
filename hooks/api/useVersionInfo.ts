@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import { depexAPI } from '@/lib/api/apiClient'
 import { useToast } from '@/hooks/ui/useToast'
-import { getDepexErrorMessage } from '@/lib/utils/errorDetails'
+import { getErrorMessage } from '@/lib/utils/errorDetails'
 import type { VersionInfoRequest, VersionInfoResult } from '@/types/VersionInfo'
 
 interface VersionInfoState {
@@ -13,49 +13,43 @@ interface VersionInfoState {
   nodeType: string | null
 }
 
-export function useVersionInfo(translations: Record<string, any> = {}) {
+export function useVersionInfo() {
   const { toast } = useToast()
 
   const [state, setState] = useState<VersionInfoState>({
     isLoading: false,
     data: null,
     error: null,
-    nodeType: null,
-  })
+    nodeType: null})
 
   const showSuccess = useCallback(
     (message: string) => {
       const successTitle =
-        translations.docs?.successTitle ||
-        translations.successTitle ||
-        translations.success ||
         'Success'
 
       toast({
         title: successTitle,
-        description: message,
-      })
+        description: message})
     },
-    [toast, translations]
+    [toast]
   )
 
   const showError = useCallback(
     (error: any, fallbackMessage: string) => {
       const errorTitle =
-        translations.docs?.errorTitle || translations.errorTitle || translations.error || 'Error'
+        'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.code || error?.detail, translations) ||
+        getErrorMessage(error?.code || error?.detail) ||
         error?.message ||
         fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
         description: errorMessage,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     },
-    [toast, translations]
+    [toast]
   )
 
   const getVersionInfo = useCallback(
@@ -65,8 +59,7 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
         isLoading: true,
         error: null,
         data: null,
-        nodeType: params.node_type,
-      }))
+        nodeType: params.node_type}))
 
       try {
         const response = await depexAPI.operations.ssc.versionInfo(params)
@@ -76,12 +69,9 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
             setState(prev => ({
               ...prev,
               data: response.data.data,
-              isLoading: false,
-            }))
+              isLoading: false}))
             showSuccess(
-              translations.docs?.versionInfoNoDependencies ||
-                translations.versionInfoNoDependencies ||
-                'The package version has no dependencies.'
+              'The package version has no dependencies.'
             )
             return response.data.data
           }
@@ -90,12 +80,9 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
             setState(prev => ({
               ...prev,
               data: response.data.data,
-              isLoading: false,
-            }))
+              isLoading: false}))
             showSuccess(
-              translations.docs?.versionInfoSuccess ||
-                translations.versionInfoSuccess ||
-                'Package version information retrieved successfully.'
+              'Package version information retrieved successfully.'
             )
             return response.data.data
           }
@@ -107,7 +94,7 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
         throw error
       }
     },
-    [showError, showSuccess, translations]
+    [showError, showSuccess]
   )
 
   const clearResults = useCallback(() => {
@@ -115,13 +102,11 @@ export function useVersionInfo(translations: Record<string, any> = {}) {
       isLoading: false,
       data: null,
       error: null,
-      nodeType: null,
-    })
+      nodeType: null})
   }, [])
 
   return {
     ...state,
     getVersionInfo,
-    clearResults,
-  }
+    clearResults}
 }

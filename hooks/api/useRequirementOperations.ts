@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import { depexAPI } from '@/lib/api/apiClient'
 import { useToast } from '@/hooks/ui/useToast'
-import { getDepexErrorMessage, getDepexSuccessMessage } from '@/lib/utils/errorDetails'
+import { getErrorMessage } from '@/lib/utils/errorDetails'
 import type {
   FileInfoRequest,
   ValidGraphRequest,
@@ -13,8 +13,7 @@ import type {
   CompleteConfigRequest,
   ConfigByImpactRequest,
   FileInfoResult,
-  Configuration,
-} from '@/types/RequirementOperations'
+  Configuration} from '@/types/RequirementOperations'
 
 interface RequirementOperationsState {
   isLoading: boolean
@@ -26,7 +25,7 @@ interface RequirementOperationsState {
   error: string | null
 }
 
-export function useRequirementOperations(translations: Record<string, any> = {}) {
+export function useRequirementOperations() {
   const { toast } = useToast()
 
   const [state, setState] = useState<RequirementOperationsState>({
@@ -36,37 +35,34 @@ export function useRequirementOperations(translations: Record<string, any> = {})
     validationResult: null,
     configurations: null,
     singleConfiguration: null,
-    error: null,
-  })
+    error: null})
 
   const showSuccess = useCallback(
     (message: string) => {
-      const successTitle = translations.successTitle || translations.success || 'Success'
+      const successTitle = 'Success'
 
       toast({
         title: successTitle,
-        description: message,
-      })
+        description: message})
     },
-    [toast, translations]
+    [toast]
   )
 
   const showError = useCallback(
     (error: any, fallbackMessage: string) => {
-      const errorTitle = translations.errorTitle || translations.error || 'Error'
+      const errorTitle = 'Error'
 
       const errorMessage =
-        getDepexErrorMessage(error?.code || error?.detail, translations) ||
+        getErrorMessage(error?.code || error?.detail) ||
         error?.message ||
         fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
         description: errorMessage,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     },
-    [toast, translations]
+    [toast]
   )
 
   const handleResponse = useCallback((response: any, operationType: string) => {
@@ -112,8 +108,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result) {
           setState(prev => ({ ...prev, fileInfoResult: result, isLoading: false }))
           showSuccess(
-            translations.docs?.requirementOperations?.fileInfoSuccess ||
-              'Información del archivo obtenida exitosamente'
+            'Información del archivo obtenida exitosamente'
           )
           return result
         }
@@ -122,7 +117,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const validateGraph = useCallback(
@@ -131,8 +126,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'valid_graph',
-      }))
+        selectedOperation: 'valid_graph'}))
 
       try {
         const response = await depexAPI.operations.smt.validGraph(params)
@@ -141,10 +135,8 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result !== null) {
           setState(prev => ({ ...prev, validationResult: result, isLoading: false }))
           const message = result
-            ? translations.docs?.requirementOperations?.graphValid ||
-              'El grafo del fichero de requisitos es válido'
-            : translations.docs?.requirementOperations?.graphInvalid ||
-              'El grafo del fichero de requisitos es inválido'
+            ? 'El grafo del fichero de requisitos es válido'
+            : 'El grafo del fichero de requisitos es inválido'
           showSuccess(message)
           return result
         }
@@ -153,7 +145,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const minimizeImpact = useCallback(
@@ -162,8 +154,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'minimize_impact',
-      }))
+        selectedOperation: 'minimize_impact'}))
 
       try {
         const response = await depexAPI.operations.smt.minimizeImpact(params)
@@ -172,8 +163,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result) {
           setState(prev => ({ ...prev, configurations: result, isLoading: false }))
           showSuccess(
-            translations.docs?.requirementOperations?.minimizeSuccess ||
-              'Minimización de impacto completada exitosamente'
+            'Minimización de impacto completada exitosamente'
           )
           return result
         }
@@ -182,7 +172,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const maximizeImpact = useCallback(
@@ -191,8 +181,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'maximize_impact',
-      }))
+        selectedOperation: 'maximize_impact'}))
 
       try {
         const response = await depexAPI.operations.smt.maximizeImpact(params)
@@ -201,8 +190,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result) {
           setState(prev => ({ ...prev, configurations: result, isLoading: false }))
           showSuccess(
-            translations.docs?.requirementOperations?.maximizeSuccess ||
-              'Maximización de impacto completada exitosamente'
+            'Maximización de impacto completada exitosamente'
           )
           return result
         }
@@ -211,7 +199,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const filterConfigs = useCallback(
@@ -220,8 +208,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'filter_configs',
-      }))
+        selectedOperation: 'filter_configs'}))
 
       try {
         const response = await depexAPI.operations.smt.filterConfigs(params)
@@ -230,8 +217,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result) {
           setState(prev => ({ ...prev, configurations: result, isLoading: false }))
           showSuccess(
-            translations.docs?.requirementOperations?.filterSuccess ||
-              'Filtrado de configuraciones completado exitosamente'
+            'Filtrado de configuraciones completado exitosamente'
           )
           return result
         }
@@ -240,7 +226,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const validateConfig = useCallback(
@@ -249,8 +235,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'valid_config',
-      }))
+        selectedOperation: 'valid_config'}))
 
       try {
         const response = await depexAPI.operations.smt.validConfig(params)
@@ -259,9 +244,8 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result !== null) {
           setState(prev => ({ ...prev, validationResult: result, isLoading: false }))
           const message = result
-            ? translations.docs?.requirementOperations?.configValid || 'La configuración es válida'
-            : translations.docs?.requirementOperations?.configInvalid ||
-              'La configuración es inválida'
+            ? 'La configuración es válida'
+            : 'La configuración es inválida'
           showSuccess(message)
           return result
         }
@@ -270,7 +254,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const completeConfig = useCallback(
@@ -279,8 +263,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'complete_config',
-      }))
+        selectedOperation: 'complete_config'}))
 
       try {
         const response = await depexAPI.operations.smt.completeConfig(params)
@@ -289,8 +272,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result) {
           setState(prev => ({ ...prev, singleConfiguration: result, isLoading: false }))
           showSuccess(
-            translations.docs?.requirementOperations?.completeSuccess ||
-              'Configuración completada exitosamente'
+            'Configuración completada exitosamente'
           )
           return result
         }
@@ -299,7 +281,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const configByImpact = useCallback(
@@ -308,8 +290,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'config_by_impact',
-      }))
+        selectedOperation: 'config_by_impact'}))
 
       try {
         const response = await depexAPI.operations.smt.configByImpact(params)
@@ -318,8 +299,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         if (result) {
           setState(prev => ({ ...prev, singleConfiguration: result, isLoading: false }))
           showSuccess(
-            translations.docs?.requirementOperations?.configByImpactSuccess ||
-              'Configuración por impacto completada exitosamente'
+            'Configuración por impacto completada exitosamente'
           )
           return result
         }
@@ -328,7 +308,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
         throw error
       }
     },
-    [handleResponse, showError, showSuccess, translations]
+    [handleResponse, showError, showSuccess]
   )
 
   const clearResults = useCallback(() => {
@@ -339,8 +319,7 @@ export function useRequirementOperations(translations: Record<string, any> = {})
       validationResult: null,
       configurations: null,
       singleConfiguration: null,
-      error: null,
-    })
+      error: null})
   }, [])
 
   return {
@@ -354,6 +333,5 @@ export function useRequirementOperations(translations: Record<string, any> = {})
     completeConfig,
     configByImpact,
     clearResults,
-    isExecuting: state.isLoading,
-  }
+    isExecuting: state.isLoading}
 }

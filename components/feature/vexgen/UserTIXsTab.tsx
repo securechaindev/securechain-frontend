@@ -13,15 +13,13 @@ const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
   {
     ssr: false,
-    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />,
-  }
+    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />}
 )
 
 interface UserTIXsTabProps {
-  translations: Record<string, any>
-}
+  }
 
-export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
+export default function UserTIXsTab({ }: UserTIXsTabProps) {
   const [tixDocuments, setTIXDocuments] = useState<TIXDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
@@ -38,8 +36,7 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
-    })
+      minute: '2-digit'})
   }
 
   const fetchUserTIXs = useCallback(async () => {
@@ -50,19 +47,18 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
       if (response.ok && response.data) {
         setTIXDocuments(response.data.data || [])
       } else {
-        throw new Error(translations.tixFetchError)
+        throw new Error('Failed to fetch TIX documents')
       }
     } catch (error: any) {
-      const errorMessage = error?.message || translations.tixFetchError
+      const errorMessage = error?.message || 'Failed to fetch TIX documents'
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setLoading(false)
     }
-  }, [translations.tixFetchError, translations.errorTitle, toast])
+  }, ['Failed to fetch TIX documents', 'Error', toast])
 
   const handleDownloadTIX = async (tixId: string, fileName: string) => {
     setDownloadingId(tixId)
@@ -86,19 +82,17 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
         window.URL.revokeObjectURL(url)
 
         toast({
-          title: translations.successTitle || 'Success',
-          description: translations.tixDownloadSuccess,
-        })
+          title: 'Success',
+          description: 'TIX document downloaded successfully'})
       } else {
         throw new Error('Expected file data but received: ' + typeof response.data)
       }
     } catch (error: any) {
-      const errorMessage = error?.message || error?.detail || translations.tixDownloadError
+      const errorMessage = error?.message || error?.detail || 'Failed to download TIX document'
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setDownloadingId(null)
     }
@@ -121,10 +115,9 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
       }
     } catch (error: any) {
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: error?.message || 'Error al cargar los detalles del TIX',
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setLoadingDetails(false)
     }
@@ -145,13 +138,13 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="truncate">{translations.tixDocumentsTitle}</span>
+          <span className="truncate">TIX Documents</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-col gap-3 mb-6">
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            {translations.tixDocumentsDescription}
+            View and manage your TIX (Threat Intelligence eXchange) documents
           </p>
           <div className="flex justify-center sm:justify-end">
             <Button
@@ -162,7 +155,7 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
               className="w-full sm:w-auto max-w-xs"
             >
               {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-              <span className="text-xs sm:text-sm">{translations.refreshButton}</span>
+              <span className="text-xs sm:text-sm">Refresh</span>
             </Button>
           </div>
         </div>
@@ -170,9 +163,9 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
         {tixDocuments.length === 0 && !loading && (
           <div className="text-center py-8 bg-muted/30 rounded-lg">
             <AlertCircle className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">{translations.noTixDocumentsFound}</p>
+            <p className="text-sm text-muted-foreground">No TIX documents found</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {translations.tixDocumentsHelpText}
+              Generate TIX documents from your repositories
             </p>
           </div>
         )}
@@ -199,7 +192,7 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
 
                     <div className="space-y-1">
                       <p className="text-xs sm:text-sm text-muted-foreground break-words">
-                        {translations.sbomLabel}: <span className="font-mono">{tix.sbom_name}</span>
+                        SBOM: <span className="font-mono">{tix.sbom_name}</span>
                       </p>
                       {tix.moment && (
                         <p className="text-xs text-muted-foreground flex items-center gap-1">
@@ -219,7 +212,7 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
                         className="h-8 flex-1 sm:flex-initial"
                       >
                         <Eye className="h-3 w-3" />
-                        <span className="ml-2 text-xs">{translations.viewButton || 'View'}</span>
+                        <span className="ml-2 text-xs">View</span>
                       </Button>
                       <Button
                         size="sm"
@@ -235,7 +228,7 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
                         ) : (
                           <Download className="h-3 w-3" />
                         )}
-                        <span className="ml-2 text-xs">{translations.downloadButton}</span>
+                        <span className="ml-2 text-xs">Download</span>
                       </Button>
                     </div>
                   </div>
@@ -258,8 +251,7 @@ export default function UserTIXsTab({ translations }: UserTIXsTabProps) {
                 tixDocuments.find(t => t._id === selectedTixId)?.name || ''
             : ''
         }
-        translations={translations}
-      />
+        />
     </Card>
   )
 }

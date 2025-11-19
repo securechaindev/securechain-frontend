@@ -9,7 +9,6 @@ interface UseVEXGenReturn {
 }
 
 interface UseVEXGenProps {
-  translations?: Record<string, any>
 }
 
 export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
@@ -22,12 +21,10 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
     setError(null)
 
     toast({
-      title: props?.translations?.successTitle || props?.translations?.success || 'Success',
+      title: 'Success',
       description:
-        props?.translations?.vexTixGenerationStarted ||
         'VEX and TIX generation started. This may take a few minutes.',
-      variant: 'default',
-    })
+      variant: 'default'})
 
     vexgenAPI
       .generateVEXTIX(request)
@@ -48,19 +45,16 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
           window.URL.revokeObjectURL(url)
 
           toast({
-            title: props?.translations?.successTitle || props?.translations?.success || 'Success',
+            title: 'Success',
             description:
-              props?.translations?.vexTixGenerationSuccess ||
               'VEX and TIX files generated and downloaded successfully',
-            variant: 'default',
-          })
+            variant: 'default'})
         } else {
           toast({
-            title: props?.translations?.successTitle || props?.translations?.success || 'Success',
+            title: 'Success',
             description:
-              props?.translations?.vexTixGenerationComplete || 'VEX and TIX generation completed',
-            variant: 'default',
-          })
+              'VEX and TIX generation completed',
+            variant: 'default'})
         }
       })
       .catch((err: any) => {
@@ -70,17 +64,16 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
           const code = err?.code || err?.data?.code
           if (code === 'sbom_not_found' || code === 'repository_not_found' || !code) {
             errorMessage =
-              props?.translations?.sbomNotFoundError || 'SBOM not found for this repository'
+              'SBOM not found for this repository'
           }
         }
 
         setError(errorMessage)
 
         toast({
-          title: props?.translations?.errorTitle || props?.translations?.error || 'Error',
+          title: 'Error',
           description: errorMessage,
-          variant: 'destructive',
-        })
+          variant: 'destructive'})
       })
       .finally(() => {
         setIsLoading(false)
@@ -92,6 +85,5 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
   return {
     generateVEXTIX,
     isLoading,
-    error,
-  }
+    error}
 }

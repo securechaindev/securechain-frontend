@@ -6,26 +6,15 @@ import { GitPullRequest, Loader2, XCircle } from 'lucide-react'
 import { useToast } from '@/hooks/ui'
 import { depexAPI } from '@/lib/api'
 
-interface InitializationTabProps {
-  translations: Record<string, any>
-}
+interface InitializationTabProps {}
 
-export default function InitializationTab({ translations }: InitializationTabProps) {
+export default function InitializationTab({}: InitializationTabProps) {
   const [repoOwner, setRepoOwner] = useState('')
   const [repoName, setRepoName] = useState('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [depexLoading, setDepexLoading] = useState(false)
 
   const { toast } = useToast()
-
-  const t = (key: string) => {
-    const keys = key.split('.')
-    let value: any = translations
-    for (const k of keys) {
-      value = value?.[k]
-    }
-    return value || key
-  }
 
   useEffect(() => {
     if (errorMessage) {
@@ -40,10 +29,9 @@ export default function InitializationTab({ translations }: InitializationTabPro
   const handleRepoInit = async () => {
     if (!repoOwner.trim() || !repoName.trim()) {
       toast({
-        title: translations.errorTitle,
+        title: 'Error',
         description: 'Repository owner and name are required',
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
       return
     }
 
@@ -53,8 +41,7 @@ export default function InitializationTab({ translations }: InitializationTabPro
     try {
       const requestData = {
         owner: repoOwner.trim(),
-        name: repoName.trim(),
-      }
+        name: repoName.trim()}
 
       const response = await depexAPI.initializeRepository(requestData)
 
@@ -65,48 +52,34 @@ export default function InitializationTab({ translations }: InitializationTabPro
         setRepoName('')
 
         toast({
-          title: translations.loginSuccessTitle || 'Success',
-          description:
-            t('api.repository_queued_for_processing') ||
-            'The repository has been queued for processing',
-        })
+          title: 'Success',
+          description:'The repository has been queued for processing'})
       } else if (code === 'repository_processing_in_progress') {
         toast({
           variant: 'default',
-          title: translations.infoTitle || 'Info',
-          description:
-            t('api.repository_processing_in_progress') ||
-            'The repository is already being processed',
-        })
+          title: 'Info',
+          description:'The repository is already being processed'})
       } else if (code === 'repository_not_found') {
-        const errorMsg =
-          t('api.repository_not_found') || `Repository ${repoName} not found for owner ${repoOwner}`
+        const errorMsg = `Repository ${repoName} not found for owner ${repoOwner}`
         setErrorMessage(errorMsg)
         toast({
           variant: 'destructive',
-          title: translations.errorTitle || 'Error',
-          description: errorMsg,
-        })
+          title: 'Error',
+          description: errorMsg})
       } else if (code === 'date_not_found') {
-        const errorMsg =
-          t('api.date_not_found') ||
-          `Last commit date not found in repository ${repoName} for owner ${repoOwner}`
+        const errorMsg = `Last commit date not found in repository ${repoName} for owner ${repoOwner}`
         setErrorMessage(errorMsg)
         toast({
           variant: 'destructive',
-          title: translations.errorTitle || 'Error',
-          description: errorMsg,
-        })
+          title: 'Error',
+          description: errorMsg})
       } else if (code === 'error_initializing_repository') {
-        const errorMsg =
-          t('api.error_initializing_repository') ||
-          'An error occurred while initializing the repository'
+        const errorMsg = 'An error occurred while initializing the repository'
         setErrorMessage(errorMsg)
         toast({
           variant: 'destructive',
-          title: translations.errorTitle || 'Error',
-          description: errorMsg,
-        })
+          title: 'Error',
+          description: errorMsg})
       } else {
         throw new Error('Unexpected response code')
       }
@@ -115,27 +88,23 @@ export default function InitializationTab({ translations }: InitializationTabPro
       let errorMsg = ''
 
       if (code === 'repository_not_found') {
-        errorMsg = t('api.repository_not_found') || 'Repository not found'
+        errorMsg = 'Repository not found'
       } else if (code === 'date_not_found') {
-        errorMsg = t('api.date_not_found') || 'Last commit date not found in repository'
+        errorMsg = 'Last commit date not found in repository'
       } else if (code === 'error_initializing_repository') {
-        errorMsg =
-          t('api.error_initializing_repository') ||
-          'An error occurred while initializing the repository'
+        errorMsg = 'An error occurred while initializing the repository'
       } else {
         errorMsg =
           error.message ||
-          t('api.error_initializing_repository') ||
           'An error occurred while initializing the repository'
       }
 
       setErrorMessage(errorMsg)
 
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: errorMsg,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setDepexLoading(false)
     }
@@ -146,7 +115,7 @@ export default function InitializationTab({ translations }: InitializationTabPro
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <GitPullRequest className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="truncate">{translations.initializeRepositoryTitle}</span>
+          <span className="truncate">Initialize a Repository</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 sm:space-y-6">
@@ -154,25 +123,25 @@ export default function InitializationTab({ translations }: InitializationTabPro
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="repoOwner" className="text-sm font-medium">
-                {translations.repositoryOwnerLabel}
+                Repository Owner
               </Label>
               <Input
                 id="repoOwner"
                 value={repoOwner}
                 onChange={e => setRepoOwner(e.target.value)}
-                placeholder={translations.repositoryOwnerPlaceholder}
+                placeholder='securechaindev'
                 className="w-full"
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="repoName" className="text-sm font-medium">
-                {translations.repositoryNameLabel}
+                Repository Name
               </Label>
               <Input
                 id="repoName"
                 value={repoName}
                 onChange={e => setRepoName(e.target.value)}
-                placeholder={translations.repositoryNamePlaceholder}
+                placeholder='securechain-depex'
                 className="w-full"
               />
             </div>
@@ -184,7 +153,7 @@ export default function InitializationTab({ translations }: InitializationTabPro
             size="sm"
           >
             {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            <span className="text-xs sm:text-sm">{translations.initializeRepositoryButton}</span>
+            <span className="text-xs sm:text-sm">Initialize Repository</span>
           </Button>
           {errorMessage && (
             <div className="p-3 rounded-md flex items-start gap-2 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">

@@ -1,30 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const locales = ['en', 'es']
-const defaultLocale = 'en'
 const BACKEND_URL = process.env.BACKEND_URL
-
-function getLocale(request: NextRequest): string {
-  const pathname = request.nextUrl.pathname
-  const pathnameHasLocale = locales.some(
-    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
-
-  if (pathnameHasLocale) {
-    return pathname.split('/')[1]
-  }
-
-  const acceptLanguage = request.headers.get('Accept-Language')
-  if (acceptLanguage) {
-    const preferredLocale = acceptLanguage.split(',')[0].split('-')[0].toLowerCase()
-
-    if (locales.includes(preferredLocale)) {
-      return preferredLocale
-    }
-  }
-
-  return defaultLocale
-}
 
 async function refreshAccessToken(refreshToken: string): Promise<{
   accessToken?: string
@@ -110,8 +86,7 @@ async function handleTokenRefresh(request: NextRequest): Promise<NextResponse | 
 
     return response
   } else {
-    const locale = getLocale(request)
-    const response = NextResponse.redirect(new URL(`/${locale}/login`, request.url))
+    const response = NextResponse.redirect(new URL('/login', request.url))
 
     response.cookies.delete('access_token')
     response.cookies.delete('refresh_token')
@@ -121,20 +96,9 @@ async function handleTokenRefresh(request: NextRequest): Promise<NextResponse | 
 }
 
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
-
   const tokenRefreshResponse = await handleTokenRefresh(request)
   if (tokenRefreshResponse) {
     return tokenRefreshResponse
-  }
-
-  const pathnameIsMissingLocale = locales.every(
-    locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  )
-
-  if (pathnameIsMissingLocale) {
-    const locale = getLocale(request)
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url))
   }
 }
 

@@ -7,7 +7,6 @@ import { useVEXGen } from '@/hooks/api/useVEXTIXGeneneration'
 interface VEXGenButtonProps {
   owner: string
   name: string
-  translations: Record<string, any>
   className?: string
   size?: 'sm' | 'default' | 'lg'
   variant?: 'default' | 'outline' | 'secondary' | 'ghost'
@@ -16,12 +15,10 @@ interface VEXGenButtonProps {
 export const VEXGenButton: React.FC<VEXGenButtonProps> = ({
   owner,
   name,
-  translations,
   className = '',
   size = 'sm',
-  variant = 'outline',
-}) => {
-  const { generateVEXTIX, isLoading } = useVEXGen({ translations })
+  variant = 'outline'}) => {
+  const { generateVEXTIX, isLoading } = useVEXGen()
 
   const handleClick = async () => {
     await generateVEXTIX({ owner, name })
@@ -40,7 +37,7 @@ export const VEXGenButton: React.FC<VEXGenButtonProps> = ({
         <>
           <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current mr-1 sm:mr-2"></div>
           <span className="hidden sm:inline text-xs">
-            {translations?.generatingVexTix || 'Generating...'}
+            Generating...
           </span>
           <span className="sm:hidden">...</span>
         </>
@@ -48,7 +45,7 @@ export const VEXGenButton: React.FC<VEXGenButtonProps> = ({
         <>
           <FileText className="h-3 w-3 sm:mr-1" />
           <span className="hidden sm:inline text-xs">
-            {translations?.generateVexTixButton || 'Generate VEX/TIX'}
+            Generate VEX/TIX
           </span>
         </>
       )}

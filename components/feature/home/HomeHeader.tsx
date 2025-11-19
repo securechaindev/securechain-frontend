@@ -3,24 +3,19 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Button, Badge } from '@/components/ui'
-import { ThemeToggle, LanguageToggle } from '@/components/layout'
+import { ThemeToggle } from '@/components/layout'
 import { ApiKeysDialog } from '@/components/feature/auth'
 import { User, Shield, LogOut, ArrowLeft, Key } from 'lucide-react'
 import type { User as UserType } from '@/types'
 
 interface HomeHeaderProps {
   user: UserType | null
-  locale: 'en' | 'es'
-  translations: Record<string, any>
   isSubmitting: boolean
-  onLocaleChange: (_locale: 'en' | 'es') => void
   onLogout: () => void
 }
 
 export default function HomeHeader({
   user,
-  locale,
-  translations,
   isSubmitting,
   onLogout,
 }: HomeHeaderProps) {
@@ -33,16 +28,16 @@ export default function HomeHeader({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-4">
               <Link
-                href={`/${locale}`}
+                href="/"
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
-                <span className="hidden sm:inline">{translations.backToLanding}</span>
+                <span className="hidden sm:inline">Back to Landing</span>
               </Link>
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 <span className="font-bold text-sm sm:text-base">
-                  {translations.depexPageTitle}
+                  Secure Chain Page
                 </span>
               </div>
             </div>
@@ -52,7 +47,6 @@ export default function HomeHeader({
                 <span className="hidden md:inline">{user?.email}</span>
                 <span className="md:hidden">{user?.email?.split('@')[0]}</span>
               </Badge>
-              <LanguageToggle currentLang={locale} />
               <ThemeToggle />
               <div className="flex items-center gap-2">
                 <Button
@@ -64,9 +58,7 @@ export default function HomeHeader({
                   <Key className="h-4 w-4" />
                 </Button>
                 <span className="text-xs text-muted-foreground hidden md:inline">
-                  {translations.docs?.apiKeysDescription ||
-                    translations.apiKeysDescription ||
-                    'Manage API Keys'}
+                  Manage API Keys
                 </span>
               </div>
               <Button
@@ -77,14 +69,14 @@ export default function HomeHeader({
                 className="px-2 sm:px-3"
               >
                 <LogOut className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">{translations.logoutButton}</span>
+                <span className="hidden sm:inline">Logout</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <ApiKeysDialog open={apiKeysOpen} onOpenChange={setApiKeysOpen} translations={translations} />
+      <ApiKeysDialog open={apiKeysOpen} onOpenChange={setApiKeysOpen} />
     </>
   )
 }

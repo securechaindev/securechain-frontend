@@ -17,11 +17,10 @@ const GitHubIcon = dynamic(
 
 interface RepositoriesTabProps {
   user: User | null
-  translations: Record<string, any>
 }
 
-export default function RepositoriesTab({ user, translations }: RepositoriesTabProps) {
-  const { userRepositories, depexLoading, fetchUserRepositories } = useRepositories(translations)
+export default function RepositoriesTab({ user }: RepositoriesTabProps) {
+  const { userRepositories, depexLoading, fetchUserRepositories } = useRepositories()
 
   useEffect(() => {
     fetchUserRepositories()
@@ -32,12 +31,12 @@ export default function RepositoriesTab({ user, translations }: RepositoriesTabP
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <GitHubIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="truncate">{translations.yourRepositoriesTitle}</span>
+          <span className="truncate">Your Repositories</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-xs sm:text-sm text-muted-foreground mb-4 leading-relaxed">
-          {translations.yourRepositoriesDescription}{' '}
+          Repositories associated with{' '}
           <span className="font-semibold break-all">{user?.email}</span>
         </p>
         <Button
@@ -47,17 +46,17 @@ export default function RepositoriesTab({ user, translations }: RepositoriesTabP
           size="sm"
         >
           {depexLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          <span className="text-xs sm:text-sm">{translations.refreshRepositoriesButton}</span>
+          <span className="text-xs sm:text-sm">Refresh Repositories</span>
         </Button>
         {userRepositories.length === 0 && !depexLoading && (
           <p className="text-sm text-muted-foreground text-center py-8 bg-muted/30 rounded-lg">
-            {translations.noRepositoriesFound}
+            No repositories found
           </p>
         )}
         {userRepositories.length > 0 && (
           <div className="space-y-3 sm:space-y-4">
             {userRepositories.map((repo, index) => (
-              <RepositoryCard key={index} repository={repo} translations={translations} />
+              <RepositoryCard key={index} repository={repo}  />
             ))}
           </div>
         )}

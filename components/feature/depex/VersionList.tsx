@@ -8,8 +8,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
+  SelectValue} from '@/components/ui/Select'
 import { Card, CardContent } from '@/components/ui/Card'
 import { AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react'
 import type { VersionDetail } from '@/types/PackageInfo'
@@ -18,10 +17,10 @@ import { useState } from 'react'
 interface VersionListProps {
   versions: VersionDetail[]
   packageName: string
-  translations: Record<string, any>
+
 }
 
-export function VersionList({ versions, packageName, translations }: VersionListProps) {
+export function VersionList({ versions, packageName }: VersionListProps) {
   const [sortBy, setSortBy] = useState<'name' | 'weighted_mean' | 'vulnerabilities'>(
     'weighted_mean'
   )
@@ -62,29 +61,29 @@ export function VersionList({ versions, packageName, translations }: VersionList
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <Label htmlFor="version-filter" className="sr-only">
-            {translations.filterVersions || 'Filter versions'}
+            Filter versions
           </Label>
           <Input
             id="version-filter"
             type="text"
-            placeholder={translations.searchVersions || 'Search versions...'}
+            placeholder="Search versions..."
             value={filterQuery}
             onChange={e => setFilterQuery(e.target.value)}
           />
         </div>
         <div className="w-full sm:w-48">
           <Label htmlFor="version-sort" className="sr-only">
-            {translations.sortBy || 'Sort by'}
+            Sort by
           </Label>
           <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
             <SelectTrigger id="version-sort">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="name">{translations.sortByName || 'Name'}</SelectItem>
-              <SelectItem value="weighted_mean">{translations.sortByScore || 'Score'}</SelectItem>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="weighted_mean">Score</SelectItem>
               <SelectItem value="vulnerabilities">
-                {translations.sortByVulnerabilities || 'Vulnerabilities'}
+                Vulnerabilities
               </SelectItem>
             </SelectContent>
           </Select>
@@ -112,7 +111,7 @@ export function VersionList({ versions, packageName, translations }: VersionList
                 <div className="flex items-center gap-1">
                   <TrendingUp className="h-3 w-3" />
                   <span className="text-muted-foreground">
-                    {translations.weighted || 'Weighted'}:
+                    Weighted:
                   </span>
                   <span className={getScoreColor(version.weighted_mean)}>
                     {version.weighted_mean.toFixed(2)}
@@ -120,7 +119,7 @@ export function VersionList({ versions, packageName, translations }: VersionList
                 </div>
                 <div className="flex items-center gap-1">
                   <TrendingDown className="h-3 w-3" />
-                  <span className="text-muted-foreground">{translations.mean || 'Mean'}:</span>
+                  <span className="text-muted-foreground">Mean:</span>
                   <span className={getScoreColor(version.mean)}>{version.mean.toFixed(2)}</span>
                 </div>
               </div>
@@ -133,8 +132,8 @@ export function VersionList({ versions, packageName, translations }: VersionList
                     <span className="font-medium">
                       {version.vulnerability_count.length}{' '}
                       {version.vulnerability_count.length === 1
-                        ? translations.vulnerability || 'vulnerability'
-                        : translations.vulnerabilities || 'vulnerabilities'}
+                        ? 'vulnerability'
+                        : 'vulnerabilities'}
                     </span>
                   </div>
                   <div className="max-h-24 overflow-y-auto">
@@ -150,7 +149,7 @@ export function VersionList({ versions, packageName, translations }: VersionList
               ) : (
                 <div className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
                   <span>✓</span>
-                  <span>{translations.noVulnerabilities || 'No vulnerabilities'}</span>
+                  <span>No vulnerabilities</span>
                 </div>
               )}
             </CardContent>
@@ -161,17 +160,13 @@ export function VersionList({ versions, packageName, translations }: VersionList
       {/* No results */}
       {filteredAndSortedVersions.length === 0 && (
         <div className="text-center py-8 text-muted-foreground">
-          {translations.noVersionsFound || 'No versions found'}
+          No versions found
         </div>
       )}
 
       {/* Summary */}
       <div className="text-sm text-muted-foreground text-center">
-        {translations.showingVersions
-          ? translations.showingVersions
-              .replace('{{showing}}', filteredAndSortedVersions.length.toString())
-              .replace('{{total}}', versions.length.toString())
-          : `Showing ${filteredAndSortedVersions.length} of ${versions.length} versions`}
+        {`Showing ${filteredAndSortedVersions.length} of ${versions.length} versions`}
       </div>
     </div>
   )

@@ -7,9 +7,8 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from '@/components/ui'
-import { Shield } from 'lucide-react'
+  TabsTrigger} from '@/components/ui'
+import { KeyRound } from 'lucide-react'
 import { LoginForm } from './LoginForm'
 import { SignupForm } from './SignupForm'
 import type { FormEvent } from 'react'
@@ -41,76 +40,38 @@ interface AuthTabsProps {
     isSubmitting: boolean
     onSubmit: (_e: FormEvent) => void
   }
-  translations: {
-    authDemoTitle: string
-    authDemoDescription: string
-    loginTab: string
-    signupTab: string
-    emailLabel: string
-    emailPlaceholder: string
-    passwordLabel: string
-    passwordPlaceholder: string
-    confirmPasswordLabel: string
-    confirmPasswordPlaceholder: string
-    createPasswordPlaceholder: string
-    loginButton: string
-    loggingInButton: string
-    createAccountButton: string
-    creatingAccountButton: string
-  }
 }
 
 export function AuthTabs({
   activeTab,
   setActiveTab,
   loginProps,
-  signupProps,
-  translations: t,
-}: AuthTabsProps) {
+  signupProps}: AuthTabsProps) {
   return (
     <div className="max-w-md mx-auto">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="flex items-center justify-center gap-2">
-            <Shield className="h-6 w-6 text-primary" />
-            {t.authDemoTitle}
+            <KeyRound className="h-6 w-6 text-primary" />
+            Authentication
           </CardTitle>
-          <CardDescription>{t.authDemoDescription}</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">{t.loginTab}</TabsTrigger>
-              <TabsTrigger value="signup">{t.signupTab}</TabsTrigger>
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login" className="space-y-4">
               <LoginForm
                 {...loginProps}
-                translations={{
-                  emailLabel: t.emailLabel,
-                  emailPlaceholder: t.emailPlaceholder,
-                  passwordLabel: t.passwordLabel,
-                  passwordPlaceholder: t.passwordPlaceholder,
-                  loginButton: t.loginButton,
-                  loggingInButton: t.loggingInButton,
-                }}
               />
             </TabsContent>
 
             <TabsContent value="signup" className="space-y-4">
               <SignupForm
                 {...signupProps}
-                translations={{
-                  emailLabel: t.emailLabel,
-                  emailPlaceholder: t.emailPlaceholder,
-                  passwordLabel: t.passwordLabel,
-                  createPasswordPlaceholder: t.createPasswordPlaceholder,
-                  confirmPasswordLabel: t.confirmPasswordLabel,
-                  confirmPasswordPlaceholder: t.confirmPasswordPlaceholder,
-                  createAccountButton: t.createAccountButton,
-                  creatingAccountButton: t.creatingAccountButton,
-                }}
               />
             </TabsContent>
           </Tabs>

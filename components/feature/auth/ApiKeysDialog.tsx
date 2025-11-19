@@ -44,10 +44,9 @@ interface ApiKey {
 interface ApiKeysDialogProps {
   open: boolean
   onOpenChange: (_open: boolean) => void
-  translations: Record<string, any>
 }
 
-export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialogProps) {
+export function ApiKeysDialog({ open, onOpenChange }: ApiKeysDialogProps) {
   const { toast } = useToast()
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([])
   const [loading, setLoading] = useState(false)
@@ -55,18 +54,6 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
   const [newKeyName, setNewKeyName] = useState('')
   const [durationDays, setDurationDays] = useState<10 | 20 | 30>(10)
   const [newlyCreatedKey, setNewlyCreatedKey] = useState<string | null>(null)
-
-  const t = useCallback(
-    (key: string) => {
-      const keys = key.split('.')
-      let value: any = translations
-      for (const k of keys) {
-        value = value?.[k]
-      }
-      return value || key
-    },
-    [translations]
-  )
 
   const fetchApiKeys = useCallback(async () => {
     try {
@@ -81,20 +68,20 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
       } else {
         toast({
           variant: 'destructive',
-          title: translations.errorTitle || 'Error',
-          description: t(`api.${response.data.code}`) || translations.networkErrorDescription,
+          title: 'Error',
+          description: response.data.message || 'An error occurred',
         })
       }
     } catch {
       toast({
         variant: 'destructive',
-        title: translations.errorTitle || 'Error',
-        description: translations.networkErrorDescription || 'An error occurred',
+        title: 'Error',
+        description: 'An error occurred',
       })
     } finally {
       setLoading(false)
     }
-  }, [toast, translations, t])
+  }, [toast])
 
   useEffect(() => {
     if (open) {
@@ -108,8 +95,8 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
     if (!newKeyName.trim()) {
       toast({
         variant: 'destructive',
-        title: translations.errorTitle || 'Error',
-        description: t('apiKeys.error.nameRequired'),
+        title: 'Error',
+        description: 'API key name is required',
       })
       return
     }
@@ -117,8 +104,8 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
     if (![10, 20, 30].includes(durationDays)) {
       toast({
         variant: 'destructive',
-        title: translations.errorTitle || 'Error',
-        description: t('apiKeys.error.invalidDuration'),
+        title: 'Error',
+        description: 'Invalid duration selected',
       })
       return
     }
@@ -135,21 +122,21 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
         setNewKeyName('')
         await fetchApiKeys()
         toast({
-          title: translations.loginSuccessTitle || 'Success',
-          description: t('api.api_key_created') || t('apiKeys.success.created'),
+          title: 'Success',
+          description: 'API key created successfully',
         })
       } else {
         toast({
           variant: 'destructive',
-          title: translations.errorTitle || 'Error',
-          description: t(`api.${response.data.code}`) || translations.networkErrorDescription,
+          title: 'Error',
+          description: response.data.message || 'An error occurred',
         })
       }
     } catch {
       toast({
         variant: 'destructive',
-        title: translations.errorTitle || 'Error',
-        description: translations.networkErrorDescription || 'An error occurred',
+        title: 'Error',
+        description: 'An error occurred',
       })
     } finally {
       setCreating(false)
@@ -163,21 +150,21 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
       if (response.data.code === 'success' || response.data.code === 'api_key_revoked') {
         await fetchApiKeys()
         toast({
-          title: translations.loginSuccessTitle || 'Success',
-          description: t('api.api_key_revoked') || t('apiKeys.success.revoked'),
+          title: 'Success',
+          description: 'API key revoked successfully',
         })
       } else {
         toast({
           variant: 'destructive',
-          title: translations.errorTitle || 'Error',
-          description: t(`api.${response.data.code}`) || translations.networkErrorDescription,
+          title: 'Error',
+          description: response.data.message || 'An error occurred',
         })
       }
     } catch {
       toast({
         variant: 'destructive',
-        title: translations.errorTitle || 'Error',
-        description: translations.networkErrorDescription || 'An error occurred',
+        title: 'Error',
+        description: 'An error occurred',
       })
     }
   }
@@ -185,8 +172,8 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
     toast({
-      title: translations.loginSuccessTitle || 'Success',
-      description: t('apiKeys.success.copied'),
+      title: 'Success',
+      description: 'Copied to clipboard',
     })
   }
 
@@ -196,38 +183,38 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Key className="h-5 w-5" />
-            {t('apiKeys.title')}
+            API Keys
           </DialogTitle>
-          <DialogDescription>{t('apiKeys.description')}</DialogDescription>
+          <DialogDescription>Manage your API keys for authentication</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 border-b pb-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="keyName">{t('apiKeys.form.name')}</Label>
+              <Label htmlFor="keyName">Name</Label>
               <Input
                 id="keyName"
                 value={newKeyName}
                 onChange={e => setNewKeyName(e.target.value)}
-                placeholder={t('apiKeys.form.namePlaceholder')}
+                placeholder="Enter a name for this API key"
                 disabled={creating}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="duration">{t('apiKeys.form.duration')}</Label>
+              <Label htmlFor="duration">Duration</Label>
               <Select
                 value={durationDays.toString()}
                 onValueChange={value => setDurationDays(parseInt(value) as 10 | 20 | 30)}
                 disabled={creating}
               >
                 <SelectTrigger id="duration">
-                  <SelectValue placeholder={t('apiKeys.form.selectDuration')} />
+                  <SelectValue placeholder="Select duration" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="10">{t('apiKeys.form.days10')}</SelectItem>
-                  <SelectItem value="20">{t('apiKeys.form.days20')}</SelectItem>
-                  <SelectItem value="30">{t('apiKeys.form.days30')}</SelectItem>
+                  <SelectItem value="10">10 days</SelectItem>
+                  <SelectItem value="20">20 days</SelectItem>
+                  <SelectItem value="30">30 days</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -241,14 +228,14 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
             {creating ? (
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
             ) : (
-              t('apiKeys.actions.create')
+              'Create API Key'
             )}
           </Button>
 
           {newlyCreatedKey && (
             <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
               <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200 mb-2">
-                {t('apiKeys.warning.copyNow')}
+                Copy this key now. You won\'t be able to see it again!
               </p>
               <div className="flex items-center gap-2">
                 <code className="flex-1 p-2 bg-white dark:bg-gray-900 rounded text-sm font-mono overflow-x-auto">
@@ -267,23 +254,23 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">{t('apiKeys.list.title')}</h3>
+          <h3 className="text-sm font-medium">Active API Keys</h3>
 
           {loading ? (
             <div className="flex justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : apiKeys.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">{t('apiKeys.list.empty')}</p>
+            <p className="text-center text-muted-foreground py-8">No API keys found. Create one to get started.</p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t('apiKeys.list.name')}</TableHead>
-                  <TableHead>{t('apiKeys.list.created')}</TableHead>
-                  <TableHead>{t('apiKeys.list.expires')}</TableHead>
-                  <TableHead>{t('apiKeys.list.status')}</TableHead>
-                  <TableHead className="text-right">{t('apiKeys.list.actions')}</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead>Expires</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -296,11 +283,11 @@ export function ApiKeysDialog({ open, onOpenChange, translations }: ApiKeysDialo
                     <TableCell className="text-sm text-muted-foreground">
                       {apiKey.expires_at
                         ? new Date(apiKey.expires_at).toLocaleDateString()
-                        : t('apiKeys.list.noExpiration')}
+                        : 'Never'}
                     </TableCell>
                     <TableCell>
                       <Badge variant={apiKey.is_active ? 'default' : 'secondary'}>
-                        {apiKey.is_active ? t('apiKeys.list.active') : t('apiKeys.list.inactive')}
+                        {apiKey.is_active ? 'Active' : 'Inactive'}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">

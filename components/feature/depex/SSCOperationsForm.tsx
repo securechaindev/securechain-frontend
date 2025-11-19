@@ -10,26 +10,23 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
+  SelectValue} from '@/components/ui/Select'
 import { Separator } from '@/components/ui/Separator'
 import { InfoIcon } from 'lucide-react'
 
 interface SSCOperationsFormProps {
   onExecute: (_operation: string, _params: any) => void
   disabled?: boolean
-  translations: Record<string, any>
-}
+  }
 
-export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOperationsFormProps) {
+export function SSCOperationsForm({ onExecute, disabled }: SSCOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
   const [params, setParams] = useState<{
     maxDepth: number | string
     aggregator: string
   }>({
     maxDepth: -1,
-    aggregator: 'mean',
-  })
+    aggregator: 'mean'})
 
   const handleExecute = () => {
     if (!selectedOperation) return
@@ -53,8 +50,7 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
 
     const validatedParams = {
       ...params,
-      maxDepth,
-    }
+      maxDepth}
 
     onExecute(selectedOperation, validatedParams)
   }
@@ -62,11 +58,10 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
   const operations = [
     {
       id: 'fileInfo',
-      title: translations.docs?.requirementOperations?.fileInfoTitle,
-      description: translations.docs?.requirementOperations?.fileInfoDescription,
+      title: 'File Info',
+      description: 'Get information about a requirement file',
       icon: InfoIcon,
-      requiresParams: ['maxDepth', 'aggregator'],
-    },
+      requiresParams: ['maxDepth', 'aggregator']},
   ]
 
   const selectedOperationData = operations.find(op => op.id === selectedOperation)
@@ -117,7 +112,7 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
               {selectedOperationData.requiresParams.includes('maxDepth') && (
                 <div className="space-y-2">
                   <Label htmlFor="maxDepth">
-                    {translations.docs?.requirementOperations?.maxDepthLabel}
+                    Max Depth
                   </Label>
                   <Input
                     id="maxDepth"
@@ -179,7 +174,7 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
                     min="-1"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.maxDepthDescription}
+                    Maximum depth for dependency traversal (-1 for unlimited)
                   </p>
                 </div>
               )}
@@ -187,7 +182,7 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
               {selectedOperationData.requiresParams.includes('aggregator') && (
                 <div className="space-y-2">
                   <Label htmlFor="aggregator">
-                    {translations.docs?.requirementOperations?.aggregatorLabel}
+                    Aggregator
                   </Label>
                   <Select
                     value={params.aggregator}
@@ -196,21 +191,21 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
                     <SelectTrigger>
                       <SelectValue
                         placeholder={
-                          translations.docs?.requirementOperations?.aggregatorDescription
+                          'Aggregation method for impact calculation'
                         }
                       />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="mean">
-                        {translations.docs?.requirementOperations?.meanOption}
+                        Mean
                       </SelectItem>
                       <SelectItem value="weighted_mean">
-                        {translations.docs?.requirementOperations?.weightedMeanOption}
+                        Weighted Mean
                       </SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
-                    {translations.docs?.requirementOperations?.aggregatorDescription}
+                    Aggregation method for impact calculation
                   </p>
                 </div>
               )}
@@ -218,8 +213,8 @@ export function SSCOperationsForm({ onExecute, disabled, translations }: SSCOper
               <div className="flex justify-end pt-4">
                 <Button onClick={handleExecute} disabled={disabled || !selectedOperation}>
                   {disabled
-                    ? translations.docs?.requirementOperations?.executing
-                    : translations.docs?.requirementOperations?.executeButton}
+                    ? 'Executing...'
+                    : 'Execute'}
                 </Button>
               </div>
             </CardContent>

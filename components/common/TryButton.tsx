@@ -4,20 +4,19 @@ import { STORAGE_KEYS } from '@/constants'
 import { ArrowRight, Zap } from 'lucide-react'
 
 interface TryButtonProps {
-  locale: string
   buttonText: string
 }
 
-export function TryButton({ locale, buttonText }: TryButtonProps) {
+export function TryButton({ buttonText }: TryButtonProps) {
   const router = useRouter()
 
   const handleClick = () => {
     const userEmail = localStorage.getItem(STORAGE_KEYS.USER_EMAIL)
 
     if (userEmail) {
-      router.push(`/${locale}/home`)
+      router.push('/home')
     } else {
-      router.push(`/${locale}/login`)
+      router.push('/login')
     }
   }
 

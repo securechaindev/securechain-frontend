@@ -4,8 +4,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/Accordion'
+  AccordionTrigger} from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Network } from 'lucide-react'
@@ -17,14 +16,12 @@ interface IndirectDependenciesListProps {
     [depth: string]: IndirectDependency[]
   }
   nodeType: string
-  translations: Record<string, any>
+
 }
 
 export function IndirectDependenciesList({
   dependenciesByDepth,
-  nodeType,
-  translations,
-}: IndirectDependenciesListProps) {
+  nodeType}: IndirectDependenciesListProps) {
   // Map node_type to friendly display names
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
@@ -33,8 +30,7 @@ export function IndirectDependenciesList({
       MavenPackage: 'Maven',
       RubyGemsPackage: 'RubyGems',
       CargoPackage: 'Cargo',
-      NuGetPackage: 'NuGet',
-    }
+      NuGetPackage: 'NuGet'}
     return typeMap[type] || type
   }
 
@@ -48,7 +44,7 @@ export function IndirectDependenciesList({
     <div className="space-y-4">
       <h3 className="text-lg font-semibold flex items-center gap-2">
         <Network className="h-5 w-5" />
-        {translations.indirectDependencies || 'Indirect Dependencies'} ({totalCount})
+        Indirect Dependencies ({totalCount})
       </h3>
 
       <Accordion type="multiple" className="w-full space-y-2">
@@ -57,13 +53,13 @@ export function IndirectDependenciesList({
             <AccordionTrigger className="px-4 hover:no-underline">
               <div className="flex items-center gap-2">
                 <Badge variant="outline">
-                  {translations.depth || 'Depth'} {depth}
+                  Depth {depth}
                 </Badge>
                 <span className="text-sm text-muted-foreground">
                   {dependenciesByDepth[depth].length}{' '}
                   {dependenciesByDepth[depth].length === 1
-                    ? translations.package || 'package'
-                    : translations.packages || 'packages'}
+                    ? 'package'
+                    : 'packages'}
                 </span>
               </div>
             </AccordionTrigger>
@@ -83,7 +79,7 @@ export function IndirectDependenciesList({
                             </Badge>
                           </div>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {translations.vendor || 'Vendor'}: {dep.package_vendor}
+                            Vendor: {dep.package_vendor}
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
@@ -91,7 +87,7 @@ export function IndirectDependenciesList({
                             {dep.package_constraints}
                           </Badge>
                           <Badge variant="secondary">
-                            {dep.versions.length} {translations.versions || 'versions'}
+                            {dep.versions.length} versions
                           </Badge>
                         </div>
                       </div>
@@ -100,7 +96,7 @@ export function IndirectDependenciesList({
                       <VersionList
                         versions={dep.versions}
                         packageName={dep.package_name}
-                        translations={translations}
+                        
                       />
                     </CardContent>
                   </Card>

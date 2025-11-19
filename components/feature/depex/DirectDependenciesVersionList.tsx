@@ -9,14 +9,12 @@ import { VersionList } from './VersionList'
 interface DirectDependenciesVersionListProps {
   dependencies: DirectDependencyVersion[]
   nodeType: string
-  translations: Record<string, any>
+
 }
 
 export function DirectDependenciesVersionList({
   dependencies,
-  nodeType,
-  translations,
-}: DirectDependenciesVersionListProps) {
+  nodeType}: DirectDependenciesVersionListProps) {
   // Map node_type to friendly display names
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
@@ -25,8 +23,7 @@ export function DirectDependenciesVersionList({
       MavenPackage: 'Maven',
       RubyGemsPackage: 'RubyGems',
       CargoPackage: 'Cargo',
-      NuGetPackage: 'NuGet',
-    }
+      NuGetPackage: 'NuGet'}
     return typeMap[type] || type
   }
 
@@ -34,7 +31,7 @@ export function DirectDependenciesVersionList({
     <div className="space-y-6">
       <h3 className="text-lg font-semibold flex items-center gap-2">
         <Shield className="h-5 w-5" />
-        {translations.directDependencies || 'Direct Dependencies'} ({dependencies.length})
+        Direct Dependencies ({dependencies.length})
       </h3>
 
       {dependencies.map((dep, index) => (
@@ -49,7 +46,7 @@ export function DirectDependenciesVersionList({
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {translations.vendor || 'Vendor'}: {dep.package_vendor}
+                  Vendor: {dep.package_vendor}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -57,7 +54,7 @@ export function DirectDependenciesVersionList({
                   {dep.package_constraints}
                 </Badge>
                 <Badge variant="secondary">
-                  {dep.versions.length} {translations.versions || 'versions'}
+                  {dep.versions.length} versions
                 </Badge>
               </div>
             </div>
@@ -66,7 +63,7 @@ export function DirectDependenciesVersionList({
             <VersionList
               versions={dep.versions}
               packageName={dep.package_name}
-              translations={translations}
+              
             />
           </CardContent>
         </Card>

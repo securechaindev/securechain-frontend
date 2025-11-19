@@ -12,10 +12,9 @@ import type { Endpoint } from '@/lib/utils/endpointData'
 
 interface VexgenTabProps {
   vexgenEndpoints: Endpoint[]
-  t: any
 }
 
-export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
+export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints }) => {
   return (
     <TabsContent value="vexgen" className="mt-4 sm:mt-6">
       <div className="space-y-4 sm:space-y-6">
@@ -23,9 +22,9 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
-              {t.docs.vexgen.title}
+              VEX & TIX Generation
             </CardTitle>
-            <CardDescription className="text-sm">{t.docs.vexgen.description}</CardDescription>
+            <CardDescription className="text-sm">Generate and manage VEX/TIX documents</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
@@ -39,7 +38,7 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
                   {vexgenEndpoints
                     .filter(endpoint => endpoint.tag === 'VEX')
                     .map((endpoint, index) => (
-                      <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
+                      <EndpointCard key={index} endpoint={endpoint} index={index} />
                     ))}
                 </div>
               </div>
@@ -54,7 +53,7 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
                   {vexgenEndpoints
                     .filter(endpoint => endpoint.tag === 'TIX')
                     .map((endpoint, index) => (
-                      <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
+                      <EndpointCard key={index} endpoint={endpoint} index={index} />
                     ))}
                 </div>
               </div>
@@ -63,13 +62,13 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints, t }) => {
               <div>
                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
                   <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  {t.docs.vexgen.generationTitle}
+                  Document Generation
                 </h3>
                 <div className="space-y-3">
                   {vexgenEndpoints
                     .filter(endpoint => endpoint.tag === 'Generation')
                     .map((endpoint, index) => (
-                      <EndpointCard key={index} endpoint={endpoint} index={index} t={t} />
+                      <EndpointCard key={index} endpoint={endpoint} index={index} />
                     ))}
                 </div>
               </div>

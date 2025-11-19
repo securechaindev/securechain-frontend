@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { vexgenAPI } from '@/lib/api'
-import type { VEXDocument, VEXDownloadRequest } from '@/types/VEX'
+import type { VEXDocument } from '@/types/VEX'
 import { useToast } from '@/hooks/ui'
 
 interface UseVEXOperationsReturn {

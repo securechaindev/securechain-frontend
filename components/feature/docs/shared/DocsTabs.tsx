@@ -5,10 +5,9 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui'
 
 interface DocsTabsProps {
   children: React.ReactNode
-  t: any
 }
 
-export function DocsTabs({ children, t }: DocsTabsProps) {
+export function DocsTabs({ children }: DocsTabsProps) {
   const [activeTab, setActiveTab] = useState('overview')
 
   // Read the hash from URL on mount
@@ -34,32 +33,25 @@ export function DocsTabs({ children, t }: DocsTabsProps) {
     <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
       <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 h-auto">
         <TabsTrigger value="overview" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.overview}</span>
-          <span className="hidden lg:inline">{t.docs.overview}</span>
+          Overview
         </TabsTrigger>
         <TabsTrigger value="auth" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.auth}</span>
-          <span className="hidden lg:inline">{t.docs.auth}</span>
+          Auth
         </TabsTrigger>
         <TabsTrigger value="vexgen" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">VEX/TIX</span>
-          <span className="hidden lg:inline">{(t as any).vexgen?.tabTitle || 'VEX & TIX'}</span>
+          VEX/TIX
         </TabsTrigger>
         <TabsTrigger value="graph" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.graph}</span>
-          <span className="hidden lg:inline">{t.docs.graph}</span>
+          Graph
         </TabsTrigger>
         <TabsTrigger value="ssc-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.sscOps}</span>
-          <span className="hidden lg:inline">{t.docs.sscOps}</span>
+          SSC Ops
         </TabsTrigger>
         <TabsTrigger value="smt-ops" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.smtOps}</span>
-          <span className="hidden lg:inline">{t.docs.smtOps}</span>
+          SMT Ops
         </TabsTrigger>
         <TabsTrigger value="schemas" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-          <span className="lg:hidden">{t.docs.schemas}</span>
-          <span className="hidden lg:inline">{t.docs.schemas}</span>
+          Schemas
         </TabsTrigger>
       </TabsList>
 

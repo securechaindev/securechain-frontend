@@ -13,15 +13,13 @@ const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
   {
     ssr: false,
-    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />,
-  }
+    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />}
 )
 
 interface UserVEXsTabProps {
-  translations: Record<string, any>
-}
+  }
 
-export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
+export default function UserVEXsTab({ }: UserVEXsTabProps) {
   const [vexDocuments, setVEXDocuments] = useState<VEXDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
@@ -38,8 +36,7 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
-    })
+      minute: '2-digit'})
   }
 
   const fetchUserVEXs = useCallback(async () => {
@@ -50,19 +47,18 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
       if (response.ok && response.data) {
         setVEXDocuments(response.data.data || [])
       } else {
-        throw new Error(translations.vexFetchError)
+        throw new Error('Failed to fetch VEX documents')
       }
     } catch (error: any) {
-      const errorMessage = error?.message || translations.vexFetchError
+      const errorMessage = error?.message || 'Failed to fetch VEX documents'
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setLoading(false)
     }
-  }, [translations.vexFetchError, translations.errorTitle, toast])
+  }, ['Failed to fetch VEX documents', 'Error', toast])
 
   const handleDownloadVEX = async (vexId: string, fileName: string) => {
     setDownloadingId(vexId)
@@ -86,19 +82,17 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
         window.URL.revokeObjectURL(url)
 
         toast({
-          title: translations.successTitle || 'Success',
-          description: translations.vexDownloadSuccess,
-        })
+          title: 'Success',
+          description: 'VEX document downloaded successfully'})
       } else {
         throw new Error('Expected file data but received: ' + typeof response.data)
       }
     } catch (error: any) {
-      const errorMessage = error?.message || error?.detail || translations.vexDownloadError
+      const errorMessage = error?.message || error?.detail || 'Failed to download VEX document'
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setDownloadingId(null)
     }
@@ -121,10 +115,9 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
       }
     } catch (error: any) {
       toast({
-        title: translations.errorTitle || 'Error',
+        title: 'Error',
         description: error?.message || 'Error al cargar los detalles del VEX',
-        variant: 'destructive',
-      })
+        variant: 'destructive'})
     } finally {
       setLoadingDetails(false)
     }
@@ -145,13 +138,13 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="truncate">{translations.vexDocumentsTitle}</span>
+          <span className="truncate">VEX Documents</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-col gap-3 mb-6">
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            {translations.vexDocumentsDescription}
+            View and manage your VEX (Vulnerability Exploitability eXchange) documents
           </p>
           <div className="flex justify-center sm:justify-end">
             <Button
@@ -162,7 +155,7 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
               className="w-full sm:w-auto max-w-xs"
             >
               {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-              <span className="text-xs sm:text-sm">{translations.refreshButton}</span>
+              <span className="text-xs sm:text-sm">Refresh</span>
             </Button>
           </div>
         </div>
@@ -170,9 +163,9 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
         {vexDocuments.length === 0 && !loading && (
           <div className="text-center py-8 bg-muted/30 rounded-lg">
             <AlertCircle className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">{translations.noVexDocumentsFound}</p>
+            <p className="text-sm text-muted-foreground">No VEX documents found</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {translations.vexDocumentsHelpText}
+              Generate VEX documents from your repositories
             </p>
           </div>
         )}
@@ -199,7 +192,7 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
 
                     <div className="space-y-1">
                       <p className="text-xs sm:text-sm text-muted-foreground break-words">
-                        {translations.sbomLabel}: <span className="font-mono">{vex.sbom_name}</span>
+                        SBOM: <span className="font-mono">{vex.sbom_name}</span>
                       </p>
                       {vex.moment && (
                         <p className="text-xs text-muted-foreground flex items-center gap-1">
@@ -219,7 +212,7 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
                         className="h-8 flex-1 sm:flex-initial"
                       >
                         <Eye className="h-3 w-3" />
-                        <span className="ml-2 text-xs">{translations.viewButton || 'View'}</span>
+                        <span className="ml-2 text-xs">View</span>
                       </Button>
                       <Button
                         size="sm"
@@ -235,7 +228,7 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
                         ) : (
                           <Download className="h-3 w-3" />
                         )}
-                        <span className="ml-2 text-xs">{translations.downloadButton}</span>
+                        <span className="ml-2 text-xs">Download</span>
                       </Button>
                     </div>
                   </div>
@@ -258,8 +251,7 @@ export default function UserVEXsTab({ translations }: UserVEXsTabProps) {
                 vexDocuments.find(v => v._id === selectedVexId)?.name || ''
             : ''
         }
-        translations={translations}
-      />
+        />
     </Card>
   )
 }

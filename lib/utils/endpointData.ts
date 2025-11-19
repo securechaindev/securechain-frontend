@@ -7,271 +7,255 @@ export interface Endpoint {
   tag?: string
 }
 
-export const getEndpointData = (t: any) => {
-  const authEndpoints: Endpoint[] = !t?.docs
-    ? []
-    : [
-        {
-          method: 'POST',
-          path: '/auth/user/signup',
-          summary: t.docs.userSignup,
-          description: t.docs.userSignupDescription,
-          auth: false,
-        },
-        {
-          method: 'POST',
-          path: '/auth/user/login',
-          summary: t.docs.userLogin,
-          description: t.docs.userLoginDescription,
-          auth: false,
-        },
-        {
-          method: 'POST',
-          path: '/auth/user/logout',
-          summary: t.docs.userLogout,
-          description: t.docs.userLogoutDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/auth/user/account_exists',
-          summary: t.docs.accountExists,
-          description: t.docs.accountExistsDescription,
-          auth: false,
-        },
-        {
-          method: 'POST',
-          path: '/auth/user/change_password',
-          summary: t.docs.changePassword,
-          description: t.docs.changePasswordDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/auth/user/check_token',
-          summary: t.docs.checkToken,
-          description: t.docs.checkTokenDescription,
-          auth: false,
-        },
-        {
-          method: 'POST',
-          path: '/auth/user/refresh_token',
-          summary: t.docs.refreshToken,
-          description: t.docs.refreshTokenDescription,
-          auth: false,
-        },
-      ]
+export const getEndpointData = () => {
+  const authEndpoints: Endpoint[] = [
+    {
+      method: 'POST',
+      path: '/auth/user/signup',
+      summary: 'User Signup',
+      description: 'Register a new user account',
+      auth: false,
+    },
+    {
+      method: 'POST',
+      path: '/auth/user/login',
+      summary: 'User Login',
+      description: 'Login to an existing user account',
+      auth: false,
+    },
+    {
+      method: 'POST',
+      path: '/auth/user/logout',
+      summary: 'User Logout',
+      description: 'Logout from the current session',
+      auth: true,
+    },
+    {
+      method: 'GET',
+      path: '/auth/user/account-exists/{email}',
+      summary: 'Account Exists',
+      description: 'Check if a user account exists',
+      auth: false,
+    },
+    {
+      method: 'POST',
+      path: '/auth/user/change-password',
+      summary: 'Change Password',
+      description: 'Change the password for the current user',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/auth/token/check',
+      summary: 'Check Token',
+      description: 'Verify the validity of a token',
+      auth: false,
+    },
+    {
+      method: 'POST',
+      path: '/auth/token/refresh',
+      summary: 'Refresh Token',
+      description: 'Refresh the current authentication token',
+      auth: true,
+    },
+  ]
 
-  const apiKeysEndpoints: Endpoint[] = !t?.docs
-    ? []
-    : [
-        {
-          method: 'POST',
-          path: '/auth/api-keys/create',
-          summary: t.docs.createApiKey || 'Create API Key',
-          description: t.docs.createApiKeyDescription || 'Create a new API key for a user',
-          auth: true,
-        },
-        {
-          method: 'GET',
-          path: '/auth/api-keys/list',
-          summary: t.docs.listApiKeys || 'List API Keys',
-          description:
-            t.docs.listApiKeysDescription ||
-            'Retrieve a list of API keys for the authenticated user',
-          auth: true,
-        },
-        {
-          method: 'PATCH',
-          path: '/auth/api-keys/{key_id}/revoke',
-          summary: t.docs.revokeApiKey || 'Revoke API Key',
-          description: t.docs.revokeApiKeyDescription || 'Revoke an existing API key for a user',
-          auth: true,
-        },
-      ]
+  const apiKeysEndpoints: Endpoint[] = [
+    {
+      method: 'POST',
+      path: '/auth/api-keys/create',
+      summary: 'Create API Key',
+      description: 'Create a new API key for a user',
+      auth: true,
+    },
+    {
+      method: 'GET',
+      path: '/auth/api-keys/list',
+      summary: 'List API Keys',
+      description: 'List all API keys for the current user',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/auth/api-keys/{key_id}/revoke',
+      summary: 'Revoke API Key',
+      description: 'Revoke an existing API key for a user',
+      auth: true,
+    },
+  ]
 
-  const depexGraphEndpoints: Endpoint[] = !t?.docs
-    ? []
-    : [
-        {
-          method: 'GET',
-          path: '/depex/graph/repositories',
-          summary: t.docs.getUserRepositories,
-          description: t.docs.getUserRepositoriesDescription,
-          auth: true,
-        },
-        {
-          method: 'GET',
-          path: '/depex/graph/package/status',
-          summary: t.docs.getPackageStatus,
-          description: t.docs.getPackageStatusDescription,
-          auth: true,
-        },
-        {
-          method: 'GET',
-          path: '/depex/graph/version/status',
-          summary: t.docs.getVersionStatus,
-          description: t.docs.getVersionStatusDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/graph/package/init',
-          summary: t.docs.initPackage,
-          description: t.docs.initPackageDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/graph/repository/init',
-          summary: t.docs.initRepository,
-          description: t.docs.initRepositoryDescription,
-          auth: true,
-        },
-      ]
+  const depexGraphEndpoints: Endpoint[] = [
+    {
+      method: 'GET',
+      path: '/depex/user-repositories',
+      summary: 'Get User Repositories',
+      description: 'Retrieve all repositories for the current user',
+      auth: true,
+    },
+    {
+      method: 'GET',
+      path: '/depex/package-status',
+      summary: 'Get Package Status',
+      description: 'Check the status of a package',
+      auth: true,
+    },
+    {
+      method: 'GET',
+      path: '/depex/version-status',
+      summary: 'Get Version Status',
+      description: 'Check the status of a specific version',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/init-package',
+      summary: 'Init Package',
+      description: 'Initialize a new package for analysis',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/init-repository',
+      summary: 'Init Repository',
+      description: 'Initialize a repository for dependency analysis',
+      auth: true,
+    },
+  ]
 
-  const depexSSCOperationEndpoints: Endpoint[] = !t?.docs
-    ? []
-    : [
-        {
-          method: 'POST',
-          path: '/depex/operation/ssc/file_info',
-          summary: t.docs.fileInfo,
-          description: t.docs.fileInfoDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/ssc/package_info',
-          summary: t.docs.packageInfo || 'Get Package Info',
-          description:
-            t.docs.packageInfoDescription || 'Retrieve detailed information about a package',
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/ssc/version_info',
-          summary: t.docs.versionInfo || 'Get Version Info',
-          description:
-            t.docs.versionInfoDescription || 'Retrieve detailed information about a version',
-          auth: true,
-        },
-      ]
+  const depexSSCOperationEndpoints: Endpoint[] = [
+    {
+      method: 'POST',
+      path: '/depex/file-info',
+      summary: 'File Info',
+      description: 'Get information about a requirement file',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/package/{node_type}/{package}/info',
+      summary: 'Get Package Info',
+      description: 'Retrieve detailed information about a package',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/package/{node_type}/{package}/version/{version}/info',
+      summary: 'Get Version Info',
+      description: 'Retrieve detailed information about a version',
+      auth: true,
+    },
+  ]
 
-  const depexSMTOperationEndpoints: Endpoint[] = !t?.docs
-    ? []
-    : [
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/filter_configs',
-          summary: t.docs.filterConfigs,
-          description: t.docs.filterConfigsDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/maximize_impact',
-          summary: t.docs.maximizeImpact,
-          description: t.docs.maximizeImpactDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/minimize_impact',
-          summary: t.docs.minimizeImpact,
-          description: t.docs.minimizeImpactDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/valid_graph',
-          summary: t.docs.validGraph,
-          description: t.docs.validGraphDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/complete_config',
-          summary: t.docs.completeConfig,
-          description: t.docs.completeConfigDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/config_by_impact',
-          summary: t.docs.configByImpact,
-          description: t.docs.configByImpactDescription,
-          auth: true,
-        },
-        {
-          method: 'POST',
-          path: '/depex/operation/smt/valid_config',
-          summary: t.docs.validConfig,
-          description: t.docs.validConfigDescription,
-          auth: true,
-        },
-      ]
+  const depexSMTOperationEndpoints: Endpoint[] = [
+    {
+      method: 'POST',
+      path: '/depex/valid-graph',
+      summary: 'Valid Graph',
+      description: 'Validate a dependency graph for a requirement file',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/minimize-impact',
+      summary: 'Minimize Impact',
+      description: 'Find configurations that minimize dependency impact',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/maximize-impact',
+      summary: 'Maximize Impact',
+      description: 'Find configurations that maximize dependency impact',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/filter-configs',
+      summary: 'Filter Configs',
+      description: 'Filter configurations based on impact thresholds',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/valid-config',
+      summary: 'Valid Config',
+      description: 'Validate a specific configuration',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/complete-config',
+      summary: 'Complete Config',
+      description: 'Complete a partial configuration with optimal values',
+      auth: true,
+    },
+    {
+      method: 'POST',
+      path: '/depex/config-by-impact',
+      summary: 'Config By Impact',
+      description: 'Get configuration recommendations based on impact level',
+      auth: true,
+    },
+  ]
 
-  const vexgenEndpoints: Endpoint[] = !t?.docs?.vexgen
-    ? []
-    : [
-        {
-          method: 'GET',
-          path: '/vexgen/vex/user',
-          summary: t.docs.vexgen.vexUserDocuments,
-          description: t.docs.vexgen.vexUserDocumentsDescription,
-          auth: true,
-          tag: 'VEX',
-        },
-        {
-          method: 'GET',
-          path: '/vexgen/vex/show/{vex_id}',
-          summary: t.docs.vexgen.vexShowDocument,
-          description: t.docs.vexgen.vexShowDocumentDescription,
-          auth: true,
-          tag: 'VEX',
-        },
-        {
-          method: 'GET',
-          path: '/vexgen/vex/download/{vex_id}',
-          summary: t.docs.vexgen.vexDownload,
-          description: t.docs.vexgen.vexDownloadDescription,
-          auth: true,
-          tag: 'VEX',
-        },
-        {
-          method: 'GET',
-          path: '/vexgen/tix/user',
-          summary: t.docs.vexgen.tixUserDocuments,
-          description: t.docs.vexgen.tixUserDocumentsDescription,
-          auth: true,
-          tag: 'TIX',
-        },
-        {
-          method: 'GET',
-          path: '/vexgen/tix/show/{tix_id}',
-          summary: t.docs.vexgen.tixShowDocument,
-          description: t.docs.vexgen.tixShowDocumentDescription,
-          auth: true,
-          tag: 'TIX',
-        },
-        {
-          method: 'GET',
-          path: '/vexgen/tix/download/{tix_id}',
-          summary: t.docs.vexgen.tixDownload,
-          description: t.docs.vexgen.tixDownloadDescription,
-          auth: true,
-          tag: 'TIX',
-        },
-        {
-          method: 'POST',
-          path: '/vexgen/vex_tix/generate',
-          summary: t.docs.vexgen.generateFromRepo,
-          description: t.docs.vexgen.generateFromRepoDescription,
-          auth: true,
-          tag: 'Generation',
-        },
-      ]
+  const vexgenEndpoints: Endpoint[] = [
+    {
+      method: 'GET',
+      path: '/vexgen/vex/user-documents',
+      summary: 'VEX User Documents',
+      description: 'List all VEX documents for a user',
+      auth: true,
+      tag: 'VEX',
+    },
+    {
+      method: 'GET',
+      path: '/vexgen/vex/show-document',
+      summary: 'VEX Show Document',
+      description: 'Retrieve a specific VEX document by ID',
+      auth: true,
+      tag: 'VEX',
+    },
+    {
+      method: 'GET',
+      path: '/vexgen/vex/download',
+      summary: 'VEX Download',
+      description: 'Download a VEX document as a file',
+      auth: true,
+      tag: 'VEX',
+    },
+    {
+      method: 'GET',
+      path: '/vexgen/tix/user-documents',
+      summary: 'TIX User Documents',
+      description: 'List all TIX documents for a user',
+      auth: true,
+      tag: 'TIX',
+    },
+    {
+      method: 'GET',
+      path: '/vexgen/tix/show-document',
+      summary: 'TIX Show Document',
+      description: 'Retrieve a specific TIX document by ID',
+      auth: true,
+      tag: 'TIX',
+    },
+    {
+      method: 'GET',
+      path: '/vexgen/tix/download',
+      summary: 'TIX Download',
+      description: 'Download a TIX document as a file',
+      auth: true,
+      tag: 'TIX',
+    },
+    {
+      method: 'POST',
+      path: '/vexgen/generate-from-repo',
+      summary: 'Generate From Repository',
+      description: 'Generate VEX/TIX documents from a repository',
+      auth: true,
+      tag: 'Generation',
+    },
+  ]
 
   return {
     authEndpoints,

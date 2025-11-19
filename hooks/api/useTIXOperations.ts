@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { vexgenAPI } from '@/lib/api'
-import type { TIXDocument, TIXDownloadRequest } from '@/types/TIX'
+import type { TIXDocument } from '@/types/TIX'
 import { useToast } from '@/hooks/ui'
 
 interface UseTIXOperationsReturn {

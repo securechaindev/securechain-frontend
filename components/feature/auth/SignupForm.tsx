@@ -15,16 +15,6 @@ interface SignupFormProps {
   setShowConfirmPassword: (_show: boolean) => void
   isSubmitting: boolean
   onSubmit: (_e: FormEvent) => void
-  translations: {
-    emailLabel: string
-    emailPlaceholder: string
-    passwordLabel: string
-    createPasswordPlaceholder: string
-    confirmPasswordLabel: string
-    confirmPasswordPlaceholder: string
-    createAccountButton: string
-    creatingAccountButton: string
-  }
 }
 
 export function SignupForm({
@@ -39,21 +29,19 @@ export function SignupForm({
   showConfirmPassword,
   setShowConfirmPassword,
   isSubmitting,
-  onSubmit,
-  translations: t,
-}: SignupFormProps) {
+  onSubmit}: SignupFormProps) {
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
       <div className="space-y-2">
         <Label htmlFor="signup-email" className="text-sm font-medium">
-          {t.emailLabel}
+          Email
         </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="signup-email"
             type="email"
-            placeholder={t.emailPlaceholder}
+            placeholder="Enter your email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             className="pl-10 h-11 sm:h-12 text-base"
@@ -63,14 +51,14 @@ export function SignupForm({
       </div>
       <div className="space-y-2">
         <Label htmlFor="signup-password" className="text-sm font-medium">
-          {t.passwordLabel}
+          Password
         </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="signup-password"
             type={showPassword ? 'text' : 'password'}
-            placeholder={t.createPasswordPlaceholder}
+            placeholder="Create a password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             className="pl-10 pr-12 h-11 sm:h-12 text-base"
@@ -90,14 +78,14 @@ export function SignupForm({
       </div>
       <div className="space-y-2">
         <Label htmlFor="confirm-password" className="text-sm font-medium">
-          {t.confirmPasswordLabel}
+          Confirm Password
         </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="confirm-password"
             type={showConfirmPassword ? 'text' : 'password'}
-            placeholder={t.confirmPasswordPlaceholder}
+            placeholder="Confirm your password"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
             className="pl-10 pr-12 h-11 sm:h-12 text-base"
@@ -123,10 +111,10 @@ export function SignupForm({
         {isSubmitting ? (
           <>
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-            {t.creatingAccountButton}
+            Creating account...
           </>
         ) : (
-          t.createAccountButton
+          'Create Account'
         )}
       </Button>
     </form>

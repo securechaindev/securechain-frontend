@@ -1,24 +1,24 @@
 import type { Schema, Enum } from '@/types'
 
-export const getSchemas = (t: any): Schema[] => [
+export const getSchemas = (): Schema[] => [
   {
     name: 'SignUpRequest',
-    description: t.docs.signUpRequestDescription,
+    description: 'Request schema for user signup',
     fields: ['email (string, email format)', 'password (string)'],
   },
   {
     name: 'LoginRequest',
-    description: t.docs.loginRequestDescription,
+    description: 'Request schema for user login',
     fields: ['email (string, email format)', 'password (string, 8-20 chars)'],
   },
   {
     name: 'AccountExistsRequest',
-    description: t.docs.accountExistsRequestDescription,
+    description: 'Request schema for checking account existence',
     fields: ['email (string, email format)'],
   },
   {
     name: 'ChangePasswordRequest',
-    description: t.docs.changePasswordRequestDescription,
+    description: 'Request schema for changing password',
     fields: [
       'email (string, email format)',
       'old_password (string, 8-20 chars)',
@@ -27,12 +27,12 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'VerifyTokenRequest',
-    description: t.docs.verifyTokenRequestDescription,
+    description: 'Request schema for token verification',
     fields: ['token (string or null)'],
   },
   {
     name: 'CreateApiKeyRequest',
-    description: t.docs.createApiKeyRequestDescription || 'Request to create a new API key',
+    description: 'Request to create a new API key',
     fields: [
       'name (string, 1-100 chars, descriptive name for the API key)',
       'duration_days (integer, enum: 10, 20, or 30 days)',
@@ -40,7 +40,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'InitRepositoryRequest',
-    description: t.docs.initRepositoryRequestDescription,
+    description: 'Request schema for repository initialization',
     fields: [
       'owner (string)',
       'name (string)',
@@ -51,12 +51,12 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'InitPackageRequest',
-    description: t.docs.initPackageRequestDescription,
+    description: 'Request schema for package initialization',
     fields: ['node_type (NodeType)', 'package_name (string)'],
   },
   {
     name: 'FileInfoRequest',
-    description: t.docs.fileInfoRequestDescription,
+    description: 'Request schema for file information',
     fields: [
       'node_type (NodeType)',
       'requirement_file_id (string, UUID pattern)',
@@ -65,7 +65,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'ValidGraphRequest',
-    description: t.docs.validGraphRequestDescription,
+    description: 'Request schema for graph validation',
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'max_depth (integer)',
@@ -74,7 +74,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'MinMaxImpactRequest',
-    description: t.docs.minMaxImpactRequestDescription,
+    description: 'Request schema for minimize/maximize impact operations',
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'limit (integer, min: 1)',
@@ -85,7 +85,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'FilterConfigsRequest',
-    description: t.docs.filterConfigsRequestDescription,
+    description: 'Request schema for filtering configurations',
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'max_threshold (number, 0-10)',
@@ -98,7 +98,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'ValidConfigRequest',
-    description: t.docs.validConfigRequestDescription,
+    description: 'Request schema for configuration validation',
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'max_depth (integer)',
@@ -109,7 +109,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'CompleteConfigRequest',
-    description: t.docs.completeConfigRequestDescription,
+    description: 'Request schema for completing configurations',
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'max_depth (integer)',
@@ -120,7 +120,7 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'ConfigByImpactRequest',
-    description: t.docs.configByImpactRequestDescription,
+    description: 'Request schema for configuration by impact',
     fields: [
       'requirement_file_id (string, UUID pattern)',
       'max_level (integer)',
@@ -131,17 +131,15 @@ export const getSchemas = (t: any): Schema[] => [
   },
   {
     name: 'GenerateVEXTIXRequest',
-    description:
-      t.docs.generateVEXTIXRequestDescription ||
-      'Request to generate VEX and TIX documents for a repository',
+    description: 'Request to generate VEX and TIX documents for a repository',
     fields: ['owner (string, min length: 1)', 'name (string, min length: 1)'],
   },
 ]
 
-export const getEnums = (t: any): Enum[] => [
+export const getEnums = (): Enum[] => [
   {
     name: 'NodeType',
-    description: t.docs.nodeTypeDescription,
+    description: 'Supported package ecosystem types',
     values: [
       'RubyGemsPackage',
       'CargoPackage',
@@ -153,7 +151,7 @@ export const getEnums = (t: any): Enum[] => [
   },
   {
     name: 'Aggregator',
-    description: t.docs.aggregatorDescription,
+    description: 'Aggregation methods for impact calculations',
     values: ['mean', 'weighted_mean'],
   },
 ]

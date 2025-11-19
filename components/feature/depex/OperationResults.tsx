@@ -22,10 +22,9 @@ interface OperationResultsProps {
     type: string
     data: any
   }
-  translations: Record<string, any>
 }
 
-export function OperationResults({ results, translations }: OperationResultsProps) {
+export function OperationResults({ results }: OperationResultsProps) {
   const [selectedDependency, setSelectedDependency] = useState<any>(null)
   const [isVersionModalOpen, setIsVersionModalOpen] = useState(false)
 
@@ -37,7 +36,7 @@ export function OperationResults({ results, translations }: OperationResultsProp
   if (!results) {
     return (
       <Alert>
-        <AlertDescription>{translations.docs?.requirementOperations?.noResults}</AlertDescription>
+        <AlertDescription>No results to display</AlertDescription>
       </Alert>
     )
   }
@@ -45,13 +44,12 @@ export function OperationResults({ results, translations }: OperationResultsProp
   if (results.type === 'error') {
     return (
       <>
-        <ErrorDisplay results={results} translations={translations} />
+        <ErrorDisplay results={results} />
         <VersionModal
           isOpen={isVersionModalOpen}
           onOpenChange={setIsVersionModalOpen}
           dependency={selectedDependency}
-          translations={translations}
-        />
+          />
       </>
     )
   }
@@ -66,15 +64,13 @@ export function OperationResults({ results, translations }: OperationResultsProp
       <>
         <FileInfoDisplay
           fileInfo={fileInfo}
-          translations={translations}
           onOpenVersionModal={openVersionModal}
         />
         <VersionModal
           isOpen={isVersionModalOpen}
           onOpenChange={setIsVersionModalOpen}
           dependency={selectedDependency}
-          translations={translations}
-        />
+          />
       </>
     )
   }
@@ -83,13 +79,13 @@ export function OperationResults({ results, translations }: OperationResultsProp
     return (
       <Card>
         <CardHeader>
-          <CardTitle>{translations.docs?.requirementOperations?.validationResult}</CardTitle>
+          <CardTitle>Validation Result</CardTitle>
         </CardHeader>
         <CardContent>
           <Badge variant={data ? 'default' : 'destructive'}>
             {data
-              ? translations.docs?.requirementOperations?.valid
-              : translations.docs?.requirementOperations?.invalid}
+              ? 'Valid'
+              : 'Invalid'}
           </Badge>
         </CardContent>
       </Card>
@@ -111,23 +107,23 @@ export function OperationResults({ results, translations }: OperationResultsProp
       <Card>
         <CardHeader>
           <CardTitle>
-            {type === 'minimizeImpact' && translations.docs?.requirementOperations?.minimizeSuccess}
-            {type === 'maximizeImpact' && translations.docs?.requirementOperations?.maximizeSuccess}
-            {type === 'filterConfigs' && translations.docs?.requirementOperations?.filterSuccess}
-            {type === 'completeConfig' && translations.docs?.requirementOperations?.completeSuccess}
+            {type === 'minimizeImpact' && 'Successfully minimized impact'}
+            {type === 'maximizeImpact' && 'Successfully maximized impact'}
+            {type === 'filterConfigs' && 'Configurations filtered successfully'}
+            {type === 'completeConfig' && 'Configuration completed successfully'}
             {type === 'configByImpact' &&
-              translations.docs?.requirementOperations?.configByImpactSuccess}
+              'Configuration by impact retrieved'}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {configArray.length === 0 ? (
             <div className="text-center text-muted-foreground py-4">
-              {translations.docs?.requirementOperations?.noResults}
+              No results to display
             </div>
           ) : (
             <div className="space-y-4">
               <div className="text-sm text-muted-foreground">
-                {translations.docs?.requirementOperations?.configurations}: {configArray.length}
+                Configurations: {configArray.length}
               </div>
 
               {/* Mobile Layout */}
@@ -174,7 +170,7 @@ export function OperationResults({ results, translations }: OperationResultsProp
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium">
-                            {translations.docs?.requirementOperations?.configuration} {index + 1}
+                            Configuration {index + 1}
                           </span>
                           <Badge
                             variant={
@@ -185,14 +181,13 @@ export function OperationResults({ results, translations }: OperationResultsProp
                                   : 'destructive'
                             }
                           >
-                            {translations.docs?.requirementOperations?.totalRisk}:{' '}
-                            {totalRisk.toFixed(2)}
+                            Total Risk: {totalRisk.toFixed(2)}
                           </Badge>
                         </div>
 
                         <div>
                           <p className="text-xs font-medium mb-2 text-muted-foreground">
-                            {translations.docs?.requirementOperations?.configuration}:
+                            Configuration:
                           </p>
                           <pre className="text-[10px] bg-muted p-2 rounded overflow-x-auto text-wrap break-all">
                             {JSON.stringify(dependencies, null, 1)}
@@ -202,7 +197,7 @@ export function OperationResults({ results, translations }: OperationResultsProp
                         {Object.keys(impacts).length > 0 && (
                           <div>
                             <p className="text-xs font-medium mb-2 text-muted-foreground">
-                              {translations.docs?.requirementOperations?.individualImpacts}:
+                              Individual Impacts:
                             </p>
                             <div className="grid grid-cols-1 gap-1">
                               {Object.entries(impacts).map(([pkg, impact]) => (
@@ -240,13 +235,13 @@ export function OperationResults({ results, translations }: OperationResultsProp
                   <TableHeader>
                     <TableRow>
                       <TableHead>
-                        {translations.docs?.requirementOperations?.configuration}
+                        Configuration
                       </TableHead>
                       <TableHead className="text-center">
-                        {translations.docs?.requirementOperations?.totalRisk}
+                        Total Risk
                       </TableHead>
                       <TableHead className="text-center">
-                        {translations.docs?.requirementOperations?.individualImpacts}
+                        Individual Impacts
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -346,13 +341,13 @@ export function OperationResults({ results, translations }: OperationResultsProp
     <Card>
       <CardHeader>
         <CardTitle className="text-base sm:text-lg">
-          {translations.docs?.requirementOperations?.results}
+          Results
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
           <p className="text-xs sm:text-sm text-muted-foreground">
-            {translations.docs?.requirementOperations?.rawData || 'Raw Data'}:
+            Raw Data:
           </p>
           <pre className="text-[10px] sm:text-sm bg-muted p-3 sm:p-4 rounded-md overflow-x-auto text-wrap break-all whitespace-pre-wrap">
             {JSON.stringify(data, null, 1)}

@@ -25,13 +25,12 @@ const GitHubIcon = dynamic(
 
 interface HomeTabsProps {
   user: User | null
-  translations: Record<string, any>
 }
 
-export default function HomeTabs({ user, translations }: HomeTabsProps) {
+export default function HomeTabs({ user }: HomeTabsProps) {
   const [activeTab, setActiveTab] = useState('initialization')
 
-  const packageOperations = usePackageOperations(translations)
+  const packageOperations = usePackageOperations()
   const {
     depexLoading,
     showPackageInitModal,
@@ -70,7 +69,7 @@ export default function HomeTabs({ user, translations }: HomeTabsProps) {
             >
               <GitPullRequest className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-center leading-none break-words max-w-full">
-                {translations.initializationTab}
+                Initialization
               </span>
             </TabsTrigger>
             <TabsTrigger
@@ -79,7 +78,7 @@ export default function HomeTabs({ user, translations }: HomeTabsProps) {
             >
               <GitHubIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-center leading-none break-words max-w-full">
-                {translations.repositoriesTab}
+                Repositories
               </span>
             </TabsTrigger>
             <TabsTrigger
@@ -88,7 +87,7 @@ export default function HomeTabs({ user, translations }: HomeTabsProps) {
             >
               <Package className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-center leading-none break-words max-w-full">
-                {translations.packagesTab}
+                Packages
               </span>
             </TabsTrigger>
             <TabsTrigger
@@ -97,7 +96,7 @@ export default function HomeTabs({ user, translations }: HomeTabsProps) {
             >
               <FileText className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-center leading-none break-words max-w-full">
-                {translations.userVEXsTab}
+                User VEXs
               </span>
             </TabsTrigger>
             <TabsTrigger
@@ -106,29 +105,29 @@ export default function HomeTabs({ user, translations }: HomeTabsProps) {
             >
               <Shield className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-center leading-none break-words max-w-full">
-                {translations.userTIXsTab}
+                User TIXs
               </span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="initialization" className="mt-2 sm:mt-4 md:mt-6">
-            <InitializationTab translations={translations} />
+            <InitializationTab />
           </TabsContent>
 
           <TabsContent value="repositories" className="mt-2 sm:mt-4 md:mt-6">
-            <RepositoriesTab user={user} translations={translations} />
+            <RepositoriesTab user={user} />
           </TabsContent>
 
           <TabsContent value="packages" className="mt-2 sm:mt-4 md:mt-6">
-            <PackagesTab translations={translations} packageOperations={packageOperations} />
+            <PackagesTab packageOperations={packageOperations} />
           </TabsContent>
 
           <TabsContent value="user-vexs" className="mt-2 sm:mt-4 md:mt-6">
-            <UserVEXsTab translations={translations} />
+            <UserVEXsTab />
           </TabsContent>
 
           <TabsContent value="user-tixs" className="mt-2 sm:mt-4 md:mt-6">
-            <UserTIXsTab translations={translations} />
+            <UserTIXsTab />
           </TabsContent>
         </Tabs>
 
@@ -137,7 +136,6 @@ export default function HomeTabs({ user, translations }: HomeTabsProps) {
           onOpenChange={setShowPackageInitModal}
           pendingPackageInit={pendingPackageInit}
           depexLoading={depexLoading}
-          translations={translations}
           onInitialize={handlePackageInit}
           onCancel={handleCancelPackageInit}
         />

@@ -13,8 +13,5 @@ export * from './validation'
 // API client (safe for client)
 export * from './api'
 
-// Internationalization (client-side only)
-export * from './i18n'
-
 // Authentication (client-side only)
 export * from './auth'

@@ -6,7 +6,7 @@ import { STORAGE_KEYS } from '@/constants'
 import { authAPI } from '@/lib/api'
 import type { User } from '@/types'
 
-export function useHomeAuth(locale: 'en' | 'es') {
+export function useHomeAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -23,15 +23,15 @@ export function useHomeAuth(locale: 'en' | 'es') {
         setUser({ email: userEmail })
         setIsAuthenticated(true)
       } else {
-        router.push(`/${locale}/login`)
+        router.push('/login')
       }
       setLoading(false)
     }
 
     checkAuth()
-  }, [locale, router])
+  }, [router])
 
-  const handleLogout = async (translations: Record<string, any>) => {
+  const handleLogout = async () => {
     setIsSubmitting(true)
 
     try {
@@ -43,18 +43,18 @@ export function useHomeAuth(locale: 'en' | 'es') {
       setIsAuthenticated(false)
 
       toast({
-        title: translations.loggedOutTitle,
-        description: translations.loggedOutDescription,
+        title: 'Logged Out',
+        description: 'You have been successfully logged out',
       })
 
-      router.push(`/${locale}/login`)
+      router.push('/login')
     } catch (error) {
       console.error('Logout error:', error)
       localStorage.removeItem(STORAGE_KEYS.USER_EMAIL)
       setUser(null)
       setIsAuthenticated(false)
 
-      router.push(`/${locale}/login`)
+      router.push('/login')
     } finally {
       setIsSubmitting(false)
     }

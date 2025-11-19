@@ -19,24 +19,18 @@ import {
   Copy,
 } from 'lucide-react'
 import { usePackage } from '@/context'
-import { ThemeToggle, LanguageToggle } from '@/components/layout'
+import { ThemeToggle } from '@/components/layout'
 import { ApiKeysDialog } from '@/components/feature/auth'
 import { PackageInfoDialog } from './PackageInfoDialog'
 import { VersionInfoDialog } from './VersionInfoDialog'
 import PackageGraphView from './PackageGraphView'
 
 interface PackageDetailsViewProps {
-  translations: Record<string, any>
-  locale: 'en' | 'es'
-  onLocaleChange?: (_locale: 'en' | 'es') => void
   userEmail?: string
   onLogout?: () => void
 }
 
 export default function PackageDetailsView({
-  translations,
-  locale,
-  onLocaleChange,
   userEmail,
   onLogout,
 }: PackageDetailsViewProps) {
@@ -60,10 +54,10 @@ export default function PackageDetailsView({
   }
 
   const getSeverityLabel = (score: number) => {
-    if (score >= 4) return translations.docs.critical
-    if (score >= 3) return translations.docs.high
-    if (score >= 2) return translations.docs.medium
-    return translations.docs.low
+    if (score >= 4) return 'Critical'
+    if (score >= 3) return 'High'
+    if (score >= 2) return 'Medium'
+    return 'Low'
   }
 
   const sortedVersions = packageDetails.versions
@@ -107,12 +101,12 @@ export default function PackageDetailsView({
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-2"
               >
                 <ArrowLeft className="h-4 w-4" />
-                <span className="hidden sm:inline">{translations.docs.packageBackToHome}</span>
+                <span className="hidden sm:inline">Back to Home</span>
               </Button>
               <div className="flex items-center gap-2">
                 <Package className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 <span className="font-bold text-sm sm:text-base">
-                  {translations.docs.packageDetailsTitle}
+                  Package Details
                 </span>
               </div>
             </div>
@@ -125,7 +119,6 @@ export default function PackageDetailsView({
                   <span className="md:hidden">{userEmail.split('@')[0]}</span>
                 </Badge>
               )}
-              <LanguageToggle currentLang={locale} onLanguageChange={onLocaleChange} />
               <ThemeToggle />
               <div className="flex items-center gap-2">
                 <Button
@@ -137,15 +130,13 @@ export default function PackageDetailsView({
                   <Key className="h-4 w-4" />
                 </Button>
                 <span className="text-xs text-muted-foreground hidden md:inline">
-                  {translations.docs?.apiKeysDescription ||
-                    translations.apiKeysDescription ||
-                    'Manage API Keys'}
+                  Manage API Keys
                 </span>
               </div>
               {onLogout && (
                 <Button onClick={onLogout} variant="outline" size="sm" className="px-2 sm:px-3">
                   <LogOut className="h-4 w-4 sm:mr-2" />
-                  <span className="hidden sm:inline">{translations.logoutButton}</span>
+                  <span className="hidden sm:inline">Logout</span>
                 </Button>
               )}
             </div>
@@ -172,7 +163,7 @@ export default function PackageDetailsView({
                   >
                     <Network className="h-4 w-4" />
                     <span className="hidden sm:inline">
-                      {translations.packageInfoTitle || 'Package Info'}
+                      Package Info
                     </span>
                     <span className="sm:hidden">Info</span>
                   </Button>
@@ -224,20 +215,20 @@ export default function PackageDetailsView({
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{translations.docs.vendor}</p>
+                  <p className="text-sm text-muted-foreground">Vendor</p>
                   <p className="font-semibold">{packageDetails.vendor || 'n/a'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{translations.docs.totalVersions}</p>
+                  <p className="text-sm text-muted-foreground">Total Versions</p>
                   <p className="font-semibold">{packageDetails.versions.length}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{translations.docs.lastUpdated}</p>
+                  <p className="text-sm text-muted-foreground">Last Updated</p>
                   <p className="text-sm">{new Date(packageDetails.moment).toLocaleDateString()}</p>
                 </div>
                 <div className="md:col-span-2 lg:col-span-1">
                   <p className="text-sm text-muted-foreground">
-                    {translations.docs.requirementOperations.repositoryUrlLabel}
+                    Repository URL
                   </p>
                   {packageDetails.repository_url ? (
                     <a
@@ -261,8 +252,8 @@ export default function PackageDetailsView({
             <CardHeader>
               <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <span className="text-base sm:text-lg">
-                  {translations.docs.versions} ({sortedVersions.length}{' '}
-                  {translations.docs.versionsOf} {packageDetails.versions.length})
+                  Versions ({sortedVersions.length}{' '}
+                  of {packageDetails.versions.length})
                 </span>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <select
@@ -270,11 +261,11 @@ export default function PackageDetailsView({
                     onChange={e => setSortBy(e.target.value as any)}
                     className="px-3 py-2 text-sm border rounded-md bg-background min-w-0 flex-1 sm:flex-none sm:min-w-[180px]"
                   >
-                    <option value="semver">{translations.docs.sortBySemver}</option>
+                    <option value="semver">Semver</option>
                     <option value="vulnerabilities">
-                      {translations.docs.sortByVulnerabilities}
+                      Vulnerabilities
                     </option>
-                    <option value="score">{translations.docs.sortByScore}</option>
+                    <option value="score">Score</option>
                   </select>
                   <Button
                     variant="outline"
@@ -285,12 +276,12 @@ export default function PackageDetailsView({
                     {sortOrder === 'asc' ? (
                       <>
                         <TrendingUp className="h-4 w-4" />
-                        <span className="hidden sm:inline">{translations.docs.sortAscending}</span>
+                        <span className="hidden sm:inline">Ascending</span>
                       </>
                     ) : (
                       <>
                         <TrendingDown className="h-4 w-4" />
-                        <span className="hidden sm:inline">{translations.docs.sortDescending}</span>
+                        <span className="hidden sm:inline">Descending</span>
                       </>
                     )}
                   </Button>
@@ -300,7 +291,7 @@ export default function PackageDetailsView({
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder={translations.docs.searchVersions}
+                    placeholder="Search versions..."
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -308,7 +299,7 @@ export default function PackageDetailsView({
                 </div>
                 {searchTerm && sortedVersions.length === 0 && (
                   <p className="text-sm text-muted-foreground mt-2">
-                    {translations.docs.noVersionsFound} &quot;{searchTerm}&quot;
+                    No versions found matching &quot;{searchTerm}&quot;
                   </p>
                 )}
               </div>
@@ -361,14 +352,12 @@ export default function PackageDetailsView({
                         >
                           <GitBranch className="h-3 w-3" />
                           <span className="hidden sm:inline">
-                            {translations.versionInfoTitle || 'Version Info'}
+                            Version Info
                           </span>
                           <span className="sm:hidden">Info</span>
                         </Button>
                         <span className="text-xs text-muted-foreground hidden md:inline">
-                          {translations.docs?.analyzeVersionDependencies ||
-                            translations.analyzeVersionDependencies ||
-                            'Analyze dependencies for this version'}
+                          Analyze dependencies for this version
                         </span>
                       </div>
                     </div>
@@ -376,12 +365,12 @@ export default function PackageDetailsView({
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
                         {version.release_date
-                          ? `${translations.docs.requirementOperations.releaseDateLabel}: ${new Date(version.release_date).toLocaleDateString()}`
-                          : translations.docs.noDate}
+                          ? `Release Date: ${new Date(version.release_date).toLocaleDateString()}`
+                          : 'No date'}
                       </div>
                       <div className="flex items-center gap-1 mt-1">
                         <Hash className="h-3 w-3" />
-                        {translations.docs.serial}: {version.serial_number}
+                        Serial: {version.serial_number}
                       </div>
                     </div>
                   </div>
@@ -389,17 +378,17 @@ export default function PackageDetailsView({
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div>
                       <p className="text-sm text-muted-foreground">
-                        {translations.docs.weightedMean}
+                        Weighted Mean
                       </p>
                       <p className="text-lg font-semibold">{version.weighted_mean.toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">{translations.docs.meanScore}</p>
+                      <p className="text-sm text-muted-foreground">Mean Score</p>
                       <p className="text-lg font-semibold">{version.mean.toFixed(2)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">
-                        {translations.docs.vulnerabilities}
+                        Vulnerabilities
                       </p>
                       <p className="text-lg font-semibold flex items-center gap-1">
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
@@ -411,7 +400,7 @@ export default function PackageDetailsView({
                   {version.vulnerabilities.length > 0 && (
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">
-                        {translations.docs.vulnerabilities}:
+                        Vulnerabilities:
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {version.vulnerabilities.map((vuln, vulnIndex) => (
@@ -436,7 +425,7 @@ export default function PackageDetailsView({
         </div>
       </div>
 
-      <ApiKeysDialog open={apiKeysOpen} onOpenChange={setApiKeysOpen} translations={translations} />
+      <ApiKeysDialog open={apiKeysOpen} onOpenChange={setApiKeysOpen} />
 
       {packageNodeType && (
         <PackageInfoDialog
@@ -444,7 +433,6 @@ export default function PackageDetailsView({
           onOpenChange={setPackageInfoOpen}
           packageName={packageDetails.name}
           nodeType={packageNodeType}
-          translations={translations}
         />
       )}
 
@@ -453,7 +441,6 @@ export default function PackageDetailsView({
           open={graphOpen}
           onOpenChange={setGraphOpen}
           packageName={packageDetails.name}
-          translations={translations}
           purl={packageDetails.purl}
           nodeType={packageNodeType}
         />
@@ -466,7 +453,6 @@ export default function PackageDetailsView({
           packageName={packageDetails.name}
           versionName={selectedVersion || undefined}
           nodeType={packageNodeType}
-          translations={translations}
         />
       )}
     </div>

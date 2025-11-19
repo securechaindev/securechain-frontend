@@ -6,8 +6,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
-} from '@/components/ui/Dialog'
+  DialogTitle} from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -24,20 +23,18 @@ interface PackageInfoDialogProps {
   onOpenChange: (_open: boolean) => void
   packageName?: string
   nodeType?: NodeType
-  translations: Record<string, any>
+
 }
 
 export function PackageInfoDialog({
   open,
   onOpenChange,
   packageName: initialPackageName,
-  nodeType: initialNodeType,
-  translations,
-}: PackageInfoDialogProps) {
+  nodeType: initialNodeType}: PackageInfoDialogProps) {
   const [packageName, setPackageName] = useState('')
   const [maxDepth, setMaxDepth] = useState('3')
 
-  const packageInfo = usePackageInfo(translations)
+  const packageInfo = usePackageInfo()
 
   useEffect(() => {
     if (initialPackageName) {
@@ -55,8 +52,7 @@ export function PackageInfoDialog({
     await packageInfo.getPackageInfo({
       package_name: packageName.trim(),
       max_depth: depth,
-      node_type: initialNodeType || 'PyPIPackage',
-    })
+      node_type: initialNodeType || 'PyPIPackage'})
   }
 
   const handleClose = () => {
@@ -69,14 +65,10 @@ export function PackageInfoDialog({
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {translations.docs?.packageInfoTitle ||
-              translations.packageInfoTitle ||
-              'Package Dependency Analysis'}
+            Package Dependency Analysis
           </DialogTitle>
           <DialogDescription>
-            {translations.docs?.packageInfoDescription ||
-              translations.packageInfoDescription ||
-              'Analyze package dependencies, vulnerabilities, and the software supply chain'}
+            Analyze package dependencies, vulnerabilities, and the software supply chain
           </DialogDescription>
         </DialogHeader>
 
@@ -85,7 +77,7 @@ export function PackageInfoDialog({
             {/* Package Name Input */}
             <div className="space-y-2">
               <Label htmlFor="package-name">
-                {translations.docs?.packageName || translations.packageName || 'Package Name'}
+                Package Name
                 <span className="text-destructive ml-1">*</span>
               </Label>
               <Input
@@ -103,7 +95,7 @@ export function PackageInfoDialog({
             {/* Max Depth Input */}
             <div className="space-y-2">
               <Label htmlFor="max-depth">
-                {translations.docs?.maxDepth || translations.maxDepth || 'Max Depth'}
+                Max Depth
                 <span className="text-destructive ml-1">*</span>
               </Label>
               <Input
@@ -125,10 +117,8 @@ export function PackageInfoDialog({
             <Button type="submit" disabled={packageInfo.isLoading || !packageName.trim()}>
               <Search className="mr-2 h-4 w-4" />
               {packageInfo.isLoading
-                ? translations.docs?.analyzing || translations.analyzing || 'Analyzing...'
-                : translations.docs?.analyzePackage ||
-                  translations.analyzePackage ||
-                  'Analyze Package'}
+                ? 'Analyzing...'
+                : 'Analyze Package'}
             </Button>
           </div>
         </form>
@@ -156,7 +146,7 @@ export function PackageInfoDialog({
                 <DirectDependenciesList
                   dependencies={packageInfo.data.direct_dependencies}
                   nodeType={packageInfo.nodeType || ''}
-                  translations={translations.docs || translations}
+                  
                 />
               )}
             {packageInfo.data.indirect_dependencies_by_depth &&
@@ -164,7 +154,7 @@ export function PackageInfoDialog({
                 <IndirectDependenciesList
                   dependenciesByDepth={packageInfo.data.indirect_dependencies_by_depth}
                   nodeType={packageInfo.nodeType || ''}
-                  translations={translations.docs || translations}
+                  
                 />
               )}
           </div>

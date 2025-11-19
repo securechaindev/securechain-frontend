@@ -11,14 +11,6 @@ interface LoginFormProps {
   setShowPassword: (_show: boolean) => void
   isSubmitting: boolean
   onSubmit: (_e: FormEvent) => void
-  translations: {
-    emailLabel: string
-    emailPlaceholder: string
-    passwordLabel: string
-    passwordPlaceholder: string
-    loginButton: string
-    loggingInButton: string
-  }
 }
 
 export function LoginForm({
@@ -29,21 +21,19 @@ export function LoginForm({
   showPassword,
   setShowPassword,
   isSubmitting,
-  onSubmit,
-  translations: t,
-}: LoginFormProps) {
+  onSubmit}: LoginFormProps) {
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
       <div className="space-y-2">
         <Label htmlFor="login-email" className="text-sm font-medium">
-          {t.emailLabel}
+          Email
         </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="login-email"
             type="email"
-            placeholder={t.emailPlaceholder}
+            placeholder="Enter your email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             className="pl-10 h-11 sm:h-12 text-base"
@@ -53,14 +43,14 @@ export function LoginForm({
       </div>
       <div className="space-y-2">
         <Label htmlFor="login-password" className="text-sm font-medium">
-          {t.passwordLabel}
+          Password
         </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="login-password"
             type={showPassword ? 'text' : 'password'}
-            placeholder={t.passwordPlaceholder}
+            placeholder="Enter your password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             className="pl-10 pr-12 h-11 sm:h-12 text-base"
@@ -86,10 +76,10 @@ export function LoginForm({
         {isSubmitting ? (
           <>
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-            {t.loggingInButton}
+            Logging in...
           </>
         ) : (
-          t.loginButton
+          'Login'
         )}
       </Button>
     </form>

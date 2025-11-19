@@ -13,29 +13,26 @@ interface PackageInitModalProps {
   onOpenChange: (_open: boolean) => void
   pendingPackageInit: PackageInitData | null
   depexLoading: boolean
-  translations: Record<string, any>
+  
   onInitialize: () => void
   onCancel: () => void
 }
 
-export default function PackageInitModal({
-  open,
+export default function PackageInitModal({ open,
   onOpenChange,
   pendingPackageInit,
-  depexLoading,
-  translations,
-  onInitialize,
+  depexLoading, onInitialize,
   onCancel,
-}: PackageInitModalProps) {
+ }: PackageInitModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md mx-4 rounded-lg">
         <DialogHeader className="space-y-3">
           <DialogTitle className="text-lg sm:text-xl leading-tight">
-            {translations.initializePackageModalTitle}
+            Initialize Package
           </DialogTitle>
           <DialogDescription className="text-sm sm:text-base leading-relaxed">
-            {translations.initializePackageModalDescription.replace(
+            {'Initialize package analysis'.replace(
               '{packageName}',
               pendingPackageInit?.packageName || ''
             )}
@@ -50,8 +47,8 @@ export default function PackageInitModal({
           >
             <span className="text-xs sm:text-sm">
               {depexLoading
-                ? translations.initializingPackage
-                : translations.initializePackageButton}
+                ? 'Initializing...'
+                : 'Initialize'}
             </span>
           </Button>
           <Button
@@ -60,7 +57,7 @@ export default function PackageInitModal({
             className="w-full sm:w-auto order-1 sm:order-2"
             size="sm"
           >
-            <span className="text-xs sm:text-sm">{translations.cancelButton}</span>
+            <span className="text-xs sm:text-sm">Cancel</span>
           </Button>
         </div>
       </DialogContent>

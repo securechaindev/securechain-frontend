@@ -17,15 +17,12 @@ interface VersionModalProps {
   isOpen: boolean
   onOpenChange: (_open: boolean) => void
   dependency: any
-  translations: Record<string, any>
+  
 }
 
-export function VersionModal({
-  isOpen,
+export function VersionModal({ isOpen,
   onOpenChange,
-  dependency,
-  translations,
-}: VersionModalProps) {
+  dependency,  }: VersionModalProps) {
   const [expandedVulns, setExpandedVulns] = useState<Set<number>>(new Set())
 
   const toggleVulnerabilities = (versionIndex: number) => {
@@ -45,7 +42,7 @@ export function VersionModal({
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-base sm:text-lg">
-            {translations.docs?.requirementOperations?.versionsTitle}: {dependency.package_name}
+            Versions: {dependency.package_name}
           </DialogTitle>
         </DialogHeader>
 
@@ -53,11 +50,11 @@ export function VersionModal({
           <div className="space-y-4">
             <div className="text-xs sm:text-sm text-muted-foreground space-y-1">
               <div>
-                <strong>{translations.docs?.requirementOperations?.vendor}:</strong>{' '}
+                <strong>Vendor:</strong>{' '}
                 {dependency.package_vendor}
               </div>
               <div>
-                <strong>{translations.docs?.requirementOperations?.constraints}:</strong>{' '}
+                <strong>Constraints:</strong>{' '}
                 {dependency.package_constraints}
               </div>
             </div>
@@ -146,7 +143,7 @@ export function VersionModal({
                               className="h-auto p-1 text-xs text-blue-600 hover:text-blue-800"
                             >
                               {expandedVulns.has(index)
-                                ? translations.docs?.requirementOperations?.showLess
+                                ? 'Show less'
                                 : `+${version.vulnerability_count.length - 2} más`}
                             </Button>
                           )}
@@ -162,15 +159,15 @@ export function VersionModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{translations.docs?.requirementOperations?.version}</TableHead>
+                    <TableHead>Version</TableHead>
                     <TableHead className="text-center">
-                      {translations.docs?.requirementOperations?.meanScore}
+                      Mean Score
                     </TableHead>
                     <TableHead className="text-center">
-                      {translations.docs?.requirementOperations?.weightedMean}
+                      Weighted Mean
                     </TableHead>
                     <TableHead className="text-center">
-                      {translations.docs?.requirementOperations?.vulnerabilities}
+                      Vulnerabilities
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -245,8 +242,8 @@ export function VersionModal({
                                       className="h-auto p-1 text-xs text-blue-600 hover:text-blue-800"
                                     >
                                       {expandedVulns.has(index)
-                                        ? translations.docs?.requirementOperations?.showLess
-                                        : `+${version.vulnerability_count.length - 3} ${translations.docs?.requirementOperations?.moreVulnerabilities}`}
+                                        ? 'Show less'
+                                        : `+${version.vulnerability_count.length - 3} more vulnerabilities`}
                                     </Button>
                                   </div>
                                 )}

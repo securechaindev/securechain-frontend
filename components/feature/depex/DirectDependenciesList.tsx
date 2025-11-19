@@ -9,14 +9,11 @@ import { VersionList } from './VersionList'
 interface DirectDependenciesListProps {
   dependencies: DirectDependency[]
   nodeType: string
-  translations: Record<string, any>
+  
 }
 
-export function DirectDependenciesList({
-  dependencies,
-  nodeType,
-  translations,
-}: DirectDependenciesListProps) {
+export function DirectDependenciesList({ dependencies,
+  nodeType,  }: DirectDependenciesListProps) {
   // Map node_type to friendly display names
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
@@ -34,7 +31,7 @@ export function DirectDependenciesList({
     <div className="space-y-6">
       <h3 className="text-lg font-semibold flex items-center gap-2">
         <Shield className="h-5 w-5" />
-        {translations.directDependencies || 'Direct Dependencies'} ({dependencies.length})
+        Direct Dependencies ({dependencies.length})
       </h3>
 
       {dependencies.map((dep, index) => (
@@ -49,7 +46,7 @@ export function DirectDependenciesList({
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {translations.vendor || 'Vendor'}: {dep.package_vendor}
+                  Vendor: {dep.package_vendor}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -57,7 +54,7 @@ export function DirectDependenciesList({
                   {dep.package_constraints}
                 </Badge>
                 <Badge variant="secondary">
-                  {dep.versions.length} {translations.versions || 'versions'}
+                  {dep.versions.length} versions
                 </Badge>
               </div>
             </div>
@@ -66,8 +63,7 @@ export function DirectDependenciesList({
             <VersionList
               versions={dep.versions}
               packageName={dep.package_name}
-              translations={translations}
-            />
+              />
           </CardContent>
         </Card>
       ))}

@@ -11,8 +11,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  Button,
-} from '@/components/ui'
+  Button} from '@/components/ui'
 import {
   AlertTriangle,
   Info,
@@ -21,8 +20,7 @@ import {
   ExternalLink,
   Bug,
   ChevronDown,
-  ChevronUp,
-} from 'lucide-react'
+  ChevronUp} from 'lucide-react'
 
 interface CVSSInfo {
   vuln_impact: number
@@ -82,17 +80,14 @@ interface TIXDetailsModalProps {
   tixData: TIXData | null
   loading: boolean
   repositoryName: string
-  translations: Record<string, any>
-}
+  }
 
 export default function TIXDetailsModal({
   isOpen,
   onClose,
   tixData,
   loading,
-  repositoryName,
-  translations,
-}: TIXDetailsModalProps) {
+  repositoryName}: TIXDetailsModalProps) {
   const [expandedPayloads, setExpandedPayloads] = useState<Set<string>>(new Set())
 
   const metadata = tixData?.metadata || null
@@ -113,8 +108,7 @@ export default function TIXDetailsModal({
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
-    })
+      minute: '2-digit'})
   }
 
   const getImpactColor = (score: number) => {
@@ -123,10 +117,10 @@ export default function TIXDetailsModal({
     return 'secondary'
   }
 
-  const getImpactLabel = (score: number, translations: Record<string, any>) => {
-    if (score >= 7.0) return translations.tixDetailsModal?.high || 'High'
-    if (score >= 4.0) return translations.tixDetailsModal?.medium || 'Medium'
-    return translations.tixDetailsModal?.low || 'Low'
+  const getImpactLabel = (score: number, ) => {
+    if (score >= 7.0) return 'High'
+    if (score >= 4.0) return 'Medium'
+    return 'Low'
   }
 
   const extractPurlInfo = (purl: string) => {
@@ -145,7 +139,7 @@ export default function TIXDetailsModal({
           <DialogTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
             <span className="truncate">
-              {translations.tixDetailsModal?.title || 'TIX (Threat Intelligence eXchange)'} -{' '}
+              TIX (Threat Intelligence eXchange) -{' '}
               {repositoryName}
             </span>
           </DialogTitle>
@@ -156,7 +150,7 @@ export default function TIXDetailsModal({
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary"></div>
               <span className="ml-2 text-sm sm:text-base">
-                {translations.tixDetailsModal?.loadingText || 'Loading TIX details...'}
+                Loading TIX details...
               </span>
             </div>
           )}
@@ -168,26 +162,26 @@ export default function TIXDetailsModal({
                 <CardHeader className="pb-3 sm:pb-4">
                   <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
                     <Info className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                    {translations.tixDetailsModal?.documentInfo || 'Document Information'}
+                    Document Information
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 sm:space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        {translations.tixDetailsModal?.author || 'Author'}
+                        Author
                       </p>
                       <p className="text-xs sm:text-sm truncate">{metadata?.author}</p>
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        {translations.tixDetailsModal?.role || 'Role'}
+                        Role
                       </p>
                       <p className="text-xs sm:text-sm truncate">{metadata?.role}</p>
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        {translations.tixDetailsModal?.version || 'Version'}
+                        Version
                       </p>
                       <Badge variant="outline" className="text-xs">
                         {metadata?.version}
@@ -195,7 +189,7 @@ export default function TIXDetailsModal({
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        {translations.tixDetailsModal?.creationDate || 'Creation Date'}
+                        Creation Date
                       </p>
                       <p className="text-xs sm:text-sm flex items-center gap-1">
                         <Calendar className="h-3 w-3 flex-shrink-0" />
@@ -205,7 +199,7 @@ export default function TIXDetailsModal({
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                      {translations.tixDetailsModal?.tooling || 'Tooling'}
+                      Tooling
                     </p>
                     <a
                       href={metadata?.tooling}
@@ -226,8 +220,7 @@ export default function TIXDetailsModal({
                   <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
                     <Bug className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                     <span className="truncate">
-                      {translations.tixDetailsModal?.threatsIdentified || 'Threats Identified'} (
-                      {metadata?.statements?.length || 0})
+                      Threats Identified ({metadata?.statements?.length || 0})
                     </span>
                   </CardTitle>
                 </CardHeader>
@@ -237,7 +230,6 @@ export default function TIXDetailsModal({
                       <Card key={index} className="border-l-2 sm:border-l-4 border-l-orange-500">
                         <CardContent className="p-3 sm:p-4">
                           <div className="space-y-3 sm:space-y-4">
-                            {/* Vulnerability Header */}
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                               <div className="flex flex-col sm:flex-row sm:items-center gap-2 min-w-0">
                                 <h4 className="font-semibold text-sm sm:text-base truncate">
@@ -251,8 +243,7 @@ export default function TIXDetailsModal({
                                     className="text-xs flex-shrink-0"
                                   >
                                     {getImpactLabel(
-                                      statement.vulnerability.cvss.vuln_impact,
-                                      translations
+                                      statement.vulnerability.cvss.vuln_impact
                                     )}{' '}
                                     ({statement.vulnerability.cvss.vuln_impact})
                                   </Badge>
@@ -265,7 +256,7 @@ export default function TIXDetailsModal({
                                 className="text-xs text-blue-600 hover:underline flex items-center gap-1 flex-shrink-0"
                               >
                                 <span className="hidden sm:inline">
-                                  {translations.tixDetailsModal?.viewDetails || 'View details'}
+                                  View details
                                 </span>
                                 <span className="sm:hidden">Details</span>
                                 <ExternalLink className="h-3 w-3" />
@@ -283,7 +274,7 @@ export default function TIXDetailsModal({
                             {statement.vulnerability.cvss.attack_vector && (
                               <div>
                                 <p className="text-xs font-medium text-muted-foreground mb-1">
-                                  {translations.tixDetailsModal?.cvssVector || 'CVSS Vector'}
+                                  CVSS Vector
                                 </p>
                                 <code className="text-xs bg-muted px-2 py-1 rounded break-all">
                                   {statement.vulnerability.cvss.attack_vector}
@@ -295,7 +286,7 @@ export default function TIXDetailsModal({
                             {statement.vulnerability.cwes.length > 0 && (
                               <div>
                                 <p className="text-xs font-medium text-muted-foreground mb-2">
-                                  {translations.tixDetailsModal?.relatedCWEs || 'Related CWEs'}
+                                  Related CWEs
                                 </p>
                                 <div className="flex flex-wrap gap-1">
                                   {statement.vulnerability.cwes.map(
@@ -325,8 +316,7 @@ export default function TIXDetailsModal({
                             {statement.products.length > 0 && (
                               <div>
                                 <p className="text-xs font-medium text-muted-foreground mb-2">
-                                  {translations.tixDetailsModal?.affectedProducts ||
-                                    'Affected Products'}
+                                  Affected Products
                                 </p>
                                 <div className="space-y-1">
                                   {statement.products.map((product: any, productIndex: number) => {
@@ -354,13 +344,13 @@ export default function TIXDetailsModal({
                               {/* Reachable Code */}
                               <div>
                                 <p className="text-xs font-medium text-muted-foreground mb-2">
-                                  {translations.tixDetailsModal?.reachableCode || 'Reachable Code'}
+                                  Reachable Code
                                 </p>
                                 {statement.reachable_code.length > 0 ? (
                                   <div className="space-y-2">
                                     <Badge variant="destructive" className="text-xs mb-2">
                                       {statement.reachable_code.length}{' '}
-                                      {translations.tixDetailsModal?.found || 'found'}
+                                      found
                                     </Badge>
                                     <div className="bg-muted/30 rounded-lg p-2 sm:p-3 space-y-2 sm:space-y-3 max-h-32 sm:max-h-40 overflow-y-auto">
                                       {statement.reachable_code.map(
@@ -376,9 +366,7 @@ export default function TIXDetailsModal({
                                               codeEntry.used_artefacts.length > 0 && (
                                                 <div className="space-y-2">
                                                   <p className="text-muted-foreground font-medium text-xs">
-                                                    {translations.tixDetailsModal?.artefacts ||
-                                                      'artefacts'}
-                                                    :
+                                                    Artefacts:
                                                   </p>
                                                   {codeEntry.used_artefacts.map(
                                                     (artefact: any, artefactIndex: number) => (
@@ -403,9 +391,7 @@ export default function TIXDetailsModal({
                                                           artefact.sources.length > 0 && (
                                                             <div className="mb-2">
                                                               <p className="text-xs font-medium text-muted-foreground mb-1">
-                                                                {translations.tixDetailsModal
-                                                                  ?.sources || 'Sources'}
-                                                                :
+                                                                Sources:
                                                               </p>
                                                               <div className="flex flex-wrap gap-1">
                                                                 {artefact.sources.map(
@@ -428,9 +414,7 @@ export default function TIXDetailsModal({
 
                                                         {artefact.used_in_lines && (
                                                           <div className="text-muted-foreground text-xs">
-                                                            {translations.tixDetailsModal?.lines ||
-                                                              'Lines'}
-                                                            :{' '}
+                                                            Lines:{' '}
                                                             {typeof artefact.used_in_lines ===
                                                             'string'
                                                               ? artefact.used_in_lines
@@ -476,7 +460,7 @@ export default function TIXDetailsModal({
                                   </div>
                                 ) : (
                                   <Badge variant="secondary" className="text-xs">
-                                    {translations.tixDetailsModal?.notFound || 'Not found'}
+                                    Not found
                                   </Badge>
                                 )}
                               </div>
@@ -484,13 +468,13 @@ export default function TIXDetailsModal({
                               {/* Known Exploits */}
                               <div>
                                 <p className="text-xs font-medium text-muted-foreground mb-2">
-                                  {translations.tixDetailsModal?.knownExploits || 'Known Exploits'}
+                                  Known Exploits
                                 </p>
                                 {statement.exploits.length > 0 ? (
                                   <div className="space-y-2">
                                     <Badge variant="destructive" className="text-xs mb-2">
                                       {statement.exploits.length}{' '}
-                                      {translations.tixDetailsModal?.available || 'available'}
+                                      available
                                     </Badge>
                                     <div className="space-y-2 max-h-32 sm:max-h-40 overflow-y-auto">
                                       {statement.exploits.map(
@@ -576,7 +560,7 @@ export default function TIXDetailsModal({
                                   </div>
                                 ) : (
                                   <Badge variant="secondary" className="text-xs">
-                                    {translations.tixDetailsModal?.notKnown || 'Not known'}
+                                    Not known
                                   </Badge>
                                 )}
                               </div>
@@ -584,7 +568,7 @@ export default function TIXDetailsModal({
 
                             {/* Timestamp */}
                             <div className="text-xs text-muted-foreground pt-2 border-t">
-                              {translations.tixDetailsModal?.analyzed || 'Analyzed'}:{' '}
+                              Analyzed:{' '}
                               {formatDate(statement.timestamp)}
                             </div>
                           </div>
@@ -601,7 +585,7 @@ export default function TIXDetailsModal({
             <div className="text-center py-8">
               <AlertTriangle className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-3 text-muted-foreground" />
               <p className="text-sm text-muted-foreground">
-                {translations.tixDetailsModal?.errorText || 'Could not load TIX information'}
+                Could not load TIX information
               </p>
             </div>
           )}

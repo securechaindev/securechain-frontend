@@ -10,10 +10,9 @@ interface EndpointCardProps {
     auth?: boolean
   }
   index: number
-  t: any
 }
 
-export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, index, t }) => {
+export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, index }) => {
   const getMethodColorClasses = (method: string): string => {
     switch (method.toUpperCase()) {
       case 'GET':
@@ -47,8 +46,8 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, index, t }
         {endpoint.auth && (
           <Badge variant="outline" className="gap-1 text-xs w-fit">
             <Lock className="h-3 w-3" />
-            <span className="hidden sm:inline">{t.docs.authRequired}</span>
-            <span className="sm:hidden">{t.docs.auth}</span>
+            <span className="hidden sm:inline">Auth Required</span>
+            <span className="sm:hidden">Auth</span>
           </Badge>
         )}
       </div>

@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { useToast } from '@/hooks/ui'
 import { usePackage } from '@/context'
 import { depexAPI } from '@/lib/api'
-import { getDepexErrorMessage, getDepexSuccessMessage, APIError } from '@/lib/utils'
+import { getErrorMessage, getSuccessMessage, APIError } from '@/lib/utils'
 import type { NodeType, PackageInitData } from '@/types'
 
-export function usePackageOperations(translations: Record<string, any>) {
+export function usePackageOperations() {
   const [packageName, setPackageName] = useState('')
   const [nodeType, setNodeType] = useState<NodeType>('PyPIPackage')
   const [depexLoading, setDepexLoading] = useState(false)
@@ -19,8 +19,8 @@ export function usePackageOperations(translations: Record<string, any>) {
   const handlePackageStatus = async () => {
     if (!packageName.trim()) {
       toast({
-        title: translations.errorTitle,
-        description: translations.packageNameRequired || 'Package name is required',
+        title: 'Error',
+        description: 'Package name is required',
         variant: 'destructive',
       })
       return
@@ -40,21 +40,18 @@ export function usePackageOperations(translations: Record<string, any>) {
         setPackageNodeType(nodeType)
         setIsViewingPackage(true)
 
-        const successMessage = getDepexSuccessMessage('get_package_status_success', translations)
+        const successMessage = 'Success'
         toast({
-          title: translations.successTitle || 'Success',
+          title: 'Success',
           description: successMessage,
         })
       } else if (response.data.code === 'package_not_found') {
         setPendingPackageInit({ packageName, nodeType })
         setShowPackageInitModal(true)
       } else {
-        const errorMessage = getDepexErrorMessage(
-          response.data.code || 'unknown_error',
-          translations
-        )
+        const errorMessage = 'An error occurred'
         toast({
-          title: translations.errorTitle,
+          title: 'Error',
           description: errorMessage,
           variant: 'destructive',
         })
@@ -72,11 +69,11 @@ export function usePackageOperations(translations: Record<string, any>) {
         setShowPackageInitModal(true)
         return
       } else if (error instanceof APIError && error.code) {
-        errorMessage = getDepexErrorMessage(error.code, translations)
+        errorMessage = 'An error occurred'
       }
 
       toast({
-        title: translations.errorTitle,
+        title: 'Error',
         description: errorMessage,
         variant: 'destructive',
       })
@@ -97,20 +94,17 @@ export function usePackageOperations(translations: Record<string, any>) {
       })
 
       if (response.ok && response.data.code === 'package_initializing') {
-        const successMessage = getDepexSuccessMessage('package_initializing', translations)
+        const successMessage = 'Success'
         toast({
-          title: translations.packageInitialized || 'Package Initialized',
+          title: 'Package Initialized',
           description: successMessage,
         })
         setShowPackageInitModal(false)
         setPendingPackageInit(null)
       } else {
-        const errorMessage = getDepexErrorMessage(
-          response.data.code || 'unknown_error',
-          translations
-        )
+        const errorMessage = 'An error occurred'
         toast({
-          title: translations.errorTitle,
+          title: 'Error',
           description: errorMessage,
           variant: 'destructive',
         })
@@ -120,11 +114,11 @@ export function usePackageOperations(translations: Record<string, any>) {
 
       let errorMessage = 'Failed to initialize package'
       if (error instanceof APIError && error.code) {
-        errorMessage = getDepexErrorMessage(error.code, translations)
+        errorMessage = 'An error occurred'
       }
 
       toast({
-        title: translations.errorTitle,
+        title: 'Error',
         description: errorMessage,
         variant: 'destructive',
       })

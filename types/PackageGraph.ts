@@ -28,7 +28,6 @@ export interface PackageGraphViewProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   packageName: string
-  translations: Record<string, any>
   purl: string
   nodeType: string
 }

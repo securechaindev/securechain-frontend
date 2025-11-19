@@ -16,7 +16,7 @@ import { useState } from 'react'
 interface PackageInfoFormProps {
   onSubmit: (_packageName: string, _maxDepth: number, _nodeType: string) => void
   isLoading: boolean
-  translations: Record<string, any>
+  
 }
 
 const NODE_TYPES = [
@@ -28,7 +28,7 @@ const NODE_TYPES = [
   { value: 'NuGetPackage', label: 'NuGet (.NET)' },
 ] as const
 
-export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageInfoFormProps) {
+export function PackageInfoForm({ onSubmit, isLoading }: PackageInfoFormProps) {
   const [packageName, setPackageName] = useState('')
   const [maxDepth, setMaxDepth] = useState('3')
   const [nodeType, setNodeType] = useState<string>('PyPIPackage')
@@ -49,7 +49,7 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
         {/* Package Name Input */}
         <div className="space-y-2">
           <Label htmlFor="package-name">
-            {translations.packageName || 'Package Name'}
+            Package Name
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Input
@@ -66,7 +66,7 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
         {/* Max Depth Input */}
         <div className="space-y-2">
           <Label htmlFor="max-depth">
-            {translations.maxDepth || 'Max Depth'}
+            Max Depth
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Input
@@ -85,7 +85,7 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
         {/* Node Type Select */}
         <div className="space-y-2">
           <Label htmlFor="node-type">
-            {translations.nodeType || 'Node Type'}
+            Node Type
             <span className="text-destructive ml-1">*</span>
           </Label>
           <Select value={nodeType} onValueChange={setNodeType} disabled={isLoading}>
@@ -108,8 +108,8 @@ export function PackageInfoForm({ onSubmit, isLoading, translations }: PackageIn
         <Button type="submit" disabled={isLoading || !packageName.trim()}>
           <Search className="mr-2 h-4 w-4" />
           {isLoading
-            ? translations.analyzing || 'Analyzing...'
-            : translations.analyzePackage || 'Analyze Package'}
+            ? 'Analyzing...'
+            : 'Analyze Package'}
         </Button>
       </div>
     </form>

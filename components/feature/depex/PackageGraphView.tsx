@@ -5,7 +5,7 @@ import { Button, Badge } from '@/components/ui'
 import { usePackageGraph } from '@/hooks/api/usePackageGraph'
 import type { GraphNode, GraphEdge, PackageGraphViewProps } from '@/types/PackageGraph'
 
-export default function PackageGraphView({ open, onOpenChange, packageName, translations, purl, nodeType }: PackageGraphViewProps) {
+export default function PackageGraphView({ open, onOpenChange, packageName, purl, nodeType  }: PackageGraphViewProps) {
   const { graph, expandNode, collapseNode, fetched, loadingNodes } = usePackageGraph({ packageName, purl, nodeType })
   const [selected, setSelected] = useState<GraphNode | null>(null)
   const [selectedEdge, setSelectedEdge] = useState<GraphEdge | null>(null)
@@ -624,7 +624,7 @@ export default function PackageGraphView({ open, onOpenChange, packageName, tran
         {/* Header */}
         <div className="p-4 border-b flex items-center justify-between bg-background">
           <div className="flex items-center gap-3">
-            <h3 className="text-lg font-bold">{translations.docs?.graphViewTitle || 'Package Graph'}</h3>
+            <h3 className="text-lg font-bold">Package Graph</h3>
             <Badge>{packageName}</Badge>
             <Badge variant={isNodeLimitReached ? 'destructive' : 'secondary'}>
               {graphData.nodes.length}/{MAX_NODES} nodes
@@ -826,8 +826,8 @@ export default function PackageGraphView({ open, onOpenChange, packageName, tran
           <div className="w-80 border-l p-4 overflow-auto bg-background">
             <h4 className="font-semibold mb-3">
               {selectedEdge
-                ? (translations.docs?.relationshipProperties || 'Relationship properties')
-                : (translations.docs?.nodeProperties || 'Node properties')}
+                ? ('Relationship properties')
+                : ('Node properties')}
             </h4>
 
             {selectedEdge ? (
@@ -998,7 +998,7 @@ export default function PackageGraphView({ open, onOpenChange, packageName, tran
               </div>
             ) : (
               <div className="text-sm text-muted-foreground">
-                {translations.docs?.selectNodeOrEdgeHint || 'Select a node or edge to see properties'}
+                Select a node or edge to see properties
               </div>
             )}
           </div>

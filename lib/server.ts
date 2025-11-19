@@ -4,8 +4,5 @@
 // All client-safe exports
 export * from './client'
 
-// Server-only utilities
-export * from './server-i18n'
-
 // Server-only config (explicit import required)
 // Use: import { serverConfig } from '@/lib/config/config'

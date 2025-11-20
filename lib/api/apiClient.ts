@@ -393,11 +393,23 @@ export const depexAPI = {
     apiClient.get(`${API_ENDPOINTS.DEPEX.VERSION_STATUS}?${params}`),
 
   graph: {
-    expandPackage: (data: { node_type: string; package_purl: string; constraints?: string | null }) =>
-      apiClient.post(API_ENDPOINTS.DEPEX.GRAPH.EXPAND_PACKAGE, data, { retries: 0 }),
+    expandPackage: (data: { node_type: string; package_purl: string; constraints?: string | null }) => {
+      const params = new URLSearchParams({
+        node_type: data.node_type,
+        package_purl: data.package_purl,
+      })
+      if (data.constraints) {
+        params.append('constraints', data.constraints)
+      }
+      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_PACKAGE}?${params.toString()}`, { retries: 0 })
+    },
 
-    expandVersion: (data: { version_purl: string }) =>
-      apiClient.post(API_ENDPOINTS.DEPEX.GRAPH.EXPAND_VERSION, data, { retries: 0 }),
+    expandVersion: (data: { version_purl: string }) => {
+      const params = new URLSearchParams({
+        version_purl: data.version_purl,
+      })
+      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_VERSION}?${params.toString()}`, { retries: 0 })
+    },
   },
 
   operations: {

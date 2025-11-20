@@ -247,25 +247,19 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
           label: node.label,
           type: node.type,
           props: node.props,
-          // Size based on type
           val: node.type.includes('Package') ? 15 : 8,
-          // Color based on package ecosystem
           color: getPackageColor(node.type),
           hasVulnerabilities,
           ecosystem
         }
       }),
       links: filteredEdges.map(edge => {
-        const isSelected = selectedEdge?.id === edge.id
-        
         return {
           source: edge.source,
           target: edge.target,
           type: edge.type,
           props: edge.props,
-          id: edge.id,
-          color: isSelected ? '#3b82f6' : '#64748b',
-          width: isSelected ? 3 : 2
+          id: edge.id
         }
       })
     }
@@ -463,17 +457,18 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
               ctx.arc(node.x, node.y, nodeRadius, 0, 2 * Math.PI)
               ctx.fill()
             })
-            .linkColor((link: any) => link.color)
-            .linkWidth((link: any) => link.width)
+            .linkColor((link: any) => link.color || '#64748b')
+            .linkWidth((link: any) => 2)
             .linkDirectionalArrowLength(0)
             .linkDirectionalArrowRelPos(1)
             .linkDirectionalParticles(0)
-            .linkCanvasObjectMode(() => 'after')
+            .linkCanvasObjectMode(() => 'replace')
             .linkCanvasObject((link: any, ctx: any) => {
               const start = link.source
               const end = link.target
               
               // Get node radius
+              const sourceRadius = start.__radius || Math.sqrt(start.val || 8) * 4
               const targetRadius = end.__radius || Math.sqrt(end.val || 8) * 4
               
               // Calculate direction vector
@@ -487,12 +482,25 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
               const nx = dx / dist
               const ny = dy / dist
               
+              // Calculate line start and end positions (from edge to edge of nodes)
+              const lineStartX = start.x + nx * sourceRadius
+              const lineStartY = start.y + ny * sourceRadius
+              const lineEndX = end.x - nx * targetRadius
+              const lineEndY = end.y - ny * targetRadius
+              
+              // Draw the link line
+              ctx.beginPath()
+              ctx.moveTo(lineStartX, lineStartY)
+              ctx.lineTo(lineEndX, lineEndY)
+              ctx.strokeStyle = link.color || '#64748b'
+              ctx.lineWidth = 2
+              ctx.stroke()
+              
               // Position arrow tip exactly at the edge of target node
               const arrowLength = 10
               const arrowWidth = 6
-              // Arrow tip position at node edge
-              const tipX = end.x - nx * targetRadius
-              const tipY = end.y - ny * targetRadius
+              const tipX = lineEndX
+              const tipY = lineEndY
               
               // Draw single arrowhead with tip at node edge
               ctx.save()
@@ -519,11 +527,12 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
                 ctx.textAlign = 'center'
                 ctx.textBaseline = 'middle'
                 
-                // Draw background for text
+                // Draw text with semi-transparent background
                 const textWidth = ctx.measureText(link.type).width
                 const padding = 3
-                // Use a light gray color that matches bg-muted/20 appearance
-                ctx.fillStyle = 'rgba(252, 253, 254, 1)'
+                
+                // Draw semi-transparent background
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
                 ctx.fillRect(
                   midX - textWidth / 2 - padding,
                   midY - fontSize / 2 - padding,
@@ -721,7 +730,7 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
                         <span>Package</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full border-2 border-[#3b82f6] bg-[#dbeafe]"></div>
+                        <div className="w-4 h-4 rounded-full border-2 border-[#3b82f6] bg-[#dbeafe]"></div>
                         <span>Version</span>
                       </div>
                       <div className="flex items-center gap-2">

@@ -13,7 +13,8 @@ import type {
   CompleteConfigRequest,
   ConfigByImpactRequest,
   FileInfoResult,
-  Configuration} from '@/types/RequirementOperations'
+  Configuration,
+} from '@/types/RequirementOperations'
 
 interface RequirementOperationsState {
   isLoading: boolean
@@ -35,7 +36,8 @@ export function useRequirementOperations() {
     validationResult: null,
     configurations: null,
     singleConfiguration: null,
-    error: null})
+    error: null,
+  })
 
   const showSuccess = useCallback(
     (message: string) => {
@@ -43,7 +45,8 @@ export function useRequirementOperations() {
 
       toast({
         title: successTitle,
-        description: message})
+        description: message,
+      })
     },
     [toast]
   )
@@ -53,14 +56,13 @@ export function useRequirementOperations() {
       const errorTitle = 'Error'
 
       const errorMessage =
-        getErrorMessage(error?.code || error?.detail) ||
-        error?.message ||
-        fallbackMessage
+        getErrorMessage(error?.code || error?.detail) || error?.message || fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
         description: errorMessage,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     },
     [toast]
   )
@@ -107,9 +109,7 @@ export function useRequirementOperations() {
 
         if (result) {
           setState(prev => ({ ...prev, fileInfoResult: result, isLoading: false }))
-          showSuccess(
-            'Información del archivo obtenida exitosamente'
-          )
+          showSuccess('Información del archivo obtenida exitosamente')
           return result
         }
       } catch (error) {
@@ -126,7 +126,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'valid_graph'}))
+        selectedOperation: 'valid_graph',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.validGraph(params)
@@ -154,7 +155,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'minimize_impact'}))
+        selectedOperation: 'minimize_impact',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.minimizeImpact(params)
@@ -162,9 +164,7 @@ export function useRequirementOperations() {
 
         if (result) {
           setState(prev => ({ ...prev, configurations: result, isLoading: false }))
-          showSuccess(
-            'Minimización de impacto completada exitosamente'
-          )
+          showSuccess('Minimización de impacto completada exitosamente')
           return result
         }
       } catch (error) {
@@ -181,7 +181,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'maximize_impact'}))
+        selectedOperation: 'maximize_impact',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.maximizeImpact(params)
@@ -189,9 +190,7 @@ export function useRequirementOperations() {
 
         if (result) {
           setState(prev => ({ ...prev, configurations: result, isLoading: false }))
-          showSuccess(
-            'Maximización de impacto completada exitosamente'
-          )
+          showSuccess('Maximización de impacto completada exitosamente')
           return result
         }
       } catch (error) {
@@ -208,7 +207,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'filter_configs'}))
+        selectedOperation: 'filter_configs',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.filterConfigs(params)
@@ -216,9 +216,7 @@ export function useRequirementOperations() {
 
         if (result) {
           setState(prev => ({ ...prev, configurations: result, isLoading: false }))
-          showSuccess(
-            'Filtrado de configuraciones completado exitosamente'
-          )
+          showSuccess('Filtrado de configuraciones completado exitosamente')
           return result
         }
       } catch (error) {
@@ -235,7 +233,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'valid_config'}))
+        selectedOperation: 'valid_config',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.validConfig(params)
@@ -243,9 +242,7 @@ export function useRequirementOperations() {
 
         if (result !== null) {
           setState(prev => ({ ...prev, validationResult: result, isLoading: false }))
-          const message = result
-            ? 'La configuración es válida'
-            : 'La configuración es inválida'
+          const message = result ? 'La configuración es válida' : 'La configuración es inválida'
           showSuccess(message)
           return result
         }
@@ -263,7 +260,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'complete_config'}))
+        selectedOperation: 'complete_config',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.completeConfig(params)
@@ -271,9 +269,7 @@ export function useRequirementOperations() {
 
         if (result) {
           setState(prev => ({ ...prev, singleConfiguration: result, isLoading: false }))
-          showSuccess(
-            'Configuración completada exitosamente'
-          )
+          showSuccess('Configuración completada exitosamente')
           return result
         }
       } catch (error) {
@@ -290,7 +286,8 @@ export function useRequirementOperations() {
         ...prev,
         isLoading: true,
         error: null,
-        selectedOperation: 'config_by_impact'}))
+        selectedOperation: 'config_by_impact',
+      }))
 
       try {
         const response = await depexAPI.operations.smt.configByImpact(params)
@@ -298,9 +295,7 @@ export function useRequirementOperations() {
 
         if (result) {
           setState(prev => ({ ...prev, singleConfiguration: result, isLoading: false }))
-          showSuccess(
-            'Configuración por impacto completada exitosamente'
-          )
+          showSuccess('Configuración por impacto completada exitosamente')
           return result
         }
       } catch (error) {
@@ -319,7 +314,8 @@ export function useRequirementOperations() {
       validationResult: null,
       configurations: null,
       singleConfiguration: null,
-      error: null})
+      error: null,
+    })
   }, [])
 
   return {
@@ -333,5 +329,6 @@ export function useRequirementOperations() {
     completeConfig,
     configByImpact,
     clearResults,
-    isExecuting: state.isLoading}
+    isExecuting: state.isLoading,
+  }
 }

@@ -20,34 +20,33 @@ export function useVersionInfo() {
     isLoading: false,
     data: null,
     error: null,
-    nodeType: null})
+    nodeType: null,
+  })
 
   const showSuccess = useCallback(
     (message: string) => {
-      const successTitle =
-        'Success'
+      const successTitle = 'Success'
 
       toast({
         title: successTitle,
-        description: message})
+        description: message,
+      })
     },
     [toast]
   )
 
   const showError = useCallback(
     (error: any, fallbackMessage: string) => {
-      const errorTitle =
-        'Error'
+      const errorTitle = 'Error'
 
       const errorMessage =
-        getErrorMessage(error?.code || error?.detail) ||
-        error?.message ||
-        fallbackMessage
+        getErrorMessage(error?.code || error?.detail) || error?.message || fallbackMessage
       setState(prev => ({ ...prev, error: errorMessage, isLoading: false }))
       toast({
         title: errorTitle,
         description: errorMessage,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     },
     [toast]
   )
@@ -59,7 +58,8 @@ export function useVersionInfo() {
         isLoading: true,
         error: null,
         data: null,
-        nodeType: params.node_type}))
+        nodeType: params.node_type,
+      }))
 
       try {
         const response = await depexAPI.operations.ssc.versionInfo(params)
@@ -69,10 +69,9 @@ export function useVersionInfo() {
             setState(prev => ({
               ...prev,
               data: response.data.data,
-              isLoading: false}))
-            showSuccess(
-              'The package version has no dependencies.'
-            )
+              isLoading: false,
+            }))
+            showSuccess('The package version has no dependencies.')
             return response.data.data
           }
 
@@ -80,10 +79,9 @@ export function useVersionInfo() {
             setState(prev => ({
               ...prev,
               data: response.data.data,
-              isLoading: false}))
-            showSuccess(
-              'Package version information retrieved successfully.'
-            )
+              isLoading: false,
+            }))
+            showSuccess('Package version information retrieved successfully.')
             return response.data.data
           }
         }
@@ -102,11 +100,13 @@ export function useVersionInfo() {
       isLoading: false,
       data: null,
       error: null,
-      nodeType: null})
+      nodeType: null,
+    })
   }, [])
 
   return {
     ...state,
     getVersionInfo,
-    clearResults}
+    clearResults,
+  }
 }

@@ -13,24 +13,24 @@ interface PackageInitModalProps {
   onOpenChange: (_open: boolean) => void
   pendingPackageInit: PackageInitData | null
   depexLoading: boolean
-  
+
   onInitialize: () => void
   onCancel: () => void
 }
 
-export default function PackageInitModal({ open,
+export default function PackageInitModal({
+  open,
   onOpenChange,
   pendingPackageInit,
-  depexLoading, onInitialize,
+  depexLoading,
+  onInitialize,
   onCancel,
- }: PackageInitModalProps) {
+}: PackageInitModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md mx-4 rounded-lg">
         <DialogHeader className="space-y-3">
-          <DialogTitle className="text-lg sm:text-xl leading-tight">
-            Initialize Package
-          </DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl leading-tight">Initialize Package</DialogTitle>
           <DialogDescription className="text-sm sm:text-base leading-relaxed">
             {'Initialize package analysis'.replace(
               '{packageName}',
@@ -46,9 +46,7 @@ export default function PackageInitModal({ open,
             size="sm"
           >
             <span className="text-xs sm:text-sm">
-              {depexLoading
-                ? 'Initializing...'
-                : 'Initialize'}
+              {depexLoading ? 'Initializing...' : 'Initialize'}
             </span>
           </Button>
           <Button

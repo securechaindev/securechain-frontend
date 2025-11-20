@@ -21,9 +21,7 @@ export function useRepositories() {
           : response.data.data?.repositories || []
         setUserRepositories(repositories)
       } else {
-        const errorMessage = getErrorMessage(
-          response.data.code || 'unknown_error'
-        )
+        const errorMessage = getErrorMessage(response.data.code || 'unknown_error')
         toast({
           title: 'Error',
           description: errorMessage,

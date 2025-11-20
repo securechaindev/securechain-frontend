@@ -393,7 +393,11 @@ export const depexAPI = {
     apiClient.get(`${API_ENDPOINTS.DEPEX.VERSION_STATUS}?${params}`),
 
   graph: {
-    expandPackage: (data: { node_type: string; package_purl: string; constraints?: string | null }) => {
+    expandPackage: (data: {
+      node_type: string
+      package_purl: string
+      constraints?: string | null
+    }) => {
       const params = new URLSearchParams({
         node_type: data.node_type,
         package_purl: data.package_purl,
@@ -401,21 +405,27 @@ export const depexAPI = {
       if (data.constraints) {
         params.append('constraints', data.constraints)
       }
-      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_PACKAGE}?${params.toString()}`, { retries: 0 })
+      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_PACKAGE}?${params.toString()}`, {
+        retries: 0,
+      })
     },
 
     expandVersion: (data: { version_purl: string }) => {
       const params = new URLSearchParams({
         version_purl: data.version_purl,
       })
-      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_VERSION}?${params.toString()}`, { retries: 0 })
+      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_VERSION}?${params.toString()}`, {
+        retries: 0,
+      })
     },
 
     expandReqFile: (data: { requirement_file_id: string }) => {
       const params = new URLSearchParams({
         requirement_file_id: data.requirement_file_id,
       })
-      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_REQ_FILE}?${params.toString()}`, { retries: 0 })
+      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_REQ_FILE}?${params.toString()}`, {
+        retries: 0,
+      })
     },
   },
 

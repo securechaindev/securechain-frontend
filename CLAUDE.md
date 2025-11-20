@@ -1,6 +1,7 @@
 # CLAUDE.md - SecureChain Frontend Project Context
 
 > **⚠️ IMPORTANT GUIDELINES FOR THIS FILE:**
+>
 > - **Maximum length:** 500 lines
 > - **Include only relevant context** for current development needs
 > - **Remove outdated or unused sections** regularly
@@ -274,7 +275,7 @@ function MyComponent() {
 ## 🗄️ State Management
 
 - **PackageContext** - Global package state
-- **AuthProvider** - Authentication state  
+- **AuthProvider** - Authentication state
 - **ThemeProvider** - Theme state
 - **Local Storage Keys:** `user_email`, `theme`, `locale`, `home-active-tab`
 
@@ -372,9 +373,9 @@ The backend exposes **two separate endpoints** for graph expansion:
 
 ```typescript
 interface GraphNode {
-  id: string          // PURL format
-  label: string       // Package name or version
-  type: string        // PyPIPackage, NPMPackage, Version, etc.
+  id: string // PURL format
+  label: string // Package name or version
+  type: string // PyPIPackage, NPMPackage, Version, etc.
   props: {
     name: string
     purl: string
@@ -389,12 +390,12 @@ interface GraphNode {
 }
 
 interface GraphEdge {
-  id: string          // Format: {source}_{type}_{target}
-  source: string      // Node ID
-  target: string      // Node ID
-  type: string        // HAVE or DEPENDS_ON
+  id: string // Format: {source}_{type}_{target}
+  source: string // Node ID
+  target: string // Node ID
+  type: string // HAVE or DEPENDS_ON
   props?: {
-    constraints?: string          // Version constraints
+    constraints?: string // Version constraints
     parent_version_name?: string
   }
 }
@@ -434,6 +435,7 @@ if (node.type === 'Version') {
 ## 🛠️ Quick Guide for AI Agents
 
 ### Adding a new feature:
+
 1. Create types in `/types/NewFeature.ts`
 2. Create hooks in `/hooks/api/useNewFeature.ts`
 3. Create components in `/components/feature/newfeature/`
@@ -441,16 +443,19 @@ if (node.type === 'Version') {
 5. Add translations in `/public/locales/{en,es}/newfeature.json`
 
 ### Modifying UI:
+
 1. Check `/components/ui/` for existing components
 2. Add with shadcn if needed: `npx shadcn-ui@latest add [component]`
 3. Use Tailwind for styling
 
 ### Adding endpoints:
+
 1. Define in `/constants/apiEndpoints.ts`
 2. Create type in `/types/`
 3. Create hook in `/hooks/api/`
 
 ### Debugging:
+
 - Check `/lib/config/config.ts` for env vars
 - Review `middleware.ts` for auth issues
 - Browser console and Network tab for API calls

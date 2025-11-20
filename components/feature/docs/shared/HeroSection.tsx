@@ -13,7 +13,8 @@ export const HeroSection: React.FC = () => {
           Secure Chain API Documentation
         </h1>
         <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4">
-          Comprehensive documentation for the Secure Chain API, including authentication, dependency analysis, and VEX/TIX generation.
+          Comprehensive documentation for the Secure Chain API, including authentication, dependency
+          analysis, and VEX/TIX generation.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">

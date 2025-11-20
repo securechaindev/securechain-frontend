@@ -6,7 +6,8 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle} from '@/components/ui/Dialog'
+  DialogTitle,
+} from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -24,7 +25,6 @@ interface VersionInfoDialogProps {
   packageName?: string
   versionName?: string
   nodeType?: NodeType
-
 }
 
 export function VersionInfoDialog({
@@ -32,7 +32,8 @@ export function VersionInfoDialog({
   onOpenChange,
   packageName: initialPackageName,
   versionName: initialVersionName,
-  nodeType: initialNodeType}: VersionInfoDialogProps) {
+  nodeType: initialNodeType,
+}: VersionInfoDialogProps) {
   const [packageName, setPackageName] = useState('')
   const [versionName, setVersionName] = useState('')
   const [maxDepth, setMaxDepth] = useState('2')
@@ -62,7 +63,8 @@ export function VersionInfoDialog({
       package_name: packageName.trim(),
       version_name: versionName.trim(),
       max_depth: depth,
-      node_type: initialNodeType || 'PyPIPackage'})
+      node_type: initialNodeType || 'PyPIPackage',
+    })
   }
 
   const handleClose = () => {
@@ -74,9 +76,7 @@ export function VersionInfoDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            Package Version Dependency Analysis
-          </DialogTitle>
+          <DialogTitle>Package Version Dependency Analysis</DialogTitle>
           <DialogDescription>
             Analyze specific version dependencies with detailed vulnerability scores
           </DialogDescription>
@@ -147,9 +147,7 @@ export function VersionInfoDialog({
               disabled={versionInfo.isLoading || !packageName.trim() || !versionName.trim()}
             >
               <Search className="mr-2 h-4 w-4" />
-              {versionInfo.isLoading
-                ? 'Analyzing...'
-                : 'Analyze Version'}
+              {versionInfo.isLoading ? 'Analyzing...' : 'Analyze Version'}
             </Button>
           </div>
         </form>
@@ -177,7 +175,6 @@ export function VersionInfoDialog({
                 <DirectDependenciesVersionList
                   dependencies={versionInfo.data.direct_dependencies}
                   nodeType={versionInfo.nodeType || ''}
-                  
                 />
               )}
             {versionInfo.data.indirect_dependencies_by_depth &&
@@ -185,7 +182,6 @@ export function VersionInfoDialog({
                 <IndirectDependenciesVersionList
                   dependenciesByDepth={versionInfo.data.indirect_dependencies_by_depth}
                   nodeType={versionInfo.nodeType || ''}
-                  
                 />
               )}
           </div>

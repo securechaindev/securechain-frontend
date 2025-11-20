@@ -16,12 +16,11 @@ import type { FileInfoResult } from '@/types/RequirementOperations'
 
 interface FileInfoDisplayProps {
   fileInfo: FileInfoResult
-  
+
   onOpenVersionModal: (_dependency: any) => void
 }
 
-export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
- }: FileInfoDisplayProps) {
+export function FileInfoDisplay({ fileInfo, onOpenVersionModal }: FileInfoDisplayProps) {
   return (
     <Card>
       <CardHeader>
@@ -52,9 +51,7 @@ export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
 
         {fileInfo.direct_dependencies && fileInfo.direct_dependencies.length > 0 && (
           <div className="mb-6">
-            <h4 className="text-base sm:text-lg font-semibold mb-3">
-              Direct Dependencies
-            </h4>
+            <h4 className="text-base sm:text-lg font-semibold mb-3">Direct Dependencies</h4>
 
             {/* Mobile Layout */}
             <div className="md:hidden space-y-3">
@@ -74,15 +71,11 @@ export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
                     </div>
                     <div className="grid grid-cols-1 gap-1 text-xs">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">
-                          Vendor:
-                        </span>
+                        <span className="text-muted-foreground">Vendor:</span>
                         <span className="font-mono">{dep.package_vendor}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">
-                          Constraints:
-                        </span>
+                        <span className="text-muted-foreground">Constraints:</span>
                         <span className="font-mono">{dep.package_constraints}</span>
                       </div>
                     </div>
@@ -96,14 +89,10 @@ export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>
-                      Dependency Name
-                    </TableHead>
+                    <TableHead>Dependency Name</TableHead>
                     <TableHead>Vendor</TableHead>
                     <TableHead>Constraints</TableHead>
-                    <TableHead className="text-center">
-                      Actions
-                    </TableHead>
+                    <TableHead className="text-center">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -128,15 +117,11 @@ export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
         {fileInfo.indirect_dependencies_by_depth &&
           Object.keys(fileInfo.indirect_dependencies_by_depth).length > 0 && (
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-3">
-                Indirect Dependencies
-              </h4>
+              <h4 className="text-base sm:text-lg font-semibold mb-3">Indirect Dependencies</h4>
               {Object.entries(fileInfo.indirect_dependencies_by_depth).map(
                 ([depth, dependencies]) => (
                   <div key={depth} className="mb-4">
-                    <h5 className="text-sm sm:text-md font-medium mb-2">
-                      Depth Level {depth}
-                    </h5>
+                    <h5 className="text-sm sm:text-md font-medium mb-2">Depth Level {depth}</h5>
 
                     {/* Mobile Layout */}
                     <div className="md:hidden space-y-2">
@@ -158,15 +143,11 @@ export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
                             </div>
                             <div className="grid grid-cols-1 gap-1 text-xs">
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                  Vendor:
-                                </span>
+                                <span className="text-muted-foreground">Vendor:</span>
                                 <span className="font-mono text-right">{dep.package_vendor}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                  Constraints:
-                                </span>
+                                <span className="text-muted-foreground">Constraints:</span>
                                 <span className="font-mono text-right">
                                   {dep.package_constraints}
                                 </span>
@@ -182,18 +163,10 @@ export function FileInfoDisplay({ fileInfo, onOpenVersionModal,
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead>
-                              Dependency Name
-                            </TableHead>
-                            <TableHead>
-                              Vendor
-                            </TableHead>
-                            <TableHead>
-                              Constraints
-                            </TableHead>
-                            <TableHead className="text-center">
-                              Actions
-                            </TableHead>
+                            <TableHead>Dependency Name</TableHead>
+                            <TableHead>Vendor</TableHead>
+                            <TableHead>Constraints</TableHead>
+                            <TableHead className="text-center">Actions</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>

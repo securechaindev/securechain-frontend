@@ -4,7 +4,8 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger} from '@/components/ui/Accordion'
+  AccordionTrigger,
+} from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Network } from 'lucide-react'
@@ -16,12 +17,12 @@ interface IndirectDependenciesListProps {
     [depth: string]: IndirectDependency[]
   }
   nodeType: string
-
 }
 
 export function IndirectDependenciesList({
   dependenciesByDepth,
-  nodeType}: IndirectDependenciesListProps) {
+  nodeType,
+}: IndirectDependenciesListProps) {
   // Map node_type to friendly display names
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
@@ -30,7 +31,8 @@ export function IndirectDependenciesList({
       MavenPackage: 'Maven',
       RubyGemsPackage: 'RubyGems',
       CargoPackage: 'Cargo',
-      NuGetPackage: 'NuGet'}
+      NuGetPackage: 'NuGet',
+    }
     return typeMap[type] || type
   }
 
@@ -52,14 +54,10 @@ export function IndirectDependenciesList({
           <AccordionItem key={depth} value={`depth-${depth}`} className="border rounded-lg">
             <AccordionTrigger className="px-4 hover:no-underline">
               <div className="flex items-center gap-2">
-                <Badge variant="outline">
-                  Depth {depth}
-                </Badge>
+                <Badge variant="outline">Depth {depth}</Badge>
                 <span className="text-sm text-muted-foreground">
                   {dependenciesByDepth[depth].length}{' '}
-                  {dependenciesByDepth[depth].length === 1
-                    ? 'package'
-                    : 'packages'}
+                  {dependenciesByDepth[depth].length === 1 ? 'package' : 'packages'}
                 </span>
               </div>
             </AccordionTrigger>
@@ -86,18 +84,12 @@ export function IndirectDependenciesList({
                           <Badge variant="outline" className="font-mono text-xs">
                             {dep.package_constraints}
                           </Badge>
-                          <Badge variant="secondary">
-                            {dep.versions.length} versions
-                          </Badge>
+                          <Badge variant="secondary">{dep.versions.length} versions</Badge>
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent className="pt-6">
-                      <VersionList
-                        versions={dep.versions}
-                        packageName={dep.package_name}
-                        
-                      />
+                      <VersionList versions={dep.versions} packageName={dep.package_name} />
                     </CardContent>
                   </Card>
                 ))}

@@ -28,10 +28,7 @@ interface SMTOperationsFormProps {
   disabled?: boolean
 }
 
-export function SMTOperationsForm({
-  onExecute,
-  disabled = false,
-}: SMTOperationsFormProps) {
+export function SMTOperationsForm({ onExecute, disabled = false }: SMTOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
   const [params, setParams] = useState<{
     maxDepth: number | string
@@ -89,7 +86,7 @@ export function SMTOperationsForm({
     switch (selectedOperation) {
       case 'validateConfig':
         if (!validateConfiguration(configuration)) {
-          alert("Invalid configuration format. Please provide valid JSON.")
+          alert('Invalid configuration format. Please provide valid JSON.')
           return
         }
         onExecute(selectedOperation, {
@@ -100,7 +97,7 @@ export function SMTOperationsForm({
 
       case 'completeConfig':
         if (!validateConfiguration(partialConfiguration)) {
-          alert("Invalid partial configuration format. Please provide valid JSON.")
+          alert('Invalid partial configuration format. Please provide valid JSON.')
           return
         }
         onExecute(selectedOperation, {
@@ -111,13 +108,13 @@ export function SMTOperationsForm({
 
       case 'configByImpact':
         if (!impact.trim()) {
-          alert("Impact value is required")
+          alert('Impact value is required')
           return
         }
 
         const impactValue = parseFloat(impact.trim())
         if (isNaN(impactValue) || impactValue < 0 || impactValue > 10) {
-          alert("Impact must be between 0 and 10")
+          alert('Impact must be between 0 and 10')
           return
         }
 
@@ -159,50 +156,50 @@ export function SMTOperationsForm({
   const operations = [
     {
       id: 'validateGraph',
-      title: "Validate Graph",
-      description: "Validate a dependency graph for a requirement file",
+      title: 'Validate Graph',
+      description: 'Validate a dependency graph for a requirement file',
       icon: CheckCircleIcon,
       requiresParams: ['maxDepth'],
     },
     {
       id: 'minimizeImpact',
-      title: "Minimize Impact",
-      description: "Find configurations that minimize dependency impact",
+      title: 'Minimize Impact',
+      description: 'Find configurations that minimize dependency impact',
       icon: BarChartIcon,
       requiresParams: ['maxDepth', 'aggregator', 'limit'],
     },
     {
       id: 'maximizeImpact',
-      title: "Maximize Impact",
-      description: "Find configurations that maximize dependency impact",
+      title: 'Maximize Impact',
+      description: 'Find configurations that maximize dependency impact',
       icon: BarChartIcon,
       requiresParams: ['maxDepth', 'aggregator', 'limit'],
     },
     {
       id: 'filterConfigs',
-      title: "Filter Configs",
-      description: "Filter configurations based on impact thresholds",
+      title: 'Filter Configs',
+      description: 'Filter configurations based on impact thresholds',
       icon: FilterIcon,
       requiresParams: ['maxDepth', 'aggregator', 'limit', 'minThreshold', 'maxThreshold'],
     },
     {
       id: 'validateConfig',
-      title: "Validate Config",
-      description: "Validate a specific configuration",
+      title: 'Validate Config',
+      description: 'Validate a specific configuration',
       icon: CheckIcon,
       requiresParams: ['maxDepth', 'aggregator', 'configuration'],
     },
     {
       id: 'completeConfig',
-      title: "Complete Config",
-      description: "Complete a partial configuration with optimal values",
+      title: 'Complete Config',
+      description: 'Complete a partial configuration with optimal values',
       icon: FileTextIcon,
       requiresParams: ['maxDepth', 'aggregator', 'partialConfiguration'],
     },
     {
       id: 'configByImpact',
-      title: "Config By Impact",
-      description: "Get configuration recommendations based on impact level",
+      title: 'Config By Impact',
+      description: 'Get configuration recommendations based on impact level',
       icon: TargetIcon,
       requiresParams: ['maxDepth', 'aggregator', 'impact'],
     },
@@ -258,9 +255,7 @@ export function SMTOperationsForm({
               {/* Common Parameters */}
               {selectedOperationData.requiresParams.includes('maxDepth') && (
                 <div className="space-y-2">
-                  <Label htmlFor="maxDepth">
-                    {"Max Depth"}
-                  </Label>
+                  <Label htmlFor="maxDepth">{'Max Depth'}</Label>
                   <Input
                     id="maxDepth"
                     type="number"
@@ -321,47 +316,35 @@ export function SMTOperationsForm({
                     min="-1"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {"Maximum depth for dependency traversal (-1 for unlimited)"}
+                    {'Maximum depth for dependency traversal (-1 for unlimited)'}
                   </p>
                 </div>
               )}
 
               {selectedOperationData.requiresParams.includes('aggregator') && (
                 <div className="space-y-2">
-                  <Label htmlFor="aggregator">
-                    {"Aggregator"}
-                  </Label>
+                  <Label htmlFor="aggregator">{'Aggregator'}</Label>
                   <Select
                     value={params.aggregator}
                     onValueChange={value => setParams(prev => ({ ...prev, aggregator: value }))}
                   >
                     <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          "Aggregation method for impact calculation"
-                        }
-                      />
+                      <SelectValue placeholder={'Aggregation method for impact calculation'} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="mean">
-                        {"Mean"}
-                      </SelectItem>
-                      <SelectItem value="weighted_mean">
-                        {"Weighted Mean"}
-                      </SelectItem>
+                      <SelectItem value="mean">{'Mean'}</SelectItem>
+                      <SelectItem value="weighted_mean">{'Weighted Mean'}</SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
-                    {"Aggregation method for impact calculation"}
+                    {'Aggregation method for impact calculation'}
                   </p>
                 </div>
               )}
 
               {selectedOperationData.requiresParams.includes('limit') && (
                 <div className="space-y-2">
-                  <Label htmlFor="limit">
-                    {"Limit"}
-                  </Label>
+                  <Label htmlFor="limit">{'Limit'}</Label>
                   <Input
                     id="limit"
                     type="number"
@@ -376,7 +359,7 @@ export function SMTOperationsForm({
                     placeholder="10"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {"Maximum number of results to return"}
+                    {'Maximum number of results to return'}
                   </p>
                 </div>
               )}
@@ -384,9 +367,7 @@ export function SMTOperationsForm({
               {selectedOperationData.requiresParams.includes('minThreshold') && (
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="minThreshold">
-                      {"Min Threshold"}
-                    </Label>
+                    <Label htmlFor="minThreshold">{'Min Threshold'}</Label>
                     <Input
                       id="minThreshold"
                       type="number"
@@ -402,15 +383,11 @@ export function SMTOperationsForm({
                       }
                       placeholder="0"
                     />
-                    <p className="text-xs text-muted-foreground">
-                      {"Minimum impact threshold"}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{'Minimum impact threshold'}</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="maxThreshold">
-                      {"Max Threshold"}
-                    </Label>
+                    <Label htmlFor="maxThreshold">{'Max Threshold'}</Label>
                     <Input
                       id="maxThreshold"
                       type="number"
@@ -426,9 +403,7 @@ export function SMTOperationsForm({
                       }
                       placeholder="10"
                     />
-                    <p className="text-xs text-muted-foreground">
-                      {"Maximum impact threshold"}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{'Maximum impact threshold'}</p>
                   </div>
                 </div>
               )}
@@ -436,9 +411,7 @@ export function SMTOperationsForm({
               {/* Operation-specific Parameters */}
               {selectedOperationData.requiresParams.includes('configuration') && (
                 <div className="space-y-2">
-                  <Label htmlFor="configuration">
-                    {"Configuration"}
-                  </Label>
+                  <Label htmlFor="configuration">{'Configuration'}</Label>
                   <Textarea
                     id="configuration"
                     value={configuration}
@@ -448,16 +421,14 @@ export function SMTOperationsForm({
                     className="font-mono text-sm"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {"Enter a valid JSON configuration object"}
+                    {'Enter a valid JSON configuration object'}
                   </p>
                 </div>
               )}
 
               {selectedOperationData.requiresParams.includes('partialConfiguration') && (
                 <div className="space-y-2">
-                  <Label htmlFor="partialConfiguration">
-                    {"Partial Configuration"}
-                  </Label>
+                  <Label htmlFor="partialConfiguration">{'Partial Configuration'}</Label>
                   <Textarea
                     id="partialConfiguration"
                     value={partialConfiguration}
@@ -467,16 +438,14 @@ export function SMTOperationsForm({
                     className="font-mono text-sm"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {"Enter a partial JSON configuration to be completed"}
+                    {'Enter a partial JSON configuration to be completed'}
                   </p>
                 </div>
               )}
 
               {selectedOperationData.requiresParams.includes('impact') && (
                 <div className="space-y-2">
-                  <Label htmlFor="impact">
-                    {"Impact"}
-                  </Label>
+                  <Label htmlFor="impact">{'Impact'}</Label>
                   <Input
                     id="impact"
                     type="number"
@@ -489,12 +458,10 @@ export function SMTOperationsForm({
                     className={!isValidImpact() && impact.trim() ? 'border-red-500' : ''}
                   />
                   <p className="text-xs text-muted-foreground">
-                    {"Enter an impact value between 0 and 10"}
+                    {'Enter an impact value between 0 and 10'}
                   </p>
                   {!isValidImpact() && impact.trim() && (
-                    <p className="text-xs text-red-500">
-                      {"Impact must be between 0 and 10"}
-                    </p>
+                    <p className="text-xs text-red-500">{'Impact must be between 0 and 10'}</p>
                   )}
                 </div>
               )}
@@ -505,10 +472,10 @@ export function SMTOperationsForm({
                   {disabled ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      {"Executing..."}
+                      {'Executing...'}
                     </>
                   ) : (
-                    "Execute Operation"
+                    'Execute Operation'
                   )}
                 </Button>
               </div>

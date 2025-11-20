@@ -24,7 +24,9 @@ export const VexgenTab: React.FC<VexgenTabProps> = ({ vexgenEndpoints }) => {
               <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
               VEX & TIX Generation
             </CardTitle>
-            <CardDescription className="text-sm">Generate and manage VEX/TIX documents</CardDescription>
+            <CardDescription className="text-sm">
+              Generate and manage VEX/TIX documents
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">

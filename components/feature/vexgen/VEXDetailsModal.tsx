@@ -9,7 +9,8 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle} from '@/components/ui'
+  CardTitle,
+} from '@/components/ui'
 import { AlertTriangle, Info, Calendar, Shield, ExternalLink, Bug } from 'lucide-react'
 
 interface VEXStatement {
@@ -60,7 +61,8 @@ export default function VEXDetailsModal({
   onClose,
   vexData,
   loading,
-  repositoryName}: VEXDetailsModalProps) {
+  repositoryName,
+}: VEXDetailsModalProps) {
   const metadata = vexData?.metadata || null
 
   const formatDate = (dateString: string) => {
@@ -70,7 +72,8 @@ export default function VEXDetailsModal({
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'})
+      minute: '2-digit',
+    })
   }
 
   const getImpactColor = (score: number) => {
@@ -100,9 +103,7 @@ export default function VEXDetailsModal({
         <DialogHeader className="px-4 sm:px-6 py-4 border-b flex-shrink-0">
           <DialogTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-            <span className="truncate">
-              VEX Document - {repositoryName}
-            </span>
+            <span className="truncate">VEX Document - {repositoryName}</span>
           </DialogTitle>
         </DialogHeader>
 
@@ -110,9 +111,7 @@ export default function VEXDetailsModal({
           {loading && (
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary"></div>
-              <span className="ml-2 text-sm sm:text-base">
-                Loading VEX details...
-              </span>
+              <span className="ml-2 text-sm sm:text-base">Loading VEX details...</span>
             </div>
           )}
 
@@ -129,15 +128,11 @@ export default function VEXDetailsModal({
                 <CardContent className="space-y-3 sm:space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                     <div className="min-w-0">
-                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        Author
-                      </p>
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">Author</p>
                       <p className="text-xs sm:text-sm truncate">{metadata?.author}</p>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        Role
-                      </p>
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">Role</p>
                       <p className="text-xs sm:text-sm truncate">{metadata?.role}</p>
                     </div>
                     <div className="min-w-0">
@@ -159,9 +154,7 @@ export default function VEXDetailsModal({
                     </div>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                      Tooling
-                    </p>
+                    <p className="text-xs sm:text-sm font-medium text-muted-foreground">Tooling</p>
                     <a
                       href={metadata?.tooling}
                       target="_blank"
@@ -181,8 +174,7 @@ export default function VEXDetailsModal({
                   <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
                     <Bug className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                     <span className="truncate">
-                      Vulnerabilities Found{' '}
-                      ({metadata?.statements?.length || 0})
+                      Vulnerabilities Found ({metadata?.statements?.length || 0})
                     </span>
                   </CardTitle>
                 </CardHeader>
@@ -214,9 +206,7 @@ export default function VEXDetailsModal({
                                 rel="noopener noreferrer"
                                 className="text-xs text-blue-600 hover:underline flex items-center gap-1 flex-shrink-0"
                               >
-                                <span className="hidden sm:inline">
-                                  View details
-                                </span>
+                                <span className="hidden sm:inline">View details</span>
                                 <span className="sm:hidden">Details</span>
                                 <ExternalLink className="h-3 w-3" />
                               </a>
@@ -290,8 +280,7 @@ export default function VEXDetailsModal({
 
                             {/* Timestamp */}
                             <div className="text-xs text-muted-foreground pt-2 border-t">
-                              Analyzed:{' '}
-                              {formatDate(statement.timestamp)}
+                              Analyzed: {formatDate(statement.timestamp)}
                             </div>
                           </div>
                         </CardContent>
@@ -306,9 +295,7 @@ export default function VEXDetailsModal({
           {!loading && !vexData && (
             <div className="text-center py-8">
               <AlertTriangle className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-3 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                Could not load VEX information
-              </p>
+              <p className="text-sm text-muted-foreground">Could not load VEX information</p>
             </div>
           )}
         </div>

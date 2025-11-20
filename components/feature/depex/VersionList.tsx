@@ -8,7 +8,8 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue} from '@/components/ui/Select'
+  SelectValue,
+} from '@/components/ui/Select'
 import { Card, CardContent } from '@/components/ui/Card'
 import { AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react'
 import type { VersionDetail } from '@/types/PackageInfo'
@@ -17,7 +18,6 @@ import { useState } from 'react'
 interface VersionListProps {
   versions: VersionDetail[]
   packageName: string
-
 }
 
 export function VersionList({ versions, packageName }: VersionListProps) {
@@ -82,9 +82,7 @@ export function VersionList({ versions, packageName }: VersionListProps) {
             <SelectContent>
               <SelectItem value="name">Name</SelectItem>
               <SelectItem value="weighted_mean">Score</SelectItem>
-              <SelectItem value="vulnerabilities">
-                Vulnerabilities
-              </SelectItem>
+              <SelectItem value="vulnerabilities">Vulnerabilities</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -110,9 +108,7 @@ export function VersionList({ versions, packageName }: VersionListProps) {
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-1">
                   <TrendingUp className="h-3 w-3" />
-                  <span className="text-muted-foreground">
-                    Weighted:
-                  </span>
+                  <span className="text-muted-foreground">Weighted:</span>
                   <span className={getScoreColor(version.weighted_mean)}>
                     {version.weighted_mean.toFixed(2)}
                   </span>
@@ -159,9 +155,7 @@ export function VersionList({ versions, packageName }: VersionListProps) {
 
       {/* No results */}
       {filteredAndSortedVersions.length === 0 && (
-        <div className="text-center py-8 text-muted-foreground">
-          No versions found
-        </div>
+        <div className="text-center py-8 text-muted-foreground">No versions found</div>
       )}
 
       {/* Summary */}

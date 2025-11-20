@@ -13,13 +13,13 @@ const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
   {
     ssr: false,
-    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />}
+    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />,
+  }
 )
 
-interface UserVEXsTabProps {
-  }
+interface UserVEXsTabProps {}
 
-export default function UserVEXsTab({ }: UserVEXsTabProps) {
+export default function UserVEXsTab({}: UserVEXsTabProps) {
   const [vexDocuments, setVEXDocuments] = useState<VEXDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
@@ -36,7 +36,8 @@ export default function UserVEXsTab({ }: UserVEXsTabProps) {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'})
+      minute: '2-digit',
+    })
   }
 
   const fetchUserVEXs = useCallback(async () => {
@@ -54,11 +55,12 @@ export default function UserVEXsTab({ }: UserVEXsTabProps) {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setLoading(false)
     }
-  }, ['Failed to fetch VEX documents', 'Error', toast])
+  }, [toast])
 
   const handleDownloadVEX = async (vexId: string, fileName: string) => {
     setDownloadingId(vexId)
@@ -83,7 +85,8 @@ export default function UserVEXsTab({ }: UserVEXsTabProps) {
 
         toast({
           title: 'Success',
-          description: 'VEX document downloaded successfully'})
+          description: 'VEX document downloaded successfully',
+        })
       } else {
         throw new Error('Expected file data but received: ' + typeof response.data)
       }
@@ -92,7 +95,8 @@ export default function UserVEXsTab({ }: UserVEXsTabProps) {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setDownloadingId(null)
     }
@@ -117,7 +121,8 @@ export default function UserVEXsTab({ }: UserVEXsTabProps) {
       toast({
         title: 'Error',
         description: error?.message || 'Error al cargar los detalles del VEX',
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setLoadingDetails(false)
     }
@@ -251,7 +256,7 @@ export default function UserVEXsTab({ }: UserVEXsTabProps) {
                 vexDocuments.find(v => v._id === selectedVexId)?.name || ''
             : ''
         }
-        />
+      />
     </Card>
   )
 }

@@ -83,7 +83,8 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ nodeTypes }) =
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-              Generate and manage Vulnerability Exploitability eXchange (VEX) and Threat Intelligence eXchange (TIX) documents
+              Generate and manage Vulnerability Exploitability eXchange (VEX) and Threat
+              Intelligence eXchange (TIX) documents
             </p>
             <Badge variant="secondary" className="text-xs">
               7 endpoints

@@ -31,7 +31,8 @@ export default function InitializationTab({}: InitializationTabProps) {
       toast({
         title: 'Error',
         description: 'Repository owner and name are required',
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
       return
     }
 
@@ -41,7 +42,8 @@ export default function InitializationTab({}: InitializationTabProps) {
     try {
       const requestData = {
         owner: repoOwner.trim(),
-        name: repoName.trim()}
+        name: repoName.trim(),
+      }
 
       const response = await depexAPI.initializeRepository(requestData)
 
@@ -53,33 +55,38 @@ export default function InitializationTab({}: InitializationTabProps) {
 
         toast({
           title: 'Success',
-          description:'The repository has been queued for processing'})
+          description: 'The repository has been queued for processing',
+        })
       } else if (code === 'repository_processing_in_progress') {
         toast({
           variant: 'default',
           title: 'Info',
-          description:'The repository is already being processed'})
+          description: 'The repository is already being processed',
+        })
       } else if (code === 'repository_not_found') {
         const errorMsg = `Repository ${repoName} not found for owner ${repoOwner}`
         setErrorMessage(errorMsg)
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: errorMsg})
+          description: errorMsg,
+        })
       } else if (code === 'date_not_found') {
         const errorMsg = `Last commit date not found in repository ${repoName} for owner ${repoOwner}`
         setErrorMessage(errorMsg)
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: errorMsg})
+          description: errorMsg,
+        })
       } else if (code === 'error_initializing_repository') {
         const errorMsg = 'An error occurred while initializing the repository'
         setErrorMessage(errorMsg)
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: errorMsg})
+          description: errorMsg,
+        })
       } else {
         throw new Error('Unexpected response code')
       }
@@ -94,9 +101,7 @@ export default function InitializationTab({}: InitializationTabProps) {
       } else if (code === 'error_initializing_repository') {
         errorMsg = 'An error occurred while initializing the repository'
       } else {
-        errorMsg =
-          error.message ||
-          'An error occurred while initializing the repository'
+        errorMsg = error.message || 'An error occurred while initializing the repository'
       }
 
       setErrorMessage(errorMsg)
@@ -104,7 +109,8 @@ export default function InitializationTab({}: InitializationTabProps) {
       toast({
         title: 'Error',
         description: errorMsg,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setDepexLoading(false)
     }
@@ -129,7 +135,7 @@ export default function InitializationTab({}: InitializationTabProps) {
                 id="repoOwner"
                 value={repoOwner}
                 onChange={e => setRepoOwner(e.target.value)}
-                placeholder='securechaindev'
+                placeholder="securechaindev"
                 className="w-full"
               />
             </div>
@@ -141,7 +147,7 @@ export default function InitializationTab({}: InitializationTabProps) {
                 id="repoName"
                 value={repoName}
                 onChange={e => setRepoName(e.target.value)}
-                placeholder='securechain-depex'
+                placeholder="securechain-depex"
                 className="w-full"
               />
             </div>

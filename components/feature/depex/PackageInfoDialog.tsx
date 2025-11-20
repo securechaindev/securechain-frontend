@@ -6,7 +6,8 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle} from '@/components/ui/Dialog'
+  DialogTitle,
+} from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -23,14 +24,14 @@ interface PackageInfoDialogProps {
   onOpenChange: (_open: boolean) => void
   packageName?: string
   nodeType?: NodeType
-
 }
 
 export function PackageInfoDialog({
   open,
   onOpenChange,
   packageName: initialPackageName,
-  nodeType: initialNodeType}: PackageInfoDialogProps) {
+  nodeType: initialNodeType,
+}: PackageInfoDialogProps) {
   const [packageName, setPackageName] = useState('')
   const [maxDepth, setMaxDepth] = useState('3')
 
@@ -52,7 +53,8 @@ export function PackageInfoDialog({
     await packageInfo.getPackageInfo({
       package_name: packageName.trim(),
       max_depth: depth,
-      node_type: initialNodeType || 'PyPIPackage'})
+      node_type: initialNodeType || 'PyPIPackage',
+    })
   }
 
   const handleClose = () => {
@@ -64,9 +66,7 @@ export function PackageInfoDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            Package Dependency Analysis
-          </DialogTitle>
+          <DialogTitle>Package Dependency Analysis</DialogTitle>
           <DialogDescription>
             Analyze package dependencies, vulnerabilities, and the software supply chain
           </DialogDescription>
@@ -116,9 +116,7 @@ export function PackageInfoDialog({
           <div className="flex justify-end">
             <Button type="submit" disabled={packageInfo.isLoading || !packageName.trim()}>
               <Search className="mr-2 h-4 w-4" />
-              {packageInfo.isLoading
-                ? 'Analyzing...'
-                : 'Analyze Package'}
+              {packageInfo.isLoading ? 'Analyzing...' : 'Analyze Package'}
             </Button>
           </div>
         </form>
@@ -146,7 +144,6 @@ export function PackageInfoDialog({
                 <DirectDependenciesList
                   dependencies={packageInfo.data.direct_dependencies}
                   nodeType={packageInfo.nodeType || ''}
-                  
                 />
               )}
             {packageInfo.data.indirect_dependencies_by_depth &&
@@ -154,7 +151,6 @@ export function PackageInfoDialog({
                 <IndirectDependenciesList
                   dependenciesByDepth={packageInfo.data.indirect_dependencies_by_depth}
                   nodeType={packageInfo.nodeType || ''}
-                  
                 />
               )}
           </div>

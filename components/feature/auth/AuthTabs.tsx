@@ -1,13 +1,13 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger} from '@/components/ui'
+  TabsTrigger,
+} from '@/components/ui'
 import { KeyRound } from 'lucide-react'
 import { LoginForm } from './LoginForm'
 import { SignupForm } from './SignupForm'
@@ -42,11 +42,7 @@ interface AuthTabsProps {
   }
 }
 
-export function AuthTabs({
-  activeTab,
-  setActiveTab,
-  loginProps,
-  signupProps}: AuthTabsProps) {
+export function AuthTabs({ activeTab, setActiveTab, loginProps, signupProps }: AuthTabsProps) {
   return (
     <div className="max-w-md mx-auto">
       <Card>
@@ -64,15 +60,11 @@ export function AuthTabs({
             </TabsList>
 
             <TabsContent value="login" className="space-y-4">
-              <LoginForm
-                {...loginProps}
-              />
+              <LoginForm {...loginProps} />
             </TabsContent>
 
             <TabsContent value="signup" className="space-y-4">
-              <SignupForm
-                {...signupProps}
-              />
+              <SignupForm {...signupProps} />
             </TabsContent>
           </Tabs>
         </CardContent>

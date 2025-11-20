@@ -22,21 +22,12 @@ export default function HomePageClient() {
 
   // Show package details view if viewing package
   if (isViewingPackage) {
-    return (
-      <PackageDetailsView
-        userEmail={user?.email}
-        onLogout={handleLogout}
-      />
-    )
+    return <PackageDetailsView userEmail={user?.email} onLogout={handleLogout} />
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <HomeHeader
-        user={user}
-        isSubmitting={isSubmitting}
-        onLogout={handleLogout}
-      />
+      <HomeHeader user={user} isSubmitting={isSubmitting} onLogout={handleLogout} />
       <HomeTabs user={user} />
     </div>
   )

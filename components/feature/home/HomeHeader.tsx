@@ -14,11 +14,7 @@ interface HomeHeaderProps {
   onLogout: () => void
 }
 
-export default function HomeHeader({
-  user,
-  isSubmitting,
-  onLogout,
-}: HomeHeaderProps) {
+export default function HomeHeader({ user, isSubmitting, onLogout }: HomeHeaderProps) {
   const [apiKeysOpen, setApiKeysOpen] = useState(false)
 
   return (
@@ -36,9 +32,7 @@ export default function HomeHeader({
               </Link>
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                <span className="font-bold text-sm sm:text-base">
-                  Secure Chain Page
-                </span>
+                <span className="font-bold text-sm sm:text-base">Secure Chain Page</span>
               </div>
             </div>
             <div className="flex items-center gap-1 sm:gap-2">

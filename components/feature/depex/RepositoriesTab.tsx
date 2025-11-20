@@ -56,7 +56,7 @@ export default function RepositoriesTab({ user }: RepositoriesTabProps) {
         {userRepositories.length > 0 && (
           <div className="space-y-3 sm:space-y-4">
             {userRepositories.map((repo, index) => (
-              <RepositoryCard key={index} repository={repo}  />
+              <RepositoryCard key={index} repository={repo} />
             ))}
           </div>
         )}

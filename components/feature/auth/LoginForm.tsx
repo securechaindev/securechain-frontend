@@ -21,7 +21,8 @@ export function LoginForm({
   showPassword,
   setShowPassword,
   isSubmitting,
-  onSubmit}: LoginFormProps) {
+  onSubmit,
+}: LoginFormProps) {
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
       <div className="space-y-2">

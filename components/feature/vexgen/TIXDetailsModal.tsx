@@ -11,7 +11,8 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  Button} from '@/components/ui'
+  Button,
+} from '@/components/ui'
 import {
   AlertTriangle,
   Info,
@@ -20,7 +21,8 @@ import {
   ExternalLink,
   Bug,
   ChevronDown,
-  ChevronUp} from 'lucide-react'
+  ChevronUp,
+} from 'lucide-react'
 
 interface CVSSInfo {
   vuln_impact: number
@@ -80,14 +82,15 @@ interface TIXDetailsModalProps {
   tixData: TIXData | null
   loading: boolean
   repositoryName: string
-  }
+}
 
 export default function TIXDetailsModal({
   isOpen,
   onClose,
   tixData,
   loading,
-  repositoryName}: TIXDetailsModalProps) {
+  repositoryName,
+}: TIXDetailsModalProps) {
   const [expandedPayloads, setExpandedPayloads] = useState<Set<string>>(new Set())
 
   const metadata = tixData?.metadata || null
@@ -108,7 +111,8 @@ export default function TIXDetailsModal({
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'})
+      minute: '2-digit',
+    })
   }
 
   const getImpactColor = (score: number) => {
@@ -117,7 +121,7 @@ export default function TIXDetailsModal({
     return 'secondary'
   }
 
-  const getImpactLabel = (score: number, ) => {
+  const getImpactLabel = (score: number) => {
     if (score >= 7.0) return 'High'
     if (score >= 4.0) return 'Medium'
     return 'Low'
@@ -138,10 +142,7 @@ export default function TIXDetailsModal({
         <DialogHeader className="px-4 sm:px-6 py-4 border-b flex-shrink-0">
           <DialogTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-            <span className="truncate">
-              TIX (Threat Intelligence eXchange) -{' '}
-              {repositoryName}
-            </span>
+            <span className="truncate">TIX (Threat Intelligence eXchange) - {repositoryName}</span>
           </DialogTitle>
         </DialogHeader>
 
@@ -149,9 +150,7 @@ export default function TIXDetailsModal({
           {loading && (
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary"></div>
-              <span className="ml-2 text-sm sm:text-base">
-                Loading TIX details...
-              </span>
+              <span className="ml-2 text-sm sm:text-base">Loading TIX details...</span>
             </div>
           )}
 
@@ -168,15 +167,11 @@ export default function TIXDetailsModal({
                 <CardContent className="space-y-3 sm:space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                     <div className="min-w-0">
-                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        Author
-                      </p>
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">Author</p>
                       <p className="text-xs sm:text-sm truncate">{metadata?.author}</p>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                        Role
-                      </p>
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground">Role</p>
                       <p className="text-xs sm:text-sm truncate">{metadata?.role}</p>
                     </div>
                     <div className="min-w-0">
@@ -198,9 +193,7 @@ export default function TIXDetailsModal({
                     </div>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                      Tooling
-                    </p>
+                    <p className="text-xs sm:text-sm font-medium text-muted-foreground">Tooling</p>
                     <a
                       href={metadata?.tooling}
                       target="_blank"
@@ -242,10 +235,8 @@ export default function TIXDetailsModal({
                                     )}
                                     className="text-xs flex-shrink-0"
                                   >
-                                    {getImpactLabel(
-                                      statement.vulnerability.cvss.vuln_impact
-                                    )}{' '}
-                                    ({statement.vulnerability.cvss.vuln_impact})
+                                    {getImpactLabel(statement.vulnerability.cvss.vuln_impact)} (
+                                    {statement.vulnerability.cvss.vuln_impact})
                                   </Badge>
                                 )}
                               </div>
@@ -255,9 +246,7 @@ export default function TIXDetailsModal({
                                 rel="noopener noreferrer"
                                 className="text-xs text-blue-600 hover:underline flex items-center gap-1 flex-shrink-0"
                               >
-                                <span className="hidden sm:inline">
-                                  View details
-                                </span>
+                                <span className="hidden sm:inline">View details</span>
                                 <span className="sm:hidden">Details</span>
                                 <ExternalLink className="h-3 w-3" />
                               </a>
@@ -349,8 +338,7 @@ export default function TIXDetailsModal({
                                 {statement.reachable_code.length > 0 ? (
                                   <div className="space-y-2">
                                     <Badge variant="destructive" className="text-xs mb-2">
-                                      {statement.reachable_code.length}{' '}
-                                      found
+                                      {statement.reachable_code.length} found
                                     </Badge>
                                     <div className="bg-muted/30 rounded-lg p-2 sm:p-3 space-y-2 sm:space-y-3 max-h-32 sm:max-h-40 overflow-y-auto">
                                       {statement.reachable_code.map(
@@ -473,8 +461,7 @@ export default function TIXDetailsModal({
                                 {statement.exploits.length > 0 ? (
                                   <div className="space-y-2">
                                     <Badge variant="destructive" className="text-xs mb-2">
-                                      {statement.exploits.length}{' '}
-                                      available
+                                      {statement.exploits.length} available
                                     </Badge>
                                     <div className="space-y-2 max-h-32 sm:max-h-40 overflow-y-auto">
                                       {statement.exploits.map(
@@ -568,8 +555,7 @@ export default function TIXDetailsModal({
 
                             {/* Timestamp */}
                             <div className="text-xs text-muted-foreground pt-2 border-t">
-                              Analyzed:{' '}
-                              {formatDate(statement.timestamp)}
+                              Analyzed: {formatDate(statement.timestamp)}
                             </div>
                           </div>
                         </CardContent>
@@ -584,9 +570,7 @@ export default function TIXDetailsModal({
           {!loading && !tixData && (
             <div className="text-center py-8">
               <AlertTriangle className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-3 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                Could not load TIX information
-              </p>
+              <p className="text-sm text-muted-foreground">Could not load TIX information</p>
             </div>
           )}
         </div>

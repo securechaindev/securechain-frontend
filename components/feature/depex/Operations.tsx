@@ -52,7 +52,8 @@ export function Operations({
   requirementFile,
   requirementFileName,
   fileManager,
-  onClose}: OperationsProps) {
+  onClose,
+}: OperationsProps) {
   const [activeTab, setActiveTab] = useState('ssc')
   const [results, setResults] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -70,13 +71,15 @@ export function Operations({
       const baseRequest = {
         node_type: nodeType,
         requirement_file_id: requirementFile,
-        max_depth: params.maxDepth}
+        max_depth: params.maxDepth,
+      }
 
       switch (operation) {
         case 'fileInfo':
           result = await operations.getFileInfo({
             ...baseRequest,
-            aggregator: params.aggregator} as any)
+            aggregator: params.aggregator,
+          } as any)
           break
 
         default:
@@ -96,7 +99,8 @@ export function Operations({
     } catch (error) {
       setResults({
         type: 'error',
-        data: { message: error instanceof Error ? error.message : String(error) }})
+        data: { message: error instanceof Error ? error.message : String(error) },
+      })
     } finally {
       setIsLoading(false)
     }
@@ -113,7 +117,8 @@ export function Operations({
       const baseRequest = {
         node_type: nodeType,
         requirement_file_id: requirementFile,
-        max_depth: params.maxDepth}
+        max_depth: params.maxDepth,
+      }
 
       switch (operation) {
         case 'validateGraph':
@@ -124,14 +129,16 @@ export function Operations({
           result = await operations.minimizeImpact({
             ...baseRequest,
             aggregator: params.aggregator,
-            limit: params.limit} as any)
+            limit: params.limit,
+          } as any)
           break
 
         case 'maximizeImpact':
           result = await operations.maximizeImpact({
             ...baseRequest,
             aggregator: params.aggregator,
-            limit: params.limit} as any)
+            limit: params.limit,
+          } as any)
           break
 
         case 'filterConfigs':
@@ -140,28 +147,32 @@ export function Operations({
             aggregator: params.aggregator,
             limit: params.limit,
             min_threshold: params.minThreshold,
-            max_threshold: params.maxThreshold} as any)
+            max_threshold: params.maxThreshold,
+          } as any)
           break
 
         case 'validateConfig':
           result = await operations.validateConfig({
             ...baseRequest,
             aggregator: params.aggregator,
-            config: params.configuration} as any)
+            config: params.configuration,
+          } as any)
           break
 
         case 'completeConfig':
           result = await operations.completeConfig({
             ...baseRequest,
             aggregator: params.aggregator,
-            config: params.partialConfiguration} as any)
+            config: params.partialConfiguration,
+          } as any)
           break
 
         case 'configByImpact':
           result = await operations.configByImpact({
             ...baseRequest,
             aggregator: params.aggregator,
-            impact: params.impact} as any)
+            impact: params.impact,
+          } as any)
           break
 
         default:
@@ -172,7 +183,8 @@ export function Operations({
     } catch (error) {
       setResults({
         type: 'error',
-        data: { message: error instanceof Error ? error.message : String(error) }})
+        data: { message: error instanceof Error ? error.message : String(error) },
+      })
     } finally {
       setIsLoading(false)
     }
@@ -193,8 +205,7 @@ export function Operations({
             Operation
           </CardTitle>
           <CardDescription>
-            Requirement file: {' '}
-            {requirementFileName || requirementFile}
+            Requirement file: {requirementFileName || requirementFile}
           </CardDescription>
         </CardHeader>
 
@@ -222,41 +233,30 @@ export function Operations({
             </TabsList>
 
             <TabsContent value="ssc" className="space-y-6">
-              <SSCOperationsForm
-                onExecute={handleSSCOperation}
-                disabled={showLoading}
-              />
+              <SSCOperationsForm onExecute={handleSSCOperation} disabled={showLoading} />
             </TabsContent>
 
             <TabsContent value="smt" className="space-y-6">
-              <SMTOperationsForm
-                onExecute={handleSMTOperation}
-                disabled={showLoading}
-                
-              />
+              <SMTOperationsForm onExecute={handleSMTOperation} disabled={showLoading} />
             </TabsContent>
           </Tabs>
 
           {showLoading && (
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              <span className="ml-2 text-sm text-muted-foreground">
-                Executing...
-              </span>
+              <span className="ml-2 text-sm text-muted-foreground">Executing...</span>
             </div>
           )}
 
           {results && !showLoading && (
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium">
-                  Results
-                </h3>
+                <h3 className="text-lg font-medium">Results</h3>
                 <Button variant="outline" size="sm" onClick={clearResults}>
                   Clear Results
                 </Button>
               </div>
-              <OperationResults results={results}  />
+              <OperationResults results={results} />
             </div>
           )}
 

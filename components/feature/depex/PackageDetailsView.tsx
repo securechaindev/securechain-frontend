@@ -30,10 +30,7 @@ interface PackageDetailsViewProps {
   onLogout?: () => void
 }
 
-export default function PackageDetailsView({
-  userEmail,
-  onLogout,
-}: PackageDetailsViewProps) {
+export default function PackageDetailsView({ userEmail, onLogout }: PackageDetailsViewProps) {
   const { packageDetails, setIsViewingPackage, packageNodeType } = usePackage()
   const [sortBy, setSortBy] = useState<'semver' | 'vulnerabilities' | 'score'>('semver')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
@@ -105,9 +102,7 @@ export default function PackageDetailsView({
               </Button>
               <div className="flex items-center gap-2">
                 <Package className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                <span className="font-bold text-sm sm:text-base">
-                  Package Details
-                </span>
+                <span className="font-bold text-sm sm:text-base">Package Details</span>
               </div>
             </div>
 
@@ -162,9 +157,7 @@ export default function PackageDetailsView({
                     className="flex items-center gap-2"
                   >
                     <Network className="h-4 w-4" />
-                    <span className="hidden sm:inline">
-                      Package Info
-                    </span>
+                    <span className="hidden sm:inline">Package Info</span>
                     <span className="sm:hidden">Info</span>
                   </Button>
 
@@ -174,7 +167,12 @@ export default function PackageDetailsView({
                     size="sm"
                     className="flex items-center gap-2"
                   >
-                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      className="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <circle cx="6" cy="6" r="2" stroke="currentColor" strokeWidth="1.5" />
                       <circle cx="18" cy="6" r="2" stroke="currentColor" strokeWidth="1.5" />
                       <circle cx="12" cy="18" r="2" stroke="currentColor" strokeWidth="1.5" />
@@ -227,9 +225,7 @@ export default function PackageDetailsView({
                   <p className="text-sm">{new Date(packageDetails.moment).toLocaleDateString()}</p>
                 </div>
                 <div className="md:col-span-2 lg:col-span-1">
-                  <p className="text-sm text-muted-foreground">
-                    Repository URL
-                  </p>
+                  <p className="text-sm text-muted-foreground">Repository URL</p>
                   {packageDetails.repository_url ? (
                     <a
                       href={packageDetails.repository_url}
@@ -252,8 +248,7 @@ export default function PackageDetailsView({
             <CardHeader>
               <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <span className="text-base sm:text-lg">
-                  Versions ({sortedVersions.length}{' '}
-                  of {packageDetails.versions.length})
+                  Versions ({sortedVersions.length} of {packageDetails.versions.length})
                 </span>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <select
@@ -262,9 +257,7 @@ export default function PackageDetailsView({
                     className="px-3 py-2 text-sm border rounded-md bg-background min-w-0 flex-1 sm:flex-none sm:min-w-[180px]"
                   >
                     <option value="semver">Semver</option>
-                    <option value="vulnerabilities">
-                      Vulnerabilities
-                    </option>
+                    <option value="vulnerabilities">Vulnerabilities</option>
                     <option value="score">Score</option>
                   </select>
                   <Button
@@ -351,9 +344,7 @@ export default function PackageDetailsView({
                           className="flex items-center gap-2"
                         >
                           <GitBranch className="h-3 w-3" />
-                          <span className="hidden sm:inline">
-                            Version Info
-                          </span>
+                          <span className="hidden sm:inline">Version Info</span>
                           <span className="sm:hidden">Info</span>
                         </Button>
                         <span className="text-xs text-muted-foreground hidden md:inline">
@@ -377,9 +368,7 @@ export default function PackageDetailsView({
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div>
-                      <p className="text-sm text-muted-foreground">
-                        Weighted Mean
-                      </p>
+                      <p className="text-sm text-muted-foreground">Weighted Mean</p>
                       <p className="text-lg font-semibold">{version.weighted_mean.toFixed(2)}</p>
                     </div>
                     <div>
@@ -387,9 +376,7 @@ export default function PackageDetailsView({
                       <p className="text-lg font-semibold">{version.mean.toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">
-                        Vulnerabilities
-                      </p>
+                      <p className="text-sm text-muted-foreground">Vulnerabilities</p>
                       <p className="text-lg font-semibold flex items-center gap-1">
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
                         {version.vulnerabilities.length}
@@ -399,9 +386,7 @@ export default function PackageDetailsView({
 
                   {version.vulnerabilities.length > 0 && (
                     <div>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Vulnerabilities:
-                      </p>
+                      <p className="text-sm text-muted-foreground mb-2">Vulnerabilities:</p>
                       <div className="flex flex-wrap gap-2">
                         {version.vulnerabilities.map((vuln, vulnIndex) => (
                           <Badge

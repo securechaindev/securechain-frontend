@@ -9,11 +9,9 @@ import { VersionList } from './VersionList'
 interface DirectDependenciesListProps {
   dependencies: DirectDependency[]
   nodeType: string
-  
 }
 
-export function DirectDependenciesList({ dependencies,
-  nodeType,  }: DirectDependenciesListProps) {
+export function DirectDependenciesList({ dependencies, nodeType }: DirectDependenciesListProps) {
   // Map node_type to friendly display names
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
@@ -45,25 +43,18 @@ export function DirectDependenciesList({ dependencies,
                     {getNodeTypeDisplay(nodeType)}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Vendor: {dep.package_vendor}
-                </p>
+                <p className="text-sm text-muted-foreground mt-1">Vendor: {dep.package_vendor}</p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="font-mono text-xs">
                   {dep.package_constraints}
                 </Badge>
-                <Badge variant="secondary">
-                  {dep.versions.length} versions
-                </Badge>
+                <Badge variant="secondary">{dep.versions.length} versions</Badge>
               </div>
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <VersionList
-              versions={dep.versions}
-              packageName={dep.package_name}
-              />
+            <VersionList versions={dep.versions} packageName={dep.package_name} />
           </CardContent>
         </Card>
       ))}

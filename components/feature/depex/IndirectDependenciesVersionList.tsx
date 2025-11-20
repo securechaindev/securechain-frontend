@@ -4,7 +4,8 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger} from '@/components/ui/Accordion'
+  AccordionTrigger,
+} from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Network } from 'lucide-react'
@@ -16,12 +17,12 @@ interface IndirectDependenciesVersionListProps {
     [depth: string]: DirectDependencyVersion[]
   }
   nodeType: string
-
 }
 
 export function IndirectDependenciesVersionList({
   dependenciesByDepth,
-  nodeType}: IndirectDependenciesVersionListProps) {
+  nodeType,
+}: IndirectDependenciesVersionListProps) {
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
       PyPIPackage: 'PyPI',
@@ -29,7 +30,8 @@ export function IndirectDependenciesVersionList({
       MavenPackage: 'Maven',
       RubyGemsPackage: 'RubyGems',
       CargoPackage: 'Cargo',
-      NuGetPackage: 'NuGet'}
+      NuGetPackage: 'NuGet',
+    }
     return typeMap[type] || type
   }
 
@@ -51,14 +53,10 @@ export function IndirectDependenciesVersionList({
           <AccordionItem key={depth} value={`depth-${depth}`} className="border rounded-lg">
             <AccordionTrigger className="px-4 hover:no-underline">
               <div className="flex items-center gap-2">
-                <Badge variant="outline">
-                  Depth {depth}
-                </Badge>
+                <Badge variant="outline">Depth {depth}</Badge>
                 <span className="text-sm text-muted-foreground">
                   {dependenciesByDepth[depth].length}{' '}
-                  {dependenciesByDepth[depth].length === 1
-                    ? 'package'
-                    : 'packages'}
+                  {dependenciesByDepth[depth].length === 1 ? 'package' : 'packages'}
                 </span>
               </div>
             </AccordionTrigger>
@@ -90,11 +88,7 @@ export function IndirectDependenciesVersionList({
                       </div>
                     </CardHeader>
                     <CardContent className="pt-4">
-                      <VersionList
-                        versions={dep.versions}
-                        packageName={dep.package_name}
-                        
-                      />
+                      <VersionList versions={dep.versions} packageName={dep.package_name} />
                     </CardContent>
                   </Card>
                 ))}

@@ -15,11 +15,10 @@ import {
 import { Package, Loader2 } from 'lucide-react'
 
 interface PackagesTabProps {
-  
   packageOperations: any
 }
 
-export default function PackagesTab({ packageOperations  }: PackagesTabProps) {
+export default function PackagesTab({ packageOperations }: PackagesTabProps) {
   const { packageName, setPackageName, nodeType, setNodeType, depexLoading, handlePackageStatus } =
     packageOperations
   return (
@@ -32,9 +31,7 @@ export default function PackagesTab({ packageOperations  }: PackagesTabProps) {
       </CardHeader>
       <CardContent className="space-y-4 sm:space-y-6">
         <div className="space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold">
-            Check Package Status
-          </h3>
+          <h3 className="text-base sm:text-lg font-semibold">Check Package Status</h3>
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="nodeType" className="text-sm font-medium">

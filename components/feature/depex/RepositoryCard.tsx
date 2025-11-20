@@ -66,7 +66,6 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
               <VEXGenButton
                 owner={repository.owner}
                 name={repository.name}
-                
                 size="sm"
                 variant="outline"
               />
@@ -82,9 +81,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
             <span className="hidden sm:inline">
               Requirement Files ({repository.requirement_files.length})
             </span>
-            <span className="sm:hidden">
-              Files ({repository.requirement_files.length})
-            </span>
+            <span className="sm:hidden">Files ({repository.requirement_files.length})</span>
           </h4>
           <div className="grid gap-2">
             {repository.requirement_files.map((file, fileIndex) => (
@@ -108,9 +105,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
                     title="View Graph"
                   >
                     <Network className="h-3 w-3 sm:mr-1" />
-                    <span className="hidden sm:inline text-xs">
-                      Graph
-                    </span>
+                    <span className="hidden sm:inline text-xs">Graph</span>
                   </Button>
                   <Button
                     size="sm"
@@ -120,9 +115,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
                     title="Analyze Requirements"
                   >
                     <Settings className="h-3 w-3 sm:mr-1" />
-                    <span className="hidden sm:inline text-xs">
-                      Analyze
-                    </span>
+                    <span className="hidden sm:inline text-xs">Analyze</span>
                   </Button>
                 </div>
               </div>
@@ -149,7 +142,6 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
         requirementFileName={selectedFile?.name || ''}
         repositoryName={`${repository.owner}/${repository.name}`}
         fileManager={selectedFile?.manager || ''}
-        
       />
 
       {/* Package Graph View */}

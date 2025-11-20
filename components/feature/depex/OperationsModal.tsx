@@ -40,7 +40,6 @@ export function OperationsModal({
           requirementFile={requirementFile}
           requirementFileName={requirementFileName}
           fileManager={fileManager}
-          
           onClose={() => onOpenChange(false)}
         />
       </DialogContent>

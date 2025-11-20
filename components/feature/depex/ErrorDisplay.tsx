@@ -9,7 +9,6 @@ interface ErrorDisplayProps {
     type: string
     data: any
   }
-
 }
 
 export function ErrorDisplay({ results }: ErrorDisplayProps) {
@@ -21,9 +20,9 @@ export function ErrorDisplay({ results }: ErrorDisplayProps) {
         <AlertTriangleIcon className="h-4 w-4" />
         <AlertDescription>
           <div className="space-y-2">
-            <div>'Memory limit exceeded'</div>
+            <div>Memory limit exceeded</div>
             <div className="text-sm text-muted-foreground">
-              'Try reducing the depth or filtering dependencies'
+              Try reducing the depth or filtering dependencies
             </div>
           </div>
         </AlertDescription>
@@ -37,7 +36,7 @@ export function ErrorDisplay({ results }: ErrorDisplayProps) {
         <AlertTriangleIcon className="h-4 w-4" />
         <AlertDescription>
           <div className="space-y-2">
-            <div>'SMT operation timed out'</div>
+            <div>SMT operation timed out</div>
           </div>
         </AlertDescription>
       </Alert>
@@ -63,9 +62,7 @@ export function ErrorDisplay({ results }: ErrorDisplayProps) {
     errorMessage = 'Network error'
     suggestion = 'Please check your connection and try again'
   } else {
-    errorMessage =
-      results.data?.message ||
-      'Error'
+    errorMessage = results.data?.message || 'Error'
   }
 
   return (

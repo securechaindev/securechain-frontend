@@ -235,7 +235,7 @@ export function ApiKeysDialog({ open, onOpenChange }: ApiKeysDialogProps) {
           {newlyCreatedKey && (
             <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
               <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200 mb-2">
-                Copy this key now. You won\'t be able to see it again!
+                Copy this key now. You won&apos;t be able to see it again!
               </p>
               <div className="flex items-center gap-2">
                 <code className="flex-1 p-2 bg-white dark:bg-gray-900 rounded text-sm font-mono overflow-x-auto">
@@ -261,7 +261,9 @@ export function ApiKeysDialog({ open, onOpenChange }: ApiKeysDialogProps) {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : apiKeys.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">No API keys found. Create one to get started.</p>
+            <p className="text-center text-muted-foreground py-8">
+              No API keys found. Create one to get started.
+            </p>
           ) : (
             <Table>
               <TableHeader>

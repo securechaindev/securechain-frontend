@@ -8,7 +8,8 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue} from '@/components/ui/Select'
+  SelectValue,
+} from '@/components/ui/Select'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 
@@ -20,7 +21,6 @@ interface VersionInfoFormProps {
     _nodeType: string
   ) => void
   isLoading: boolean
-
 }
 
 const NODE_TYPES = [
@@ -129,9 +129,7 @@ export function VersionInfoForm({ onSubmit, isLoading }: VersionInfoFormProps) {
       <div className="flex justify-end">
         <Button type="submit" disabled={isLoading || !packageName.trim() || !versionName.trim()}>
           <Search className="mr-2 h-4 w-4" />
-          {isLoading
-            ? 'Analyzing...'
-            : 'Analyze Version'}
+          {isLoading ? 'Analyzing...' : 'Analyze Version'}
         </Button>
       </div>
     </form>

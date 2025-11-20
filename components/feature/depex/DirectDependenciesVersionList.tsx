@@ -9,12 +9,12 @@ import { VersionList } from './VersionList'
 interface DirectDependenciesVersionListProps {
   dependencies: DirectDependencyVersion[]
   nodeType: string
-
 }
 
 export function DirectDependenciesVersionList({
   dependencies,
-  nodeType}: DirectDependenciesVersionListProps) {
+  nodeType,
+}: DirectDependenciesVersionListProps) {
   // Map node_type to friendly display names
   const getNodeTypeDisplay = (type: string) => {
     const typeMap: Record<string, string> = {
@@ -23,7 +23,8 @@ export function DirectDependenciesVersionList({
       MavenPackage: 'Maven',
       RubyGemsPackage: 'RubyGems',
       CargoPackage: 'Cargo',
-      NuGetPackage: 'NuGet'}
+      NuGetPackage: 'NuGet',
+    }
     return typeMap[type] || type
   }
 
@@ -45,26 +46,18 @@ export function DirectDependenciesVersionList({
                     {getNodeTypeDisplay(nodeType)}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Vendor: {dep.package_vendor}
-                </p>
+                <p className="text-sm text-muted-foreground mt-1">Vendor: {dep.package_vendor}</p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="font-mono text-xs">
                   {dep.package_constraints}
                 </Badge>
-                <Badge variant="secondary">
-                  {dep.versions.length} versions
-                </Badge>
+                <Badge variant="secondary">{dep.versions.length} versions</Badge>
               </div>
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <VersionList
-              versions={dep.versions}
-              packageName={dep.package_name}
-              
-            />
+            <VersionList versions={dep.versions} packageName={dep.package_name} />
           </CardContent>
         </Card>
       ))}

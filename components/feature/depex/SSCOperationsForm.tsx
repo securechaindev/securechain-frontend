@@ -10,7 +10,8 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue} from '@/components/ui/Select'
+  SelectValue,
+} from '@/components/ui/Select'
 import { Separator } from '@/components/ui/Separator'
 import { InfoIcon } from 'lucide-react'
 
@@ -27,7 +28,8 @@ export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOpera
     aggregator: string
   }>({
     maxDepth: -1,
-    aggregator: 'mean'})
+    aggregator: 'mean',
+  })
 
   const handleExecute = () => {
     if (!selectedOperation) return
@@ -51,7 +53,8 @@ export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOpera
 
     const validatedParams = {
       ...params,
-      maxDepth}
+      maxDepth,
+    }
 
     onExecute(selectedOperation, validatedParams)
   }
@@ -62,7 +65,8 @@ export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOpera
       title: 'File Info',
       description: 'Get information about a requirement file',
       icon: InfoIcon,
-      requiresParams: ['maxDepth', 'aggregator']},
+      requiresParams: ['maxDepth', 'aggregator'],
+    },
   ]
 
   const selectedOperationData = operations.find(op => op.id === selectedOperation)
@@ -112,9 +116,7 @@ export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOpera
             <CardContent className="space-y-4">
               {selectedOperationData.requiresParams.includes('maxDepth') && (
                 <div className="space-y-2">
-                  <Label htmlFor="maxDepth">
-                    Max Depth
-                  </Label>
+                  <Label htmlFor="maxDepth">Max Depth</Label>
                   <Input
                     id="maxDepth"
                     type="number"
@@ -182,27 +184,17 @@ export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOpera
 
               {selectedOperationData.requiresParams.includes('aggregator') && (
                 <div className="space-y-2">
-                  <Label htmlFor="aggregator">
-                    Aggregator
-                  </Label>
+                  <Label htmlFor="aggregator">Aggregator</Label>
                   <Select
                     value={params.aggregator}
                     onValueChange={value => setParams(prev => ({ ...prev, aggregator: value }))}
                   >
                     <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          'Aggregation method for impact calculation'
-                        }
-                      />
+                      <SelectValue placeholder={'Aggregation method for impact calculation'} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="mean">
-                        Mean
-                      </SelectItem>
-                      <SelectItem value="weighted_mean">
-                        Weighted Mean
-                      </SelectItem>
+                      <SelectItem value="mean">Mean</SelectItem>
+                      <SelectItem value="weighted_mean">Weighted Mean</SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
@@ -217,10 +209,12 @@ export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOpera
                     View Graph
                   </Button>
                 )}
-                <Button onClick={handleExecute} disabled={disabled || !selectedOperation} className={!onViewGraph ? 'ml-auto' : ''}>
-                  {disabled
-                    ? 'Executing...'
-                    : 'Execute'}
+                <Button
+                  onClick={handleExecute}
+                  disabled={disabled || !selectedOperation}
+                  className={!onViewGraph ? 'ml-auto' : ''}
+                >
+                  {disabled ? 'Executing...' : 'Execute'}
                 </Button>
               </div>
             </CardContent>

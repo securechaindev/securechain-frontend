@@ -13,13 +13,13 @@ const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
   {
     ssr: false,
-    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />}
+    loading: () => <div className="h-4 w-4 animate-pulse bg-muted rounded" />,
+  }
 )
 
-interface UserTIXsTabProps {
-  }
+interface UserTIXsTabProps {}
 
-export default function UserTIXsTab({ }: UserTIXsTabProps) {
+export default function UserTIXsTab({}: UserTIXsTabProps) {
   const [tixDocuments, setTIXDocuments] = useState<TIXDocument[]>([])
   const [loading, setLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
@@ -36,7 +36,8 @@ export default function UserTIXsTab({ }: UserTIXsTabProps) {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'})
+      minute: '2-digit',
+    })
   }
 
   const fetchUserTIXs = useCallback(async () => {
@@ -54,11 +55,12 @@ export default function UserTIXsTab({ }: UserTIXsTabProps) {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setLoading(false)
     }
-  }, ['Failed to fetch TIX documents', 'Error', toast])
+  }, [toast])
 
   const handleDownloadTIX = async (tixId: string, fileName: string) => {
     setDownloadingId(tixId)
@@ -83,7 +85,8 @@ export default function UserTIXsTab({ }: UserTIXsTabProps) {
 
         toast({
           title: 'Success',
-          description: 'TIX document downloaded successfully'})
+          description: 'TIX document downloaded successfully',
+        })
       } else {
         throw new Error('Expected file data but received: ' + typeof response.data)
       }
@@ -92,7 +95,8 @@ export default function UserTIXsTab({ }: UserTIXsTabProps) {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setDownloadingId(null)
     }
@@ -117,7 +121,8 @@ export default function UserTIXsTab({ }: UserTIXsTabProps) {
       toast({
         title: 'Error',
         description: error?.message || 'Error al cargar los detalles del TIX',
-        variant: 'destructive'})
+        variant: 'destructive',
+      })
     } finally {
       setLoadingDetails(false)
     }
@@ -251,7 +256,7 @@ export default function UserTIXsTab({ }: UserTIXsTabProps) {
                 tixDocuments.find(t => t._id === selectedTixId)?.name || ''
             : ''
         }
-        />
+      />
     </Card>
   )
 }

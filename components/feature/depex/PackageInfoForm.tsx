@@ -16,7 +16,6 @@ import { useState } from 'react'
 interface PackageInfoFormProps {
   onSubmit: (_packageName: string, _maxDepth: number, _nodeType: string) => void
   isLoading: boolean
-  
 }
 
 const NODE_TYPES = [
@@ -107,9 +106,7 @@ export function PackageInfoForm({ onSubmit, isLoading }: PackageInfoFormProps) {
       <div className="flex justify-end">
         <Button type="submit" disabled={isLoading || !packageName.trim()}>
           <Search className="mr-2 h-4 w-4" />
-          {isLoading
-            ? 'Analyzing...'
-            : 'Analyze Package'}
+          {isLoading ? 'Analyzing...' : 'Analyze Package'}
         </Button>
       </div>
     </form>

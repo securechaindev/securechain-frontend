@@ -77,36 +77,28 @@ export default function HomeTabs({ user }: HomeTabsProps) {
               className="flex flex-col gap-1 sm:gap-2 py-2 sm:py-3 px-0.5 sm:px-2 text-[10px] sm:text-xs md:text-sm min-h-[60px] sm:min-h-[70px] items-center justify-center"
             >
               <GitHubIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="text-center leading-none break-words max-w-full">
-                Repositories
-              </span>
+              <span className="text-center leading-none break-words max-w-full">Repositories</span>
             </TabsTrigger>
             <TabsTrigger
               value="packages"
               className="flex flex-col gap-1 sm:gap-2 py-2 sm:py-3 px-0.5 sm:px-2 text-[10px] sm:text-xs md:text-sm min-h-[60px] sm:min-h-[70px] items-center justify-center"
             >
               <Package className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="text-center leading-none break-words max-w-full">
-                Packages
-              </span>
+              <span className="text-center leading-none break-words max-w-full">Packages</span>
             </TabsTrigger>
             <TabsTrigger
               value="user-vexs"
               className="flex flex-col gap-1 sm:gap-2 py-2 sm:py-3 px-0.5 sm:px-2 text-[10px] sm:text-xs md:text-sm min-h-[60px] sm:min-h-[70px] items-center justify-center"
             >
               <FileText className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="text-center leading-none break-words max-w-full">
-                User VEXs
-              </span>
+              <span className="text-center leading-none break-words max-w-full">User VEXs</span>
             </TabsTrigger>
             <TabsTrigger
               value="user-tixs"
               className="flex flex-col gap-1 sm:gap-2 py-2 sm:py-3 px-0.5 sm:px-2 text-[10px] sm:text-xs md:text-sm min-h-[60px] sm:min-h-[70px] items-center justify-center"
             >
               <Shield className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-              <span className="text-center leading-none break-words max-w-full">
-                User TIXs
-              </span>
+              <span className="text-center leading-none break-words max-w-full">User TIXs</span>
             </TabsTrigger>
           </TabsList>
 

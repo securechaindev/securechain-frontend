@@ -25,7 +25,6 @@ import Image from 'next/image'
 import { ArchitectureDiagram, OverviewDiagram } from '@/components/feature/diagrams'
 
 export default function LandingPage() {
-
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -59,7 +58,9 @@ export default function LandingPage() {
             Enhancing Software Supply Chain Security
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
-            Tools for dependency analysis, vulnerability assessment and supply chain security files generation. Secure your software supply chain with advanced dependency exploration and VEX document generation.
+            Tools for dependency analysis, vulnerability assessment and supply chain security files
+            generation. Secure your software supply chain with advanced dependency exploration and
+            VEX document generation.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
             <TryButton buttonText="Try Now" />
@@ -83,7 +84,10 @@ export default function LandingPage() {
         <div className="container mx-auto">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">Our Security Tools</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto px-4">Three powerful open-source tools designed to work together for comprehensive supply chain security</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">
+              Three powerful open-source tools designed to work together for comprehensive supply
+              chain security
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 mb-8">
@@ -103,10 +107,16 @@ export default function LandingPage() {
                   </div>
                   <CardTitle className="text-2xl">Depex</CardTitle>
                 </div>
-                <CardDescription className="text-base">Dependency Explorer &amp; Vulnerability Detector</CardDescription>
+                <CardDescription className="text-base">
+                  Dependency Explorer &amp; Vulnerability Detector
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 flex-1 flex flex-col">
-                <p className="text-muted-foreground">Constructs full dependency graphs from package manifests (npm, pip, Maven, etc.) and detects vulnerable transitive dependencies. Visualizes them in Neo4j for exhaustive analysis.</p>
+                <p className="text-muted-foreground">
+                  Constructs full dependency graphs from package manifests (npm, pip, Maven, etc.)
+                  and detects vulnerable transitive dependencies. Visualizes them in Neo4j for
+                  exhaustive analysis.
+                </p>
 
                 <div className="space-y-2 flex-1">
                   <h4 className="font-semibold flex items-center gap-2">
@@ -152,10 +162,16 @@ export default function LandingPage() {
                   </div>
                   <CardTitle className="text-2xl">VEXGen</CardTitle>
                 </div>
-                <CardDescription className="text-base">Automated VEX Document Generator</CardDescription>
+                <CardDescription className="text-base">
+                  Automated VEX Document Generator
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 flex-1 flex flex-col">
-                <p className="text-muted-foreground">Automated tool that generates VEX (Vulnerability Exploitability eXchange) documents indicating exploitability status for software artifacts, integrating with OSV and SBOMs.</p>
+                <p className="text-muted-foreground">
+                  Automated tool that generates VEX (Vulnerability Exploitability eXchange)
+                  documents indicating exploitability status for software artifacts, integrating
+                  with OSV and SBOMs.
+                </p>
 
                 <div className="space-y-2 flex-1">
                   <h4 className="font-semibold flex items-center gap-2">
@@ -195,10 +211,16 @@ export default function LandingPage() {
                   </div>
                   <CardTitle className="text-2xl">MCP Server</CardTitle>
                 </div>
-                <CardDescription className="text-base">Model Context Protocol Integration</CardDescription>
+                <CardDescription className="text-base">
+                  Model Context Protocol Integration
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 flex-1 flex flex-col">
-                <p className="text-muted-foreground">Secure Chain MCP Server enables AI assistants and LLMs to interact directly with our security tools through the Model Context Protocol, providing seamless integration for AI-powered security analysis.</p>
+                <p className="text-muted-foreground">
+                  Secure Chain MCP Server enables AI assistants and LLMs to interact directly with
+                  our security tools through the Model Context Protocol, providing seamless
+                  integration for AI-powered security analysis.
+                </p>
 
                 <div className="space-y-2 flex-1">
                   <h4 className="font-semibold flex items-center gap-2">
@@ -279,7 +301,10 @@ export default function LandingPage() {
             Secure Chain Data Dumps
           </h2>
           <p className="text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-            This repository contains files and scripts to initialize and populate Secure Chain's databases. It includes information on ~270,000 vulnerabilities and ~260,000 exploits. The second database holds a dependency graph with ~4.4M packages and ~64.6M versions from NPM, PyPI, Ruby Gems, Cargo Crates, and partially Maven.
+            This repository contains files and scripts to initialize and populate Secure
+            Chain&apos;s databases. It includes information on ~270,000 vulnerabilities and ~260,000
+            exploits. The second database holds a dependency graph with ~4.4M packages and ~64.6M
+            versions from NPM, PyPI, Ruby Gems, Cargo Crates, and partially Maven.
           </p>
           <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
             <a href="https://zenodo.org/records/16739081" target="_blank" rel="noopener noreferrer">
@@ -295,7 +320,8 @@ export default function LandingPage() {
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">How They Work Together</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto px-4">
-              Depex and VEXGen complement each other to provide complete software supply chain security
+              Depex and VEXGen complement each other to provide complete software supply chain
+              security
             </p>
           </div>
 
@@ -307,7 +333,15 @@ export default function LandingPage() {
               <div className="flex justify-center mb-4 sm:mb-6">
                 <OverviewDiagram />
               </div>
-              <p className="text-muted-foreground text-center px-4">This diagram illustrates the integrated workflow of Depex and VEXGen within Secure Chain. Requirement files (like SBOM, pom, txt) are fed into Secure Chain. Depex handles graph building, visualization, vulnerability attribution, and solver reasoning, leading to outputs like graphs, vulnerabilities, and dependency configurations. VEXGen performs static code analysis, integrates intelligence threat information, and generates VEX documents. This combined approach ensures a complete security analysis of your software supply chain.</p>
+              <p className="text-muted-foreground text-center px-4">
+                This diagram illustrates the integrated workflow of Depex and VEXGen within Secure
+                Chain. Requirement files (like SBOM, pom, txt) are fed into Secure Chain. Depex
+                handles graph building, visualization, vulnerability attribution, and solver
+                reasoning, leading to outputs like graphs, vulnerabilities, and dependency
+                configurations. VEXGen performs static code analysis, integrates intelligence threat
+                information, and generates VEX documents. This combined approach ensures a complete
+                security analysis of your software supply chain.
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -318,7 +352,9 @@ export default function LandingPage() {
         <div className="container mx-auto">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">Use Cases</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto px-4">Real-world applications for enhanced supply chain security</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">
+              Real-world applications for enhanced supply chain security
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -331,7 +367,8 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm sm:text-base">
-                  Large organizations can audit their entire software portfolio for vulnerabilities and maintain compliance documentation.
+                  Large organizations can audit their entire software portfolio for vulnerabilities
+                  and maintain compliance documentation.
                 </p>
               </CardContent>
             </Card>
@@ -345,7 +382,8 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm sm:text-base">
-                  Integrate into your development pipeline for automated vulnerability scanning and VEX document generation on every build.
+                  Integrate into your development pipeline for automated vulnerability scanning and
+                  VEX document generation on every build.
                 </p>
               </CardContent>
             </Card>
@@ -359,7 +397,8 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm sm:text-base">
-                  Maintainers can provide transparency about their project's security posture and dependency health to users.
+                  Maintainers can provide transparency about their project&apos;s security posture
+                  and dependency health to users.
                 </p>
               </CardContent>
             </Card>
@@ -376,20 +415,27 @@ export default function LandingPage() {
               System Architecture
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto px-4">
-              An overview of Secure Chain's robust and scalable microservices architecture.
+              An overview of Secure Chain&apos;s robust and scalable microservices architecture.
             </p>
           </div>
 
           <Card className="max-w-5xl mx-auto">
             <CardContent className="p-4 sm:p-6 lg:p-8">
               <h3 className="text-lg sm:text-xl font-bold mb-4 text-center">
-                Secure Chain's Integrated Architecture
+                Secure Chain&apos;s Integrated Architecture
               </h3>
               <div className="flex justify-center mb-4 sm:mb-6 overflow-x-auto">
                 <ArchitectureDiagram />
               </div>
               <p className="text-muted-foreground text-center px-4">
-                The Secure Chain architecture is designed for scalability and efficiency. A Developer User interacts with the Next.js FrontEnd, which is served statically by Nginx, and which communicates with a Gateway BackEnd. This gateway routes requests to various FastAPI BackEnd Microservices, including Auth BackEnd for authentication, Depex BackEnd for dependency analysis, and VEXGen BackEnd for VEX document generation. These microservices leverage a Mongo Vulnerability Database for vulnerability data and a Neo4j Graph Database for dependency graph storage, ensuring comprehensive and performant security analysis.
+                The Secure Chain architecture is designed for scalability and efficiency. A
+                Developer User interacts with the Next.js FrontEnd, which is served statically by
+                Nginx, and which communicates with a Gateway BackEnd. This gateway routes requests
+                to various FastAPI BackEnd Microservices, including Auth BackEnd for authentication,
+                Depex BackEnd for dependency analysis, and VEXGen BackEnd for VEX document
+                generation. These microservices leverage a Mongo Vulnerability Database for
+                vulnerability data and a Neo4j Graph Database for dependency graph storage, ensuring
+                comprehensive and performant security analysis.
               </p>
             </CardContent>
           </Card>
@@ -406,9 +452,7 @@ export default function LandingPage() {
 
           {/* Email Contact */}
           <div className="mb-6 sm:mb-8">
-            <p className="text-base sm:text-lg text-muted-foreground mb-2">
-              Get in touch with us:
-            </p>
+            <p className="text-base sm:text-lg text-muted-foreground mb-2">Get in touch with us:</p>
             <a
               href="mailto:hi@securechain.dev"
               className="text-xl sm:text-2xl font-semibold text-primary hover:text-primary/80 transition-colors break-all"
@@ -447,7 +491,8 @@ export default function LandingPage() {
               Our Supporters
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto px-4">
-              Secure Chain is proudly supported by leading research institutions committed to advancing cybersecurity
+              Secure Chain is proudly supported by leading research institutions committed to
+              advancing cybersecurity
             </p>
           </div>
 
@@ -471,7 +516,9 @@ export default function LandingPage() {
                       University of Seville
                     </p>
                     <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">
-                      Leading research in software engineering, data analysis, and intelligent systems with a focus on innovative solutions for complex technological challenges.
+                      Leading research in software engineering, data analysis, and intelligent
+                      systems with a focus on innovative solutions for complex technological
+                      challenges.
                     </p>
                     <Button
                       variant="outline"
@@ -510,7 +557,8 @@ export default function LandingPage() {
                       Institute of Computer Engineering, University of Seville
                     </p>
                     <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-4 leading-relaxed px-2 sm:px-0">
-                      Dedicated to advancing research and innovation, fostering collaboration between academia and industry in the development of cutting-edge technology.
+                      Dedicated to advancing research and innovation, fostering collaboration
+                      between academia and industry in the development of cutting-edge technology.
                     </p>
                     <Button
                       variant="outline"
@@ -533,7 +581,10 @@ export default function LandingPage() {
             </div>
 
             <div className="text-center mt-12">
-              <p className="text-muted-foreground">These institutions provide invaluable support through research collaboration, academic expertise, and commitment to open-source cybersecurity advancement.</p>
+              <p className="text-muted-foreground">
+                These institutions provide invaluable support through research collaboration,
+                academic expertise, and commitment to open-source cybersecurity advancement.
+              </p>
             </div>
           </div>
         </div>

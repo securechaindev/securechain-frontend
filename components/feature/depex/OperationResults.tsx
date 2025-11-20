@@ -49,7 +49,7 @@ export function OperationResults({ results }: OperationResultsProps) {
           isOpen={isVersionModalOpen}
           onOpenChange={setIsVersionModalOpen}
           dependency={selectedDependency}
-          />
+        />
       </>
     )
   }
@@ -62,15 +62,12 @@ export function OperationResults({ results }: OperationResultsProps) {
 
     return (
       <>
-        <FileInfoDisplay
-          fileInfo={fileInfo}
-          onOpenVersionModal={openVersionModal}
-        />
+        <FileInfoDisplay fileInfo={fileInfo} onOpenVersionModal={openVersionModal} />
         <VersionModal
           isOpen={isVersionModalOpen}
           onOpenChange={setIsVersionModalOpen}
           dependency={selectedDependency}
-          />
+        />
       </>
     )
   }
@@ -82,11 +79,7 @@ export function OperationResults({ results }: OperationResultsProps) {
           <CardTitle>Validation Result</CardTitle>
         </CardHeader>
         <CardContent>
-          <Badge variant={data ? 'default' : 'destructive'}>
-            {data
-              ? 'Valid'
-              : 'Invalid'}
-          </Badge>
+          <Badge variant={data ? 'default' : 'destructive'}>{data ? 'Valid' : 'Invalid'}</Badge>
         </CardContent>
       </Card>
     )
@@ -111,15 +104,12 @@ export function OperationResults({ results }: OperationResultsProps) {
             {type === 'maximizeImpact' && 'Successfully maximized impact'}
             {type === 'filterConfigs' && 'Configurations filtered successfully'}
             {type === 'completeConfig' && 'Configuration completed successfully'}
-            {type === 'configByImpact' &&
-              'Configuration by impact retrieved'}
+            {type === 'configByImpact' && 'Configuration by impact retrieved'}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {configArray.length === 0 ? (
-            <div className="text-center text-muted-foreground py-4">
-              No results to display
-            </div>
+            <div className="text-center text-muted-foreground py-4">No results to display</div>
           ) : (
             <div className="space-y-4">
               <div className="text-sm text-muted-foreground">
@@ -169,9 +159,7 @@ export function OperationResults({ results }: OperationResultsProps) {
                     <Card key={index} className="p-3">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">
-                            Configuration {index + 1}
-                          </span>
+                          <span className="text-sm font-medium">Configuration {index + 1}</span>
                           <Badge
                             variant={
                               totalRisk < 3
@@ -234,15 +222,9 @@ export function OperationResults({ results }: OperationResultsProps) {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>
-                        Configuration
-                      </TableHead>
-                      <TableHead className="text-center">
-                        Total Risk
-                      </TableHead>
-                      <TableHead className="text-center">
-                        Individual Impacts
-                      </TableHead>
+                      <TableHead>Configuration</TableHead>
+                      <TableHead className="text-center">Total Risk</TableHead>
+                      <TableHead className="text-center">Individual Impacts</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -340,15 +322,11 @@ export function OperationResults({ results }: OperationResultsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base sm:text-lg">
-          Results
-        </CardTitle>
+        <CardTitle className="text-base sm:text-lg">Results</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Raw Data:
-          </p>
+          <p className="text-xs sm:text-sm text-muted-foreground">Raw Data:</p>
           <pre className="text-[10px] sm:text-sm bg-muted p-3 sm:p-4 rounded-md overflow-x-auto text-wrap break-all whitespace-pre-wrap">
             {JSON.stringify(data, null, 1)}
           </pre>

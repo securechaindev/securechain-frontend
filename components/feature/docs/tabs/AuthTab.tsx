@@ -25,7 +25,9 @@ export const AuthTab: React.FC<AuthTabProps> = ({ authEndpoints, apiKeysEndpoint
               <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
               Authentication Endpoints
             </CardTitle>
-            <CardDescription className="text-sm">User authentication and registration endpoints</CardDescription>
+            <CardDescription className="text-sm">
+              User authentication and registration endpoints
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 sm:space-y-4">

@@ -8,8 +8,7 @@ interface UseVEXGenReturn {
   error: string | null
 }
 
-interface UseVEXGenProps {
-}
+interface UseVEXGenProps {}
 
 export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
   const [isLoading, setIsLoading] = useState(false)
@@ -22,9 +21,9 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
 
     toast({
       title: 'Success',
-      description:
-        'VEX and TIX generation started. This may take a few minutes.',
-      variant: 'default'})
+      description: 'VEX and TIX generation started. This may take a few minutes.',
+      variant: 'default',
+    })
 
     vexgenAPI
       .generateVEXTIX(request)
@@ -46,15 +45,15 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
 
           toast({
             title: 'Success',
-            description:
-              'VEX and TIX files generated and downloaded successfully',
-            variant: 'default'})
+            description: 'VEX and TIX files generated and downloaded successfully',
+            variant: 'default',
+          })
         } else {
           toast({
             title: 'Success',
-            description:
-              'VEX and TIX generation completed',
-            variant: 'default'})
+            description: 'VEX and TIX generation completed',
+            variant: 'default',
+          })
         }
       })
       .catch((err: any) => {
@@ -63,8 +62,7 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
         if (err?.status === 404) {
           const code = err?.code || err?.data?.code
           if (code === 'sbom_not_found' || code === 'repository_not_found' || !code) {
-            errorMessage =
-              'SBOM not found for this repository'
+            errorMessage = 'SBOM not found for this repository'
           }
         }
 
@@ -73,7 +71,8 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
         toast({
           title: 'Error',
           description: errorMessage,
-          variant: 'destructive'})
+          variant: 'destructive',
+        })
       })
       .finally(() => {
         setIsLoading(false)
@@ -85,5 +84,6 @@ export const useVEXGen = (props?: UseVEXGenProps): UseVEXGenReturn => {
   return {
     generateVEXTIX,
     isLoading,
-    error}
+    error,
+  }
 }

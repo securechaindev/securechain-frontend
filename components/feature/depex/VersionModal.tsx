@@ -17,12 +17,9 @@ interface VersionModalProps {
   isOpen: boolean
   onOpenChange: (_open: boolean) => void
   dependency: any
-  
 }
 
-export function VersionModal({ isOpen,
-  onOpenChange,
-  dependency,  }: VersionModalProps) {
+export function VersionModal({ isOpen, onOpenChange, dependency }: VersionModalProps) {
   const [expandedVulns, setExpandedVulns] = useState<Set<number>>(new Set())
 
   const toggleVulnerabilities = (versionIndex: number) => {
@@ -50,12 +47,10 @@ export function VersionModal({ isOpen,
           <div className="space-y-4">
             <div className="text-xs sm:text-sm text-muted-foreground space-y-1">
               <div>
-                <strong>Vendor:</strong>{' '}
-                {dependency.package_vendor}
+                <strong>Vendor:</strong> {dependency.package_vendor}
               </div>
               <div>
-                <strong>Constraints:</strong>{' '}
-                {dependency.package_constraints}
+                <strong>Constraints:</strong> {dependency.package_constraints}
               </div>
             </div>
 
@@ -160,15 +155,9 @@ export function VersionModal({ isOpen,
                 <TableHeader>
                   <TableRow>
                     <TableHead>Version</TableHead>
-                    <TableHead className="text-center">
-                      Mean Score
-                    </TableHead>
-                    <TableHead className="text-center">
-                      Weighted Mean
-                    </TableHead>
-                    <TableHead className="text-center">
-                      Vulnerabilities
-                    </TableHead>
+                    <TableHead className="text-center">Mean Score</TableHead>
+                    <TableHead className="text-center">Weighted Mean</TableHead>
+                    <TableHead className="text-center">Vulnerabilities</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

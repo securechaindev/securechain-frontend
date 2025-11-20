@@ -410,6 +410,13 @@ export const depexAPI = {
       })
       return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_VERSION}?${params.toString()}`, { retries: 0 })
     },
+
+    expandReqFile: (data: { requirement_file_id: string }) => {
+      const params = new URLSearchParams({
+        requirement_file_id: data.requirement_file_id,
+      })
+      return apiClient.get(`${API_ENDPOINTS.DEPEX.GRAPH.EXPAND_REQ_FILE}?${params.toString()}`, { retries: 0 })
+    },
   },
 
   operations: {

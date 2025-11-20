@@ -17,9 +17,10 @@ import { InfoIcon } from 'lucide-react'
 interface SSCOperationsFormProps {
   onExecute: (_operation: string, _params: any) => void
   disabled?: boolean
-  }
+  onViewGraph?: () => void
+}
 
-export function SSCOperationsForm({ onExecute, disabled }: SSCOperationsFormProps) {
+export function SSCOperationsForm({ onExecute, disabled, onViewGraph }: SSCOperationsFormProps) {
   const [selectedOperation, setSelectedOperation] = useState<string>('')
   const [params, setParams] = useState<{
     maxDepth: number | string
@@ -210,8 +211,13 @@ export function SSCOperationsForm({ onExecute, disabled }: SSCOperationsFormProp
                 </div>
               )}
 
-              <div className="flex justify-end pt-4">
-                <Button onClick={handleExecute} disabled={disabled || !selectedOperation}>
+              <div className="flex justify-between pt-4">
+                {onViewGraph && (
+                  <Button variant="outline" onClick={onViewGraph}>
+                    View Graph
+                  </Button>
+                )}
+                <Button onClick={handleExecute} disabled={disabled || !selectedOperation} className={!onViewGraph ? 'ml-auto' : ''}>
                   {disabled
                     ? 'Executing...'
                     : 'Execute'}

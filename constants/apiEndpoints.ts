@@ -22,6 +22,7 @@ export const API_ENDPOINTS = {
     GRAPH: {
       EXPAND_PACKAGE: '/api/depex/graph/expand/package',
       EXPAND_VERSION: '/api/depex/graph/expand/version',
+      EXPAND_REQ_FILE: '/api/depex/graph/expand/req_file',
     },
     OPERATION: {
       SSC: {

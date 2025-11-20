@@ -172,6 +172,7 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
     if (type === 'CargoPackage') return '#f74c00'     // Rust orange
     if (type === 'RubyGemsPackage') return '#701516'  // Ruby dark red/burgundy
     if (type === 'MavenPackage') return '#f89820'     // Maven orange/yellow
+    if (type === 'RequirementFile') return '#10b981'  // Green for requirement files
     if (type.includes('Package')) return '#1e3a8a'    // Default deep blue
     return '#3b82f6'                                   // Version: lighter blue
   }
@@ -184,6 +185,7 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
     if (type === 'CargoPackage') return 'Cargo'
     if (type === 'RubyGemsPackage') return 'RubyGems'
     if (type === 'MavenPackage') return 'Maven'
+    if (type === 'RequirementFile') return 'File'
     return null
   }
 
@@ -726,12 +728,12 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
                     <div className="space-y-2 pt-2 border-t">
                       <div className="font-medium text-xs text-muted-foreground">Node Types</div>
                       <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded-full border-2 border-[#3776ab] bg-[#e6f2ff]"></div>
-                        <span>Package</span>
-                      </div>
-                      <div className="flex items-center gap-2">
                         <div className="w-4 h-4 rounded-full border-2 border-[#3b82f6] bg-[#dbeafe]"></div>
                         <span>Version</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full border-2 border-[#10b981] bg-[#d1fae5]"></div>
+                        <span>Requirement File</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="relative w-4 h-4 rounded-full border-2 border-[#3b82f6] bg-[#dbeafe]">
@@ -902,12 +904,21 @@ export default function PackageGraphView({ open, onOpenChange, packageName, purl
                 </div>
 
                 <div className="space-y-2 text-sm">
-                  <div>
-                    <div className="text-xs text-muted-foreground">purl</div>
-                    <div className="text-xs break-words bg-muted p-1 rounded font-mono">
-                      {selected.props?.purl || 'N/A'}
+                  {selected.type !== 'RequirementFile' && (
+                    <div>
+                      <div className="text-xs text-muted-foreground">purl</div>
+                      <div className="text-xs break-words bg-muted p-1 rounded font-mono">
+                        {selected.props?.purl || 'N/A'}
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {selected.type === 'RequirementFile' && (
+                    <div>
+                      <div className="text-xs text-muted-foreground">file name</div>
+                      <div className="text-sm font-medium">{selected.label}</div>
+                    </div>
+                  )}
 
                   {selected.type === 'Version' && (
                     <>

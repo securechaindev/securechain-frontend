@@ -1,12 +1,13 @@
 'use client'
 
 import { Badge, Button } from '@/components/ui'
-import { Package, CheckCircle, XCircle, Settings } from 'lucide-react'
+import { Package, CheckCircle, XCircle, Settings, Network } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import type { Repository, RequirementFile } from '@/types'
 import { OperationsModal } from './OperationsModal'
 import { VEXGenButton } from '@/components/feature/vexgen'
+import PackageGraphView from './PackageGraphView'
 
 const GitHubIcon = dynamic(
   () => import('react-icons/si').then(mod => ({ default: mod.SiGithub })),
@@ -23,10 +24,17 @@ interface RepositoryCardProps {
 export default function RepositoryCard({ repository }: RepositoryCardProps) {
   const [selectedFile, setSelectedFile] = useState<RequirementFile | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showGraph, setShowGraph] = useState(false)
+  const [graphFile, setGraphFile] = useState<RequirementFile | null>(null)
 
   const handleOperationsClick = (file: RequirementFile) => {
     setSelectedFile(file)
     setIsModalOpen(true)
+  }
+
+  const handleViewGraph = (file: RequirementFile) => {
+    setGraphFile(file)
+    setShowGraph(true)
   }
 
   return (
@@ -95,6 +103,18 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
                   <Button
                     size="sm"
                     variant="outline"
+                    onClick={() => handleViewGraph(file)}
+                    className="h-6 w-6 p-0 sm:h-8 sm:w-auto sm:px-2"
+                    title="View Graph"
+                  >
+                    <Network className="h-3 w-3 sm:mr-1" />
+                    <span className="hidden sm:inline text-xs">
+                      Graph
+                    </span>
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => handleOperationsClick(file)}
                     className="h-6 w-6 p-0 sm:h-8 sm:w-auto sm:px-2"
                     title="Analyze Requirements"
@@ -131,6 +151,17 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
         fileManager={selectedFile?.manager || ''}
         
       />
+
+      {/* Package Graph View */}
+      {graphFile && (
+        <PackageGraphView
+          open={showGraph}
+          onOpenChange={setShowGraph}
+          packageName={graphFile.name}
+          purl={graphFile.requirement_file_id}
+          nodeType="RequirementFile"
+        />
+      )}
     </div>
   )
 }

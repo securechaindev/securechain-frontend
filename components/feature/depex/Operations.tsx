@@ -225,7 +225,6 @@ export function Operations({
               <SSCOperationsForm
                 onExecute={handleSSCOperation}
                 disabled={showLoading}
-                
               />
             </TabsContent>
 

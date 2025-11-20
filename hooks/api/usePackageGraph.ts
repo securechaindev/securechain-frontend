@@ -12,15 +12,20 @@ interface UsePackageGraphProps {
 
 export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraphProps) {
   const [graph, setGraph] = useState<GraphResponse>(() => {
+    const props: any = {
+      name: packageName,
+    }
+    
+    if (nodeType !== 'RequirementFile') {
+      props.purl = purl
+    }
+    
     return {
       nodes: [{
         id: purl,
         label: packageName,
         type: nodeType,
-        props: {
-          name: packageName,
-          purl: purl
-        }
+        props: props
       }],
       edges: []
     }
@@ -45,6 +50,10 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
       if (node.type === 'Version') {
         response = await depexAPI.graph.expandVersion({
           version_purl: node.props?.purl || nodeId
+        })
+      } else if (node.type === 'RequirementFile') {
+        response = await depexAPI.graph.expandReqFile({
+          requirement_file_id: nodeId
         })
       } else {
         // Find the REQUIRE edge that points to this package to get constraints
@@ -72,14 +81,29 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
 
         const currentIds = new Set(current.nodes.map(n => n.id))
         const addedNodeIds: string[] = []
+        
+        // Filter out nodes with null id and process valid nodes
         expandData.nodes.forEach((n: GraphNode) => {
+          // Skip nodes with null or undefined id
+          if (n.id == null) {
+            console.warn('Skipping node with null id:', n)
+            return
+          }
+          
           if (!currentIds.has(n.id)) addedNodeIds.push(n.id)
           nodesById[n.id] = { ...nodesById[n.id], ...n }
         })
 
         const edgesById: Record<string, GraphEdge> = {}
         current.edges.forEach((e: GraphEdge) => (edgesById[e.id] = e))
+        
+        // Filter out edges with null source or target
         expandData.edges.forEach((e: GraphEdge) => {
+          // Skip edges with null id, source, or target
+          if (e.id == null || e.source == null || e.target == null) {
+            console.warn('Skipping edge with null values:', e)
+            return
+          }
           edgesById[e.id] = e
         })
 
@@ -96,7 +120,7 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
     } finally {
       setLoadingNodes((s: Record<string, boolean>) => ({ ...s, [nodeId]: false }))
     }
-  }, [fetched, graph.nodes])
+  }, [fetched, graph])
 
   const collapseNode = useCallback((nodeId: string) => {
     const toRemove: string[] = []
@@ -142,15 +166,21 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
   }, [expansions])
 
   const reload = useCallback(() => {
+    // Para RequirementFile, no incluir purl en props
+    const props: any = {
+      name: packageName,
+    }
+    
+    if (nodeType !== 'RequirementFile') {
+      props.purl = purl
+    }
+    
     setGraph({
       nodes: [{
         id: purl,
         label: packageName,
         type: nodeType,
-        props: {
-          name: packageName,
-          purl: purl
-        }
+        props: props
       }],
       edges: []
     })

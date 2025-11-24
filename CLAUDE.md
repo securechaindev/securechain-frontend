@@ -427,7 +427,7 @@ if (node.type === 'Version') {
 
 - **Docs:** https://securechaindev.github.io/
 - **GitHub:** https://github.com/securechaindev/securechain-frontend
-- **Data Dumps:** https://doi.org/10.5281/zenodo.16739081
+- **Data Dumps:** https://doi.org/10.5281/zenodo.17692376
 - **Local Neo4j:** http://localhost:7474/
 
 ---

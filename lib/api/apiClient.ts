@@ -401,6 +401,7 @@ export const depexAPI = {
       const params = new URLSearchParams({
         node_type: data.node_type,
         package_purl: data.package_purl,
+        constraints: data.constraints ?? 'null',
       })
       if (data.constraints) {
         params.append('constraints', data.constraints)

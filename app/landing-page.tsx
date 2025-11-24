@@ -307,7 +307,11 @@ export default function LandingPage() {
             versions from NPM, PyPI, Ruby Gems, Cargo Crates, and partially Maven.
           </p>
           <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
-            <a href="https://doi.org/10.5281/zenodo.17692376" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://doi.org/10.5281/zenodo.17692376"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               View Data Dump <ExternalLink className="h-4 w-4 ml-1" />
             </a>
           </Button>

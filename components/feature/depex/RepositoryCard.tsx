@@ -147,6 +147,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
       {/* Package Graph View */}
       {graphFile && (
         <PackageGraphView
+          key={graphFile.requirement_file_id}
           open={showGraph}
           onOpenChange={setShowGraph}
           packageName={graphFile.name}

@@ -36,6 +36,11 @@ export default function PackageGraphView({
   }, [graph])
 
   useEffect(() => {
+    setSelected(null)
+    setSelectedEdge(null)
+  }, [packageName, purl, nodeType])
+
+  useEffect(() => {
     expandNodeRef.current = expandNode
   }, [expandNode])
 
@@ -43,17 +48,14 @@ export default function PackageGraphView({
     collapseNodeRef.current = collapseNode
   }, [collapseNode])
 
-  // Handler for the "show only latest" checkbox
   const handleShowOnlyLatestChange = useCallback(
     (checked: boolean) => {
       setShowOnlyLatest(checked)
 
       if (checked) {
-        // Clear selected node and edge
         setSelected(null)
         setSelectedEdge(null)
 
-        // Group version nodes by their parent package
         const versionsByPackage = new Map<string, GraphNode[]>()
 
         graph.edges.forEach(edge => {
@@ -68,7 +70,6 @@ export default function PackageGraphView({
           }
         })
 
-        // Find latest version for each package and collapse non-latest expanded versions
         versionsByPackage.forEach((versions, _packageId) => {
           if (versions.length > 1) {
             const latest = versions.reduce((prev, current) => {
@@ -77,7 +78,6 @@ export default function PackageGraphView({
               return currentSerial > prevSerial ? current : prev
             })
 
-            // Check if any non-latest version has outgoing dependencies (is expanded)
             versions.forEach(version => {
               if (version.id !== latest.id) {
                 const outgoingEdges = graph.edges.filter(edge => edge.source === version.id)
@@ -94,13 +94,10 @@ export default function PackageGraphView({
     [graph.edges, graph.nodes, collapseNode]
   )
 
-  // When "show only latest" is enabled, collapse all non-latest versions
   useEffect(() => {
     if (!showOnlyLatest) return
 
-    // Use a timeout to avoid race conditions with graph updates
     const timer = setTimeout(() => {
-      // Group version nodes by their parent package
       const versionsByPackage = new Map<string, GraphNode[]>()
 
       graph.edges.forEach(edge => {
@@ -115,7 +112,6 @@ export default function PackageGraphView({
         }
       })
 
-      // Find latest version for each package and collapse non-latest expanded versions
       versionsByPackage.forEach((versions, _packageId) => {
         if (versions.length > 1) {
           const latest = versions.reduce((prev, current) => {
@@ -124,10 +120,8 @@ export default function PackageGraphView({
             return currentSerial > prevSerial ? current : prev
           })
 
-          // Check if any non-latest version has outgoing dependencies (is expanded)
           versions.forEach(version => {
             if (version.id !== latest.id) {
-              // Check if this version has any DEPENDS_ON edges (is expanded)
               const hasOutgoingDeps = graph.edges.some(
                 edge => edge.type === 'DEPENDS_ON' && edge.source === version.id
               )
@@ -143,19 +137,16 @@ export default function PackageGraphView({
     return () => clearTimeout(timer)
   }, [showOnlyLatest, graph.edges, graph.nodes])
 
-  // Export graph as image
   const exportGraphAsImage = useCallback(() => {
     if (!graphRef.current) return
 
     try {
-      // Get the canvas element from force-graph
       const canvas = containerRef.current?.querySelector('canvas')
       if (!canvas) {
         console.error('Canvas not found')
         return
       }
 
-      // Convert canvas to blob and download
       canvas.toBlob(blob => {
         if (!blob) return
 
@@ -171,25 +162,22 @@ export default function PackageGraphView({
     }
   }, [packageName])
 
-  // Only render on client side
   useEffect(() => {
     setIsClient(true)
   }, [])
 
-  // Get color based on package type
   const getPackageColor = (type: string) => {
-    if (type === 'PyPIPackage') return '#3776ab' // Python blue
-    if (type === 'NPMPackage') return '#cb3837' // npm red
-    if (type === 'NuGetPackage') return '#512bd4' // NuGet purple
-    if (type === 'CargoPackage') return '#f74c00' // Rust orange
-    if (type === 'RubyGemsPackage') return '#701516' // Ruby dark red/burgundy
-    if (type === 'MavenPackage') return '#f89820' // Maven orange/yellow
-    if (type === 'RequirementFile') return '#10b981' // Green for requirement files
-    if (type.includes('Package')) return '#1e3a8a' // Default deep blue
-    return '#3b82f6' // Version: lighter blue
+    if (type === 'PyPIPackage') return '#3776ab'
+    if (type === 'NPMPackage') return '#cb3837'
+    if (type === 'NuGetPackage') return '#512bd4'
+    if (type === 'CargoPackage') return '#f74c00'
+    if (type === 'RubyGemsPackage') return '#701516'
+    if (type === 'MavenPackage') return '#f89820'
+    if (type === 'RequirementFile') return '#10b981'
+    if (type.includes('Package')) return '#1e3a8a'
+    return '#3b82f6'
   }
 
-  // Get package ecosystem label
   const getPackageEcosystem = (type: string) => {
     if (type === 'PyPIPackage') return 'PyPI'
     if (type === 'NPMPackage') return 'npm'
@@ -201,14 +189,11 @@ export default function PackageGraphView({
     return null
   }
 
-  // Convert graph data to force-graph format
   const graphData = useMemo(() => {
     let filteredNodes = graph.nodes
     let filteredEdges = graph.edges
 
-    // Filter to show only latest version of each package if enabled
     if (showOnlyLatest) {
-      // Group version nodes by their parent package
       const versionsByPackage = new Map<string, GraphNode[]>()
 
       graph.edges.forEach(edge => {
@@ -223,7 +208,6 @@ export default function PackageGraphView({
         }
       })
 
-      // Find latest version (highest serial_number) for each package
       const latestVersionIds = new Set<string>()
       versionsByPackage.forEach((versions, _packageId) => {
         if (versions.length > 0) {
@@ -236,15 +220,13 @@ export default function PackageGraphView({
         }
       })
 
-      // Filter nodes: keep all packages, but only latest versions
       filteredNodes = graph.nodes.filter(node => {
         if (node.type === 'Version') {
           return latestVersionIds.has(node.id)
         }
-        return true // Keep all package nodes
+        return true
       })
 
-      // Filter edges: only keep edges connected to remaining nodes
       const nodeIds = new Set(filteredNodes.map(n => n.id))
       filteredEdges = graph.edges.filter(
         edge => nodeIds.has(edge.source) && nodeIds.has(edge.target)
@@ -280,7 +262,6 @@ export default function PackageGraphView({
     }
   }, [graph, showOnlyLatest])
 
-  // Calculate graph statistics (use filtered data from graphData)
   const graphStats = useMemo(() => {
     const displayedNodes = graphData.nodes
     const displayedEdges = graphData.links
@@ -294,7 +275,6 @@ export default function PackageGraphView({
       0
     )
 
-    // Calculate maximum depth from root nodes (nodes with no incoming edges)
     const calculateMaxDepth = () => {
       const incomingEdges = new Map<string, number>()
       displayedNodes.forEach(n => incomingEdges.set(n.id, 0))
@@ -342,10 +322,8 @@ export default function PackageGraphView({
     }
   }, [graphData])
 
-  // Check if node limit is reached (use visible nodes from graphData)
   const isNodeLimitReached = graphData.nodes.length >= MAX_NODES
 
-  // Initialize force-graph
   useEffect(() => {
     if (!isClient || !open || !containerRef.current || graphRef.current) return
 
@@ -353,19 +331,16 @@ export default function PackageGraphView({
     const width = container.clientWidth
     const height = container.clientHeight
 
-    // Dynamic import only on client side
     import('force-graph')
       .then(module => {
         const ForceGraph = module.default
 
         if (!graphRef.current && containerRef.current) {
           try {
-            // Create graph instance - ForceGraph is a constructor
             // @ts-ignore - TypeScript doesn't recognize the correct API
             const Graph = new ForceGraph()
             graphRef.current = Graph
 
-            // Attach to DOM container
             // @ts-ignore
             Graph(containerRef.current)
 
@@ -388,18 +363,14 @@ export default function PackageGraphView({
                 const fontSize = 12 / globalScale
                 const nodeRadius = Math.sqrt(node.val) * 4
 
-                // Draw node circle with lightened opaque fill
                 ctx.beginPath()
                 ctx.arc(node.x, node.y, nodeRadius, 0, 2 * Math.PI)
 
-                // Create a lighter version of the node color (opaque)
-                // Extract RGB from hex color
                 const hex = node.color.replace('#', '')
                 const r = parseInt(hex.substr(0, 2), 16)
                 const g = parseInt(hex.substr(2, 2), 16)
                 const b = parseInt(hex.substr(4, 2), 16)
 
-                // Mix with white to create lighter opaque color (85% white, 15% original)
                 const lightR = Math.round(r * 0.15 + 255 * 0.85)
                 const lightG = Math.round(g * 0.15 + 255 * 0.85)
                 const lightB = Math.round(b * 0.15 + 255 * 0.85)
@@ -407,18 +378,15 @@ export default function PackageGraphView({
                 ctx.fillStyle = `rgb(${lightR}, ${lightG}, ${lightB})`
                 ctx.fill()
 
-                // Draw solid border
                 ctx.strokeStyle = node.color
                 ctx.lineWidth = 3
                 ctx.stroke()
 
-                // Draw vulnerability indicator badge (just red circle, no icon)
                 if (node.hasVulnerabilities) {
                   const badgeRadius = 5 / globalScale
                   const badgeX = node.x + nodeRadius - badgeRadius
                   const badgeY = node.y - nodeRadius + badgeRadius
 
-                  // Red circle
                   ctx.beginPath()
                   ctx.arc(badgeX, badgeY, badgeRadius, 0, 2 * Math.PI)
                   ctx.fillStyle = '#dc2626'
@@ -428,7 +396,6 @@ export default function PackageGraphView({
                   ctx.stroke()
                 }
 
-                // Draw ecosystem badge for Package nodes
                 if (node.ecosystem) {
                   const badgeHeight = 10 / globalScale
                   const badgePadding = 3 / globalScale
@@ -442,18 +409,15 @@ export default function PackageGraphView({
                   const badgeX = node.x - badgeWidth / 2
                   const badgeY = node.y - nodeRadius - badgeHeight - 3 / globalScale
 
-                  // Draw badge background
                   ctx.fillStyle = node.color
                   ctx.fillRect(badgeX, badgeY, badgeWidth, badgeHeight)
 
-                  // Draw badge text
                   ctx.fillStyle = '#ffffff'
                   ctx.textAlign = 'center'
                   ctx.textBaseline = 'middle'
                   ctx.fillText(badgeText, node.x, badgeY + badgeHeight / 2)
                 }
 
-                // Draw label below node
                 ctx.font = `${fontSize}px Sans-Serif`
                 ctx.textAlign = 'center'
                 ctx.textBaseline = 'top'
@@ -461,11 +425,9 @@ export default function PackageGraphView({
                 const textY = node.y + nodeRadius + 4
                 ctx.fillText(label, node.x, textY)
 
-                // Store node radius for link calculations and click detection
                 node.__radius = nodeRadius
               })
               .nodePointerAreaPaint((node: any, color: string, ctx: any) => {
-                // Use exact same radius calculation
                 const nodeRadius = node.__radius || Math.sqrt(node.val) * 4
                 ctx.fillStyle = color
                 ctx.beginPath()
@@ -482,28 +444,23 @@ export default function PackageGraphView({
                 const start = link.source
                 const end = link.target
 
-                // Get node radius
                 const sourceRadius = start.__radius || Math.sqrt(start.val || 8) * 4
                 const targetRadius = end.__radius || Math.sqrt(end.val || 8) * 4
 
-                // Calculate direction vector
                 const dx = end.x - start.x
                 const dy = end.y - start.y
                 const dist = Math.sqrt(dx * dx + dy * dy)
 
                 if (dist === 0) return
 
-                // Normalize direction
                 const nx = dx / dist
                 const ny = dy / dist
 
-                // Calculate line start and end positions (from edge to edge of nodes)
                 const lineStartX = start.x + nx * sourceRadius
                 const lineStartY = start.y + ny * sourceRadius
                 const lineEndX = end.x - nx * targetRadius
                 const lineEndY = end.y - ny * targetRadius
 
-                // Draw the link line
                 ctx.beginPath()
                 ctx.moveTo(lineStartX, lineStartY)
                 ctx.lineTo(lineEndX, lineEndY)
@@ -511,19 +468,17 @@ export default function PackageGraphView({
                 ctx.lineWidth = 2
                 ctx.stroke()
 
-                // Position arrow tip exactly at the edge of target node
                 const arrowLength = 10
                 const arrowWidth = 6
                 const tipX = lineEndX
                 const tipY = lineEndY
 
-                // Draw single arrowhead with tip at node edge
                 ctx.save()
                 ctx.translate(tipX, tipY)
                 ctx.rotate(Math.atan2(dy, dx))
 
                 ctx.beginPath()
-                ctx.moveTo(0, 0) // Tip of arrow at node edge
+                ctx.moveTo(0, 0)
                 ctx.lineTo(-arrowLength, -arrowWidth / 2)
                 ctx.lineTo(-arrowLength, arrowWidth / 2)
                 ctx.closePath()
@@ -532,7 +487,6 @@ export default function PackageGraphView({
                 ctx.fill()
                 ctx.restore()
 
-                // Draw relationship type label in the middle of the link
                 if (link.type) {
                   const midX = (start.x + end.x) / 2
                   const midY = (start.y + end.y) / 2
@@ -542,11 +496,9 @@ export default function PackageGraphView({
                   ctx.textAlign = 'center'
                   ctx.textBaseline = 'middle'
 
-                  // Draw text with semi-transparent background
                   const textWidth = ctx.measureText(link.type).width
                   const padding = 3
 
-                  // Draw semi-transparent background
                   ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
                   ctx.fillRect(
                     midX - textWidth / 2 - padding,
@@ -577,22 +529,18 @@ export default function PackageGraphView({
                 }
               })
 
-            // Set graph data after configuration
             Graph.graphData(graphData)
 
-            // Force engine to warm up with smooth animations
             const chargeForce = Graph.d3Force('charge')
             if (chargeForce) chargeForce.strength(-300)
             const linkForce = Graph.d3Force('link')
             if (linkForce) linkForce.distance(100)
 
-            // Enable smooth camera transitions
             Graph.cooldownTime(1000)
             Graph.cooldownTicks(100)
             Graph.d3AlphaDecay(0.02)
             Graph.d3VelocityDecay(0.3)
 
-            // Zoom to fit after physics stabilizes
             setTimeout(() => {
               Graph.zoomToFit(400, 50)
             }, 2000)
@@ -617,10 +565,8 @@ export default function PackageGraphView({
     }
   }, [isClient, open, graphData])
 
-  // Update graph data when it changes
   useEffect(() => {
     if (graphRef.current && graphData) {
-      // Only update if the number of nodes/edges actually changed
       const currentData = graphRef.current.graphData()
       if (
         currentData.nodes?.length !== graphData.nodes.length ||
@@ -631,7 +577,6 @@ export default function PackageGraphView({
     }
   }, [graphData])
 
-  // Handle ESC key to close
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) {

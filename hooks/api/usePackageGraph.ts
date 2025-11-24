@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { depexAPI } from '@/lib/api/apiClient'
 import type { GraphNode, GraphEdge, GraphResponse } from '@/types/PackageGraph'
 
@@ -37,6 +37,42 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
   const [loadingNodes, setLoadingNodes] = useState<Record<string, boolean>>({})
   const [expansions, setExpansions] = useState<Record<string, string[]>>({})
 
+  const prevPropsRef = useRef({ packageName, purl, nodeType })
+
+  useEffect(() => {
+    const prevProps = prevPropsRef.current
+    if (
+      prevProps.packageName !== packageName ||
+      prevProps.purl !== purl ||
+      prevProps.nodeType !== nodeType
+    ) {
+      const props: any = {
+        name: packageName,
+      }
+
+      if (nodeType !== 'RequirementFile') {
+        props.purl = purl
+      }
+
+      setGraph({
+        nodes: [
+          {
+            id: purl,
+            label: packageName,
+            type: nodeType,
+            props: props,
+          },
+        ],
+        edges: [],
+      })
+      setFetched({})
+      setExpansions({})
+      setLoadingNodes({})
+
+      prevPropsRef.current = { packageName, purl, nodeType }
+    }
+  }, [packageName, purl, nodeType])
+
   const expandNode = useCallback(
     async (nodeId: string) => {
       if (fetched[nodeId] || loadingNodes[nodeId]) return
@@ -59,15 +95,16 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
             requirement_file_id: nodeId,
           })
         } else {
-          // Find the REQUIRE edge that points to this package to get constraints
           const requireEdge = graph.edges.find(e => e.type === 'REQUIRE' && e.target === nodeId)
           const constraints = requireEdge?.props?.constraints || null
 
-          response = await depexAPI.graph.expandPackage({
+          const requestData = {
             node_type: node.type,
             package_purl: node.props?.purl || nodeId,
             constraints: constraints,
-          })
+          }
+
+          response = await depexAPI.graph.expandPackage(requestData)
         }
 
         if (!response.ok || !response.data) {
@@ -83,9 +120,7 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
           const currentIds = new Set(current.nodes.map(n => n.id))
           const addedNodeIds: string[] = []
 
-          // Filter out nodes with null id and process valid nodes
           expandData.nodes.forEach((n: GraphNode) => {
-            // Skip nodes with null or undefined id
             if (n.id == null) {
               console.warn('Skipping node with null id:', n)
               return
@@ -98,9 +133,7 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
           const edgesById: Record<string, GraphEdge> = {}
           current.edges.forEach((e: GraphEdge) => (edgesById[e.id] = e))
 
-          // Filter out edges with null source or target
           expandData.edges.forEach((e: GraphEdge) => {
-            // Skip edges with null id, source, or target
             if (e.id == null || e.source == null || e.target == null) {
               console.warn('Skipping edge with null values:', e)
               return
@@ -175,7 +208,6 @@ export function usePackageGraph({ packageName, purl, nodeType }: UsePackageGraph
   )
 
   const reload = useCallback(() => {
-    // Para RequirementFile, no incluir purl en props
     const props: any = {
       name: packageName,
     }

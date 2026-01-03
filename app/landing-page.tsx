@@ -308,7 +308,7 @@ export default function LandingPage() {
           </p>
           <Button variant="outline" className="gap-2 w-full sm:w-auto" asChild>
             <a
-              href="https://doi.org/10.5281/zenodo.17692376"
+              href="https://doi.org/10.5281/zenodo.16739080"
               target="_blank"
               rel="noopener noreferrer"
             >

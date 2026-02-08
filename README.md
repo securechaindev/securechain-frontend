@@ -23,7 +23,7 @@ cd securechain-frontend
 
 ### 2. Configure environment variables
 
-Create a `.env.local` file from the `.env.example` file and place it in the root directory.
+Create a `.env.local` file from the `.env.template` file and place it in the root directory.
 
 #### Get API Keys
 

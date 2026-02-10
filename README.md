@@ -1,5 +1,9 @@
 # Secure Chain Frontend
 
+[![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Lint](https://github.com/securechaindev/securechain-frontend/actions/workflows/lint.yml/badge.svg)]()
+[![GHCR](https://img.shields.io/badge/GHCR-securechain--frontend-blue?logo=docker)](https://github.com/orgs/securechaindev/packages/container/package/securechain-frontend)
+
 User Interface for Secure Chain's open-source cybersecurity tools.
 
 ## Development requirements
@@ -63,11 +67,11 @@ The web will be available at [http://localhost](http://localhost).
 
 ## Node Environment
 
-The project uses Node 18.19.1 and the dependencies are listed in `package.json`.
+The project uses Node 18.19.1 or higher, and the dependencies are listed in `package.json`.
 
 ## Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome! To contribute follow this [guidelines](https://securechaindev.github.io/contributing.html).
 
 ## License
 
